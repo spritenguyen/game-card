@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cine-Tech: Tactical Combat v2.6.2-Chimera.Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], serif: ['Playfair Display', 'serif'] },
+                    colors: { cinematic: { 900: '#0a0a0a', 800: '#171717', 700: '#262626', gold: '#D4AF37', cyan: '#00f3ff', muted: '#A3A3A3' } },
+                    animation: {
+                        'fade-in': 'fadeIn 0.4s ease-out forwards', 
+                        'slide-up': 'slideUp 0.4s ease-out forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite', 
+                        'scanline': 'scanline 6s linear infinite',
+                        'pop-in': 'popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+                        'flash': 'flash 0.5s ease-out forwards'
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+                        scanline: { '0%': { transform: 'translateY(-100%)' }, '100%': { transform: 'translateY(100%)' } },
+                        popIn: { '0%': { transform: 'scale(0.8)', opacity: '0' }, '100%': { transform: 'scale(1)', opacity: '1' } },
+                        flash: { '0%': { background: 'rgba(255,255,255,0.8)' }, '100%': { background: 'transparent' } }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050505; color: #e5e5e5; overflow-x: hidden; }
+        .glass-panel { background: rgba(23, 23, 23, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        
+        /* 3D Parallax & Magazine Aesthetics */
+        .muse-card { background: linear-gradient(145deg, #1a1a1a, #0a0a0a); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(212, 175, 55, 0.15); }
+        .ur-card { box-shadow: 0 0 40px -10px rgba(0, 243, 255, 0.5), inset 0 0 0 2px rgba(0, 243, 255, 0.3); }
+        
+        .perspective-container { perspective: 1000px; transform-style: preserve-3d; }
+        .tilt-card { transition: transform 0.1s ease-out; transform-style: preserve-3d; will-change: transform; }
+        .tilt-layer-1 { transform: translateZ(20px); }
+        .tilt-layer-2 { transform: translateZ(50px); }
+        .tilt-layer-bg { transform: translateZ(-20px) scale(1.05); }
+        
+        .glare-layer { position: absolute; inset: 0; z-index: 15; mix-blend-mode: overlay; pointer-events: none; opacity: 0; transition: opacity 0.5s ease; will-change: background, opacity; }
+        .tilt-card:hover .glare-layer { opacity: 1; }
+
+        .magazine-title { font-family: 'Playfair Display', serif; font-size: 8rem; line-height: 0.8; opacity: 0.04; position: absolute; top: 10%; left: -10%; z-index: 0; pointer-events: none; user-select: none; font-weight: 900; writing-mode: vertical-rl; transform: rotate(180deg); }
+
+        .mini-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .mini-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 15px 30px -5px rgba(212,175,55,0.3); z-index: 10; }
+        
+        ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #0a0a0a; } ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; } ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        .noise-overlay { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); opacity: 0.04; pointer-events: none; }
+        .lore-text { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; transition: all 0.3s; }
+        .lore-text.expanded { -webkit-line-clamp: unset; }
+        
+        /* Slots & Buttons */
+        .fusion-slot { transition: all 0.3s; border: 1px dashed rgba(255,255,255,0.2); }
+        .fusion-slot:hover { border-color: rgba(212,175,55,0.8); background: rgba(212,175,55,0.05); }
+        .fusion-slot.filled { border-style: solid; border-color: rgba(212,175,55,0.3); background: rgba(0,0,0,0.5); }
+        .tab-btn.active { background: rgba(255,255,255,0.1); color: white; box-shadow: inset 0 -2px 0 #D4AF37; }
+        .tab-btn { color: #A3A3A3; transition: all 0.3s; }
+        
+        #battleLog { height: 300px !important; max-height: 300px !important; overflow-y: auto !important; scroll-behavior: smooth; }
+        #battleLog::-webkit-scrollbar { width: 6px; }
+        #battleLog::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+        #battleLog::-webkit-scrollbar-track { background: rgba(0,0,0,0.4); border-radius: 4px; }
+        
+        /* Faction Colors */
+        .faction-tech { color: #3b82f6; text-shadow: 0 0 10px rgba(59, 130, 246, 0.5); } 
+        .faction-magic { color: #a855f7; text-shadow: 0 0 10px rgba(168, 85, 247, 0.5); } 
+        .faction-mutant { color: #ef4444; text-shadow: 0 0 10px rgba(239, 68, 68, 0.5); } 
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-cinematic-gold selection:text-black relative">
+
+    <div class="fixed inset-0 z-40 noise-overlay"></div>
+    <div class="fixed inset-0 z-[45] pointer-events-none hidden" id="cameraFlash"></div>
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bgAmbient">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cinematic-gold/5 rounded-full blur-[120px] animate-pulse-slow transition-colors duration-1000"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-900/10 rounded-full blur-[150px] animate-pulse-slow transition-colors duration-1000" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="relative z-10 w-full bg-black/60 border-b border-white/5 py-2 px-4 sm:px-6 flex justify-between items-center text-xs text-cinematic-muted backdrop-blur-md">
+        <div class="flex items-center gap-4">
+            <div><i class="fa-solid fa-hard-drive mr-2 text-green-500"></i>Vault: <span id="dbStatus" class="text-green-500">Trực tuyến</span> <span class="ml-2 text-[10px] opacity-50 hidden sm:inline">v2.6.2-Chimera.Engine</span></div>
+            <button onclick="toggleApiSettings()" class="text-cinematic-cyan hover:text-white transition-colors flex items-center border border-cinematic-cyan/30 px-2 py-1 rounded bg-cinematic-900/50">
+                <i class="fa-solid fa-sliders mr-1.5"></i> <span class="hidden sm:inline">System Override</span>
+            </button>
+        </div>
+        <div class="flex items-center gap-2 bg-cinematic-900 px-3 py-1 rounded-full border border-cinematic-gold/30 cursor-pointer hover:bg-cinematic-800 transition-colors shadow-lg group">
+            <i class="fa-solid fa-database text-cinematic-gold animate-pulse group-hover:animate-none"></i>
+            <span class="font-bold text-white tracking-widest transition-all duration-300" id="currencyDisplay">1500</span>
+            <span class="text-[10px] text-cinematic-gold">DC</span>
+        </div>
+    </div>
+
+    <!-- Header & Navigation -->
+    <header class="relative z-10 w-full p-4 md:p-6 text-center mt-2 flex flex-col items-center">
+        <h1 class="font-serif text-3xl md:text-5xl text-cinematic-gold tracking-widest uppercase mb-2 drop-shadow-lg">Muse Archives</h1>
+        <p class="text-xs md:text-sm text-cinematic-muted tracking-[0.2em] uppercase mb-6" id="subTitle">Hệ thống Trích xuất Nhân dạng</p>
+        
+        <div class="flex flex-wrap justify-center gap-2 bg-cinematic-900/80 p-1.5 rounded-xl border border-white/5 backdrop-blur-md shadow-xl">
+            <button onclick="switchTab('extract')" id="tabExtractBtn" class="tab-btn active px-4 py-2 rounded-lg text-[10px] sm:text-xs font-bold tracking-widest uppercase shadow-sm flex items-center">
+                <i class="fa-solid fa-microscope mr-2"></i> Trích Xuất
+            </button>
+            <button onclick="switchTab('fusion')" id="tabFusionBtn" class="tab-btn px-4 py-2 rounded-lg text-[10px] sm:text-xs font-bold tracking-widest uppercase flex items-center">
+                <i class="fa-solid fa-dna mr-2"></i> Phòng Lai Tạo
+            </button>
+            <button onclick="switchTab('combat')" id="tabCombatBtn" class="tab-btn px-4 py-2 rounded-lg text-[10px] sm:text-xs font-bold tracking-widest uppercase flex items-center text-red-500 hover:text-red-400">
+                <i class="fa-solid fa-crosshairs mr-2"></i> Chiến Dịch
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="relative z-10 flex-1 flex flex-col items-center w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 pb-24">
+        <div id="messageBox" class="hidden w-full max-w-2xl mb-4 p-4 rounded-xl text-center text-sm transition-all duration-300 shadow-lg relative z-20"></div>
+
+        <!-- ================= 1. VIEW: EXTRACTION ================= -->
+        <div id="viewExtract" class="w-full flex flex-col items-center animate-fade-in">
+            <div class="w-full max-w-2xl mb-8 glass-panel rounded-2xl p-2 sm:p-4 flex flex-col sm:flex-row gap-2 sm:gap-4 shadow-2xl relative">
+                <div class="absolute -top-3 -right-2 bg-cinematic-900 border border-cinematic-gold/50 text-cinematic-gold text-[10px] px-2 py-1 rounded-full font-bold shadow-lg z-10">Phí: 200 DC</div>
+                <div class="relative flex-1">
+                    <i class="fa-solid fa-fingerprint absolute left-4 top-1/2 transform -translate-y-1/2 text-cinematic-muted"></i>
+                    <input type="text" id="searchInput" class="w-full bg-cinematic-900/80 text-white rounded-xl py-3 sm:py-4 pl-12 pr-4 outline-none border border-white/10 focus:border-cinematic-gold/70 transition-colors placeholder-cinematic-muted/50" placeholder="Nguyên mẫu (VD: Jinx Arcane, Tifa Lockhart...)" onkeypress="if(event.key === 'Enter') extractProfile()">
+                </div>
+                <button onclick="extractProfile()" id="searchBtn" class="bg-cinematic-gold hover:bg-yellow-500 text-black font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-[0_0_20px_rgba(212,175,55,0.4)] whitespace-nowrap flex items-center justify-center">
+                    <span id="btnText">Khởi Tạo</span><i id="btnSpinner" class="fa-solid fa-circle-notch fa-spin hidden ml-2"></i>
+                </button>
+            </div>
+            <div id="cardDisplayExtract" class="w-full flex justify-center hidden animate-slide-up mb-12 perspective-container"></div>
+        </div>
+
+        <!-- ================= 2. VIEW: FUSION LAB ================= -->
+        <div id="viewFusion" class="w-full flex flex-col items-center hidden animate-fade-in">
+            <div class="w-full max-w-4xl glass-panel rounded-3xl p-6 sm:p-10 mb-8 relative overflow-hidden shadow-2xl border border-cinematic-cyan/20">
+                <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 50% 50%, #00f3ff 0%, transparent 60%);"></div>
+                <h2 class="text-center font-serif text-2xl text-white mb-2 tracking-widest relative z-10">GIAO THỨC CHIMERA</h2>
+                <div class="text-center mb-8 relative z-10">
+                    <p class="text-[10px] text-red-400 uppercase tracking-widest bg-red-900/20 py-1 inline-block px-4 border border-red-900/50 rounded-full mx-auto mb-2"><i class="fa-solid fa-triangle-exclamation mr-2"></i> Thể gốc bị tiêu hủy vĩnh viễn (Cấm thẻ UR)</p>
+                    <p class="text-[9px] text-cinematic-cyan/70 tracking-widest uppercase block mt-1">Nghiên cứu Chiến thuật: Sự sắp xếp DNA định hình sinh vật mới.</p>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-12 relative z-10">
+                    <div class="w-48 h-72 sm:w-56 sm:h-80 fusion-slot rounded-2xl flex flex-col items-center justify-center cursor-pointer relative group overflow-hidden bg-black/40 backdrop-blur-sm shadow-lg" onclick="openSelector(1)">
+                        <div id="slot1Content" class="text-center w-full h-full flex flex-col items-center justify-center p-4 transition-all">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center justify-center py-4 relative">
+                        <div id="fusionCostBadge" class="absolute -top-6 bg-cinematic-900 border border-cinematic-cyan/50 text-cinematic-cyan text-[10px] px-3 py-1 rounded-full font-bold shadow-lg z-10 whitespace-nowrap">Phí: Tùy cấp độ</div>
+                        <button onclick="executeFusion()" id="fusionBtn" disabled class="bg-cinematic-900 border border-cinematic-cyan/30 text-cinematic-cyan hover:bg-cinematic-cyan/20 px-6 py-4 rounded-full font-bold tracking-widest uppercase transition-all duration-300 transform hover:scale-110 shadow-[0_0_30px_rgba(0,243,255,0.2)] disabled:opacity-30 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none flex items-center justify-center my-2">
+                            <i id="fusionBtnIcon" class="fa-solid fa-dna text-xl"></i>
+                        </button>
+                        <p id="fusionBtnText" class="text-[10px] text-cinematic-cyan tracking-widest mt-2 uppercase opacity-50">Chờ dữ liệu...</p>
+                    </div>
+                    <div class="w-48 h-72 sm:w-56 sm:h-80 fusion-slot rounded-2xl flex flex-col items-center justify-center cursor-pointer relative group overflow-hidden bg-black/40 backdrop-blur-sm shadow-lg" onclick="openSelector(2)">
+                        <div id="slot2Content" class="text-center w-full h-full flex flex-col items-center justify-center p-4 transition-all">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="cardDisplayFusion" class="w-full flex justify-center hidden animate-slide-up mb-12 perspective-container"></div>
+        </div>
+
+        <!-- ================= 3. VIEW: COMBAT ZONE ================= -->
+        <div id="viewCombat" class="w-full flex flex-col items-center hidden animate-fade-in">
+            <div class="w-full max-w-5xl glass-panel rounded-3xl p-6 mb-8 relative border border-red-900/30 overflow-hidden shadow-[0_0_50px_rgba(220,38,38,0.05)]">
+                <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: repeating-linear-gradient(45deg, #ef4444 0, #ef4444 1px, transparent 0, transparent 50%); background-size: 30px 30px;"></div>
+                <h2 class="text-center font-serif text-2xl text-red-500 mb-2 tracking-widest relative z-10"><i class="fa-solid fa-crosshairs mr-2"></i> CHIẾN DỊCH QUÂN SỰ</h2>
+                
+                <div class="flex justify-center items-center gap-4 text-[10px] text-cinematic-muted mb-6 relative z-10 font-mono bg-black/50 py-2 px-4 rounded-full border border-white/5 w-fit mx-auto">
+                    <span class="text-blue-400"><i class="fa-solid fa-microchip"></i> Tech</span>
+                    <i class="fa-solid fa-caret-right text-gray-500"></i>
+                    <span class="text-purple-400"><i class="fa-solid fa-wand-magic-sparkles"></i> Magic</span>
+                    <i class="fa-solid fa-caret-right text-gray-500"></i>
+                    <span class="text-red-400"><i class="fa-solid fa-dna"></i> Mutant</span>
+                    <i class="fa-solid fa-caret-right text-gray-500"></i>
+                    <span class="text-blue-400"><i class="fa-solid fa-microchip"></i> Tech</span>
+                    <span class="ml-2 border-l border-white/20 pl-2 text-white/50">(Khắc hệ: +30% ST)</span>
+                </div>
+                
+                <div class="w-full flex justify-center mb-6 min-h-[160px] relative z-10">
+                    <div id="noBossContainer" class="w-full max-w-2xl bg-black/40 border border-white/5 rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-inner">
+                        <i class="fa-solid fa-satellite-dish text-4xl text-cinematic-muted mb-4 animate-pulse"></i>
+                        <p class="text-sm text-cinematic-muted mb-2">Radar AI phát hiện mục tiêu dựa trên Sức mạnh Đội hình.</p>
+                        <p class="text-xs text-cinematic-gold mb-6">Lưu ý sắp xếp Tộc Hệ để tận dụng lợi thế chiến thuật!</p>
+                        <button onclick="scanBoss()" id="btnScanBoss" class="bg-red-900/40 hover:bg-red-900/80 border border-red-500/50 text-red-300 px-6 py-3 rounded-xl transition-all text-xs tracking-widest uppercase flex items-center gap-2 shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:scale-105">
+                            <i class="fa-solid fa-radar"></i> Quét Mục Tiêu (50 DC)
+                        </button>
+                    </div>
+                    
+                    <div id="bossContainer" class="w-full max-w-2xl bg-red-950/30 border border-red-900/50 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 hidden shadow-[0_0_30px_rgba(220,38,38,0.15)] relative overflow-hidden">
+                        <button onclick="cancelBoss()" class="absolute top-2 right-2 bg-black/50 hover:bg-red-600 text-white/50 hover:text-white rounded-full w-8 h-8 flex items-center justify-center transition-colors z-20 shadow-md" title="Rút lui / Đổi mục tiêu"><i class="fa-solid fa-xmark"></i></button>
+                        <div class="w-full sm:w-40 h-40 rounded-xl overflow-hidden relative border border-red-500/30 shrink-0 shadow-lg bg-black">
+                            <img id="bossImg" src="" class="w-full h-full object-cover opacity-80">
+                            <div class="absolute inset-0 bg-gradient-to-t from-red-900/80 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2 text-[10px] font-bold text-white bg-red-600 px-2 py-0.5 rounded shadow flex gap-1 items-center">
+                                <span id="bossThreatBadge">LV</span>
+                                <span id="bossFactionBadge" class="bg-black/50 px-1 rounded border border-white/20"></span>
+                            </div>
+                        </div>
+                        <div class="flex-1 flex flex-col justify-center z-10 pr-6">
+                            <div class="text-[10px] text-red-400 tracking-widest uppercase mb-1 flex items-center"><i class="fa-solid fa-skull mr-1"></i> Mục Tiêu: <span id="bossUniverse" class="ml-1 text-white/70"></span></div>
+                            <h3 class="text-2xl font-serif text-white mb-2 leading-tight drop-shadow" id="bossName">Boss Name</h3>
+                            <div class="flex gap-3 text-xs mb-2">
+                                <div class="bg-black/60 px-3 py-1.5 rounded-lg border border-red-900/50 text-red-400 font-mono shadow-inner"><i class="fa-solid fa-heart mr-1"></i> HP: <span id="bossHp">0</span></div>
+                                <div class="bg-black/60 px-3 py-1.5 rounded-lg border border-orange-900/50 text-orange-400 font-mono shadow-inner"><i class="fa-solid fa-burst mr-1"></i> ATK: <span id="bossAtk">0</span></div>
+                            </div>
+                            <p class="text-[10px] text-cinematic-muted italic line-clamp-2 mt-1" id="bossLore">Đang truy xuất dữ liệu...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="w-full max-w-3xl mx-auto flex flex-col md:flex-row gap-4 mb-6 relative z-10">
+                    <div id="battleLog" class="flex-1 bg-black/80 border border-white/10 rounded-xl p-4 font-mono text-[11px] sm:text-xs leading-relaxed text-cinematic-muted shadow-inner">
+                        <div class="text-cyan-600/50">Hệ thống Tác chiến Tương Sinh Tương Khắc đã sẵn sàng...</div>
+                    </div>
+                    <div class="flex flex-col justify-center items-center w-full md:w-32 shrink-0">
+                        <button onclick="executeBattle()" id="btnEngage" disabled class="w-full h-14 md:h-full min-h-[80px] bg-red-900/20 border border-red-700/50 text-red-500 hover:bg-red-800 hover:text-white rounded-xl font-bold tracking-widest uppercase transition-all duration-300 disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(220,38,38,0.2)]">KHAI<br class="hidden md:block">CHIẾN</button>
+                    </div>
+                </div>
+
+                <div class="w-full relative z-10 border-t border-white/5 pt-6 mt-2">
+                    <div class="text-center text-[10px] text-cinematic-cyan uppercase tracking-widest mb-4 flex items-center justify-center">
+                        <i class="fa-solid fa-users mr-2"></i> Lực lượng Tiền tuyến <span id="squadDodgeText" class="text-white/50 ml-2">(Tỷ lệ Né: 0%)</span>
+                    </div>
+                    <div class="flex justify-center gap-3 sm:gap-6">
+                        <div id="squad1" class="w-24 h-36 sm:w-32 sm:h-48 rounded-xl flex flex-col items-center justify-center cursor-pointer relative group bg-black/40 border border-white/10 hover:border-cinematic-cyan/50 transition-colors overflow-hidden shadow-lg" onclick="openSelector('squad1')"></div>
+                        <div id="squad2" class="w-24 h-36 sm:w-32 sm:h-48 rounded-xl flex flex-col items-center justify-center cursor-pointer relative group bg-black/40 border border-white/10 hover:border-cinematic-cyan/50 transition-colors overflow-hidden shadow-lg" onclick="openSelector('squad2')"></div>
+                        <div id="squad3" class="w-24 h-36 sm:w-32 sm:h-48 rounded-xl flex flex-col items-center justify-center cursor-pointer relative group bg-black/40 border border-white/10 hover:border-cinematic-cyan/50 transition-colors overflow-hidden shadow-lg" onclick="openSelector('squad3')"></div>
+                    </div>
+                    <div class="flex justify-center gap-6 mt-5 font-mono text-xs text-cinematic-muted bg-black/50 py-2 rounded-full w-fit mx-auto px-6 border border-white/5 shadow-inner">
+                        <div>Sức bền (HP): <span id="totalSquadHp" class="text-green-400 font-bold ml-1">0</span></div>
+                        <div>Hỏa lực (Base ATK): <span id="totalSquadAtk" class="text-orange-400 font-bold ml-1">0</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= GALLERY ================= -->
+        <div id="gallerySection" class="w-full max-w-[1000px] hidden animate-fade-in mt-8">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-6">
+                <h3 class="text-xl font-serif text-cinematic-gold flex items-center"><i class="fa-solid fa-server mr-3"></i> Kho Lưu Trữ (Local Vault)</h3>
+                <span id="cardCount" class="text-xs font-sans text-black font-bold bg-cinematic-gold px-3 py-1 rounded-full shadow-[0_0_10px_rgba(212,175,55,0.3)]">0 Thẻ</span>
+            </div>
+            <div id="galleryGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div id="apiSettingsModal" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="toggleApiSettings()"></div>
+        <div class="relative z-10 w-full max-w-md bg-cinematic-900 border border-cinematic-cyan/30 rounded-2xl p-6 shadow-[0_0_40px_rgba(0,243,255,0.15)] animate-pop-in">
+            <h3 class="text-xl font-serif text-cinematic-cyan mb-2 border-b border-white/10 pb-3 flex items-center">
+                <i class="fa-solid fa-terminal mr-2"></i> System Override (API)
+            </h3>
+            <p class="text-[10px] text-cinematic-muted mb-4 tracking-wider">Cấu hình sử dụng API Key cá nhân để bỏ qua giới hạn của môi trường. Lưu trữ an toàn cục bộ.</p>
+            
+            <div class="mb-5">
+                <label class="block text-[10px] text-cinematic-gold uppercase tracking-widest mb-1"><i class="fa-solid fa-palette mr-1"></i> Art Style (Phong cách ảnh)</label>
+                <select id="artStyleSelect" class="w-full bg-black/60 text-white rounded-lg py-2.5 px-3 outline-none border border-white/10 focus:border-cinematic-cyan/50 text-sm appearance-none">
+                    <option value="realistic">Realistic / Photorealistic</option>
+                    <option value="stylized">Stylized Illustration (2.5D)</option>
+                    <option value="cinematic">Cinematic / Fashion Editorial</option>
+                </select>
+                <p class="text-[9px] text-cinematic-muted mt-1.5 italic">Áp dụng cho mọi tác vụ Khởi tạo và Reshoot thẻ bài.</p>
+            </div>
+
+            <div class="mb-5 flex items-center justify-between bg-black/40 p-3 rounded-lg border border-white/5">
+                <span class="text-sm text-white font-semibold">Kích hoạt Custom API</span>
+                <label class="relative inline-flex items-center cursor-pointer mr-2">
+                    <input type="checkbox" id="customApiToggle" class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cinematic-gold"></div>
+                </label>
+            </div>
+
+            <div class="mb-5 flex items-center justify-between bg-black/40 p-3 rounded-lg border border-white/5">
+                <div>
+                    <span class="text-sm text-white font-semibold flex items-center"><i class="fa-solid fa-cube mr-2"></i> Hiệu ứng 3D Parallax</span>
+                    <p class="text-[9px] text-cinematic-muted mt-1">Tắt để tối ưu hiệu suất (Performance Mode).</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer mr-2">
+                    <input type="checkbox" id="effect3DToggle" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cinematic-gold"></div>
+                </label>
+            </div>
+
+			<div id="customApiFields" class="space-y-4 opacity-50 pointer-events-none transition-all duration-300">
+                <!-- Text AI Config -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-b border-white/5 pb-4">
+                    <div>
+                        <label class="block text-[10px] text-cinematic-gold uppercase tracking-widest mb-1">Gemini API Key</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-key absolute left-3 top-1/2 transform -translate-y-1/2 text-white/30"></i>
+                            <input type="password" id="customApiKeyInput" class="w-full bg-black/60 text-white rounded-lg py-2.5 pl-10 pr-3 outline-none border border-white/10 focus:border-cinematic-cyan/50 text-sm font-mono" placeholder="AIzaSy...">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-cinematic-gold uppercase tracking-widest mb-1">Text Model</label>
+                        <select id="textModelSelect" class="w-full bg-black/60 text-white rounded-lg py-2.5 px-3 outline-none border border-white/10 focus:border-cinematic-cyan/50 text-sm appearance-none">
+                            <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                            <option value="gemini-3.1-flash-lite-preview">Gemini 3.1 Flash Lite</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Image AI Config -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-[10px] text-cinematic-cyan uppercase tracking-widest mb-1">Pollinations API Key</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-key absolute left-3 top-1/2 transform -translate-y-1/2 text-white/30"></i>
+                            <input type="password" id="pollinationsKeyInput" class="w-full bg-black/60 text-white rounded-lg py-2.5 pl-10 pr-3 outline-none border border-white/10 focus:border-cinematic-cyan/50 text-sm font-mono" placeholder="Tùy chọn (Bỏ qua limit)">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] text-cinematic-cyan uppercase tracking-widest mb-1">Image Engine</label>
+                        <select id="imageModelSelect" class="w-full bg-black/60 text-white rounded-lg py-2.5 px-3 outline-none border border-white/10 focus:border-cinematic-cyan/50 text-sm appearance-none">
+                            <option value="flux">Flux Schnell</option>
+                            <option value="flux-realism">FLUX.2 Klein 4B</option>
+                            <option value="turbo">Z-Image Turbo</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end gap-3">
+                <button onclick="toggleApiSettings()" class="px-4 py-2 text-sm text-white/50 hover:text-white transition-colors">Đóng</button>
+                <button onclick="saveApiSettings()" class="bg-cinematic-cyan text-black px-6 py-2 rounded-lg font-bold shadow-[0_0_15px_rgba(0,243,255,0.4)] hover:bg-white transition-colors">Lưu Cấu Hình</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cardModal" class="fixed inset-0 z-[50] hidden flex items-center justify-center p-4 perspective-container">
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" onclick="closeModal()"></div>
+        <div id="modalContent" class="relative z-10 w-full max-w-[950px] max-h-[95vh] overflow-y-auto animate-slide-up no-scrollbar rounded-3xl"></div>
+        <button onclick="closeModal()" class="absolute top-4 right-4 z-50 text-white/50 hover:text-white bg-black/50 w-10 h-10 rounded-full flex items-center justify-center border border-white/10 transition-colors"><i class="fa-solid fa-xmark text-xl"></i></button>
+    </div>
+
+    <div id="selectorModal" class="fixed inset-0 z-[50] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-lg" onclick="closeSelector()"></div>
+        <div class="relative z-10 w-full max-w-[800px] h-[80vh] bg-cinematic-900 border border-white/10 rounded-3xl p-6 flex flex-col animate-slide-up shadow-2xl">
+            <h3 id="selectorTitle" class="text-xl font-serif text-cinematic-gold mb-4 border-b border-white/10 pb-2 flex items-center justify-between">Chọn Thẻ</h3>
+            <div id="selectorGrid" class="flex-1 overflow-y-auto no-scrollbar grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-2"></div>
+            <button onclick="closeSelector()" class="mt-4 w-full bg-white/5 hover:bg-white/10 text-white py-3 rounded-xl text-xs tracking-widest uppercase transition-colors">Hủy & Đóng</button>
+        </div>
+    </div>
+
+    <div id="sysDialog" class="fixed inset-0 z-[60] hidden flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="sysCloseDialog()"></div>
+        <div class="relative z-10 w-full max-w-sm bg-cinematic-900 border border-white/10 rounded-2xl p-6 shadow-2xl animate-pop-in text-center">
+            <i id="sysDialogIcon" class="fa-solid fa-triangle-exclamation text-4xl mb-4"></i>
+            <h3 id="sysDialogTitle" class="text-lg font-serif text-white mb-2">Thông báo</h3>
+            <p id="sysDialogMsg" class="text-sm text-cinematic-muted mb-6 leading-relaxed"></p>
+            <div class="flex gap-3 justify-center" id="sysDialogActions"></div>
+        </div>
+    </div>
+
+<script>
+// ==========================================
+// 📦 BLOCK 1: CONFIG & STATE (Biến toàn cục, AppConfig, State)
+// ==========================================
+
+// 1.1. Cấu hình Hệ thống Tương sinh Tương khắc (Faction System)
+const FACTIONS = {
+    'Tech': { id: 'Tech', name: 'Công Nghệ', icon: 'fa-microchip', color: 'text-blue-400', bg: 'bg-blue-900/30', border: 'border-blue-500/50', strongAgainst: 'Magic', weakAgainst: 'Mutant' },
+    'Magic': { id: 'Magic', name: 'Phép Thuật', icon: 'fa-wand-magic-sparkles', color: 'text-purple-400', bg: 'bg-purple-900/30', border: 'border-purple-500/50', strongAgainst: 'Mutant', weakAgainst: 'Tech' },
+    'Mutant': { id: 'Mutant', name: 'Đột Biến', icon: 'fa-dna', color: 'text-red-400', bg: 'bg-red-900/30', border: 'border-red-500/50', strongAgainst: 'Tech', weakAgainst: 'Magic' }
+};
+
+// 1.2. Cấu hình API & Môi trường (Environment & Overrides)
+const envApiKey = ""; 
+const ENV_TEXT_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent";
+const ENV_IMAGE_URL = "https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict";
+
+// Cấu hình người dùng tùy chỉnh (Lưu local)
+// Cấu hình người dùng tùy chỉnh (Lưu local)
+let AppConfig = { 
+    enabled: false, 
+    key: '', 
+    model: 'gemini-2.5-flash', 
+    artStyle: 'realistic', 
+    enable3D: true,
+    pollinationsKey: '', // Key cho Pollinations
+    imageModel: 'flux'   // Model ảnh mặc định
+};
+
+// 1.3. Hằng số Game Logic
+const CARD_RANKS = ['N', 'R', 'SR', 'SSR', 'UR'];
+
+// 1.4. Quản lý Tiền tệ (Data Credits)
+let currency = parseInt(localStorage.getItem('cineCurrency'));
+if (isNaN(currency)) currency = 1500; // Khởi tạo mặc định nếu chưa có
+
+// 1.5. State Management (Quản lý trạng thái toàn cục của Game)
+const State = {
+    tab: 'extract',                 // Tab hiện tại (extract, fusion, combat)
+    cards: [],                      // Kho thẻ trong Vault
+    currentExtractCard: null,       // Thẻ đang trích xuất
+    currentFusionCard: null,        // Thẻ đang lai tạo
+    fusionSlot1: null,              // Khe lai tạo Alpha
+    fusionSlot2: null,              // Khe lai tạo Omega
+    squad: [null, null, null],      // Đội hình chiến đấu (3 slot)
+    boss: null,                     // Mục tiêu hiện tại
+    inBattle: false,                // Trạng thái đang giao tranh
+    isProcessing: false,            // Trạng thái chờ API/Animation
+    activeSelectorSlot: null,       // Slot đang mở modal chọn thẻ
+    reshootingCards: new Set()      // Danh sách ID thẻ đang được chụp lại (Reshoot)
+};
+
+// 1.6. DOM Cache (Lưu trữ các element thường xuyên truy xuất để tối ưu hiệu năng)
+const DOM = { 
+    msgBox: document.getElementById('messageBox'), 
+    gallerySec: document.getElementById('gallerySection'),
+    galleryGrid: document.getElementById('galleryGrid'), 
+    cardCount: document.getElementById('cardCount'),
+    selectorModal: document.getElementById('selectorModal'), 
+    dbStatus: document.getElementById('dbStatus'),
+    bgAmbient: document.getElementById('bgAmbient'), 
+    currencyDisplay: document.getElementById('currencyDisplay')
+};
+
+
+// ==========================================
+// 💾 BLOCK 2: DATABASE (IndexedDB, Export/Import Save)
+// ==========================================
+
+const DB_NAME = 'CineTechVault'; 
+const STORE_NAME = 'cards'; 
+let db;
+
+// 2.1. Khởi tạo IndexedDB
+const initDB = () => new Promise((resolve) => {
+    if (!window.indexedDB) { 
+        DOM.dbStatus.textContent = "Lỗi Trình Duyệt"; 
+        DOM.dbStatus.className = "text-red-500"; 
+        return resolve(null); 
+    }
+    const req = indexedDB.open(DB_NAME, 2); 
+    
+    req.onsuccess = (e) => { 
+        db = e.target.result; 
+        DOM.dbStatus.textContent = "Trực tuyến"; 
+        DOM.dbStatus.className = "text-green-500"; 
+        loadSavedCards(); // Tự động load thẻ khi DB sẵn sàng
+        resolve(db); 
+    };
+    
+    req.onerror = (e) => { 
+        DOM.dbStatus.textContent = "Chặn DB"; 
+        DOM.dbStatus.className = "text-red-500"; 
+        resolve(null); 
+    };
+    
+    req.onupgradeneeded = (e) => { 
+        if(!e.target.result.objectStoreNames.contains(STORE_NAME)) {
+            e.target.result.createObjectStore(STORE_NAME, { keyPath: 'id' }); 
+        }
+    };
+});
+
+// 2.2. Hàm giao tiếp DB dùng chung (CRUD)
+const dbAction = (mode, action, data) => new Promise((resolve, reject) => {
+    if(!db) return reject("Database không sẵn sàng");
+    try {
+        const req = db.transaction([STORE_NAME], mode).objectStore(STORE_NAME)[action](data);
+        req.onsuccess = (e) => resolve(action === 'getAll' ? e.target.result.sort((a,b) => b.timestamp - a.timestamp) : true);
+        req.onerror = (e) => reject(e);
+    } catch(e) { 
+        reject(e); 
+    }
+});
+
+// 2.3. Tối ưu hóa: Load dữ liệu và tạo ObjectURL từ Blob
+const loadSavedCards = async () => { 
+    try { 
+        const res = await dbAction('readonly', 'getAll'); 
+        State.cards = res.map(card => {
+            if (card.imageBlob) {
+                // Tạo URL ảo từ Blob để render siêu nhanh, không nghẽn RAM bằng Base64 text
+                card.imageUrl = URL.createObjectURL(card.imageBlob);
+            }
+            return card;
+        }) || []; 
+        
+        // Render lại Gallery sau khi load xong (Hàm này sẽ nằm ở Block 5)
+        if(typeof renderGallery === 'function') renderGallery(); 
+    } catch(e) {
+        console.error("Lỗi tải dữ liệu từ Vault:", e);
+    } 
+};
+
+// Kích hoạt DB ngay khi script chạy
+initDB();
+
+// ==========================================
+// 🧠 BLOCK 3: AI ENGINE (Gemini API, Imagen/Flux API, Prompts)
+// ==========================================
+
+// 3.1. Schema định dạng dữ liệu thẻ bài (Bắt buộc AI phải trả về đúng cấu trúc này)
+const cardSchemaProps = { 
+    id: {type:"STRING"}, name: {type:"STRING"}, gender: {type:"STRING"},
+    universe: {type:"STRING"}, faction: {type:"STRING"}, occupation: {type:"STRING"}, 
+    nationality: {type:"STRING"}, cardClass: {type:"STRING"}, height: {type:"NUMBER"}, 
+    weight: {type:"NUMBER"}, measurements: {type:"STRING"}, personality: {type:"STRING"}, 
+    lore: {type:"STRING"}, inspiredBy: {type:"STRING"}, visualDescription: {type:"STRING"} 
+};
+const cardRequiredFields = ["id","name","gender","universe","faction","occupation","nationality","cardClass","height","weight","measurements","personality","lore","inspiredBy","visualDescription"];
+
+// 3.2. Hàm bóc tách JSON an toàn từ phản hồi của AI
+function extractJSON(text) {
+    if (!text) throw new Error("Empty response from AI");
+    try { 
+        return JSON.parse(text); 
+    } catch (e) {
+        // Fallback: Tìm chuỗi JSON trong text nếu AI trả về kèm markdown (```json ... ```)
+        const jsonMatch = text.match(/\{(?:[^{}]|(?:\{(?:[^{}]|(?:\{[^{}]*\})*)*\}))*\}/);
+        if (jsonMatch) {
+            try { return JSON.parse(jsonMatch[0]); } catch (innerErr) { throw new Error("Lỗi cấu trúc DNA (JSON Parse Error)"); }
+        }
+        throw new Error("Không tìm thấy DNA hợp lệ trong phản hồi");
+    }
+}
+
+// 3.3. Giao tiếp Text LLM (Gemini) - Tích hợp cơ chế Retry tự động
+async function safeGeminiCall(prompt, sysPrompt, schemaProps, requiredFields) {
+    let url = `${ENV_TEXT_URL}?key=${envApiKey}`;
+    if (AppConfig.enabled && AppConfig.key) {
+        url = `https://generativelanguage.googleapis.com/v1beta/models/${AppConfig.model}:generateContent?key=${AppConfig.key}`;
+    }
+
+    const payload = { 
+        systemInstruction: { parts: [{ text: sysPrompt }] }, 
+        contents: [{ parts: [{ text: prompt }] }], 
+        generationConfig: { 
+            responseMimeType: "application/json", 
+            responseSchema: { type: "OBJECT", properties: schemaProps, required: requiredFields } 
+        } 
+    };
+    
+    const delays = [1000, 2000, 4000, 8000]; // Backoff strategy
+    
+    for (let i = 0; i < 4; i++) {
+        try {
+            const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            if (!res.ok) {
+                const errBody = await res.text();
+                if (res.status === 400 && errBody.includes("API key not valid")) throw new Error("API_KEY_INVALID");
+                throw new Error(`HTTP ${res.status}`);
+            }
+            const data = await res.json();
+            if(!data.candidates || !data.candidates[0]) throw new Error("Dữ liệu rỗng.");
+            return extractJSON(data.candidates[0].content.parts[0].text);
+        } catch (error) { 
+            if (error.message === "API_KEY_INVALID") throw error; 
+            if (i === 3) throw error; 
+            await new Promise(r => setTimeout(r, delays[i])); 
+        }
+    }
+}
+
+// 3.4. Giao tiếp Image Engine (Imagen / Flux) - Cinematic Art Direction
+// 3.4. Giao tiếp Image Engine (Imagen / Flux) - Cinematic Art Direction
+async function safeImagenCall(cardData) {
+    let stylePrefix = "";
+    if (AppConfig.artStyle === 'stylized') {
+        stylePrefix = "Masterpiece, stylized illustration, 2.5D art style, highly detailed character concept art, vibrant colors, clean lines, semi-realistic proportions, trending on ArtStation.";
+    } else if (AppConfig.artStyle === 'cinematic') {
+        stylePrefix = "Masterpiece, cinematic fashion editorial, haute couture photoshoot, dramatic studio lighting, moody atmosphere, highly detailed, photorealistic fabric, vogue magazine cover style.";
+    } else {
+        stylePrefix = "Masterpiece, highly detailed photography, photorealistic, ultra-realistic real human, 8k resolution, cinematic lighting, sharp focus, RAW photo, intricate skin texture.";
+    }
+
+    const likenessTarget = cardData.inspiredBy ? `(Explicit likeness: ${cardData.inspiredBy})` : "";
+    const baseVisuals = cardData.visualDescription;
+    const genderTerm = cardData.gender?.toLowerCase().includes('nữ') ? 'female character' : (cardData.gender?.toLowerCase().includes('nam') ? 'male character' : 'character');
+    const universeTerm = cardData.universe ? `from ${cardData.universe} universe` : 'cinematic style';
+    const factionTheme = cardData.faction === 'Tech' ? 'cyberpunk, sci-fi, neon, mechanical' : (cardData.faction === 'Magic' ? 'fantasy, magical aura, mystical, spellcasting' : 'mutant, organic, bio-engineered, monstrous or natural power');
+    
+    const randomSeed = Math.floor(Math.random() * 1000000);
+    const enhancedPrompt = `${stylePrefix} A ${genderTerm} ${universeTerm} ${likenessTarget}. Theme: ${factionTheme}. Details: ${baseVisuals}. [Seed: ${randomSeed}]`;
+
+    // Nếu dùng Custom API -> Chuyển hướng sang Pollinations với Model & Key tùy chỉnh
+    if (AppConfig.enabled) {
+        const selectedModel = AppConfig.imageModel || 'flux';
+        const fluxUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=768&height=1024&nologo=true&model=${selectedModel}&seed=${randomSeed}`;
+        
+        return new Promise(async (resolve, reject) => {
+            try {
+                const headers = {};
+                // Nhúng API Key nếu user có nhập
+                if (AppConfig.pollinationsKey) {
+                    headers['Authorization'] = `Bearer ${AppConfig.pollinationsKey}`;
+                }
+                
+                const res = await fetch(fluxUrl, { headers });
+                if (!res.ok) throw new Error("Lỗi tải ảnh từ Pollinations Server");
+                
+                const blob = await res.blob();
+                // Convert Blob sang Base64 để tương thích với logic lưu IndexedDB hiện tại
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = () => reject("Lỗi đọc dữ liệu ảnh");
+                reader.readAsDataURL(blob);
+            } catch (e) {
+                reject(e.message);
+            }
+        });
+    }
+
+    // Default: Imagen API (Môi trường gốc)
+    const payload = { instances: { prompt: enhancedPrompt }, parameters: { sampleCount: 1 } };
+    for (let i = 0; i < 3; i++) {
+        try {
+            const res = await fetch(`${ENV_IMAGE_URL}?key=${envApiKey}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+            if (!res.ok) throw new Error("Image Failed");
+            const data = await res.json();
+            if(data.predictions && data.predictions[0]) return `data:image/png;base64,${data.predictions[0].bytesBase64Encoded}`;
+            throw new Error("No data");
+        } catch (error) { 
+            if (i === 2) throw error; 
+            await new Promise(r => setTimeout(r, 2000)); 
+        }
+    }
+}
+
+
+// ==========================================
+// ⚔️ BLOCK 4: GAME LOGIC (Combat math, Fusion rules, Gacha rates)
+// ==========================================
+
+// 4.1. Tiện ích: Lấy thông tin Tộc Hệ
+function getFactionInfo(factionId) { 
+    return FACTIONS[factionId] || FACTIONS['Tech']; 
+}
+
+// 4.2. Tiện ích: Chuyển đổi Base64 sang Blob (Tối ưu bộ nhớ RAM)
+function base64ToBlob(base64Data) {
+    if (!base64Data || !base64Data.startsWith('data:image')) return null;
+    const parts = base64Data.split(',');
+    const contentType = parts[0].match(/:(.*?);/)[1];
+    const bstr = atob(parts[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) { u8arr[n] = bstr.charCodeAt(n); }
+    return new Blob([u8arr], { type: contentType });
+}
+
+// 4.3. Logic Gacha: Lấy Index của Rank
+function getRankIndex(classStr) {
+    if(!classStr) return 0;
+    const up = classStr.toUpperCase();
+    if(up.includes('UR') || up.includes('ULTRA')) return 4;
+    if(up.includes('SSR')) return 3;
+    if(up.includes('SR')) return 2;
+    if(up.includes('R')) return 1;
+    return 0;
+}
+
+// 4.4. Logic Gacha: Roll tỉ lệ ra thẻ
+function rollExtractRank() {
+    const roll = Math.random() * 100;
+    if (roll < 45) return 'N';   // 45%
+    if (roll < 75) return 'R';   // 30%
+    if (roll < 93) return 'SR';  // 18%
+    return 'SSR';                // 7%
+}
+
+// 4.5. Logic Combat: Tính toán chỉ số dựa trên thể chất (Chiều cao, Cân nặng, Số đo)
+function calculateCombatStats(card) {
+    const multi = [1, 1.5, 2.5, 5, 10][getRankIndex(card?.cardClass)]; 
+    const baseHp = (parseInt(card?.weight) || 50) * 10 + (parseInt(card?.height) || 160) * 2;
+    let avgMeas = 80;
+    if(card?.measurements) {
+        const parts = card.measurements.split('-').map(n => parseInt(n.trim()));
+        if(parts.length === 3 && !isNaN(parts[0])) avgMeas = (parts[0] + parts[1] + parts[2]) / 3;
+    }
+    return { 
+        hp: Math.floor(baseHp * multi), 
+        atk: Math.floor((avgMeas * 2.5) * multi) 
+    };
+}
+
+// 4.6. Logic Combat: Tính tỉ lệ né tránh của đội hình
+function getSquadDodgeRate(squadArray) {
+    const DODGE_RATES = [10, 15, 20, 25, 35]; 
+    let maxRank = -1;
+    squadArray.forEach(card => { 
+        if (card) { 
+            const rank = getRankIndex(card.cardClass); 
+            if (rank > maxRank) maxRank = rank; 
+        } 
+    });
+    return maxRank >= 0 ? DODGE_RATES[maxRank] : 0;
+}
+
+// 4.7. Logic Fusion: Tính chi phí lai tạo
+const getFusionCost = (c1, c2) => {
+    if (!c1 || !c2) return 50; 
+    const costMap = [10, 20, 40, 80, 0];
+    return 50 + costMap[getRankIndex(c1.cardClass)] + costMap[getRankIndex(c2.cardClass)];
+};
+
+// 4.8. Logic Dismantle: Tính giá trị phân giải thẻ
+const getDismantleValue = (cardClass) => {
+    return [50, 100, 200, 400, 800][getRankIndex(cardClass)];
+};
+
+// 4.9. Logic Kinh tế: Xử lý thay đổi Data Credits
+const modifyCurrency = (amount) => {
+    if (amount < 0 && currency + amount < 0) return false; // Không đủ tiền
+    currency += amount; 
+    localStorage.setItem('cineCurrency', currency);
+    
+    // Cập nhật UI trực tiếp (Targeted DOM Manipulation)
+    DOM.currencyDisplay.innerText = currency;
+    DOM.currencyDisplay.classList.add(amount > 0 ? 'text-green-400' : 'text-red-400', 'scale-125');
+    setTimeout(() => DOM.currencyDisplay.classList.remove('text-green-400', 'text-red-400', 'scale-125'), 500);
+    return true; 
+};
+
+// ==========================================
+// 🎨 BLOCK 5: UI & DOM MANIPULATION (Render HTML, Animations, Modals)
+// ==========================================
+
+// 5.1. Tiện ích UI: Icon Giới tính
+function getGenderIcon(gender) {
+    if(!gender) return '<i class="fa-solid fa-user"></i>';
+    const g = gender.toLowerCase();
+    if(g.includes('nam') || g === 'male') return '<i class="fa-solid fa-mars text-blue-400"></i>';
+    if(g.includes('nữ') || g === 'female') return '<i class="fa-solid fa-venus text-pink-400"></i>';
+    return '<i class="fa-solid fa-venus-mars text-purple-400"></i>';
+}
+
+// 5.2. Hệ thống Thông báo (Custom Dialog & Toast)
+let sysConfirmCallback = null;
+
+window.sysAlert = (msg) => {
+    document.getElementById('sysDialogIcon').className = "fa-solid fa-circle-exclamation text-4xl text-cinematic-gold mb-4";
+    document.getElementById('sysDialogTitle').textContent = "Hệ Thống Cine-Tech";
+    document.getElementById('sysDialogMsg').innerHTML = msg;
+    document.getElementById('sysDialogActions').innerHTML = `<button onclick="sysCloseDialog()" class="w-full bg-cinematic-gold hover:bg-yellow-500 text-black px-6 py-2 rounded-lg font-bold transition-colors">Đã Rõ</button>`;
+    document.getElementById('sysDialog').classList.remove('hidden');
+};
+
+window.sysConfirm = (msg, onConfirm) => {
+    sysConfirmCallback = onConfirm;
+    document.getElementById('sysDialogIcon').className = "fa-solid fa-triangle-exclamation text-4xl text-red-500 mb-4";
+    document.getElementById('sysDialogTitle').textContent = "Xác Nhận Hành Động";
+    document.getElementById('sysDialogMsg').innerHTML = msg;
+    document.getElementById('sysDialogActions').innerHTML = `
+        <button onclick="sysCloseDialog()" class="flex-1 bg-white/5 hover:bg-white/10 text-white px-4 py-2 rounded-lg transition-colors">Hủy Bỏ</button>
+        <button onclick="sysExecuteConfirm()" class="flex-1 bg-red-900/60 hover:bg-red-600 border border-red-500/50 text-white px-4 py-2 rounded-lg font-bold shadow-lg transition-colors">Đồng Ý</button>
+    `;
+    document.getElementById('sysDialog').classList.remove('hidden');
+};
+
+window.sysCloseDialog = () => { 
+    document.getElementById('sysDialog').classList.add('hidden'); 
+    sysConfirmCallback = null; 
+};
+
+window.sysExecuteConfirm = () => { 
+    if(sysConfirmCallback) sysConfirmCallback(); 
+    sysCloseDialog(); 
+};
+
+const showMessage = (msg, type = 'error') => {
+    DOM.msgBox.textContent = msg;
+    DOM.msgBox.className = `w-full max-w-2xl mb-4 p-3 rounded-xl text-center text-sm transition-all duration-300 block shadow-lg ${type === 'error' ? 'bg-red-900/30 text-red-400 border border-red-900/50' : 'bg-cinematic-gold/20 text-cinematic-gold border border-cinematic-gold/30'}`;
+    setTimeout(() => DOM.msgBox.classList.add('hidden'), 5000);
+};
+
+// 5.3. Quản lý Tab & Trạng thái Loading
+window.switchTab = (tab) => {
+    if(State.isProcessing || State.inBattle) return showMessage("Hệ thống bận.");
+    State.tab = tab;
+    ['Extract', 'Fusion', 'Combat'].forEach(t => {
+        document.getElementById(`tab${t}Btn`).classList.toggle('active', tab === t.toLowerCase());
+        document.getElementById(`view${t}`).classList.toggle('hidden', tab !== t.toLowerCase());
+    });
+    
+    const titles = { 'extract': 'Hệ thống Trích xuất', 'fusion': 'Phòng thí nghiệm DNA', 'combat': 'Khu vực Tác chiến' };
+    document.getElementById('subTitle').textContent = titles[tab];
+
+    // Đổi màu Ambient Background theo Tab
+    const bg1 = DOM.bgAmbient.children[0]; const bg2 = DOM.bgAmbient.children[1];
+    if(tab === 'combat') { 
+        bg1.className = 'absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-red-900/10 rounded-full blur-[120px] animate-pulse-slow transition-colors duration-1000'; 
+        bg2.className = 'absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-orange-900/10 rounded-full blur-[150px] animate-pulse-slow transition-colors duration-1000'; 
+    } else { 
+        bg1.className = 'absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cinematic-gold/5 rounded-full blur-[120px] animate-pulse-slow transition-colors duration-1000'; 
+        bg2.className = 'absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-900/10 rounded-full blur-[150px] animate-pulse-slow transition-colors duration-1000'; 
+    }
+    
+    if(tab === 'combat') updateCombatUI();
+    if(tab === 'fusion') updateFusionSlotsUI();
+};
+
+function setLoadingState(isLoading, context) {
+    State.isProcessing = isLoading;
+    if(context === 'extract') {
+        document.getElementById('searchBtn').disabled = document.getElementById('searchInput').disabled = isLoading;
+        document.getElementById('btnText').textContent = isLoading ? 'Đang Phân Tích...' : 'Khởi Tạo';
+        document.getElementById('btnSpinner').classList.toggle('hidden', !isLoading);
+        if(isLoading) document.getElementById('cardDisplayExtract').classList.add('hidden');
+    } else if (context === 'fusion') {
+        const btn = document.getElementById('fusionBtn');
+        btn.disabled = isLoading;
+        document.getElementById('fusionBtnIcon').className = isLoading ? "fa-solid fa-circle-notch fa-spin text-xl" : "fa-solid fa-dna text-xl";
+        if(isLoading) document.getElementById('cardDisplayFusion').classList.add('hidden');
+    }
+}
+
+// 5.4. Hiệu ứng 3D Tilt (Parallax)
+window.handleTilt = function(event, element) {
+    if (!AppConfig.enable3D) return;
+    const rect = element.getBoundingClientRect();
+    const x = event.clientX - rect.left; const y = event.clientY - rect.top;
+    const centerX = rect.width / 2; const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -12; const rotateY = ((x - centerX) / centerX) * 12;
+    element.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    const glareEl = element.querySelector('.glare-layer');
+    if(glareEl) {
+        const glareX = (x / rect.width) * 100; const glareY = (y / rect.height) * 100;
+        glareEl.style.opacity = '1';
+        glareEl.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.25) 0%, transparent 60%)`;
+    }
+};
+
+window.resetTilt = function(element) {
+    element.style.transform = `rotateX(0deg) rotateY(0deg)`;
+    const glareEl = element.querySelector('.glare-layer');
+    if(glareEl) glareEl.style.opacity = '0';
+};
+
+// 5.5. Render HTML: Thẻ chi tiết (Full Card)
+function generateCardHTML(card, isModal = false, isLoadingImage = false, context = 'extract') {
+    const isSaved = State.cards.some(c => c.id === card.id);
+    const isReshooting = State.reshootingCards.has(card.id);
+    let btnHTML = '';
+    
+    if(!isSaved && !isLoadingImage && context === 'extract') {
+        btnHTML = `<button onclick="triggerSave('${card.id}', this, '${context}')" class="w-full sm:w-auto bg-white/5 hover:bg-cinematic-gold/20 text-cinematic-gold border border-cinematic-gold/30 hover:border-cinematic-gold px-4 py-2 rounded-lg text-xs tracking-widest uppercase transition-all flex items-center justify-center gap-2"><i class="fa-solid fa-download"></i> Lưu Database</button>`;
+    } else if (isLoadingImage) {
+        btnHTML = `<button disabled class="w-full sm:w-auto bg-white/5 text-cinematic-muted border border-white/10 px-4 py-2 rounded-lg text-xs tracking-widest uppercase flex items-center justify-center gap-2 opacity-50"><i class="fa-solid fa-spinner fa-spin"></i> Đang Render...</button>`;
+    } else {
+        const dismantleValue = getDismantleValue(card.cardClass);
+        btnHTML = `<div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
+            ${isModal ? `<button onclick="reshootCard('${card.id}', this)" ${isReshooting ? 'disabled' : ''} class="bg-blue-900/30 text-blue-400 border border-blue-900/50 hover:bg-blue-900/60 px-4 py-2 rounded-lg text-[10px] tracking-widest uppercase transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" title="Chụp lại concept ảnh (-50 DC)"><i class="fa-solid fa-camera ${isReshooting ? 'fa-fade' : ''}"></i> ${isReshooting ? 'Đang chụp...' : 'Reshoot (-50)'}</button>` : ''}
+            ${isModal ? `<button onclick="triggerDismantle('${card.id}')" ${isReshooting ? 'disabled' : ''} class="bg-red-900/30 text-red-400 border border-red-900/50 hover:bg-red-900/60 px-4 py-2 rounded-lg text-[10px] tracking-widest uppercase transition-all flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed" title="Phân giải thu hồi Credits"><i class="fa-solid fa-recycle"></i> +${dismantleValue}</button>` : ''}
+        </div>`;
+    }
+
+    const isUR = getRankIndex(card.cardClass) === 4;
+    const cardStyle = isUR ? 'ur-card border border-cinematic-cyan/30' : 'border border-white/5';
+    const nameStyle = isUR ? 'text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-purple-400 drop-shadow-[0_0_10px_rgba(0,243,255,0.5)]' : 'text-white';
+    const facInfo = getFactionInfo(card.faction || 'Tech');
+
+    const use3D = isModal && AppConfig.enable3D;
+    const tiltClasses = use3D ? "tilt-card" : "";
+    const tiltLayer1 = use3D ? "tilt-layer-1" : "";
+    const tiltLayer2 = use3D ? "tilt-layer-2" : "";
+    const tiltLayerBg = use3D ? "tilt-layer-bg" : "";
+    const tiltEvents = use3D ? `onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)" ontouchmove="handleTilt(event.touches[0], this)" ontouchend="resetTilt(this)"` : "";
+
+    return `
+    <div data-card-id="${card.id}" class="muse-card ${cardStyle} w-full ${isModal ? 'max-w-[1000px]' : 'max-w-[850px]'} rounded-3xl overflow-hidden flex flex-col md:flex-row relative group shadow-2xl">
+        <div class="relative w-full md:w-[45%] aspect-[4/5] md:aspect-auto md:h-[780px] bg-cinematic-800 border-b md:border-b-0 md:border-r border-white/10 overflow-hidden perspective-container">
+            <div class="absolute inset-0 w-full h-full ${tiltClasses}" ${tiltEvents}>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-10 pointer-events-none"></div>
+                ${isLoadingImage ? `<div class="absolute inset-0 flex flex-col items-center justify-center z-20 bg-cinematic-900/80 backdrop-blur-md"><div class="w-full h-1 bg-cinematic-gold/20 absolute top-0 overflow-hidden"><div class="w-full h-full bg-cinematic-gold animate-scanline"></div></div><i class="fa-solid fa-camera-retro animate-pulse text-cinematic-gold/50 text-4xl mb-4"></i><p class="text-[10px] text-cinematic-gold mt-2 uppercase tracking-widest">Đang kết nối Vision API...</p></div>` : ''}
+                <div id="modalCoverLoading" class="absolute inset-0 ${isReshooting ? 'flex' : 'hidden'} flex-col items-center justify-center z-20 bg-black/60 backdrop-blur-sm"><i class="fa-solid fa-camera fa-fade text-white text-4xl mb-4"></i><p class="text-[10px] text-white mt-2 uppercase tracking-widest">Đang thiết lập Studio...</p></div>
+                <img id="modalCoverImage" src="${card.imageUrl || ''}" class="absolute inset-0 w-full h-full object-cover z-[5] ${(isLoadingImage || isReshooting) ? 'opacity-30' : 'opacity-100'} transition-all duration-700 ${tiltLayerBg}" crossorigin="anonymous">
+                ${use3D ? `<div class="glare-layer ${tiltLayer1}"></div>` : ''}
+                ${isModal ? `<div class="magazine-title text-white ${tiltLayer1}">${card.faction === 'Tech' ? 'CINE' : (card.faction === 'Magic' ? 'MUSE' : 'VOGUE')}</div>` : ''}
+                <div class="absolute bottom-4 left-4 right-4 z-20 flex justify-between items-end pointer-events-none ${tiltLayer2}">
+                    <div class="text-[10px] text-white/80 tracking-widest uppercase bg-black/60 px-2 py-1 rounded border border-white/10 flex items-center gap-2 shadow-lg backdrop-blur-sm"><i class="fa-solid fa-id-card"></i> ${card.id}</div>
+                </div>
+                <div class="absolute top-4 left-4 z-20 flex flex-col gap-2 pointer-events-none ${tiltLayer2}">
+                    <div class="text-sm font-bold text-black tracking-widest uppercase ${isUR?'bg-cinematic-cyan':'bg-cinematic-gold'} px-3 py-1 rounded shadow-xl text-center">${card.cardClass}</div>
+                    <div class="text-xs font-bold text-white tracking-widest uppercase bg-black/80 border ${facInfo.border} px-3 py-1.5 rounded shadow-xl text-center flex items-center justify-center gap-1.5 backdrop-blur-sm" title="Tộc Hệ: ${facInfo.name}"><i class="fa-solid ${facInfo.icon} ${facInfo.color}"></i></div>
+                </div>
+                ${isModal ? `<div class="absolute top-4 right-4 z-20 ${tiltLayer2} pointer-events-none"><div class="bg-black/50 backdrop-blur-md border border-white/20 text-white/80 text-[8px] uppercase tracking-widest px-2 py-1 rounded shadow-lg"><i class="fa-solid fa-cube mr-1"></i> 3D View</div></div>` : ''}
+            </div>
+        </div>
+        <div class="w-full md:w-[55%] p-6 md:p-8 flex flex-col justify-between relative bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')]">
+            <div class="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity"><i class="fa-solid ${facInfo.icon} text-8xl"></i></div>
+            <div class="relative z-10">
+                <div class="flex flex-wrap items-center gap-2 mb-2 text-[10px] uppercase tracking-wider">
+                    ${getGenderIcon(card.gender)} <span class="text-cinematic-muted">${card.gender || 'Unknown'}</span>
+                    <span class="text-white/20">•</span>
+                    <span class="text-cinematic-muted"><i class="fa-solid fa-earth-americas"></i> ${card.nationality || 'Cine-Earth'}</span>
+                    <span class="text-white/20">•</span>
+                    <span class="${isUR?'text-cinematic-cyan':'text-cinematic-gold'} bg-white/5 px-2 py-0.5 rounded border border-white/10"><i class="fa-solid fa-galaxy"></i> ${card.universe || 'Cine-Tech'}</span>
+                </div>
+                <div class="text-[10px] text-cinematic-muted tracking-widest uppercase mb-1">${card.occupation}</div>
+                <h2 class="font-serif text-3xl md:text-5xl font-bold mb-4 leading-tight ${nameStyle}">${card.name}</h2>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 my-4 py-4 border-y border-white/10 relative z-10 bg-black/40 rounded-xl p-4 shadow-inner">
+                <div class="flex flex-col"><span class="text-[8px] text-cinematic-muted uppercase tracking-widest mb-1">Chiều Cao</span><span class="font-serif text-lg text-white">${card.height}<span class="text-[9px] text-cinematic-muted font-sans ml-1">cm</span></span></div>
+                <div class="flex flex-col"><span class="text-[8px] text-cinematic-muted uppercase tracking-widest mb-1">Cân Nặng</span><span class="font-serif text-lg text-white">${card.weight}<span class="text-[9px] text-cinematic-muted font-sans ml-1">kg</span></span></div>
+                <div class="col-span-2 md:col-span-2 flex flex-col bg-cinematic-900/50 rounded px-2 py-1 border border-white/5"><span class="text-[8px] text-cinematic-gold uppercase tracking-widest mb-1">Số Đo 3 Vòng (B-W-H)</span><span class="font-mono text-base text-pink-300 font-bold tracking-widest">${card.measurements || '???'}</span></div>
+                <div class="col-span-2 md:col-span-4 flex flex-col mt-2 pt-2 border-t border-white/5"><span class="text-[8px] text-cinematic-muted uppercase tracking-widest mb-1">Chỉ Số Chiến Đấu (Base)</span><div class="flex items-end gap-3"><span class="font-mono text-lg text-green-400 bg-green-900/20 px-2 py-0.5 rounded shadow-inner"><i class="fa-solid fa-heart text-xs"></i> ${calculateCombatStats(card).hp}</span> <span class="font-mono text-lg text-orange-400 bg-orange-900/20 px-2 py-0.5 rounded shadow-inner"><i class="fa-solid fa-burst text-xs"></i> ${calculateCombatStats(card).atk}</span></div></div>
+            </div>
+            <div class="mb-4 flex-1 relative z-10">
+                <h3 class="text-[10px] text-white/50 uppercase tracking-widest mb-2 flex items-center"><i class="fa-solid fa-book-journal-whills mr-2"></i> Hồ Sơ Nhân Vật</h3>
+                <p class="text-xs text-gray-300 mb-2 italic border-l-2 ${isUR?'border-cinematic-cyan':'border-cinematic-gold/50'} pl-3">"${card.personality}"</p>
+                <div class="text-sm text-cinematic-muted leading-relaxed lore-text ${isModal ? 'expanded' : ''}" onclick="this.classList.toggle('expanded')">${card.lore?.replace(/\n/g, '<br>')}</div>
+            </div>
+            <div class="mt-auto pt-4 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
+                <div class="text-[9px] text-cinematic-muted uppercase tracking-widest leading-tight w-2/3"><span class="opacity-50">Cảm hứng từ: </span><br><span class="text-white font-medium break-words">${card.inspiredBy}</span></div>
+                ${btnHTML}
+            </div>
+        </div>
+    </div>`;
+}
+
+// 5.6. Render HTML: Thẻ thu nhỏ (Mini Card)
+function renderMiniCard(card, onClickAction, context = 'gallery') {
+    const isUR = getRankIndex(card.cardClass) === 4;
+    let isLocked = false; let isSelected = false;
+
+    if (context === 'fusion-selector') {
+        if (isUR) isLocked = true;
+        if (State.fusionSlot1?.id === card.id || State.fusionSlot2?.id === card.id) isSelected = true;
+    } else if (context === 'squad-selector') {
+        if (State.squad.some(c => c?.id === card.id)) isSelected = true;
+    }
+
+    const isReshooting = State.reshootingCards.has(card.id);
+    const isUnavailable = isLocked || isSelected || isReshooting;
+
+    const facInfo = getFactionInfo(card.faction || 'Tech');
+    const borderGlow = isUR ? 'border-cinematic-cyan shadow-[0_0_15px_rgba(0,243,255,0.3)]' : 'border-white/10';
+    const badgeColor = isUR ? 'bg-cinematic-cyan text-black' : 'bg-cinematic-gold text-black';
+    
+    let extraClasses = 'cursor-pointer hover:scale-102 hover:-translate-y-2 hover:border-cinematic-gold/60';
+    if (isUnavailable) {
+        if (isSelected) extraClasses = 'opacity-50 border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.3)] pointer-events-none scale-95';
+        else if (isReshooting) extraClasses = 'opacity-70 pointer-events-none';
+        else extraClasses = 'opacity-40 grayscale pointer-events-none';
+    }
+
+    return `
+    <div data-card-id="${card.id}" class="mini-card bg-cinematic-800 rounded-xl overflow-hidden border ${borderGlow} relative group shadow-lg transition-all ${extraClasses}" onclick="${isUnavailable ? '' : onClickAction}">
+        <div class="aspect-[3/4] bg-cinematic-900 relative">
+            ${card.imageUrl ? `<img src="${card.imageUrl}" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500" loading="lazy" crossorigin="anonymous">` : `<div class="w-full h-full flex items-center justify-center bg-black/50"><i class="fa-solid fa-user-secret text-4xl text-cinematic-muted/50"></i></div>`}
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
+            <div class="absolute top-2 right-2 flex flex-col items-end gap-1 z-10">
+                <span class="text-[8px] font-bold ${badgeColor} px-1.5 py-0.5 rounded shadow">${card.cardClass}</span>
+                <span class="text-[10px] ${facInfo.bg} ${facInfo.color} border ${facInfo.border} w-5 h-5 flex items-center justify-center rounded-full shadow backdrop-blur-sm" title="${facInfo.name}"><i class="fa-solid ${facInfo.icon}"></i></span>
+            </div>
+            <div class="absolute top-2 left-2 flex items-center gap-1 bg-black/50 px-1.5 py-0.5 rounded border border-white/10 text-[8px] text-cinematic-muted uppercase z-10">
+                ${getGenderIcon(card.gender)} <span class="truncate max-w-[40px]">${card.universe || 'Cine'}</span>
+            </div>
+            ${isLocked && !isSelected ? `<div class="absolute inset-0 flex items-center justify-center z-20"><i class="fa-solid fa-lock text-3xl text-white/50 drop-shadow-md"></i></div>` : ''}
+            ${isSelected ? `<div class="absolute inset-0 flex items-center justify-center bg-green-900/40 border-[3px] border-green-500/50 rounded-xl z-20"><i class="fa-solid fa-check text-4xl text-green-400 drop-shadow-md"></i></div>` : ''}
+            ${isReshooting ? `<div class="absolute inset-0 flex flex-col items-center justify-center bg-black/70 backdrop-blur-sm z-20"><i class="fa-solid fa-camera fa-fade text-2xl text-cinematic-gold mb-2"></i><span class="text-[8px] uppercase tracking-widest text-cinematic-gold font-bold">Đang Reshoot...</span></div>` : ''}
+            <div class="absolute bottom-0 left-0 w-full p-2.5 pb-3 z-10">
+                <div class="text-[12px] font-serif ${isUR?'text-cinematic-cyan':'text-white'} font-bold leading-tight line-clamp-2 drop-shadow-md transition-colors">${card.name}</div>
+                ${context === 'squad-selector' ? `<div class="flex gap-2 mt-1.5 text-[8px] font-mono"><span class="text-green-400 bg-green-900/40 px-1 rounded"><i class="fa-solid fa-heart"></i> ${calculateCombatStats(card).hp}</span><span class="text-orange-400 bg-orange-900/40 px-1 rounded"><i class="fa-solid fa-burst"></i> ${calculateCombatStats(card).atk}</span></div>` : ''}
+            </div>
+        </div>
+    </div>`;
+}
+
+// 5.7. Render View: Gallery, Fusion Slots, Combat UI
+function renderGallery() {
+    if (State.cards.length > 0) DOM.gallerySec.classList.remove('hidden');
+    else DOM.gallerySec.classList.add('hidden');
+    DOM.cardCount.textContent = `${State.cards.length} Thẻ`;
+    DOM.galleryGrid.innerHTML = State.cards.map(c => renderMiniCard(c, `openModal('${c.id}')`, 'gallery')).join('');
+}
+
+function renderView(context, isImageLoading) {
+    const container = document.getElementById(context === 'extract' ? 'cardDisplayExtract' : 'cardDisplayFusion');
+    const cardData = context === 'extract' ? State.currentExtractCard : State.currentFusionCard;
+    if(!cardData) return container.classList.add('hidden');
+    container.innerHTML = generateCardHTML(cardData, false, isImageLoading, context);
+    container.classList.remove('hidden');
+}
+
+function updateFusionSlotsUI() {
+    const renderSlot = (card, label, desc) => card ? 
+        `<div class="w-full h-full p-2 flex flex-col"><img src="${card.imageUrl}" class="w-full h-2/3 object-cover rounded-xl border border-white/10 opacity-80 mb-2" crossorigin="anonymous"><div class="text-[10px] text-cinematic-cyan uppercase tracking-widest text-center truncate">${card.name}</div><div class="text-[8px] text-cinematic-muted text-center font-bold">Class: ${card.cardClass} | ${getFactionInfo(card.faction).name}</div><i class="fa-solid fa-xmark absolute top-2 right-2 text-white/50 hover:text-red-500 bg-black/50 rounded-full w-6 h-6 flex items-center justify-center" onclick="event.stopPropagation(); State.fusionSlot${card.id===State.fusionSlot1?.id?1:2}=null; updateFusionSlotsUI();"></i></div>` 
+        : 
+        `<i class="fa-solid fa-plus text-4xl text-white/20 mb-3"></i><p class="text-[10px] text-cinematic-gold tracking-widest uppercase mb-1">${label}</p><p class="text-[8px] text-cinematic-muted tracking-widest uppercase text-center px-2 opacity-70">${desc}</p>`;
+
+    document.getElementById('slot1Content').innerHTML = renderSlot(State.fusionSlot1, 'Alpha (Gen Trội)', 'Quyết định Faction & Giới tính');
+    document.getElementById('slot1Content').parentElement.classList.toggle('filled', !!State.fusionSlot1);
+    
+    document.getElementById('slot2Content').innerHTML = renderSlot(State.fusionSlot2, 'Omega (Gen Lặn)', 'Quyết định Universe & Thể chất');
+    document.getElementById('slot2Content').parentElement.classList.toggle('filled', !!State.fusionSlot2);
+
+    const costBadge = document.getElementById('fusionCostBadge'); const btn = document.getElementById('fusionBtn');
+    if(State.fusionSlot1 && State.fusionSlot2) { 
+        const cost = getFusionCost(State.fusionSlot1, State.fusionSlot2);
+        costBadge.innerHTML = `Phí: <span class="text-white">${cost} DC</span>`;
+        btn.disabled = false; btn.classList.add('animate-pulse'); document.getElementById('fusionBtnText').textContent = "Bắt đầu Lai tạo"; 
+    } else { 
+        costBadge.innerHTML = `Phí: Tùy cấp độ`; btn.disabled = true; btn.classList.remove('animate-pulse'); document.getElementById('fusionBtnText').textContent = "Chờ dữ liệu..."; 
+    }
+}
+
+function updateCombatUI() {
+    let totalHp = 0, totalAtk = 0;
+    const renderSquadSlot = (card, slotId) => {
+        if(!card) return `<i class="fa-solid fa-plus text-2xl text-white/20 mb-2"></i><p class="text-[8px] text-cinematic-muted tracking-widest uppercase">Triển Khai</p>`;
+        const stats = calculateCombatStats(card); const facInfo = getFactionInfo(card.faction);
+        totalHp += stats.hp; totalAtk += stats.atk;
+        return `
+            <img src="${card.imageUrl}" class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity" crossorigin="anonymous">
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 w-full p-2">
+                <div class="text-[10px] font-bold text-white truncate drop-shadow-md">${card.name}</div>
+                <div class="flex items-center justify-between mt-1"><div class="text-[8px] text-green-400 font-mono"><i class="fa-solid fa-heart"></i> ${stats.hp}</div><div class="text-[8px] ${facInfo.color} font-bold" title="${facInfo.name}"><i class="fa-solid ${facInfo.icon}"></i></div></div>
+                <div class="text-[8px] text-orange-400 font-mono"><i class="fa-solid fa-burst"></i> ${stats.atk}</div>
+            </div>
+            <i class="fa-solid fa-xmark absolute top-1 right-1 text-white/50 hover:text-red-500 bg-black/50 rounded-full w-5 h-5 flex items-center justify-center text-[10px] z-10" onclick="event.stopPropagation(); clearSquadSlot('${slotId}')"></i>
+            <div class="absolute top-1 left-1 bg-cinematic-gold text-black text-[8px] font-bold px-1 rounded shadow">${card.cardClass}</div>
+        `;
+    };
+    
+    document.getElementById('squad1').innerHTML = renderSquadSlot(State.squad[0], 'squad1');
+    document.getElementById('squad2').innerHTML = renderSquadSlot(State.squad[1], 'squad2');
+    document.getElementById('squad3').innerHTML = renderSquadSlot(State.squad[2], 'squad3');
+    document.getElementById('totalSquadHp').textContent = totalHp;
+    document.getElementById('totalSquadAtk').textContent = totalAtk;
+    document.getElementById('squadDodgeText').textContent = `(Tỷ lệ Né: ${getSquadDodgeRate(State.squad)}%)`;
+
+    const noBoss = document.getElementById('noBossContainer'); const hasBoss = document.getElementById('bossContainer');
+    if(State.boss) {
+        noBoss.classList.add('hidden'); hasBoss.classList.remove('hidden');
+        document.getElementById('bossName').textContent = State.boss.name;
+        document.getElementById('bossThreatBadge').textContent = State.boss.threatLevel;
+        document.getElementById('bossUniverse').textContent = State.boss.universe || 'Unknown';
+        document.getElementById('bossHp').textContent = State.boss.hp; document.getElementById('bossAtk').textContent = State.boss.attack;
+        document.getElementById('bossLore').textContent = State.boss.lore;
+        if(State.boss.imageUrl) document.getElementById('bossImg').src = State.boss.imageUrl;
+        
+        const bossFac = getFactionInfo(State.boss.faction);
+        const badge = document.getElementById('bossFactionBadge');
+        badge.className = `px-1.5 rounded border ${bossFac.border} ${bossFac.bg} ${bossFac.color}`;
+        badge.innerHTML = `<i class="fa-solid ${bossFac.icon} mr-1"></i> ${bossFac.name}`;
+    } else { 
+        noBoss.classList.remove('hidden'); hasBoss.classList.add('hidden'); 
+    }
+    
+    document.getElementById('btnEngage').disabled = !(State.boss && State.squad.filter(c => c !== null).length > 0 && !State.inBattle);
+}
+
+// 5.8. Quản lý Modals
+window.openSelector = (slotTarget) => {
+    if(State.isProcessing || State.inBattle) return;
+    State.activeSelectorSlot = slotTarget;
+    const isFusion = slotTarget === 1 || slotTarget === 2;
+    const context = isFusion ? 'fusion-selector' : 'squad-selector';
+    
+    document.getElementById('selectorTitle').innerHTML = isFusion ? 'Kho Nguyên Liệu DNA <span class="text-xs text-red-500 font-sans ml-2"><i class="fa-solid fa-lock"></i> Khóa thẻ UR</span>' : 'Triển Khai Đội Hình <span class="text-xs text-green-400 font-sans ml-2"><i class="fa-solid fa-shield-halved"></i> Lắp ghép tự do</span>';
+    document.getElementById('selectorGrid').innerHTML = State.cards.map(c => renderMiniCard(c, `selectCard('${c.id}')`, context)).join('');
+    DOM.selectorModal.classList.remove('hidden');
+};
+
+window.closeSelector = () => DOM.selectorModal.classList.add('hidden');
+
+window.openModal = (id) => { 
+    const c = State.cards.find(x=>x.id===id); 
+    if(c){ 
+        document.getElementById('modalContent').innerHTML = generateCardHTML(c,true,false,'extract'); 
+        document.getElementById('cardModal').classList.remove('hidden'); 
+    } 
+};
+window.closeModal = () => document.getElementById('cardModal').classList.add('hidden');
+
+// 5.9. Settings UI (System Override)
+window.toggleApiSettings = () => document.getElementById('apiSettingsModal').classList.toggle('hidden');
+
+function toggleApiFieldsUI() {
+    const isChecked = document.getElementById('customApiToggle').checked;
+    const fields = document.getElementById('customApiFields');
+    if(isChecked) fields.classList.remove('opacity-50', 'pointer-events-none');
+    else fields.classList.add('opacity-50', 'pointer-events-none');
+}
+
+window.saveApiSettings = () => {
+    AppConfig.enabled = document.getElementById('customApiToggle').checked;
+    AppConfig.enable3D = document.getElementById('effect3DToggle').checked;
+    AppConfig.key = document.getElementById('customApiKeyInput').value.trim();
+    AppConfig.model = document.getElementById('textModelSelect').value;
+    AppConfig.artStyle = document.getElementById('artStyleSelect').value;
+    
+    // Lưu cấu hình Pollinations
+    AppConfig.pollinationsKey = document.getElementById('pollinationsKeyInput').value.trim();
+    AppConfig.imageModel = document.getElementById('imageModelSelect').value;
+    
+    if(AppConfig.enabled && !AppConfig.key) return sysAlert("Vui lòng nhập Gemini API Key hợp lệ nếu muốn kích hoạt chế độ Custom.");
+    
+    localStorage.setItem('cineApiConfig', JSON.stringify(AppConfig));
+    toggleApiSettings();
+    sysAlert(`Đã lưu cấu hình Hệ thống.<br>Trạng thái Custom API: <strong class="${AppConfig.enabled ? 'text-green-400' : 'text-red-400'}">${AppConfig.enabled ? 'BẬT' : 'TẮT'}</strong><br>Image Engine: <strong class="text-cinematic-cyan">${AppConfig.imageModel.toUpperCase()}</strong>`);
+};
+
+
+// ==========================================
+// 🚀 BLOCK 6: INITIALIZATION & EVENT LISTENERS
+// ==========================================
+
+// 6.1. Core Actions (Gắn vào window để gọi từ HTML onclick)
+window.extractProfile = async function() {
+    if(State.isProcessing) return;
+    const query = document.getElementById('searchInput').value.trim();
+    if (!query) return showMessage("Vui lòng nhập định danh nguyên mẫu.");
+    if (currency < 200) return showMessage("Không đủ Data Credits (Yêu cầu 200 DC).", "error");
+
+    setLoadingState(true, 'extract'); 
+    if(!modifyCurrency(-200)) { setLoadingState(false, 'extract'); return; }
+
+    try {
+        const assignedRank = rollExtractRank();
+        const sysPrompt = `Giám đốc Nghệ thuật AI. Trả JSON Tiếng Việt hợp lệ. 
+1. Nội suy 'gender', 'universe'. Faction chọn 1 (Tech, Magic, Mutant). Cân nặng/chiều cao/3 vòng chuẩn xác.
+2. TRỌNG TÂM: Trường 'inspiredBy' PHẢI chứa TÊN CHÍNH XÁC của nhân vật/diễn viên gốc bằng Tiếng Anh.
+3. Trường 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH, miêu tả chi tiết trang phục, khuôn mặt.
+4. Hạng thẻ BẮT BUỘC là: ${assignedRank}`;
+        const prompt = `Tạo thẻ nhân vật lấy cảm hứng từ: ${query}. Xếp hạng sức mạnh: ${assignedRank}.`;
+
+        State.currentExtractCard = await safeGeminiCall(prompt, sysPrompt, cardSchemaProps, cardRequiredFields);
+        State.currentExtractCard.id = 'CINE-E-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substr(2, 4).toUpperCase();
+        State.currentExtractCard.cardClass = assignedRank; 
+        State.currentExtractCard.imageUrl = null;
+        renderView('extract', true);
+
+        try {
+            State.currentExtractCard.imageUrl = await safeImagenCall(State.currentExtractCard);
+            renderView('extract', false);
+        } catch (imgErr) {
+            renderView('extract', false);
+            showMessage("Cảnh báo: Hệ thống Vision bận. Thẻ vẫn được tạo (Không ảnh).", "error");
+        }
+    } catch (error) { 
+        modifyCurrency(200); 
+        if(error.message === "API_KEY_INVALID") sysAlert("API Key của bạn không hợp lệ. Vui lòng kiểm tra lại trong System Override.");
+        else showMessage("Lỗi kết nối AI. Đã hoàn tiền.", "error"); 
+    } finally { setLoadingState(false, 'extract'); }
+};
+
+window.executeFusion = async function() {
+    if(State.isProcessing || !State.fusionSlot1 || !State.fusionSlot2) return;
+    const c1 = State.fusionSlot1; const c2 = State.fusionSlot2;
+    const dynamicCost = getFusionCost(c1, c2);
+
+    if(currency < dynamicCost) return showMessage(`Không đủ Data Credits (Yêu cầu ${dynamicCost} DC).`, "error");
+    
+    const r1 = getRankIndex(c1.cardClass); const r2 = getRankIndex(c2.cardClass);
+    const roll = Math.random()*100; 
+    let inc = roll<30?0:(roll<80?1:(roll<95?2:3)); 
+    const tgtR = Math.min(4, Math.max(r1,r2)+inc); 
+    const targetRank = CARD_RANKS[tgtR];
+
+    setLoadingState(true, 'fusion');
+    document.getElementById('fusionBtnText').textContent = `Mục tiêu: hạng ${targetRank}...`;
+
+    try {
+        if(!modifyCurrency(-dynamicCost)) throw new Error("Giao dịch Credit bị từ chối.");
+        
+        const targetHeight = Math.floor((c1.height || 170) * 0.3 + (c2.height || 170) * 0.7);
+        const targetWeight = Math.floor((c1.weight || 60) * 0.3 + (c2.weight || 60) * 0.7);
+        const forcedFaction = c1.faction || 'Tech';
+        const forcedGender = c1.gender || 'Unknown';
+        const forcedUniverse = c2.universe || 'Unknown';
+
+        const sysPrompt = `Tiến sĩ Sinh học lai tạo (Chimera Protocol). Trả JSON Tiếng Việt. 
+1. Hạng thẻ BẮT BUỘC là: ${targetRank}.
+2. Tộc Hệ (faction) BẮT BUỘC LÀ: '${forcedFaction}'.
+3. Giới tính (gender) BẮT BUỘC LÀ: '${forcedGender}'.
+4. Vũ trụ (universe) BẮT BUỘC LÀ: '${forcedUniverse}'.
+5. Chiều cao khoảng ${targetHeight}cm, cân nặng khoảng ${targetWeight}kg.
+6. Trường 'inspiredBy' là sự kết hợp tên gốc.
+7. QUAN TRỌNG NHẤT: Trường 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH.`;
+
+        const prompt = `Thực hiện giao thức Chimera: Lai tạo DNA từ ${c1.name} (Alpha) và ${c2.name} (Omega). 
+Ngoại hình Alpha: ${c1.visualDescription}. Ngoại hình Omega: ${c2.visualDescription}.`;
+
+        State.currentFusionCard = await safeGeminiCall(prompt, sysPrompt, cardSchemaProps, cardRequiredFields);
+        State.currentFusionCard.cardClass = targetRank; 
+        State.currentFusionCard.id = 'CINE-F-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substr(2, 4).toUpperCase();
+        State.currentFusionCard.imageUrl = null;
+        State.currentFusionCard.faction = forcedFaction;
+        State.currentFusionCard.universe = forcedUniverse;
+
+        renderView('fusion', true);
+        document.getElementById('cardDisplayFusion').scrollIntoView({ behavior: 'smooth' });
+
+        try { State.currentFusionCard.imageUrl = await safeImagenCall(State.currentFusionCard); } catch (e) {}
+
+        State.squad.forEach((sc, idx) => { if(sc && (sc.id === c1.id || sc.id === c2.id)) State.squad[idx] = null; });
+        updateCombatUI();
+
+        const cardToSave = JSON.parse(JSON.stringify(State.currentFusionCard));
+        cardToSave.timestamp = Date.now();
+        
+        if (cardToSave.imageUrl && cardToSave.imageUrl.startsWith('data:image')) {
+            cardToSave.imageBlob = base64ToBlob(cardToSave.imageUrl);
+            delete cardToSave.imageUrl;
+        }
+
+        await dbAction('readwrite', 'put', cardToSave);
+        await dbAction('readwrite', 'delete', c1.id);
+        await dbAction('readwrite', 'delete', c2.id);
+        
+        if (c1.imageBlob && c1.imageUrl) URL.revokeObjectURL(c1.imageUrl);
+        if (c2.imageBlob && c2.imageUrl) URL.revokeObjectURL(c2.imageUrl);
+
+        State.currentFusionCard.imageBlob = cardToSave.imageBlob;
+        if (State.currentFusionCard.imageBlob) {
+            State.currentFusionCard.imageUrl = URL.createObjectURL(State.currentFusionCard.imageBlob);
+        }
+        
+        State.cards = State.cards.filter(c => c.id !== c1.id && c.id !== c2.id);
+        State.cards.unshift(State.currentFusionCard);
+
+        const node1 = document.querySelector(`.mini-card[data-card-id="${c1.id}"]`);
+        if (node1) node1.remove();
+        const node2 = document.querySelector(`.mini-card[data-card-id="${c2.id}"]`);
+        if (node2) node2.remove();
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = renderMiniCard(State.currentFusionCard, `openModal('${State.currentFusionCard.id}')`, 'gallery');
+        document.getElementById('galleryGrid').prepend(tempDiv.firstElementChild);
+        
+        document.getElementById('cardCount').textContent = `${State.cards.length} Thẻ`;
+
+        State.fusionSlot1 = null; State.fusionSlot2 = null; 
+        updateFusionSlotsUI();
+        renderView('fusion', false);
+
+        sysAlert(`Lai tạo thành công!<br>Nhận Thẻ hạng <strong>${targetRank}</strong>.<br>2 Thẻ gốc đã bị tiêu hủy.`);
+    } catch (error) { 
+        modifyCurrency(dynamicCost); 
+        if(error.message === "API_KEY_INVALID") sysAlert("API Key không hợp lệ. Kiểm tra cài đặt Override.");
+        else showMessage("Lỗi lai tạo. Đã hoàn tiền.", "error"); 
+    } finally { setLoadingState(false, 'fusion'); }
+};
+
+window.reshootCard = async function(cardId, btnElement) {
+    if (currency < 50) return sysAlert("Không đủ Data Credits. Cần 50 DC để mở Studio Chụp ảnh.");
+    const card = State.cards.find(c => c.id === cardId);
+    if (!card) return;
+    if (State.reshootingCards.has(cardId)) return; 
+
+    sysConfirm(`Tổ chức Photoshoot mới cho <strong>${card.name}</strong>?<br>Phí Studio: <span class="text-red-400 font-bold">-50 DC</span>`, async () => {
+        if(!modifyCurrency(-50)) return;
+        
+        State.reshootingCards.add(cardId);
+        
+        const miniCardEl = document.querySelector(`.mini-card[data-card-id="${cardId}"]`);
+        if (miniCardEl) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = renderMiniCard(card, `openModal('${card.id}')`, 'gallery');
+            miniCardEl.replaceWith(tempDiv.firstElementChild);
+        }
+        
+        if (btnElement) {
+            btnElement.disabled = true;
+            btnElement.innerHTML = '<i class="fa-solid fa-camera fa-fade"></i> Đang chụp...';
+        }
+        
+        const flash = document.getElementById('cameraFlash');
+        if (flash) {
+            flash.classList.remove('hidden'); flash.classList.add('animate-flash');
+            setTimeout(() => { flash.classList.add('hidden'); flash.classList.remove('animate-flash'); }, 500);
+        }
+
+        const imgEl = document.getElementById('modalCoverImage');
+        if(imgEl) imgEl.style.opacity = '0.3';
+        const loader = document.getElementById('modalCoverLoading');
+        if(loader) loader.classList.remove('hidden');
+
+        try {
+            const newImageUrl = await safeImagenCall(card);
+            
+            if (card.imageBlob && card.imageUrl) URL.revokeObjectURL(card.imageUrl);
+
+            const cardToSave = JSON.parse(JSON.stringify(card));
+            cardToSave.timestamp = Date.now();
+            
+            if (newImageUrl && newImageUrl.startsWith('data:image')) {
+                cardToSave.imageBlob = base64ToBlob(newImageUrl);
+                delete cardToSave.imageUrl;
+            } else {
+                cardToSave.imageUrl = newImageUrl;
+                delete cardToSave.imageBlob;
+            }
+
+            await dbAction('readwrite', 'put', cardToSave);
+            
+            card.imageBlob = cardToSave.imageBlob;
+            card.imageUrl = card.imageBlob ? URL.createObjectURL(card.imageBlob) : newImageUrl;
+            card.timestamp = cardToSave.timestamp;
+
+            State.reshootingCards.delete(cardId); 
+
+            const updatedMiniCardEl = document.querySelector(`.mini-card[data-card-id="${cardId}"]`);
+            if (updatedMiniCardEl) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = renderMiniCard(card, `openModal('${card.id}')`, 'gallery');
+                updatedMiniCardEl.replaceWith(tempDiv.firstElementChild);
+            }
+
+            const modalEl = document.getElementById('cardModal');
+            if (!modalEl.classList.contains('hidden') && document.querySelector(`#modalContent [data-card-id="${cardId}"]`)) {
+                openModal(card.id); 
+            }
+            sysAlert("Photoshoot hoàn tất!<br>Trang bìa mới đã được cập nhật.");
+        } catch(e) {
+            modifyCurrency(50);
+            State.reshootingCards.delete(cardId);
+            
+            const failedMiniCardEl = document.querySelector(`.mini-card[data-card-id="${cardId}"]`);
+            if (failedMiniCardEl) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = renderMiniCard(card, `openModal('${card.id}')`, 'gallery');
+                failedMiniCardEl.replaceWith(tempDiv.firstElementChild);
+            }
+            
+            const modalEl = document.getElementById('cardModal');
+            if (!modalEl.classList.contains('hidden') && document.querySelector(`#modalContent [data-card-id="${cardId}"]`)) {
+                openModal(card.id); 
+            }
+            sysAlert("Sự cố tại Phim trường. Đã hoàn trả 50 DC.");
+        }
+    });
+};
+
+window.triggerSave = async function(id, btn, ctx) { 
+    const c = ctx === 'extract' ? State.currentExtractCard : null;
+    if(!c) return; 
+    btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang lưu...'; 
+    try{ 
+        const cardToSave = JSON.parse(JSON.stringify(c)); cardToSave.timestamp = Date.now(); 
+        
+        if (cardToSave.imageUrl && cardToSave.imageUrl.startsWith('data:image')) {
+            cardToSave.imageBlob = base64ToBlob(cardToSave.imageUrl);
+            delete cardToSave.imageUrl;
+        }
+
+        await dbAction('readwrite', 'put', cardToSave); 
+        
+        c.imageBlob = cardToSave.imageBlob;
+        if (c.imageBlob) c.imageUrl = URL.createObjectURL(c.imageBlob);
+        State.cards.unshift(c);
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = renderMiniCard(c, `openModal('${c.id}')`, 'gallery');
+        document.getElementById('galleryGrid').prepend(tempDiv.firstElementChild);
+        document.getElementById('cardCount').textContent = `${State.cards.length} Thẻ`;
+        document.getElementById('gallerySection').classList.remove('hidden');
+
+        State.currentExtractCard = null; document.getElementById('cardDisplayExtract').classList.add('hidden');
+        sysAlert("Thẻ đã được lưu vào Vault!");
+    } catch(e) { btn.innerHTML='Lỗi'; btn.disabled=false; } 
+};
+
+window.triggerDismantle = function(cardId) { 
+    if(State.reshootingCards.has(cardId)) return sysAlert("Thẻ đang trong Studio chụp ảnh, không thể phân giải lúc này!");
+    const c = State.cards.find(x=>x.id===cardId); if(!c)return; 
+    const v = getDismantleValue(c.cardClass); 
+    sysConfirm(`Phân giải <strong>${c.name}</strong>?<br>Nhận: <span class="text-green-400 font-bold">+${v} DC</span>`, async() => { 
+        try{ 
+            await dbAction('readwrite','delete',cardId); modifyCurrency(v); 
+            
+            if (c.imageBlob && c.imageUrl) URL.revokeObjectURL(c.imageUrl);
+
+            showMessage(`Thu hồi +${v} DC.`,'success'); closeModal(); 
+            
+            State.cards = State.cards.filter(card => card.id !== cardId);
+            
+            const cardNode = document.querySelector(`.mini-card[data-card-id="${cardId}"]`);
+            if (cardNode) {
+                cardNode.style.transform = 'scale(0)';
+                setTimeout(() => cardNode.remove(), 300);
+            }
+            document.getElementById('cardCount').textContent = `${State.cards.length} Thẻ`;
+            if (State.cards.length === 0) document.getElementById('gallerySection').classList.add('hidden');
+
+            State.squad.forEach((sc,idx)=>{if(sc && sc.id===cardId) State.squad[idx]=null;}); updateCombatUI();
+            if(State.fusionSlot1?.id===cardId) State.fusionSlot1=null; if(State.fusionSlot2?.id===cardId) State.fusionSlot2=null; updateFusionSlotsUI();
+        }catch(e){ showMessage("Lỗi phân giải", "error"); } 
+    }); 
+};
+
+window.scanBoss = async function() {
+    if(currency < 50) return sysAlert("Cần 50 DC để kích hoạt Radar.");
+    let squadHp = parseInt(document.getElementById('totalSquadHp').textContent) || 0;
+    let squadAtk = parseInt(document.getElementById('totalSquadAtk').textContent) || 0;
+    if (squadHp === 0) sysConfirm("Bạn chưa có đội hình nào trên tiền tuyến. Vẫn tiếp tục quét?", async () => { await performScan(500, 100); });
+    else await performScan(squadHp, squadAtk);
+};
+
+async function performScan(sHp, sAtk) {
+    if(!modifyCurrency(-50)) return;
+    const btn = document.getElementById('btnScanBoss'); 
+    btn.disabled = true; btn.innerHTML = `<i class="fa-solid fa-satellite-dish fa-spin"></i> Đang phân tích...`;
+    
+    try {
+        const bossProps = { 
+            id: {type:"STRING"}, name: {type:"STRING"}, universe: {type:"STRING"}, 
+            faction: {type:"STRING"}, threatLevel: {type:"STRING"}, hp: {type:"NUMBER"}, 
+            attack: {type:"NUMBER"}, reward: {type:"NUMBER"}, lore: {type:"STRING"}, visualDescription: {type:"STRING"} 
+        };
+        const bossReq = ["id", "name", "universe", "faction", "threatLevel", "hp", "attack", "reward", "lore", "visualDescription"];
+        
+        const sysPrompt = `Game Master AI (DDA). JSON Tiếng Việt.`;
+        const prompt = `Người chơi có đội hình HP: ${sHp} và ATK: ${sAtk}. Tạo Boss có HP (1x-2x tổng HP) và ATK (0.5x-1.5x tổng ATK). Random 1 vũ trụ và 1 Tộc Hệ (Tech, Magic, Mutant). Phần thưởng (300 - 5000 DC).`;
+        
+        State.boss = await safeGeminiCall(prompt, sysPrompt, bossProps, bossReq);
+        if(!['Tech','Magic','Mutant'].includes(State.boss.faction)) State.boss.faction = 'Mutant'; 
+        
+        const log = document.getElementById('battleLog');
+        const facInfo = getFactionInfo(State.boss.faction);
+        log.innerHTML = `<div class="text-cyan-600/50 mb-2 border-b border-white/10 pb-2">Radar phát hiện: <strong>${State.boss.name}</strong> (Hệ: <span class="${facInfo.color}"><i class="fa-solid ${facInfo.icon}"></i> ${facInfo.name}</span>).</div>`;
+
+        updateCombatUI();
+        
+        try {
+            const dummyCard = { gender: 'Unknown', universe: State.boss.universe, faction: State.boss.faction, visualDescription: `Epic boss monster. ${State.boss.visualDescription}` };
+            State.boss.imageUrl = await safeImagenCall(dummyCard);
+            document.getElementById('bossImg').src = State.boss.imageUrl;
+        } catch(e) {}
+    } catch(e) { 
+        modifyCurrency(50); 
+        sysAlert(e.message === "API_KEY_INVALID" ? "Lỗi: API Key cá nhân không hợp lệ." : "Lỗi Radar. Đã hoàn tiền."); 
+    } finally { 
+        btn.disabled = false; btn.innerHTML = `<i class="fa-solid fa-radar"></i> Quét Mục Tiêu (50 DC)`; 
+    }
+}
+
+window.cancelBoss = function() {
+    if (State.inBattle) return sysAlert("Không thể rút lui khi đang trong trạng thái giao tranh!");
+    sysConfirm("Bỏ qua mục tiêu này? Bạn sẽ cần tốn thêm 50 DC để quét lại.", () => { State.boss = null; updateCombatUI(); });
+};
+
+window.executeBattle = async function() {
+    if(State.inBattle) return;
+    State.inBattle = true; updateCombatUI();
+    
+    const boss = State.boss; let bossHp = boss.hp;
+    let squadHp = parseInt(document.getElementById('totalSquadHp').textContent);
+    const dodgeRate = getSquadDodgeRate(State.squad);
+    const bossFac = getFactionInfo(boss.faction);
+    const log = document.getElementById('battleLog');
+    
+    document.getElementById('bossHp').textContent = bossHp;
+    const headerDiv = document.createElement('div');
+    headerDiv.className = "text-red-500 mb-2 border-b border-red-900/50 pb-1 mt-4 text-xs font-bold";
+    headerDiv.innerHTML = `>>> CHIẾN DỊCH: ${boss.name} [Vũ trụ: ${boss.universe}] <<<`;
+    log.appendChild(headerDiv);
+
+    const addLog = (msg, color) => { 
+        const d = document.createElement('div'); d.className = `${color} mb-1.5 animate-fade-in`; d.innerHTML = msg; 
+        log.appendChild(d); requestAnimationFrame(() => { log.scrollTop = log.scrollHeight; });
+    };
+    
+    let actualSquadAtk = 0; let bossAtkMultiplier = 0; let activeCardsCount = 0;
+    addLog(`--- Phân Tích Tương Quan Tộc Hệ ---`, `text-cinematic-gold mt-2`);
+    
+    State.squad.forEach((card, i) => {
+        if(!card) return;
+        activeCardsCount++;
+        const cardFac = getFactionInfo(card.faction || 'Tech');
+        const stats = calculateCombatStats(card);
+        let atkMod = 1; let defMod = 1; let matchStatus = `<span class="text-gray-400">Hòa</span>`;
+
+        if(cardFac.strongAgainst === boss.faction) { atkMod = 1.3; defMod = 0.7; matchStatus = `<span class="text-green-400 font-bold">Khắc chế (+30% ST)</span>`; } 
+        else if(cardFac.weakAgainst === boss.faction) { atkMod = 0.7; defMod = 1.3; matchStatus = `<span class="text-red-400 font-bold">Bị khắc (-30% ST)</span>`; }
+        
+        actualSquadAtk += Math.floor(stats.atk * atkMod); bossAtkMultiplier += defMod;
+        addLog(`Slot ${i+1} [${cardFac.name}]: ${card.name} vs Boss [${bossFac.name}] -> ${matchStatus}`, `text-xs text-cinematic-muted`);
+    });
+
+    const actualBossAtk = Math.floor(boss.attack * (activeCardsCount > 0 ? (bossAtkMultiplier / activeCardsCount) : 1));
+    addLog(`Hỏa lực tổng hợp (Đã áp dụng Hệ): <span class="text-orange-400">${actualSquadAtk}</span> ATK`, `text-cinematic-muted border-b border-white/10 pb-2 mb-2`);
+
+    let turn = 1;
+    while(squadHp > 0 && bossHp > 0 && turn <= 30) {
+        if (!State.inBattle || !State.boss) break; 
+        await new Promise(r => setTimeout(r, 600));
+        
+        bossHp -= actualSquadAtk; document.getElementById('bossHp').textContent = Math.max(0, bossHp);
+        addLog(`[Lượt ${turn}] Đội hình tấn công: <span class="text-orange-400 font-bold">-${actualSquadAtk} HP</span> (Boss: ${Math.max(0, bossHp)})`, "text-cinematic-muted");
+        if(bossHp <= 0) break;
+        
+        await new Promise(r => setTimeout(r, 600));
+        if (Math.random() * 100 < dodgeRate) {
+            addLog(`[Lượt ${turn}] ⚡ <strong class="tracking-widest">[NÉ TRÁNH]</strong> Đội hình né được đòn của Boss!`, "text-cyan-400");
+        } else {
+            squadHp -= actualBossAtk; document.getElementById('totalSquadHp').textContent = Math.max(0, squadHp);
+            addLog(`[Lượt ${turn}] ${boss.name} phản công: <span class="text-red-400 font-bold">-${actualBossAtk} HP</span> (Đội: ${Math.max(0, squadHp)})`, "text-cinematic-muted/50");
+        }
+        turn++;
+    }
+    
+    await new Promise(r => setTimeout(r, 800));
+    if (State.inBattle && State.boss) {
+        if(bossHp <= 0) {
+            addLog(`>>> CHIẾN THẮNG! Nhận +${boss.reward} DC. <<<`, "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2");
+            modifyCurrency(boss.reward); sysAlert(`Chiến dịch xuất sắc!<br>Nhận <strong>+${boss.reward} DC</strong>.`);
+            State.boss = null;
+        } else {
+            addLog(`>>> THẤT BẠI. Rút lui an toàn... <<<`, "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2");
+            sysAlert("Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo.<br>Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!");
+        }
+        State.inBattle = false; updateCombatUI();
+    }
+};
+
+window.clearSquadSlot = (slotId) => { 
+    if(!State.inBattle){ 
+        State.squad[parseInt(slotId.replace('squad', '')) - 1] = null; 
+        updateCombatUI(); 
+    } 
+};
+
+window.selectCard = (id) => {
+    const card = State.cards.find(c => c.id === id); const slot = State.activeSelectorSlot;
+    if(slot === 1 || slot === 2) {
+        if (getRankIndex(card.cardClass) === 4) return sysAlert("Tài nguyên DNA Cấp UR quá mạnh. Buồng lai tạo không thể chịu tải!");
+        if (slot === 1 && State.fusionSlot2?.id === id) return sysAlert("Thẻ này đã đặt ở Thể Gốc Omega!");
+        if (slot === 2 && State.fusionSlot1?.id === id) return sysAlert("Thẻ này đã đặt ở Thể Gốc Alpha!");
+        if (slot === 1) State.fusionSlot1 = card; else State.fusionSlot2 = card;
+        updateFusionSlotsUI();
+    } else {
+        const sIdx = parseInt(slot.replace('squad', '')) - 1;
+        if(State.squad.some((c, idx) => c?.id === id && idx !== sIdx)) return sysAlert("Nhân vật này đã có mặt trong đội hình!");
+        State.squad[sIdx] = card; updateCombatUI();
+    }
+    closeSelector();
+};
+
+// 6.2. Event Listeners
+window.addEventListener('deviceorientation', (event) => {
+    if (!AppConfig.enable3D) return;
+    const modal = document.getElementById('cardModal');
+    if(modal.classList.contains('hidden')) return;
+    const element = document.querySelector('#modalContent .tilt-card');
+    if(!element) return;
+    let beta = event.beta; let gamma = event.gamma;
+    if (beta === null || gamma === null) return;
+    let adjBeta = Math.max(-30, Math.min(30, beta - 45)); 
+    let adjGamma = Math.max(-30, Math.min(30, gamma));
+    const rotateX = -(adjBeta / 30) * 15; const rotateY = (adjGamma / 30) * 15;
+    element.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    const glareEl = element.querySelector('.glare-layer');
+    if(glareEl) {
+        glareEl.style.opacity = '1';
+        const glareX = 50 + (adjGamma / 30) * 50; const glareY = 50 + (adjBeta / 30) * 50;
+        glareEl.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.25) 0%, transparent 60%)`;
+    }
+});
+
+document.getElementById('customApiToggle').addEventListener('change', toggleApiFieldsUI);
+
+// 6.3. Bootstrapping (Khởi chạy khi load trang)
+// 6.3. Bootstrapping (Khởi chạy khi load trang)
+function loadApiConfig() {
+    try {
+        const saved = localStorage.getItem('cineApiConfig');
+        if(saved) AppConfig = JSON.parse(saved);
+        if (AppConfig.enable3D === undefined) AppConfig.enable3D = true;
+        
+        document.getElementById('customApiToggle').checked = AppConfig.enabled;
+        document.getElementById('effect3DToggle').checked = AppConfig.enable3D;
+        document.getElementById('customApiKeyInput').value = AppConfig.key || '';
+        document.getElementById('textModelSelect').value = AppConfig.model || 'gemini-2.5-flash';
+        document.getElementById('artStyleSelect').value = AppConfig.artStyle || 'realistic';
+        
+        // Load cấu hình Pollinations
+        document.getElementById('pollinationsKeyInput').value = AppConfig.pollinationsKey || '';
+        document.getElementById('imageModelSelect').value = AppConfig.imageModel || 'flux';
+        
+        toggleApiFieldsUI();
+    } catch(e) {}
+}
+
+// Gọi hàm khởi tạo
+loadApiConfig();
+DOM.currencyDisplay.innerText = currency;
+    </script>
+</body>
+</html>
