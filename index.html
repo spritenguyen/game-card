@@ -591,31 +591,49 @@ async function safeImagenCall(cardData) {
 
     // Nếu dùng Custom API -> Chuyển hướng sang Pollinations với Model & Key tùy chỉnh
     if (AppConfig.enabled) {
-        const selectedModel = AppConfig.imageModel || 'flux';
-        const fluxUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=768&height=1024&nologo=true&model=${selectedModel}&seed=${randomSeed}`;
-        
-        return new Promise(async (resolve, reject) => {
-            try {
-                const headers = {};
-                // Nhúng API Key nếu user có nhập
-                if (AppConfig.pollinationsKey) {
-                    headers['Authorization'] = `Bearer ${AppConfig.pollinationsKey}`;
-                }
-                
-                const res = await fetch(fluxUrl, { headers });
-                if (!res.ok) throw new Error("Lỗi tải ảnh từ Pollinations Server");
-                
-                const blob = await res.blob();
-                // Convert Blob sang Base64 để tương thích với logic lưu IndexedDB hiện tại
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result);
-                reader.onerror = () => reject("Lỗi đọc dữ liệu ảnh");
-                reader.readAsDataURL(blob);
-            } catch (e) {
-                reject(e.message);
-            }
-        });
+    // 1. Kiểm tra API Key: Nếu không có Key thì chặn luôn luồng xử lý
+    if (!AppConfig.pollinationsKey || AppConfig.pollinationsKey.trim() === "") {
+        return Promise.reject("Hệ thống đang ở chế độ Premium. Anh vui lòng nhập API Key để tạo ảnh.");
     }
+
+    const selectedModel = AppConfig.imageModel || 'flux';
+    const randomSeed = Math.floor(Math.random() * 1000000);
+    // Lưu ý: nologo=true chỉ hoạt động thực sự hiệu quả khi có Authorization Header
+    const fluxUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=768&height=1024&nologo=true&model=${selectedModel}&seed=${randomSeed}`;
+    
+    return new Promise(async (resolve, reject) => {
+        try {
+            // 2. Thiết lập Header bắt buộc phải có Authorization
+            const headers = {
+                'Authorization': `Bearer ${AppConfig.pollinationsKey.trim()}`,
+                'Accept': 'image/*'
+            };
+            
+            const res = await fetch(fluxUrl, { 
+                method: 'GET',
+                headers: headers 
+            });
+            
+            // 3. Xử lý phản hồi từ server
+            if (!res.ok) {
+                if (res.status === 401 || res.status === 403) {
+                    throw new Error("API Key không hợp lệ hoặc không có quyền truy cập. Anh kiểm tra lại Key nhé.");
+                }
+                throw new Error(`Lỗi Server (${res.status}): Không thể tải ảnh.`);
+            }
+            
+            const blob = await res.blob();
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = () => reject("Lỗi trong quá trình xử lý dữ liệu ảnh.");
+            reader.readAsDataURL(blob);
+            
+        } catch (e) {
+            console.error("Lỗi vận hành hệ thống:", e);
+            reject(e.message);
+        }
+    });
+}
 
     // Default: Imagen API (Môi trường gốc)
     const payload = { instances: { prompt: enhancedPrompt }, parameters: { sampleCount: 1 } };
