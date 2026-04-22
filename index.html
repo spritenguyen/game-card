@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine-Tech: Tactical Combat v2.6.2-Chimera.Engine</title>
+    <title>Cine-Tech: Tactical Combat v2.6.3-Chimera.Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -512,9 +512,10 @@ const cardSchemaProps = {
     universe: {type:"STRING"}, faction: {type:"STRING"}, occupation: {type:"STRING"}, 
     nationality: {type:"STRING"}, cardClass: {type:"STRING"}, height: {type:"NUMBER"}, 
     weight: {type:"NUMBER"}, measurements: {type:"STRING"}, personality: {type:"STRING"}, 
-    lore: {type:"STRING"}, inspiredBy: {type:"STRING"}, visualDescription: {type:"STRING"} 
+    lore: {type:"STRING"}, inspiredBy: {type:"STRING"}, visualDescription: {type:"STRING"},
+    ultimateMove: {type:"STRING"} // NEW: Tên kỹ năng tối thượng cực ngầu
 };
-const cardRequiredFields = ["id","name","gender","universe","faction","occupation","nationality","cardClass","height","weight","measurements","personality","lore","inspiredBy","visualDescription"];
+const cardRequiredFields = ["id","name","gender","universe","faction","occupation","nationality","cardClass","height","weight","measurements","personality","lore","inspiredBy","visualDescription", "ultimateMove"];
 
 // 3.2. Hàm bóc tách JSON an toàn từ phản hồi của AI
 function extractJSON(text) {
@@ -569,16 +570,18 @@ async function safeGeminiCall(prompt, sysPrompt, schemaProps, requiredFields) {
 }
 
 // 3.4. Giao tiếp Image Engine (Imagen / Flux) - Cinematic Art Direction
-// 3.4. Giao tiếp Image Engine (Imagen / Flux) - Cinematic Art Direction
 async function safeImagenCall(cardData) {
     let stylePrefix = "";
     if (AppConfig.artStyle === 'stylized') {
-        stylePrefix = "Masterpiece, stylized illustration, 2.5D art style, highly detailed character concept art, vibrant colors, clean lines, semi-realistic proportions, trending on ArtStation.";
+        stylePrefix = "Masterpiece, stylized illustration, 2.5D art style, highly detailed character concept art, vibrant colors, clean lines.";
     } else if (AppConfig.artStyle === 'cinematic') {
-        stylePrefix = "Masterpiece, cinematic fashion editorial, haute couture photoshoot, dramatic studio lighting, moody atmosphere, highly detailed, photorealistic fabric, vogue magazine cover style.";
+        stylePrefix = "Masterpiece, cinematic fashion editorial, haute couture photoshoot, dramatic studio lighting, moody atmosphere, highly detailed.";
     } else {
-        stylePrefix = "Masterpiece, highly detailed photography, photorealistic, ultra-realistic real human, 8k resolution, cinematic lighting, sharp focus, RAW photo, intricate skin texture.";
+        stylePrefix = "Masterpiece, highly detailed photography, photorealistic, ultra-realistic real human, 8k resolution, cinematic lighting, RAW photo.";
     }
+    
+    // Ép buộc AI dàn cảnh góc rộng (Widescreen 16:9) để tránh hụt bố cục
+    stylePrefix += " Widescreen composition, cinematic wide shot, anamorphic lens.";
 
     const likenessTarget = cardData.inspiredBy ? `(Explicit likeness: ${cardData.inspiredBy})` : "";
     const baseVisuals = cardData.visualDescription;
@@ -589,49 +592,36 @@ async function safeImagenCall(cardData) {
     const randomSeed = Math.floor(Math.random() * 1000000);
     const enhancedPrompt = `${stylePrefix} A ${genderTerm} ${universeTerm} ${likenessTarget}. Theme: ${factionTheme}. Details: ${baseVisuals}. [Seed: ${randomSeed}]`;
 
-    // Nếu dùng Custom API -> Chuyển hướng sang Pollinations (Tích hợp Timeout chống kẹt)
     if (AppConfig.enabled) {
         const selectedModel = AppConfig.imageModel || 'flux';
-        const fluxUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=768&height=1024&nologo=true&model=${selectedModel}&seed=${randomSeed}`;
+        // Đã nâng cấp lên chuẩn FHD 1920x1080 (16:9) theo đặc tả hệ thống
+        const fluxUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=1920&height=1080&nologo=true&model=${selectedModel}&seed=${randomSeed}`;
         
-        // Thiết lập bộ đếm giờ 25 giây để chống lỗi "đường hầm vô tận"
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 25000);
 
         try {
             const headers = {};
-            // Đính kèm API Key. Pollinations SẼ ghi log tài khoản với GET request có header này.
-            if (AppConfig.pollinationsKey) {
-                headers['Authorization'] = `Bearer ${AppConfig.pollinationsKey}`;
-            }
+            if (AppConfig.pollinationsKey) headers['Authorization'] = `Bearer ${AppConfig.pollinationsKey}`;
             
-            const res = await fetch(fluxUrl, { 
-                method: 'GET', 
-                headers: headers,
-                signal: controller.signal 
-            });
-            
-            clearTimeout(timeoutId); // Hủy đếm giờ nếu thành công
-            
+            const res = await fetch(fluxUrl, { method: 'GET', headers: headers, signal: controller.signal });
+            clearTimeout(timeoutId); 
             if (!res.ok) throw new Error(`Pollinations Server Error: ${res.status}`);
             
             const blob = await res.blob();
-            
-            // Convert Blob sang Base64 an toàn với Promise chuẩn
             return await new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onloadend = () => resolve(reader.result);
-                reader.onerror = () => reject(new Error("Lỗi đọc dữ liệu ảnh"));
+                reader.onerror = () => reject(new Error("Lỗi đọc dữ liệu ảnh FHD"));
                 reader.readAsDataURL(blob);
             });
         } catch (e) {
             clearTimeout(timeoutId);
-            // Bắn lỗi ra ngoài để UI tự động tắt spinner và hiển thị thẻ không có ảnh
-            throw new Error(e.name === 'AbortError' ? "Timeout: Server tạo ảnh phản hồi quá lâu." : e.message);
+            throw new Error(e.name === 'AbortError' ? "Timeout: Server render ảnh quá tải." : e.message);
         }
     }
 
-    // Default: Imagen API (Môi trường gốc)
+    // Default: Imagen API (Môi trường gốc - Vẫn truyền vào prompt Widescreen)
     const payload = { instances: { prompt: enhancedPrompt }, parameters: { sampleCount: 1 } };
     for (let i = 0; i < 3; i++) {
         try {
@@ -888,12 +878,13 @@ function generateCardHTML(card, isModal = false, isLoadingImage = false, context
     const tiltEvents = use3D ? `onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)" ontouchmove="handleTilt(event.touches[0], this)" ontouchend="resetTilt(this)"` : "";
 
     return `
-    <div data-card-id="${card.id}" class="muse-card ${cardStyle} w-full ${isModal ? 'max-w-[1000px]' : 'max-w-[850px]'} rounded-3xl overflow-hidden flex flex-col md:flex-row relative group shadow-2xl">
-        <div class="relative w-full md:w-[45%] aspect-[4/5] md:aspect-auto md:h-[780px] bg-cinematic-800 border-b md:border-b-0 md:border-r border-white/10 overflow-hidden perspective-container">
+    <div data-card-id="${card.id}" class="muse-card ${cardStyle} w-full ${isModal ? 'max-w-[1200px]' : 'max-w-[1000px]'} rounded-3xl overflow-hidden flex flex-col md:flex-row relative group shadow-2xl">
+        <!-- Đã đổi md:w-[45%] -> md:w-[55%] và aspect-[4/5] -> aspect-video (16:9) -->
+        <div class="relative w-full md:w-[55%] aspect-video md:aspect-auto md:min-h-[500px] bg-cinematic-800 border-b md:border-b-0 md:border-r border-white/10 overflow-hidden perspective-container">
             <div class="absolute inset-0 w-full h-full ${tiltClasses}" ${tiltEvents}>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-10 pointer-events-none"></div>
-                ${isLoadingImage ? `<div class="absolute inset-0 flex flex-col items-center justify-center z-20 bg-cinematic-900/80 backdrop-blur-md"><div class="w-full h-1 bg-cinematic-gold/20 absolute top-0 overflow-hidden"><div class="w-full h-full bg-cinematic-gold animate-scanline"></div></div><i class="fa-solid fa-camera-retro animate-pulse text-cinematic-gold/50 text-4xl mb-4"></i><p class="text-[10px] text-cinematic-gold mt-2 uppercase tracking-widest">Đang kết nối Vision API...</p></div>` : ''}
-                <div id="modalCoverLoading" class="absolute inset-0 ${isReshooting ? 'flex' : 'hidden'} flex-col items-center justify-center z-20 bg-black/60 backdrop-blur-sm"><i class="fa-solid fa-camera fa-fade text-white text-4xl mb-4"></i><p class="text-[10px] text-white mt-2 uppercase tracking-widest">Đang thiết lập Studio...</p></div>
+                ${isLoadingImage ? `<div class="absolute inset-0 flex flex-col items-center justify-center z-20 bg-cinematic-900/80 backdrop-blur-md"><div class="w-full h-1 bg-cinematic-gold/20 absolute top-0 overflow-hidden"><div class="w-full h-full bg-cinematic-gold animate-scanline"></div></div><i class="fa-solid fa-camera-retro animate-pulse text-cinematic-gold/50 text-4xl mb-4"></i><p class="text-[10px] text-cinematic-gold mt-2 uppercase tracking-widest">Đang kết xuất FHD 16:9...</p></div>` : ''}
+                <div id="modalCoverLoading" class="absolute inset-0 ${isReshooting ? 'flex' : 'hidden'} flex-col items-center justify-center z-20 bg-black/60 backdrop-blur-sm"><i class="fa-solid fa-camera fa-fade text-white text-4xl mb-4"></i><p class="text-[10px] text-white mt-2 uppercase tracking-widest">Đang thiết lập Studio Widescreen...</p></div>
                 <img id="modalCoverImage" src="${card.imageUrl || ''}" class="absolute inset-0 w-full h-full object-cover z-[5] ${(isLoadingImage || isReshooting) ? 'opacity-30' : 'opacity-100'} transition-all duration-700 ${tiltLayerBg}" crossorigin="anonymous">
                 ${use3D ? `<div class="glare-layer ${tiltLayer1}"></div>` : ''}
                 ${isModal ? `<div class="magazine-title text-white ${tiltLayer1}">${card.faction === 'Tech' ? 'CINE' : (card.faction === 'Magic' ? 'MUSE' : 'VOGUE')}</div>` : ''}
@@ -907,7 +898,9 @@ function generateCardHTML(card, isModal = false, isLoadingImage = false, context
                 ${isModal ? `<div class="absolute top-4 right-4 z-20 ${tiltLayer2} pointer-events-none"><div class="bg-black/50 backdrop-blur-md border border-white/20 text-white/80 text-[8px] uppercase tracking-widest px-2 py-1 rounded shadow-lg"><i class="fa-solid fa-cube mr-1"></i> 3D View</div></div>` : ''}
             </div>
         </div>
-        <div class="w-full md:w-[55%] p-6 md:p-8 flex flex-col justify-between relative bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')]">
+        <!-- Đã thu nhỏ không gian Text lại thành md:w-[45%] để nhường diện tích cho ảnh -->
+        <div class="w-full md:w-[45%] p-6 md:p-8 flex flex-col justify-between relative bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48L3N2Zz4=')]">
+            <!-- (Giữ nguyên toàn bộ phần content bên trong khối div này của bạn) -->
             <div class="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity"><i class="fa-solid ${facInfo.icon} text-8xl"></i></div>
             <div class="relative z-10">
                 <div class="flex flex-wrap items-center gap-2 mb-2 text-[10px] uppercase tracking-wider">
@@ -923,8 +916,10 @@ function generateCardHTML(card, isModal = false, isLoadingImage = false, context
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 my-4 py-4 border-y border-white/10 relative z-10 bg-black/40 rounded-xl p-4 shadow-inner">
                 <div class="flex flex-col"><span class="text-[8px] text-cinematic-muted uppercase tracking-widest mb-1">Chiều Cao</span><span class="font-serif text-lg text-white">${card.height}<span class="text-[9px] text-cinematic-muted font-sans ml-1">cm</span></span></div>
                 <div class="flex flex-col"><span class="text-[8px] text-cinematic-muted uppercase tracking-widest mb-1">Cân Nặng</span><span class="font-serif text-lg text-white">${card.weight}<span class="text-[9px] text-cinematic-muted font-sans ml-1">kg</span></span></div>
-                <div class="col-span-2 md:col-span-2 flex flex-col bg-cinematic-900/50 rounded px-2 py-1 border border-white/5"><span class="text-[8px] text-cinematic-gold uppercase tracking-widest mb-1">Số Đo 3 Vòng (B-W-H)</span><span class="font-mono text-base text-pink-300 font-bold tracking-widest">${card.measurements || '???'}</span></div>
-                <div class="col-span-2 md:col-span-4 flex flex-col mt-2 pt-2 border-t border-white/5"><span class="text-[8px] text-cinematic-muted uppercase tracking-widest mb-1">Chỉ Số Chiến Đấu (Base)</span><div class="flex items-end gap-3"><span class="font-mono text-lg text-green-400 bg-green-900/20 px-2 py-0.5 rounded shadow-inner"><i class="fa-solid fa-heart text-xs"></i> ${calculateCombatStats(card).hp}</span> <span class="font-mono text-lg text-orange-400 bg-orange-900/20 px-2 py-0.5 rounded shadow-inner"><i class="fa-solid fa-burst text-xs"></i> ${calculateCombatStats(card).atk}</span></div></div>
+                <div class="col-span-2 md:col-span-2 flex flex-col bg-cinematic-900/50 rounded px-2 py-1 border border-white/5"><span class="text-[8px] text-cinematic-gold uppercase tracking-widest mb-1">Số Đo (B-W-H)</span><span class="font-mono text-base text-pink-300 font-bold tracking-widest">${card.measurements || '???'}</span></div>
+                
+                <div class="col-span-2 flex flex-col mt-2 pt-2 border-t border-white/5"><span class="text-[8px] text-cinematic-muted uppercase tracking-widest mb-1">Chỉ Số Cơ Bản</span><div class="flex items-end gap-3"><span class="font-mono text-lg text-green-400 bg-green-900/20 px-2 py-0.5 rounded shadow-inner"><i class="fa-solid fa-heart text-xs"></i> ${calculateCombatStats(card).hp}</span> <span class="font-mono text-lg text-orange-400 bg-orange-900/20 px-2 py-0.5 rounded shadow-inner"><i class="fa-solid fa-burst text-xs"></i> ${calculateCombatStats(card).atk}</span></div></div>
+                <div class="col-span-2 flex flex-col mt-2 pt-2 border-t border-white/5"><span class="text-[8px] text-cinematic-cyan uppercase tracking-widest mb-1"><i class="fa-solid fa-bolt"></i> Ultimate Move</span><div class="text-sm font-serif text-white truncate drop-shadow-[0_0_5px_rgba(0,243,255,0.5)]" title="${card.ultimateMove || 'Truy Kích Tốc Độ'}">${card.ultimateMove || 'Truy Kích Tốc Độ'}</div></div>
             </div>
             <div class="mb-4 flex-1 relative z-10">
                 <h3 class="text-[10px] text-white/50 uppercase tracking-widest mb-2 flex items-center"><i class="fa-solid fa-book-journal-whills mr-2"></i> Hồ Sơ Nhân Vật</h3>
@@ -967,8 +962,10 @@ function renderMiniCard(card, onClickAction, context = 'gallery') {
 
     return `
     <div data-card-id="${card.id}" class="mini-card bg-cinematic-800 rounded-xl overflow-hidden border ${borderGlow} relative group shadow-lg transition-all ${extraClasses}" onclick="${isUnavailable ? '' : onClickAction}">
-        <div class="aspect-[3/4] bg-cinematic-900 relative">
-            ${card.imageUrl ? `<img src="${card.imageUrl}" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500" loading="lazy" crossorigin="anonymous">` : `<div class="w-full h-full flex items-center justify-center bg-black/50"><i class="fa-solid fa-user-secret text-4xl text-cinematic-muted/50"></i></div>`}
+        <!-- Đã đổi từ aspect-[3/4] dọc sang aspect-video ngang -->
+        <div class="aspect-video bg-cinematic-900 relative">
+            ${card.imageUrl ? `<img src="${card.imageUrl}" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity duration-500" loading="lazy" crossorigin="anonymous">` : `<div class="w-full h-full flex items-center justify-center bg-black/50"><i class="fa-solid fa-video text-4xl text-cinematic-muted/50"></i></div>`}
+            <!-- (Giữ nguyên các khối div absolute bên trong của bạn) -->
             <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
             <div class="absolute top-2 right-2 flex flex-col items-end gap-1 z-10">
                 <span class="text-[8px] font-bold ${badgeColor} px-1.5 py-0.5 rounded shadow">${card.cardClass}</span>
@@ -1145,7 +1142,8 @@ window.extractProfile = async function() {
 1. Nội suy 'gender', 'universe'. Faction chọn 1 (Tech, Magic, Mutant). Cân nặng/chiều cao/3 vòng chuẩn xác.
 2. TRỌNG TÂM: Trường 'inspiredBy' PHẢI chứa TÊN CHÍNH XÁC của nhân vật/diễn viên gốc bằng Tiếng Anh.
 3. Trường 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH, miêu tả chi tiết trang phục, khuôn mặt.
-4. Hạng thẻ BẮT BUỘC là: ${assignedRank}`;
+4. Hạng thẻ BẮT BUỘC là: ${assignedRank}.
+5. Trường 'ultimateMove' là tên một tuyệt chiêu bằng Tiếng Việt (VD: Pháo Điện Từ Hủy Diệt, Ám Sát Vô Ảnh).`;
         const prompt = `Tạo thẻ nhân vật lấy cảm hứng từ: ${query}. Xếp hạng sức mạnh: ${assignedRank}.`;
 
         State.currentExtractCard = await safeGeminiCall(prompt, sysPrompt, cardSchemaProps, cardRequiredFields);
@@ -1192,15 +1190,16 @@ window.executeFusion = async function() {
         const forcedFaction = c1.faction || 'Tech';
         const forcedGender = c1.gender || 'Unknown';
         const forcedUniverse = c2.universe || 'Unknown';
-
         const sysPrompt = `Tiến sĩ Sinh học lai tạo (Chimera Protocol). Trả JSON Tiếng Việt. 
+5. Trường 'ultimateMove' là tên một tuyệt chiêu bằng Tiếng Việt (VD: Pháo Điện Từ Hủy Diệt, Ám Sát Vô Ảnh).
 1. Hạng thẻ BẮT BUỘC là: ${targetRank}.
 2. Tộc Hệ (faction) BẮT BUỘC LÀ: '${forcedFaction}'.
 3. Giới tính (gender) BẮT BUỘC LÀ: '${forcedGender}'.
 4. Vũ trụ (universe) BẮT BUỘC LÀ: '${forcedUniverse}'.
 5. Chiều cao khoảng ${targetHeight}cm, cân nặng khoảng ${targetWeight}kg.
 6. Trường 'inspiredBy' là sự kết hợp tên gốc.
-7. QUAN TRỌNG NHẤT: Trường 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH.`;
+7. QUAN TRỌNG NHẤT: Trường 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH.
+8. Trường 'ultimateMove' phải là sự kết hợp/nâng cấp từ năng lực của Alpha và Omega.`;
 
         const prompt = `Thực hiện giao thức Chimera: Lai tạo DNA từ ${c1.name} (Alpha) và ${c2.name} (Omega). 
 Ngoại hình Alpha: ${c1.visualDescription}. Ngoại hình Omega: ${c2.visualDescription}.`;
@@ -1506,20 +1505,64 @@ window.executeBattle = async function() {
     addLog(`Hỏa lực tổng hợp (Đã áp dụng Hệ): <span class="text-orange-400">${actualSquadAtk}</span> ATK`, `text-cinematic-muted border-b border-white/10 pb-2 mb-2`);
 
     let turn = 1;
+    // Lấy danh sách thẻ có thực trong trận để random Ultimate
+    const activeSquad = State.squad.filter(c => c !== null);
+
+    // CSS Utility chèn nhanh để tạo hiệu ứng Rung màn hình (Screen Shake)
+    const shakeCSS = `
+        @keyframes cine-shake { 0% {transform: translate(1px, 1px) rotate(0deg);} 10% {transform: translate(-1px, -2px) rotate(-1deg);} 20% {transform: translate(-3px, 0px) rotate(1deg);} 30% {transform: translate(3px, 2px) rotate(0deg);} 40% {transform: translate(1px, -1px) rotate(1deg);} 50% {transform: translate(-1px, 2px) rotate(-1deg);} 60% {transform: translate(-3px, 1px) rotate(0deg);} 70% {transform: translate(3px, 1px) rotate(-1deg);} 80% {transform: translate(-1px, -1px) rotate(1deg);} 90% {transform: translate(1px, 2px) rotate(0deg);} 100% {transform: translate(1px, -2px) rotate(-1deg);} }
+        .combat-shake { animation: cine-shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+    `;
+    if(!document.getElementById('cineVFX')) {
+        const style = document.createElement('style'); style.id = 'cineVFX'; style.innerHTML = shakeCSS; document.head.appendChild(style);
+    }
+
     while(squadHp > 0 && bossHp > 0 && turn <= 30) {
         if (!State.inBattle || !State.boss) break; 
-        await new Promise(r => setTimeout(r, 600));
+        await new Promise(r => setTimeout(r, 700)); // Cinematic delay
         
-        bossHp -= actualSquadAtk; document.getElementById('bossHp').textContent = Math.max(0, bossHp);
-        addLog(`[Lượt ${turn}] Đội hình tấn công: <span class="text-orange-400 font-bold">-${actualSquadAtk} HP</span> (Boss: ${Math.max(0, bossHp)})`, "text-cinematic-muted");
+        // --- LƯỢT ĐỘI HÌNH ---
+        let currentAtk = actualSquadAtk;
+        let isCrit = false;
+        let critLog = "";
+
+        // Tỷ lệ 25% kích hoạt Ultimate Move từ 1 nhân vật ngẫu nhiên
+        if (Math.random() * 100 < 25 && activeSquad.length > 0) {
+            isCrit = true;
+            const caster = activeSquad[Math.floor(Math.random() * activeSquad.length)];
+            currentAtk = Math.floor(currentAtk * 1.8); // Sát thương x1.8 khi có Ultimate
+            const ultiName = caster.ultimateMove || 'Đòn Đánh Chí Mạng';
+            critLog = `<div class="text-cinematic-cyan font-bold bg-cinematic-cyan/10 border border-cinematic-cyan/30 px-2 py-1 rounded inline-block mb-1 shadow-[0_0_10px_rgba(0,243,255,0.3)]"><i class="fa-solid fa-bolt"></i> ${caster.name} thi triển [${ultiName}]!</div><br>`;
+            
+            // FX Rung màn hình boss
+            const bossBox = document.getElementById('bossContainer');
+            bossBox.classList.remove('combat-shake');
+            void bossBox.offsetWidth; // Trigger reflow
+            bossBox.classList.add('combat-shake');
+        }
+
+        bossHp -= currentAtk; 
+        document.getElementById('bossHp').textContent = Math.max(0, bossHp);
+        
+        let dmgColor = isCrit ? 'text-cinematic-cyan text-lg drop-shadow-[0_0_5px_rgba(0,243,255,0.8)]' : 'text-orange-400 font-bold';
+        addLog(`${critLog}[Lượt ${turn}] Lực lượng tiền tuyến tấn công: <span class="${dmgColor}">-${currentAtk} HP</span> (Boss: ${Math.max(0, bossHp)})`, isCrit ? 'text-white' : 'text-cinematic-muted');
+        
         if(bossHp <= 0) break;
         
-        await new Promise(r => setTimeout(r, 600));
+        await new Promise(r => setTimeout(r, 700));
+        
+        // --- LƯỢT BOSS ---
         if (Math.random() * 100 < dodgeRate) {
-            addLog(`[Lượt ${turn}] ⚡ <strong class="tracking-widest">[NÉ TRÁNH]</strong> Đội hình né được đòn của Boss!`, "text-cyan-400");
+            addLog(`[Lượt ${turn}] ⚡ <strong class="tracking-widest bg-white/10 px-2 rounded">[NÉ TRÁNH]</strong> Bóng ma chiến trường! Đội hình né được sát thương.`, "text-cinematic-gold");
         } else {
-            squadHp -= actualBossAtk; document.getElementById('totalSquadHp').textContent = Math.max(0, squadHp);
-            addLog(`[Lượt ${turn}] ${boss.name} phản công: <span class="text-red-400 font-bold">-${actualBossAtk} HP</span> (Đội: ${Math.max(0, squadHp)})`, "text-cinematic-muted/50");
+            squadHp -= actualBossAtk; 
+            document.getElementById('totalSquadHp').textContent = Math.max(0, squadHp);
+            
+            // Rung màn hình người chơi
+            const squadDiv = document.getElementById('squadDodgeText').parentElement.parentElement;
+            squadDiv.classList.remove('combat-shake'); void squadDiv.offsetWidth; squadDiv.classList.add('combat-shake');
+
+            addLog(`[Lượt ${turn}] <i class="fa-solid fa-burst text-red-500"></i> ${boss.name} quét mục tiêu: <span class="text-red-500 font-bold drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]">-${actualBossAtk} HP</span> (Đội: ${Math.max(0, squadHp)})`, "text-white/80 bg-red-900/10 p-1 border-l-2 border-red-500");
         }
         turn++;
     }
