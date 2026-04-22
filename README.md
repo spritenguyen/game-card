@@ -4,7 +4,8 @@ Game thẻ bài tích hợp AI
 
 ## Cách chơi
 1. Nhập Gemini API Key
-2. Nhập keyword để gacha thẻ bài
+2. Nhập API sk_key pollinations.ai (free no API comming soon)
+3. Nhập keyword để gacha thẻ bài
 
 ## Tech
 - HTML + CSS + Vanilla JS (ES6 Modules)
