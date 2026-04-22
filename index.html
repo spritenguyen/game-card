@@ -589,51 +589,47 @@ async function safeImagenCall(cardData) {
     const randomSeed = Math.floor(Math.random() * 1000000);
     const enhancedPrompt = `${stylePrefix} A ${genderTerm} ${universeTerm} ${likenessTarget}. Theme: ${factionTheme}. Details: ${baseVisuals}. [Seed: ${randomSeed}]`;
 
-    // Nếu dùng Custom API -> Chuyển hướng sang Pollinations với Model & Key tùy chỉnh
+    // Nếu dùng Custom API -> Chuyển hướng sang Pollinations (Tích hợp Timeout chống kẹt)
     if (AppConfig.enabled) {
-    // 1. Kiểm tra API Key: Nếu không có Key thì chặn luôn luồng xử lý
-    if (!AppConfig.pollinationsKey || AppConfig.pollinationsKey.trim() === "") {
-        return Promise.reject("Hệ thống đang ở chế độ Premium. Anh vui lòng nhập API Key để tạo ảnh.");
-    }
+        const selectedModel = AppConfig.imageModel || 'flux';
+        const fluxUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=768&height=1024&nologo=true&model=${selectedModel}&seed=${randomSeed}`;
+        
+        // Thiết lập bộ đếm giờ 25 giây để chống lỗi "đường hầm vô tận"
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 25000);
 
-    const selectedModel = AppConfig.imageModel || 'flux';
-    const randomSeed = Math.floor(Math.random() * 1000000);
-    // Lưu ý: nologo=true chỉ hoạt động thực sự hiệu quả khi có Authorization Header
-    const fluxUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=768&height=1024&nologo=true&model=${selectedModel}&seed=${randomSeed}`;
-    
-    return new Promise(async (resolve, reject) => {
         try {
-            // 2. Thiết lập Header bắt buộc phải có Authorization
-            const headers = {
-                'Authorization': `Bearer ${AppConfig.pollinationsKey.trim()}`,
-                'Accept': 'image/*'
-            };
-            
-            const res = await fetch(fluxUrl, { 
-                method: 'GET',
-                headers: headers 
-            });
-            
-            // 3. Xử lý phản hồi từ server
-            if (!res.ok) {
-                if (res.status === 401 || res.status === 403) {
-                    throw new Error("API Key không hợp lệ hoặc không có quyền truy cập. Anh kiểm tra lại Key nhé.");
-                }
-                throw new Error(`Lỗi Server (${res.status}): Không thể tải ảnh.`);
+            const headers = {};
+            // Đính kèm API Key. Pollinations SẼ ghi log tài khoản với GET request có header này.
+            if (AppConfig.pollinationsKey) {
+                headers['Authorization'] = `Bearer ${AppConfig.pollinationsKey}`;
             }
             
-            const blob = await res.blob();
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.onerror = () => reject("Lỗi trong quá trình xử lý dữ liệu ảnh.");
-            reader.readAsDataURL(blob);
+            const res = await fetch(fluxUrl, { 
+                method: 'GET', 
+                headers: headers,
+                signal: controller.signal 
+            });
             
+            clearTimeout(timeoutId); // Hủy đếm giờ nếu thành công
+            
+            if (!res.ok) throw new Error(`Pollinations Server Error: ${res.status}`);
+            
+            const blob = await res.blob();
+            
+            // Convert Blob sang Base64 an toàn với Promise chuẩn
+            return await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = () => reject(new Error("Lỗi đọc dữ liệu ảnh"));
+                reader.readAsDataURL(blob);
+            });
         } catch (e) {
-            console.error("Lỗi vận hành hệ thống:", e);
-            reject(e.message);
+            clearTimeout(timeoutId);
+            // Bắn lỗi ra ngoài để UI tự động tắt spinner và hiển thị thẻ không có ảnh
+            throw new Error(e.name === 'AbortError' ? "Timeout: Server tạo ảnh phản hồi quá lâu." : e.message);
         }
-    });
-}
+    }
 
     // Default: Imagen API (Môi trường gốc)
     const payload = { instances: { prompt: enhancedPrompt }, parameters: { sampleCount: 1 } };
