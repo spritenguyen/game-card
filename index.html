@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine-Tech: Tactical Combat v2.6.2-Chimera.Engine</title>
+    <title>Cine-Tech: Tactical Combat v2.6.3-Chimera.Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -285,9 +285,9 @@
 
             <div class="mb-5 flex items-center justify-between bg-black/40 p-3 rounded-lg border border-white/5">
                 <div>
-                    <span class="text-sm text-white font-semibold flex items-center"><i class="fa-solid fa-cube mr-2"></i> Hiệu ứng 3D Parallax</span>
-                    <p class="text-[9px] text-cinematic-muted mt-1">Tắt để tối ưu hiệu suất (Performance Mode).</p>
-                </div>
+					<span class="text-sm text-white font-semibold flex items-center"><i class="fa-solid fa-cube mr-2"></i> Hiệu ứng 3D Parallax</span>
+					<p id="effect3DDesc" class="text-[9px] text-cinematic-muted mt-1">Tắt để tối ưu hiệu suất (Performance Mode).</p>
+				</div>
                 <label class="relative inline-flex items-center cursor-pointer mr-2">
                     <input type="checkbox" id="effect3DToggle" class="sr-only peer" checked>
                     <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cinematic-gold"></div>
@@ -314,21 +314,34 @@
                 </div>
 
                 <!-- Image AI Config -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-[10px] text-cinematic-cyan uppercase tracking-widest mb-1">Pollinations API Key</label>
-                        <div class="relative">
-                            <i class="fa-solid fa-key absolute left-3 top-1/2 transform -translate-y-1/2 text-white/30"></i>
-                            <input type="password" id="pollinationsKeyInput" class="w-full bg-black/60 text-white rounded-lg py-2.5 pl-10 pr-3 outline-none border border-white/10 focus:border-cinematic-cyan/50 text-sm font-mono" placeholder="Tùy chọn (Bỏ qua limit)">
-                        </div>
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="flex items-center justify-between bg-black/40 p-3 rounded-lg border border-white/5">
+                        <div>
+							<span class="text-sm text-cinematic-cyan font-semibold flex items-center">Kích hoạt Key Pollinations</span>
+							<p id="pollinationsDesc" class="text-[9px] text-cinematic-muted mt-1">Tắt để dùng chế độ ẩn danh (Miễn phí và không lưu log).</p>
+						</div>
+                        <label class="relative inline-flex items-center cursor-pointer mr-2">
+                            <input type="checkbox" id="pollinationsToggle" class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cinematic-cyan"></div>
+                        </label>
                     </div>
-                    <div>
-                        <label class="block text-[10px] text-cinematic-cyan uppercase tracking-widest mb-1">Image Engine</label>
-                        <select id="imageModelSelect" class="w-full bg-black/60 text-white rounded-lg py-2.5 px-3 outline-none border border-white/10 focus:border-cinematic-cyan/50 text-sm appearance-none">
-                            <option value="flux">Flux Schnell</option>
-                            <option value="flux-realism">FLUX.2 Klein 4B</option>
-                            <option value="turbo">Z-Image Turbo</option>
-                        </select>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4" id="pollinationsKeyContainer">
+                        <div>
+                            <label class="block text-[10px] text-cinematic-cyan uppercase tracking-widest mb-1">Pollinations API Key</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-key absolute left-3 top-1/2 transform -translate-y-1/2 text-white/30"></i>
+                                <input type="password" id="pollinationsKeyInput" class="w-full bg-black/60 text-white rounded-lg py-2.5 pl-10 pr-3 outline-none border border-white/10 focus:border-cinematic-cyan/50 text-sm font-mono" placeholder="sk-...">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] text-cinematic-cyan uppercase tracking-widest mb-1">Image Engine</label>
+                            <select id="imageModelSelect" class="w-full bg-black/60 text-white rounded-lg py-2.5 px-3 outline-none border border-white/10 focus:border-cinematic-cyan/50 text-sm appearance-none">
+                                <option value="flux">Flux Schnell</option>
+                                <option value="flux-realism">FLUX.2 Klein 4B</option>
+                                <option value="turbo">Z-Image Turbo</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -390,8 +403,9 @@ let AppConfig = {
     model: 'gemini-2.5-flash', 
     artStyle: 'realistic', 
     enable3D: true,
-    pollinationsKey: '', // Key cho Pollinations
-    imageModel: 'flux'   // Model ảnh mặc định
+    usePollinationsKey: false, // NEW: Cờ trạng thái bật/tắt Key
+    pollinationsKey: '', 
+    imageModel: 'flux'   
 };
 
 // 1.3. Hằng số Game Logic
@@ -598,8 +612,8 @@ async function safeImagenCall(cardData) {
 
         try {
             // LOGIC: Dùng API Key (Proxy / Pollinations Premium)
-            if (AppConfig.pollinationsKey && AppConfig.pollinationsKey.trim() !== '') {
-                // Sửa path 404 thành chuẩn OpenAI
+            // LOGIC: Dùng API Key (Chỉ khi có Key VÀ Toggle được bật)
+            if (AppConfig.usePollinationsKey && AppConfig.pollinationsKey && AppConfig.pollinationsKey.trim() !== '') {
                 const apiUrl = 'https://gen.pollinations.ai/v1/images/generations';
                 
                 const payload = {
@@ -1162,10 +1176,47 @@ window.closeModal = () => document.getElementById('cardModal').classList.add('hi
 window.toggleApiSettings = () => document.getElementById('apiSettingsModal').classList.toggle('hidden');
 
 function toggleApiFieldsUI() {
-    const isChecked = document.getElementById('customApiToggle').checked;
-    const fields = document.getElementById('customApiFields');
-    if(isChecked) fields.classList.remove('opacity-50', 'pointer-events-none');
-    else fields.classList.add('opacity-50', 'pointer-events-none');
+    // 1. Xử lý cụm Custom API chung (Gemini)
+    const isCustomEnabled = document.getElementById('customApiToggle').checked;
+    const customFields = document.getElementById('customApiFields');
+    if (isCustomEnabled) {
+        customFields.classList.remove('opacity-50', 'pointer-events-none');
+    } else {
+        customFields.classList.add('opacity-50', 'pointer-events-none');
+    }
+
+    // 2. Xử lý cụm Pollinations Key (Ẩn/Hiện form VÀ đổi chữ)
+    const isPollinationsEnabled = document.getElementById('pollinationsToggle').checked;
+    const pollinationsKeyArea = document.getElementById('pollinationsKeyContainer');
+    const descPollinations = document.getElementById('pollinationsDesc'); // Lấy ID thẻ P
+    
+    if (isPollinationsEnabled) {
+        // Trạng thái BẬT
+        pollinationsKeyArea.classList.remove('hidden');
+        pollinationsKeyArea.classList.add('animate-slide-up');
+        
+        descPollinations.innerText = "Tắt để dùng chế độ ẩn danh (Miễn phí và không lưu log).";
+        descPollinations.classList.remove('text-cinematic-cyan'); // Trả về màu xám gốc
+    } else {
+        // Trạng thái TẮT
+        pollinationsKeyArea.classList.add('hidden');
+        pollinationsKeyArea.classList.remove('animate-slide-up');
+        
+        descPollinations.innerText = "Bật để sử dụng API Key cá nhân (Định danh tài khoản, lưu log).";
+        descPollinations.classList.add('text-cinematic-cyan'); // Highlight màu Cyan cho đồng bộ theme
+    }
+
+    // 3. Xử lý dòng chữ mô tả 3D Parallax
+    const is3DEnabled = document.getElementById('effect3DToggle').checked;
+    const desc3D = document.getElementById('effect3DDesc');
+    
+    if (is3DEnabled) {
+        desc3D.innerText = "Tắt để tối ưu hiệu suất (Performance Mode).";
+        desc3D.classList.remove('text-cinematic-gold'); 
+    } else {
+        desc3D.innerText = "Bật để sử dụng hiệu ứng chiều sâu 3D khi nghiêng thiết bị.";
+        desc3D.classList.add('text-cinematic-gold'); 
+    }
 }
 
 window.saveApiSettings = () => {
@@ -1175,7 +1226,8 @@ window.saveApiSettings = () => {
     AppConfig.model = document.getElementById('textModelSelect').value;
     AppConfig.artStyle = document.getElementById('artStyleSelect').value;
     
-    // Lưu cấu hình Pollinations
+    // Lưu cấu hình Pollinations MỚI
+    AppConfig.usePollinationsKey = document.getElementById('pollinationsToggle').checked;
     AppConfig.pollinationsKey = document.getElementById('pollinationsKeyInput').value.trim();
     AppConfig.imageModel = document.getElementById('imageModelSelect').value;
     
@@ -1183,8 +1235,31 @@ window.saveApiSettings = () => {
     
     localStorage.setItem('cineApiConfig', JSON.stringify(AppConfig));
     toggleApiSettings();
-    sysAlert(`Đã lưu cấu hình Hệ thống.<br>Trạng thái Custom API: <strong class="${AppConfig.enabled ? 'text-green-400' : 'text-red-400'}">${AppConfig.enabled ? 'BẬT' : 'TẮT'}</strong><br>Image Engine: <strong class="text-cinematic-cyan">${AppConfig.imageModel.toUpperCase()}</strong>`);
+    sysAlert(`Đã lưu cấu hình Hệ thống.<br>Trạng thái Custom API: <strong class="${AppConfig.enabled ? 'text-green-400' : 'text-red-400'}">${AppConfig.enabled ? 'BẬT' : 'TẮT'}</strong><br>Pollinations Key: <strong class="${AppConfig.usePollinationsKey ? 'text-cinematic-cyan' : 'text-cinematic-muted'}">${AppConfig.usePollinationsKey ? 'KÍCH HOẠT' : 'ẨN DANH'}</strong>`);
 };
+
+// Cập nhật hàm loadApiConfig (nằm ở cuối file)
+function loadApiConfig() {
+    try {
+        const saved = localStorage.getItem('cineApiConfig');
+        if(saved) AppConfig = JSON.parse(saved);
+        if (AppConfig.enable3D === undefined) AppConfig.enable3D = true;
+        if (AppConfig.usePollinationsKey === undefined) AppConfig.usePollinationsKey = false; // Mặc định tắt
+        
+        document.getElementById('customApiToggle').checked = AppConfig.enabled;
+        document.getElementById('effect3DToggle').checked = AppConfig.enable3D;
+        document.getElementById('customApiKeyInput').value = AppConfig.key || '';
+        document.getElementById('textModelSelect').value = AppConfig.model || 'gemini-2.5-flash';
+        document.getElementById('artStyleSelect').value = AppConfig.artStyle || 'realistic';
+        
+        // Load cấu hình Pollinations
+        document.getElementById('pollinationsToggle').checked = AppConfig.usePollinationsKey;
+        document.getElementById('pollinationsKeyInput').value = AppConfig.pollinationsKey || '';
+        document.getElementById('imageModelSelect').value = AppConfig.imageModel || 'flux';
+        
+        toggleApiFieldsUI();
+    } catch(e) {}
+}
 
 
 // ==========================================
@@ -1689,10 +1764,10 @@ window.addEventListener('deviceorientation', (event) => {
         glareEl.style.background = `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.25) 0%, transparent 60%)`;
     }
 });
-
+document.getElementById('effect3DToggle').addEventListener('change', toggleApiFieldsUI);
 document.getElementById('customApiToggle').addEventListener('change', toggleApiFieldsUI);
+document.getElementById('pollinationsToggle').addEventListener('change', toggleApiFieldsUI);
 
-// 6.3. Bootstrapping (Khởi chạy khi load trang)
 // 6.3. Bootstrapping (Khởi chạy khi load trang)
 function loadApiConfig() {
     try {
