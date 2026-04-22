@@ -1,6 +1,6 @@
 # IDOL INTERACTION GAME
 
-Game quản lý idol nữ (singer/actress) bằng AI Gemini + Wikipedia.
+Game thẻ bài tích hợp AI
 
 ## Cách chơi
 1. Nhập Gemini API Key
