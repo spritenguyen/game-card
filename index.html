@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine-Tech: Tactical Combat v2.6.3-Chimera.Engine</title>
+    <title>Cine-Tech: Tactical Combat v2.6.2-Chimera.Engine</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -82,8 +82,8 @@
     <div class="fixed inset-0 z-40 noise-overlay"></div>
     <div class="fixed inset-0 z-[45] pointer-events-none hidden" id="cameraFlash"></div>
     <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bgAmbient">
-        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cinematic-gold/5 rounded-full blur-[120px] animate-pulse-slow transition-colors duration-1000"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-900/10 rounded-full blur-[150px] animate-pulse-slow transition-colors duration-1000" style="animation-delay: 2s;"></div>
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cinematic-gold/10 rounded-full blur-[100px] opacity-30 transform scale-150 transition-colors duration-1000"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-900/20 rounded-full blur-[120px] opacity-30 transform scale-125 transition-colors duration-1000"></div>
     </div>
 
     <!-- Top Bar -->
@@ -580,7 +580,6 @@ async function safeImagenCall(cardData) {
         stylePrefix = "Masterpiece, highly detailed photography, photorealistic, ultra-realistic real human, 8k resolution, cinematic lighting, RAW photo.";
     }
     
-    // Ép buộc AI dàn cảnh góc rộng (Widescreen 16:9) để tránh hụt bố cục
     stylePrefix += " Widescreen composition, cinematic wide shot, anamorphic lens.";
 
     const likenessTarget = cardData.inspiredBy ? `(Explicit likeness: ${cardData.inspiredBy})` : "";
@@ -590,39 +589,86 @@ async function safeImagenCall(cardData) {
     const factionTheme = cardData.faction === 'Tech' ? 'cyberpunk, sci-fi, neon, mechanical' : (cardData.faction === 'Magic' ? 'fantasy, magical aura, mystical, spellcasting' : 'mutant, organic, bio-engineered, monstrous or natural power');
     
     const randomSeed = Math.floor(Math.random() * 1000000);
-    const enhancedPrompt = `${stylePrefix} A ${genderTerm} ${universeTerm} ${likenessTarget}. Theme: ${factionTheme}. Details: ${baseVisuals}. [Seed: ${randomSeed}]`;
+    const enhancedPrompt = `${stylePrefix} A ${genderTerm} ${universeTerm} ${likenessTarget}. Theme: ${factionTheme}. Details: ${baseVisuals}.`;
 
     if (AppConfig.enabled) {
         const selectedModel = AppConfig.imageModel || 'flux';
-        // Đã nâng cấp lên chuẩn FHD 1920x1080 (16:9) theo đặc tả hệ thống
-        const fluxUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=1920&height=1080&nologo=true&model=${selectedModel}&seed=${randomSeed}`;
-        
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 25000);
+        const timeoutId = setTimeout(() => controller.abort(), 45000); // Tăng lên 45s cho ảnh độ phân giải cao
 
         try {
-            const headers = {};
-            if (AppConfig.pollinationsKey) headers['Authorization'] = `Bearer ${AppConfig.pollinationsKey}`;
-            
-            const res = await fetch(fluxUrl, { method: 'GET', headers: headers, signal: controller.signal });
-            clearTimeout(timeoutId); 
-            if (!res.ok) throw new Error(`Pollinations Server Error: ${res.status}`);
-            
-            const blob = await res.blob();
-            return await new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onloadend = () => resolve(reader.result);
-                reader.onerror = () => reject(new Error("Lỗi đọc dữ liệu ảnh FHD"));
-                reader.readAsDataURL(blob);
-            });
+            // LOGIC: Dùng API Key (Proxy / Pollinations Premium)
+            if (AppConfig.pollinationsKey && AppConfig.pollinationsKey.trim() !== '') {
+                // Sửa path 404 thành chuẩn OpenAI
+                const apiUrl = 'https://gen.pollinations.ai/v1/images/generations';
+                
+                const payload = {
+                    model: selectedModel,
+                    prompt: enhancedPrompt,
+                    n: 1,
+                    size: "1920x1080", // Vẫn giữ nguyên tỷ lệ Cinematic
+                    seed: randomSeed,
+                    response_format: "b64_json" // CRITICAL FIX: Yêu cầu trả Base64 để né lỗi CORS file:///
+                };
+
+                const res = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${AppConfig.pollinationsKey.trim()}`
+                    },
+                    body: JSON.stringify(payload),
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId); 
+                
+                if (!res.ok) {
+                    const errText = await res.text();
+                    throw new Error(`API Error (${res.status}): ${errText}`);
+                }
+                
+                const data = await res.json();
+                if (!data.data || !data.data[0]) {
+                    throw new Error("Dữ liệu trả về từ API không hợp lệ.");
+                }
+
+                // 1. Nếu API hỗ trợ trả b64 (Tối ưu nhất cho Local File)
+                if (data.data[0].b64_json) {
+                    return `data:image/png;base64,${data.data[0].b64_json}`;
+                } 
+                // 2. Fallback: Nếu proxy ép trả về URL
+                else if (data.data[0].url) {
+                    // Trả thẳng URL cho DOM render, KHÔNG dùng fetch() để tạo Blob nữa để tránh lỗi Security
+                    return data.data[0].url; 
+                }
+
+            } else {
+                // FALLBACK: Môi trường Public (Get request mặc định)
+                const fluxUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(enhancedPrompt)}?width=1920&height=1080&nologo=true&model=${selectedModel}&seed=${randomSeed}`;
+                const res = await fetch(fluxUrl, { method: 'GET', signal: controller.signal });
+                
+                clearTimeout(timeoutId); 
+                if (!res.ok) throw new Error(`Server Error: ${res.status}`);
+                
+                // Môi trường GET thường không dính block Opaque trên file local nên vẫn dùng Blob được
+                const blob = await res.blob();
+                return await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = () => reject(new Error("Lỗi đọc dữ liệu ảnh FHD"));
+                    reader.readAsDataURL(blob);
+                });
+            }
+
         } catch (e) {
             clearTimeout(timeoutId);
-            throw new Error(e.name === 'AbortError' ? "Timeout: Server render ảnh quá tải." : e.message);
+            throw new Error(e.name === 'AbortError' ? "Timeout: Máy chủ API mất quá nhiều thời gian." : e.message);
         }
     }
 
-    // Default: Imagen API (Môi trường gốc - Vẫn truyền vào prompt Widescreen)
-    const payload = { instances: { prompt: enhancedPrompt }, parameters: { sampleCount: 1 } };
+    // Default Sandbox Fallback
+    const payload = { instances: { prompt: enhancedPrompt + ` [Seed: ${randomSeed}]` }, parameters: { sampleCount: 1 } };
     for (let i = 0; i < 3; i++) {
         try {
             const res = await fetch(`${ENV_IMAGE_URL}?key=${envApiKey}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -799,11 +845,11 @@ window.switchTab = (tab) => {
     // Đổi màu Ambient Background theo Tab
     const bg1 = DOM.bgAmbient.children[0]; const bg2 = DOM.bgAmbient.children[1];
     if(tab === 'combat') { 
-        bg1.className = 'absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-red-900/10 rounded-full blur-[120px] animate-pulse-slow transition-colors duration-1000'; 
-        bg2.className = 'absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-orange-900/10 rounded-full blur-[150px] animate-pulse-slow transition-colors duration-1000'; 
+        bg1.className = 'absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-red-900/20 rounded-full blur-[100px] opacity-30 transform scale-150 transition-colors duration-1000'; 
+        bg2.className = 'absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-orange-900/20 rounded-full blur-[120px] opacity-30 transform scale-125 transition-colors duration-1000'; 
     } else { 
-        bg1.className = 'absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cinematic-gold/5 rounded-full blur-[120px] animate-pulse-slow transition-colors duration-1000'; 
-        bg2.className = 'absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-900/10 rounded-full blur-[150px] animate-pulse-slow transition-colors duration-1000'; 
+        bg1.className = 'absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cinematic-gold/10 rounded-full blur-[100px] opacity-30 transform scale-150 transition-colors duration-1000'; 
+        bg2.className = 'absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-900/20 rounded-full blur-[120px] opacity-30 transform scale-125 transition-colors duration-1000'; 
     }
     
     if(tab === 'combat') updateCombatUI();
@@ -987,10 +1033,29 @@ function renderMiniCard(card, onClickAction, context = 'gallery') {
 
 // 5.7. Render View: Gallery, Fusion Slots, Combat UI
 function renderGallery() {
-    if (State.cards.length > 0) DOM.gallerySec.classList.remove('hidden');
-    else DOM.gallerySec.classList.add('hidden');
+    if (State.cards.length === 0) {
+        DOM.gallerySec.classList.add('hidden');
+        return;
+    }
+    
+    DOM.gallerySec.classList.remove('hidden');
     DOM.cardCount.textContent = `${State.cards.length} Thẻ`;
-    DOM.galleryGrid.innerHTML = State.cards.map(c => renderMiniCard(c, `openModal('${c.id}')`, 'gallery')).join('');
+
+    // 1. Dọn dẹp DOM hiện tại an toàn
+    DOM.galleryGrid.innerHTML = '';
+    
+    // 2. Sử dụng DocumentFragment để gom các Element trên RAM (Zero Reflow)
+    const fragment = document.createDocumentFragment();
+    const tempDiv = document.createElement('div');
+    
+    // 3. Render tuần tự và đóng gói vào fragment
+    State.cards.forEach(card => {
+        tempDiv.innerHTML = renderMiniCard(card, `openModal('${card.id}')`, 'gallery');
+        fragment.appendChild(tempDiv.firstElementChild); // Bóc tách Element thật
+    });
+    
+    // 4. Bắn một lần duy nhất ra màn hình (Tối ưu 60fps)
+    DOM.galleryGrid.appendChild(fragment);
 }
 
 function renderView(context, isImageLoading) {
