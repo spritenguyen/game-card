@@ -3,7 +3,7 @@
 Game thẻ bài tích hợp AI
 
 ## Cách chơi
-1. Nhập Gemini API Key
+1. Nhập Gemini API Key (tạo miễn phí tại https://aistudio.google.com/app/apikey)
 2. Nhập API sk_key pollinations.ai (free no API comming soon)
 3. Nhập keyword để gacha thẻ bài
 
