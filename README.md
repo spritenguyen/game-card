@@ -1,4 +1,4 @@
-# IDOL INTERACTION GAME
+# IDOL GAME CARD
 
 Game thẻ bài tích hợp AI
 
