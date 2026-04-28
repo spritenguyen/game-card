@@ -8,8 +8,7 @@ Game thẻ bài tích hợp AI
 3. Nhập keyword để gacha thẻ bài
 
 ## Tech
-- HTML + CSS + Vanilla JS (ES6 Modules)
-- Gemini 3.0 Flash v1beta
+- API Gemini, API pollinations.ai
 
 ## Deploy
 Chơi ngay: https://spritenguyen.github.io/game-card
