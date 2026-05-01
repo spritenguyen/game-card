@@ -24,6 +24,7 @@ function getNextHourTimestamp() {
     // Reset at exactly the start of the next hour (e.g., 2:00, 3:00)
     now.setHours(now.getHours() + 1);
     now.setMinutes(0, 0, 0);
+    now.setMilliseconds(0);
     return now.getTime();
 }
 
