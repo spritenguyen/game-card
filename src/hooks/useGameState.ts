@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { Card, Boss, AppConfig, GameState } from '../types';
 import { dbService } from '../lib/db';
 import { DEFAULT_APP_CONFIG } from '../lib/constants';
+import { rollFaction, rollElement } from '../services/ai';
 
 export const useGameState = () => {
     const [currency, setCurrency] = useState<number>(1500);
@@ -46,12 +47,28 @@ export const useGameState = () => {
             const isDbReady = await dbService.initDB();
             if (isDbReady) {
                 const savedCards = await dbService.getAllCards();
-                setCards(savedCards.map(c => {
+                const processedCards = savedCards.map(c => {
+                    let modified = false;
+                    const validFactions = ['Tech', 'Magic', 'Mutant', 'Light', 'Dark'];
+                    if (!validFactions.includes(c.faction)) {
+                        c.faction = rollFaction() as any;
+                        modified = true;
+                    }
+                    const validElements = ['Fire', 'Water', 'Earth', 'Lightning', 'Wind', 'Neutral'];
+                    if (!c.element || !validElements.includes(c.element)) {
+                        c.element = rollElement() as any;
+                        modified = true;
+                    }
+                    if (modified) {
+                        dbService.saveCard(c).catch(() => {});
+                    }
+                    
                     if (c.imageBlob) {
                         c.imageUrl = URL.createObjectURL(c.imageBlob);
                     }
                     return c;
-                }));
+                });
+                setCards(processedCards);
             }
         };
         const savedConfig = localStorage.getItem('cineApiConfig');
