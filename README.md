@@ -9,7 +9,7 @@ Game thẻ bài tích hợp AI
 2. Nhập keyword để gacha thẻ bài
 
 **option: Nhập Gemini API Key (tạo miễn phí tại https://aistudio.google.com/app/apikey) -> chỉ áp dụng cho nội suy
-<img width="225" height="225" alt="download" src="https://github.com/user-attachments/assets/f42d6c94-a8ad-43ed-b8b2-232699265b94" />
+<img width="50" height="50" alt="download" src="https://github.com/user-attachments/assets/f42d6c94-a8ad-43ed-b8b2-232699265b94" />
 
 ## Tech
 - API Gemini, API pollinations.ai
