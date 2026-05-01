@@ -33,7 +33,7 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-serif text-white tracking-widest uppercase leading-none">HƯỚNG DẪN VẬN HÀNH</h3>
-                                    <p className="text-[9px] text-zinc-500 font-mono tracking-widest mt-1">CINE-TECH PROTOCOL: USER_MANUAL_V1.1.9</p>
+                                    <p className="text-[9px] text-zinc-500 font-mono tracking-widest mt-1">CINE-TECH PROTOCOL: USER_MANUAL_V1.2.4</p>
                                 </div>
                             </div>
                             <button onClick={onClose} className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors">
@@ -70,7 +70,56 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                 </div>
                             </section>
 
-                            {/* Ver 1.1.9 - Newest */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-yellow-500 to-green-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-green-500 font-mono uppercase tracking-widest">Version 1.2.4: Phục hồi Auto API Proxy Nội Suy</h4>
+                                </div>
+                                <div className="bg-yellow-950/20 min-h-[50px] p-4 rounded-xl border border-yellow-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Cập nhật Trạng Thái:</strong> Đã khôi phục hoàn toàn ý tưởng gốc về API nội suy (Text / Image proxy của Pollinations theo dạng tự động - Auto API). Phục hồi khả năng hoạt động trên POST request, ổn định CORS, và khắc phục lỗi sập do Gemini Safety Settings cản trở kết nối khi dùng API Keys.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.2.2 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-yellow-500 to-red-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-red-500 font-mono uppercase tracking-widest">Version 1.2.2: Hotfix API</h4>
+                                </div>
+                                <div className="bg-yellow-950/20 min-h-[50px] p-4 rounded-xl border border-yellow-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Hệ thống AI:</strong> Tắt bộ lọc chặn nội dung nhằm hạn chế lỗi khi AI từ chối tạo nhân vật (gây ra sự cố với các nhân vật bạo lực như Jinx). Tối ưu hệ thống dự phòng (Fallback) xuống Tier 2 ngay khi Gemini gặp lỗi bất kỳ.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.2.1 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-red-500 to-orange-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-500 font-mono uppercase tracking-widest">Version 1.2.1: Boss Rebalance</h4>
+                                </div>
+                                <div className="bg-red-950/20 min-h-[50px] p-4 rounded-xl border border-red-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Cố Định Chỉ Số Boss:</strong> Cấp số nhân sức mạnh quá mức của Boss Ác Mộng đã được loại bỏ. Giờ đây Boss sẽ có khoảng chỉ số cố định theo độ khó, không còn scale dựa trên HP và sức mạnh của Đội Hình, tạo cơ hội cho các đội hình tối ưu có thể giành chiến thắng.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.2.0 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-indigo-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-indigo-500 font-mono uppercase tracking-widest">Version 1.2.0: Synergy Bonuses</h4>
+                                </div>
+                                <div className="bg-indigo-950/20 min-h-[50px] p-4 rounded-xl border border-indigo-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Đồng Lòng & Cộng Hưởng:</strong> Giờ đây Đội hình (Squad) sẽ nhận thêm các buff cực mạnh nếu bạn kết hợp đúng Hệ Nguyên Tố và Tộc Hệ. Buff này có thể giúp bạn dễ dàng vượt qua các Boss Ác Mộng (đặc biệt khi dùng đội hình UR).</p>
+                                    <ul className="list-disc pl-4 space-y-1">
+                                        <li><strong className="text-cinematic-cyan">3 Thẻ Cùng Tộc Hệ:</strong> Đồng Lòng Thế Lực (+30% Tổng HP/ATK).</li>
+                                        <li><strong className="text-cinematic-cyan">3 Thẻ Cùng Nguyên Tố:</strong> Cộng Hưởng Nguyên Tố (+30% Tổng ATK).</li>
+                                        <li><strong className="text-cinematic-gold">3 Thẻ Khác Tộc Hệ (hoặc Nguyên tố):</strong> Đa Dạng Chiến Thuật/Nguyên Tố (+15% HP/ATK).</li>
+                                        <li><strong className="text-zinc-300">2 Thẻ Cùng Tộc Hệ/Nguyên tố:</strong> Hỗ Trợ/Cộng Hưởng Nhẹ (+10% ATK).</li>
+                                    </ul>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.1.9 */}
                             <section className="space-y-3">
                                 <div className="flex items-center gap-2">
                                     <div className="h-4 w-1 bg-gradient-to-b from-green-400 to-green-600 rounded-full"></div>

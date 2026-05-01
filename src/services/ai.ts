@@ -3,8 +3,8 @@ import { AppConfig, Card, Boss } from "../types";
 
 export const GlobalApiState = {
     geminiBannedUntil: 0,
+    pollinationsCustomKeyBannedUntil: 0,
     pollinationsProBannedUntil: 0,
-    pollinationsProxyBannedUntil: 0,
     currentStatusMsg: "",
     notify: (msg: string) => {
         if (typeof window !== 'undefined') {
@@ -48,10 +48,12 @@ async function executeTextAI(prompt: string, sysPrompt: string, config: AppConfi
 MUST format response as raw JSON matching this structure:
 ${JSON.stringify({ ...Object.keys(schemaProps).reduce((a,k)=>({...a, [k]: schemaProps[k].type}), {}) })}`;
 
-    if (config.useCustomGemini && config.geminiKey && Date.now() > GlobalApiState.geminiBannedUntil) {
+    const geminiKeyToUse = (config.useCustomGemini && config.geminiKey) ? config.geminiKey.trim() : process.env.GEMINI_API_KEY;
+    if (config.useCustomGemini && geminiKeyToUse && Date.now() > GlobalApiState.geminiBannedUntil) {
         try {
-            GlobalApiState.setCurrentApi("Gemini 2.5/3.1");
-            const ai = new GoogleGenAI({ apiKey: config.geminiKey.trim() });
+            GlobalApiState.setCurrentApi("Gemini (Google AI)");
+            GlobalApiState.notify("Đang dùng Gemini theo tùy chọn...");
+            const ai = new GoogleGenAI({ apiKey: geminiKeyToUse });
             const response = await ai.models.generateContent({
                 model: config.geminiModel || "gemini-2.5-flash",
                 contents: prompt,
@@ -65,14 +67,21 @@ ${JSON.stringify({ ...Object.keys(schemaProps).reduce((a,k)=>({...a, [k]: schema
                     }
                 }
             });
-            if (response.text) return JSON.parse(response.text);
+            if (response.text) {
+                const textOutput = response.text || "";
+                return JSON.parse(extractJsonFromString(textOutput));
+            }
         } catch (err: any) {
             console.warn("Gemini Error:", err);
-            if (err.message?.includes("429") || err.message?.includes("quota") || err.status === 429) {
+            const errStr = String(err.message || "").toLowerCase();
+            if (errStr.includes("api key not valid") || errStr.includes("invalid api key")) {
+                GlobalApiState.geminiBannedUntil = Date.now() + 5 * 60 * 1000;
+                GlobalApiState.notify("Gemini API Key lỗi! Tạm ngưng Gemini 5 phút, chuyển sang Pollinations...");
+            } else if (errStr.includes("429") || errStr.includes("quota")) {
                 GlobalApiState.geminiBannedUntil = Date.now() + 5 * 60 * 1000;
                 GlobalApiState.notify("Gemini hết Quota/Limit! Đang chuyển tự động sang Pollinations API.");
             } else {
-                throw err;
+                GlobalApiState.notify("Gemini gặp lỗi: " + (err.message || "Unknown").substring(0, 30) + "... Chuyển tự động sang API dự phòng.");
             }
         }
     }
@@ -80,24 +89,32 @@ ${JSON.stringify({ ...Object.keys(schemaProps).reduce((a,k)=>({...a, [k]: schema
     const hasCustomKey = config.pollinationsKey && config.pollinationsKey.trim() !== "";
     const payload = {
         model: "openai",
+        jsonMode: true,
         messages: [
             { role: "system", content: formatPrompt },
             { role: "user", content: prompt }
-        ],
-        jsonMode: true
+        ]
     };
 
     const tryFetchText = async (url: string, useKey: boolean, apiName: string): Promise<any> => {
         GlobalApiState.setCurrentApi(apiName);
+        
         const headers: Record<string, string> = { "Content-Type": "application/json" };
         if (useKey && hasCustomKey) {
             headers["Authorization"] = `Bearer ${config.pollinationsKey.trim()}`;
         }
-        const res = await fetch(url, {
-            method: "POST",
-            headers,
-            body: JSON.stringify(payload)
-        });
+        
+        let res;
+        try {
+            res = await fetch(url, {
+                method: "POST",
+                headers,
+                body: JSON.stringify(payload)
+            });
+        } catch (fetchErr: any) {
+            console.error("Fetch Network Error:", fetchErr);
+            throw new Error(`Network/CORS Error: ${fetchErr.message}`);
+        }
         
         if (!res.ok) {
             if (res.status === 402 || res.status === 429 || res.status === 403) {
@@ -113,11 +130,14 @@ ${JSON.stringify({ ...Object.keys(schemaProps).reduce((a,k)=>({...a, [k]: schema
             if (parsedRaw && parsedRaw.choices && parsedRaw.choices[0] && parsedRaw.choices[0].message) {
                 actualContent = parsedRaw.choices[0].message.content;
             } else if (parsedRaw && parsedRaw.error) {
-                throw new Error(parsedRaw.error.message || "Unknown error");
+                throw new Error("POLLI_API_ERROR:" + (parsedRaw.error.message || "Unknown error"));
             } else {
                 actualContent = responseText;
             }
         } catch (e: any) {
+            if (e.message?.startsWith("POLLI_API_ERROR:")) {
+                 throw new Error(e.message.replace("POLLI_API_ERROR:", ""));
+            }
             actualContent = responseText;
         }
 
@@ -132,15 +152,18 @@ ${JSON.stringify({ ...Object.keys(schemaProps).reduce((a,k)=>({...a, [k]: schema
         return parsed;
     };
 
-    // Tier 1: Pro Key
-    if (hasCustomKey && Date.now() > GlobalApiState.pollinationsProBannedUntil) {
+    const PROXY_URL = "https://pollinations-proxy.spritenguyen.workers.dev/v1/chat/completions";
+    const FREE_URL = "https://text.pollinations.ai/v1/chat/completions";
+
+    // Tier 1: User's Custom SK_KEY
+    if (hasCustomKey && Date.now() > GlobalApiState.pollinationsCustomKeyBannedUntil) {
         let retries = 0;
         while (retries < 3) {
             try {
-                if (retries === 0) GlobalApiState.notify("Đang kết nối Pollinations Pro (Key)...");
-                else GlobalApiState.notify(`Thử lại kết nối Pro Key (Lần ${retries}/2)...`);
+                if (retries === 0) GlobalApiState.notify("Đang sử dụng Pollinations (Custom Key)...");
+                else GlobalApiState.notify(`Thử lại Custom Key (Lần ${retries}/2)...`);
                 
-                return await tryFetchText("https://text.pollinations.ai/", true, "Polli Text (Key)");
+                return await tryFetchText(FREE_URL, true, "Polli Text (Custom Key)");
             } catch (e: any) {
                 if (e.message.includes("429_LIMIT") && retries < 2) {
                     retries++;
@@ -149,42 +172,57 @@ ${JSON.stringify({ ...Object.keys(schemaProps).reduce((a,k)=>({...a, [k]: schema
                 }
                 
                 if (e.message.includes("429_LIMIT")) {
-                    const currentMin = new Date().getMinutes();
-                    if (currentMin <= 5) {
-                        GlobalApiState.pollinationsProBannedUntil = Date.now() + 3 * 60 * 1000;
-                        GlobalApiState.notify("Server đang trễ cập nhật phấn hoa (delay đầu giờ). Tạm thời chuyển sang Proxy, thử lại sau 3 phút...");
-                    } else {
-                        GlobalApiState.pollinationsProBannedUntil = getNextHourTimestamp();
-                        GlobalApiState.notify("Hết phấn hoa cho API Text! Chuyển sang proxy (Tier 2)...");
-                    }
+                    GlobalApiState.pollinationsCustomKeyBannedUntil = getNextHourTimestamp();
+                    GlobalApiState.notify("Custom Key hết phấn hoa! Tự động chuyển sang Proxy...");
                 } else {
-                    console.warn("Pollinations Pro Text Error:", e);
-                    GlobalApiState.notify("Lỗi kết nối Pro Key! Chuyển sang Proxy (Tier 2)...");
+                    console.warn("Pollinations Custom Key Error:", e);
+                    GlobalApiState.notify("Lỗi Custom Key! Chuyển sang API dự phòng...");
+                    GlobalApiState.pollinationsCustomKeyBannedUntil = Date.now() + 3 * 60 * 1000;
                 }
                 break;
             }
         }
     }
 
-    // Tier 2: Proxy
-    if (Date.now() > GlobalApiState.pollinationsProxyBannedUntil) {
-        try {
-            return await tryFetchText("https://pollinations-proxy.spritenguyen.workers.dev/", false, "Polli Text (Proxy)");
-        } catch (e: any) {
-            console.warn("Proxy Text Error:", e);
-            if (e.message.includes("429_LIMIT")) {
-                GlobalApiState.pollinationsProxyBannedUntil = getNextHourTimestamp();
-                GlobalApiState.notify("Proxy AI Server đang bận! Chuyển sang API Free (Tier 3)...");
+    // Tier 2: Proxy (Built-in SK_KEY)
+    if (Date.now() > GlobalApiState.pollinationsProBannedUntil) {
+        let retries = 0;
+        while (retries < 3) {
+            try {
+                if (retries === 0) GlobalApiState.notify("Đang sử dụng Pollinations (Proxy SK_KEY)...");
+                else GlobalApiState.notify(`Thử lại Pollinations Proxy (Lần ${retries}/2)...`);
+                
+                // useKey=false for PROXY_URL because proxy has built-in key
+                return await tryFetchText(PROXY_URL, false, "Polli Text (Proxy SK_KEY)");
+            } catch (e: any) {
+                if (e.message.includes("429_LIMIT") && retries < 2) {
+                    retries++;
+                    await new Promise(r => setTimeout(r, 2000));
+                    continue;
+                }
+                
+                if (e.message.includes("429_LIMIT")) {
+                    GlobalApiState.pollinationsProBannedUntil = getNextHourTimestamp();
+                    GlobalApiState.notify("Proxy hết phấn hoa! Chuyển tự động sang API Free...");
+                } else {
+                    console.warn("Pollinations Proxy Text Error:", e);
+                    GlobalApiState.notify("Lỗi kết nối Proxy! Chuyển tự động sang API Free...");
+                    GlobalApiState.pollinationsProBannedUntil = Date.now() + 3 * 60 * 1000;
+                }
+                break;
             }
         }
     }
 
-    // Tier 3: Raw Free
+    // Tier 3: Free URL (No Key)
     try {
-        return await tryFetchText("https://text.pollinations.ai/", false, "Polli Text (Free API)");
-    } catch(e) {
+        if (Date.now() <= GlobalApiState.pollinationsProBannedUntil && Date.now() <= GlobalApiState.pollinationsCustomKeyBannedUntil) {
+            GlobalApiState.notify("Sử dụng Pollinations Free API (No Key)...");
+        }
+        return await tryFetchText(FREE_URL, false, "Polli Text (Free API)");
+    } catch(e: any) {
         GlobalApiState.setCurrentApi("Lỗi API ❌");
-        GlobalApiState.notify("Tất cả Cổng kết nối Text AI đều lỗi! Vui lòng thử lại sau.");
+        GlobalApiState.notify("Tất cả Cổng kết nối Text AI đều lỗi: " + (e.message || "Unknown error"));
         throw e;
     }
 }
@@ -261,15 +299,16 @@ Ngôn ngữ: ${langStr}. Trả JSON ngắn gọn.`;
 
 export const generateBossFromAI = async (sHp: number, sAtk: number, difficulty: 'normal' | 'elite' | 'nightmare', config: AppConfig): Promise<any> => {
     const langStr = config.language === 'en' ? 'ENGLISH (Tiếng Anh)' : 'TIẾNG VIỆT';
-    let hpRange = "1x-1.5x";
-    let atkRange = "0.5x-1.2x";
+    let hpRange = "5000 - 9000";
+    let atkRange = "1200 - 2500";
     let rewardRange = "300 - 1000";
     let threatPrefix = "Alpha";
-    if (difficulty === 'elite') { hpRange = "1.5x-2x"; atkRange = "1.2x-1.8x"; rewardRange = "1500 - 3000"; threatPrefix = "Elite"; }
-    if (difficulty === 'nightmare') { hpRange = "2.5x-4x"; atkRange = "1.8x-3x"; rewardRange = "5000 - 15000"; threatPrefix = "Nightmare"; }
+    if (difficulty === 'elite') { hpRange = "15000 - 25000"; atkRange = "3500 - 6000"; rewardRange = "1500 - 3000"; threatPrefix = "Elite"; }
+    if (difficulty === 'nightmare') { hpRange = "35000 - 55000"; atkRange = "8000 - 13000"; rewardRange = "5000 - 15000"; threatPrefix = "Nightmare"; }
 
     const sysPrompt = `Game Master AI (DDA). JSON Ngôn ngữ: ${langStr}. (Mục visualDescription ghi Tiếng Anh). GIỮ CÁC TEXT NGẮN GỌN DƯỚI 40 TỪ.`;
-    const prompt = `Đội hình HP: ${sHp}, ATK: ${sAtk}. Tạo Boss cấp độ ${threatPrefix} có HP khoảng (${hpRange} đội) và ATK (${atkRange} đội). Random vũ trụ, Tộc Hệ, Đặc tính Nguyên Tố. Phần thưởng (${rewardRange} DC). Thêm tiền tố "${threatPrefix} " vào threatLevel. JSON ngắn gọn!`;
+    // We no longer display or base the prompt heavily on sHp/sAtk. We just give absolute ranges.
+    const prompt = `Tạo Boss cấp độ ${threatPrefix} có chỉ số sức mạnh cố định: HP dao động (${hpRange}) và ATK dao động (${atkRange}). Random vũ trụ, Tộc Hệ, Đặc tính Nguyên Tố. Phần thưởng đánh bại (${rewardRange} DC). Thêm tiền tố "${threatPrefix} " vào threatLevel. JSON ngắn gọn!`;
 
     const props = {
         id: { type: Type.STRING }, name: { type: Type.STRING }, universe: { type: Type.STRING }, faction: { type: Type.STRING }, element: { type: Type.STRING },
@@ -372,7 +411,7 @@ Base Character Info: ${fallbackPrompt}`;
 
     const tryFetchImage = async (baseUrl: string, useKey: boolean, apiName: string): Promise<string> => {
         GlobalApiState.setCurrentApi(apiName);
-        const fluxUrl = `${baseUrl}/prompt/${encodeURIComponent(enhancedPrompt)}?width=1920&height=1080&nologo=true&model=${modelToUse}&seed=${randomSeed}`;
+        const fluxUrl = `${baseUrl}/image/${encodeURIComponent(enhancedPrompt)}?width=1920&height=1080&nologo=true&model=${modelToUse}&seed=${randomSeed}`;
         
         const headers: Record<string, string> = {};
         if (useKey && hasCustomKey) {
@@ -432,15 +471,18 @@ Base Character Info: ${fallbackPrompt}`;
         });
     };
 
-    // Tier 1: Pro Key
-    if (hasCustomKey && Date.now() > GlobalApiState.pollinationsProBannedUntil) {
+    const PROXY_URL = "https://pollinations-proxy.spritenguyen.workers.dev";
+    const FREE_URL = "https://image.pollinations.ai";
+
+    // Tier 1: User's Custom SK_KEY
+    if (hasCustomKey && Date.now() > GlobalApiState.pollinationsCustomKeyBannedUntil) {
         let retries = 0;
         while (retries < 3) {
             try {
-                if (retries === 0) GlobalApiState.notify("Đang kết nối nhận diện hình ảnh Pro (Key)...");
-                else GlobalApiState.notify(`Thử lại kết nối ảnh Pro Key (Lần ${retries}/2)...`);
+                if (retries === 0) GlobalApiState.notify("Đang dùng Pollinations Image (Custom Key)...");
+                else GlobalApiState.notify(`Thử lại kết nối ảnh Custom Key (Lần ${retries}/2)...`);
                 
-                return await tryFetchImage("https://image.pollinations.ai", true, "Polli Image (Key)");
+                return await tryFetchImage(FREE_URL, true, "Polli Image (Custom Key)");
             } catch (e: any) {
                 if (e.message.includes("429_LIMIT") && retries < 2) {
                     retries++;
@@ -449,43 +491,98 @@ Base Character Info: ${fallbackPrompt}`;
                 }
                 
                 if (e.message.includes("429_LIMIT")) {
-                    const currentMin = new Date().getMinutes();
-                    if (currentMin <= 5) {
-                        GlobalApiState.pollinationsProBannedUntil = Date.now() + 3 * 60 * 1000;
-                        GlobalApiState.notify("Server đang trễ cập nhật phấn hoa hình ảnh. Tạm thời chuyển sang Proxy, sẽ thử lại Key sau 3 phút...");
-                    } else {
-                        GlobalApiState.pollinationsProBannedUntil = getNextHourTimestamp();
-                        GlobalApiState.notify("Hết phấn hoa cho hình ảnh! Chuyển qua Proxy (Tier 2)...");
-                    }
+                    GlobalApiState.pollinationsCustomKeyBannedUntil = getNextHourTimestamp();
+                    GlobalApiState.notify("Custom Key hết phấn hoa hình ảnh! Chuyển qua Proxy...");
                 } else {
-                    console.warn("Pollinations Pro Image Error:", e);
-                    GlobalApiState.notify("Lỗi kết nối ảnh Pro Key! Chuyển qua Proxy (Tier 2)...");
+                    console.warn("Pollinations Custom Key Image Error:", e);
+                    GlobalApiState.notify("Lỗi kết nối ảnh Custom Key! Chuyển qua dự phòng...");
+                    GlobalApiState.pollinationsCustomKeyBannedUntil = Date.now() + 3 * 60 * 1000;
                 }
                 break;
             }
         }
     } 
 
-    // Tier 2: Proxy
-    if (Date.now() > GlobalApiState.pollinationsProxyBannedUntil) {
-        try {
-            return await tryFetchImage("https://pollinations-proxy.spritenguyen.workers.dev", false, "Polli Image (Proxy)");
-        } catch (e: any) {
-            console.warn("Proxy Image Error:", e);
-            if (e.message.includes("429_LIMIT")) {
-                 GlobalApiState.pollinationsProxyBannedUntil = getNextHourTimestamp();
-                 GlobalApiState.notify("Proxy Image đang bị giới hạn! Chuyển qua Free (Tier 3)...");
+    // Tier 2: Proxy (Has SK_KEY built-in)
+    if (Date.now() > GlobalApiState.pollinationsProBannedUntil) {
+        let retries = 0;
+        while (retries < 3) {
+            try {
+                if (retries === 0) GlobalApiState.notify("Đang dùng Pollinations Image (Proxy SK_KEY)...");
+                else GlobalApiState.notify(`Thử lại kết nối ảnh Proxy (Lần ${retries}/2)...`);
+                
+                return await tryFetchImage(PROXY_URL, false, "Polli Image (Proxy SK_KEY)");
+            } catch (e: any) {
+                if (e.message.includes("429_LIMIT") && retries < 2) {
+                    retries++;
+                    await new Promise(r => setTimeout(r, 2000));
+                    continue;
+                }
+                
+                if (e.message.includes("429_LIMIT")) {
+                    GlobalApiState.pollinationsProBannedUntil = getNextHourTimestamp();
+                    GlobalApiState.notify("Proxy hết phấn hoa hình ảnh! Chuyển qua API Free...");
+                } else {
+                    console.warn("Pollinations Proxy Image Error:", e);
+                    GlobalApiState.notify("Lỗi kết nối ảnh Proxy! Chuyển qua API Free...");
+                    GlobalApiState.pollinationsProBannedUntil = Date.now() + 3 * 60 * 1000;
+                }
+                break;
             }
         }
-    }
+    } 
 
-    // Tier 3: Free Raw
+    // Tier 3: Free API URL (No Key)
     try {
-        return await tryFetchImage("https://image.pollinations.ai", false, "Polli Image (Free API)");
+        if (Date.now() <= GlobalApiState.pollinationsProBannedUntil && Date.now() <= GlobalApiState.pollinationsCustomKeyBannedUntil) {
+            GlobalApiState.notify("Sử dụng Pollinations Image Free API (No Key)...");
+        }
+        return await tryFetchImage(FREE_URL, false, "Polli Image (Free API)");
     } catch (e: any) {
         console.warn("Lỗi tải ảnh qua tất cả API:", e);
         GlobalApiState.setCurrentApi("Lỗi Render Ảnh ❌");
         GlobalApiState.notify("Tất cả API ảnh đều quá tải hoặc lỗi!");
         throw e;
     }
+}
+
+export const generateAltTextFromAI = async (card: Card, config: AppConfig): Promise<string> => {
+    const apiKey = (config.useCustomGemini && config.geminiKey) ? config.geminiKey.trim() : process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        throw new Error("Missing Gemini API Key for image analysis.");
+    }
+
+    if (!card.imageUrl || !card.imageUrl.startsWith('data:image/')) {
+        throw new Error("Không tìm thấy dữ liệu ảnh (Base64) hợp lệ của thẻ. Thẻ phải chứa ảnh để phân tích.");
+    }
+
+    const mimeType = card.imageUrl.split(';')[0].split(':')[1];
+    const base64Data = card.imageUrl.split(',')[1];
+    const modelStr = config.geminiModel || "gemini-2.5-flash";
+
+    GlobalApiState.setCurrentApi("Gemini Vision");
+    GlobalApiState.notify("Đang phân tích hình ảnh (Vision)...");
+
+    const ai = new GoogleGenAI({ apiKey: apiKey });
+    const imagePart = {
+        inlineData: {
+            mimeType: mimeType,
+            data: base64Data
+        }
+    };
+    const textPart = {
+        text: "Describe this image in detail as an alt text for accessibility and context. Keep it under exactly 40 words. Write in " + (config.language === 'en' ? 'English' : 'Vietnamese') + "."
+    };
+
+    const response = await ai.models.generateContent({
+        model: modelStr,
+        contents: { parts: [imagePart, textPart] },
+        config: {
+            systemInstruction: "You are an expert at writing concise and descriptive alt text for images.",
+            temperature: 0.4
+        }
+    });
+
+    if (response.text) return response.text.trim();
+    return "Alt text generation failed.";
 };

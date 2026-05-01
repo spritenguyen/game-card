@@ -29,6 +29,7 @@ export interface Card {
   timestamp?: number;
   language?: string;
   translations?: Record<string, Partial<Card>>;
+  altText?: string;
 }
 
 export interface Boss {

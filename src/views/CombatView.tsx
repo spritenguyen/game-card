@@ -48,7 +48,7 @@ export const CombatView: React.FC<Props> = ({ config, currency, modifyCurrency, 
 
     const [showFullPassive, setShowFullPassive] = useState(false);
 
-    let { hp: squadHp, atk: squadAtk } = getComboStats(squad);
+    let { hp: squadHp, atk: squadAtk, activeSynergies, synergyBonusAtk } = getComboStats(squad);
     const dodgeRate = getSquadDodgeRate(squad);
     
     // Apply initial Leader Buff for display
@@ -218,8 +218,13 @@ export const CombatView: React.FC<Props> = ({ config, currency, modifyCurrency, 
         });
 
         actualSquadAtk = Math.floor(actualSquadAtk * leaderBuffMod);
+        if (synergyBonusAtk > 0) {
+            actualSquadAtk = Math.floor(actualSquadAtk * (1 + synergyBonusAtk));
+            addLog(<span>Buff Cộng Hưởng: Sát thương tăng thêm <span className="text-cinematic-cyan">+{(synergyBonusAtk*100).toFixed(0)}%</span></span>, "text-cinematic-cyan font-bold mb-1");
+        }
+        
         const actualBossAtk = Math.floor(boss.attack * (activeCardsCount > 0 ? (bossAtkMultiplier / activeCardsCount) : 1));
-        addLog(<span>Hỏa lực tổng hợp (Đã áp dụng Hệ/Nguyên Tố): <span className="text-orange-400">{actualSquadAtk}</span> ATK</span>, "text-cinematic-muted border-b border-white/10 pb-2 mb-2");
+        addLog(<span>Hỏa lực tổng hợp (Đã áp dụng Buff/Khắc chế): <span className="text-orange-400">{actualSquadAtk}</span> ATK</span>, "text-cinematic-muted border-b border-white/10 pb-2 mb-2");
 
         const activeSquad = squad.filter(c => c !== null) as Card[];
         let turn = 1;
@@ -639,12 +644,23 @@ export const CombatView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                     className="w-full max-w-lg flex flex-col items-center relative z-20"
                 >
                     <div className="w-full max-w-sm mb-6 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/5">
-                        <div className="flex justify-between items-center mb-2 px-2">
-                             <div className="flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                                <span className="text-[8px] font-mono text-green-500 uppercase tracking-widest font-black">SQUAD_INTEGRITY</span>
+                        <div className="flex justify-between items-start mb-2 px-2">
+                             <div className="flex flex-col gap-1">
+                                 <div className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                                    <span className="text-[8px] font-mono text-green-500 uppercase tracking-widest font-black">SQUAD_INTEGRITY</span>
+                                 </div>
+                                 {activeSynergies && activeSynergies.length > 0 && (
+                                     <div className="flex flex-wrap gap-1 mt-1">
+                                          {activeSynergies.map((syn, idx) => (
+                                              <div key={idx} className="bg-cinematic-cyan/10 border border-cinematic-cyan/30 text-cinematic-cyan text-[8px] px-1.5 py-0.5 rounded flex items-center gap-1 shadow-[0_0_5px_rgba(0,243,255,0.2)] whitespace-nowrap">
+                                                  <i className="fa-solid fa-link"></i> {syn}
+                                              </div>
+                                          ))}
+                                     </div>
+                                 )}
                              </div>
-                             <div className="text-[10px] font-mono font-bold text-green-400 flex items-baseline gap-1">
+                             <div className="text-[10px] font-mono font-bold text-green-400 flex items-baseline gap-1 mt-1">
                                 <span className="text-sm">{displaySquadHp}</span>
                                 <span className="opacity-30">/ {squadHp}</span>
                              </div>
@@ -885,9 +901,20 @@ export const CombatView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                         {/* Squad Area */}
                         <div className="w-full relative py-6 border-y border-white/5 bg-black/20 rounded-3xl">
                              <div className="flex items-center justify-between px-6 mb-4">
-                                 <div className="flex items-center gap-2">
-                                     <div className={`w-2 h-2 rounded-full ${inBattle ? 'bg-green-500 animate-pulse' : 'bg-green-800'}`}></div>
-                                     <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">SQUAD_INTEGRITY</span>
+                                 <div className="flex flex-col gap-1">
+                                     <div className="flex items-center gap-2">
+                                         <div className={`w-2 h-2 rounded-full ${inBattle ? 'bg-green-500 animate-pulse' : 'bg-green-800'}`}></div>
+                                         <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest">SQUAD_INTEGRITY</span>
+                                     </div>
+                                     {activeSynergies && activeSynergies.length > 0 && (
+                                         <div className="flex flex-wrap gap-2 mt-2">
+                                              {activeSynergies.map((syn, idx) => (
+                                                  <div key={idx} className="bg-cinematic-cyan/10 border border-cinematic-cyan/30 text-cinematic-cyan text-[9px] px-2 py-0.5 rounded flex items-center gap-1 shadow-[0_0_5px_rgba(0,243,255,0.2)]">
+                                                      <i className="fa-solid fa-link"></i> {syn}
+                                                  </div>
+                                              ))}
+                                         </div>
+                                     )}
                                  </div>
                                  <span className="text-xs font-mono font-bold text-green-400">{displaySquadHp} / {squadHp}</span>
                             </div>

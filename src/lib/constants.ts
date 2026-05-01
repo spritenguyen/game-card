@@ -22,7 +22,7 @@ export const IMAGE_MODELS = [
     { id: 'qwen-image', name: 'Qwen Image Plus', desc: 'Mô hình mạnh mẽ, chi tiết nội suy tốt nhất' },
     { id: 'flux', name: 'Flux Schnell', desc: 'Cân bằng hoàn hảo giữa tốc độ và sắc nét' },
     { id: 'zimage', name: 'Z-Image Turbo', desc: 'Tốc độ chớp nhoáng' },
-    { id: 'gptimage', name: 'GPT Image', desc: 'Khả năng bám sát prompt tuyệt đối' },
+    { id: 'gpt-image-2', name: 'GPT Image 2', desc: 'Khả năng bám sát prompt tuyệt đối' },
     { id: 'wan-image', name: 'Wan Image', desc: 'Phong cách nghệ thuật đa dạng' }
 ];
 
@@ -35,4 +35,4 @@ export const ELEMENTS = {
     'Neutral': { id: 'Neutral', name: 'NEUTRAL', icon: 'fa-atom', color: 'text-zinc-400', glow: 'shadow-[0_0_15px_rgba(161,161,170,0.4)]' }
 };
 
-export const APP_VERSION = 'v1.1.9-Extract.Ops';
+export const APP_VERSION = 'v1.2.4-Hotfix.AutoAPI';

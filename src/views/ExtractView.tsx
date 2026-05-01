@@ -75,7 +75,7 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
           if (e.message === "API_KEY_INVALID") {
               onAlert("Hệ Thống Cine-Tech", "API Key của bạn không hợp lệ. Vui lòng kiểm tra lại trong System Override.");
           } else {
-              onError("Lỗi kết nối AI. Đã hoàn tiền.");
+              onError("Lỗi kết nối AI: " + (e.message || e));
           }
       } finally {
           setGlobalProcessing(false);

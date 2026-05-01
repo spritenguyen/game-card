@@ -15,8 +15,9 @@ export const FullCard: React.FC<{
   onReshoot?: (cardId: string, overrideModel?: string) => void;
   onDismantle?: (cardId: string) => void;
   onTranslate?: (cardId: string) => void;
+  onGenerateAltText?: (cardId: string) => void;
   config: AppConfig;
-}> = ({ card, isModal = false, isLoadingImage = false, isSaved = false, context = 'extract', isReshooting = false, onSave, onReshoot, onDismantle, onTranslate, config }) => {
+}> = ({ card, isModal = false, isLoadingImage = false, isSaved = false, context = 'extract', isReshooting = false, onSave, onReshoot, onDismantle, onTranslate, onGenerateAltText, config }) => {
   const isUR = getRankIndex(card.cardClass) === 4;
   const facInfo = getFactionInfo(card.faction);
   
@@ -70,7 +71,7 @@ export const FullCard: React.FC<{
              </div>
           )}
 
-          <img src={card.imageUrl || undefined} alt={card.name} className={`absolute inset-0 w-full h-full object-cover z-[5] ${isLoadingImage || isReshooting ? 'opacity-30' : 'opacity-100'} transition-opacity duration-500`} crossOrigin="anonymous" />
+          <img src={card.imageUrl || undefined} alt={card.altText || card.name} title={card.altText} className={`absolute inset-0 w-full h-full object-cover z-[5] ${isLoadingImage || isReshooting ? 'opacity-30' : 'opacity-100'} transition-opacity duration-500`} crossOrigin="anonymous" />
 
           {/* Badges */}
           <div className="absolute top-4 left-4 z-20 flex gap-2">
@@ -176,6 +177,11 @@ export const FullCard: React.FC<{
                             className={`text-sm text-zinc-400/90 leading-relaxed font-sans`} 
                             dangerouslySetInnerHTML={{ __html: displayCard.lore?.replace(/\n/g, '<br>') || '' }}
                         />
+                        {displayCard.altText && (
+                            <div className="mt-4 bg-white/5 p-3 rounded-xl border border-white/10 text-xs text-zinc-500 font-mono italic">
+                                <i className="fa-solid fa-universal-access mr-1"></i> [Image Alt Text]: {displayCard.altText}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -207,6 +213,11 @@ export const FullCard: React.FC<{
                         <>
                             {needsTranslation && onTranslate && (
                                <button onClick={() => onTranslate(card.id)} className="bg-indigo-950/40 text-indigo-300 border border-indigo-500/20 hover:bg-indigo-900/60 px-4 py-2.5 rounded-lg flex items-center justify-center transition-colors shadow-inner" title="Translate"><i className="fa-solid fa-language text-lg"></i></button>
+                            )}
+                            {onGenerateAltText && !displayCard.altText && (
+                                <button onClick={() => onGenerateAltText(card.id)} disabled={isReshooting || isLoadingImage} className="bg-emerald-950/20 text-emerald-400 border border-emerald-900/30 hover:bg-emerald-900/40 px-3 py-2.5 rounded-lg text-[10px] tracking-widest uppercase disabled:opacity-50 transition-colors shadow-inner flex items-center gap-1.5" title="Generate Alt Text">
+                                    <i className="fa-solid fa-universal-access"></i> Alt
+                                </button>
                             )}
                             {onReshoot && (
                                 <button onClick={() => onReshoot(card.id)} disabled={isReshooting} className="bg-zinc-800/80 text-white border border-zinc-700 hover:bg-zinc-700 px-5 py-2.5 rounded-lg text-[10px] tracking-widest uppercase disabled:opacity-50 flex items-center gap-2 font-bold transition-colors active:scale-95 duration-200 shadow-inner"><i className={`fa-solid fa-camera ${isReshooting ? 'animate-pulse text-cinematic-cyan' : ''}`}></i> {isReshooting ? 'Wait...' : 'Reshoot'}</button>

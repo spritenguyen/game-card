@@ -96,12 +96,68 @@ export const calculateCombatStats = (card: Card | null) => {
 export const getComboStats = (squad: (Card | null)[]) => {
     let totalHp = 0;
     let totalAtk = 0;
-    squad.forEach(c => {
+    const activeCards = squad.filter(c => c !== null) as Card[];
+    
+    activeCards.forEach(c => {
         const { hp, atk } = calculateCombatStats(c);
         totalHp += hp;
         totalAtk += atk;
     });
-    return { hp: totalHp, atk: totalAtk };
+
+    let synergyBonusAtk = 0;
+    let synergyBonusHp = 0;
+    let activeSynergies: string[] = [];
+
+    // Calculate Synergy
+    if (activeCards.length === 3) {
+        const factions = activeCards.map(c => c.faction);
+        const elements = activeCards.map(c => c.element);
+
+        const uniqueFactions = new Set(factions);
+        const uniqueElements = new Set(elements);
+
+        if (uniqueFactions.size === 1) {
+            synergyBonusAtk += 0.3;
+            synergyBonusHp += 0.3;
+            activeSynergies.push("Đồng Lòng Thế Lực (+30% HP/ATK)");
+        } else if (uniqueFactions.size === 3) {
+            synergyBonusAtk += 0.15;
+            synergyBonusHp += 0.15;
+            activeSynergies.push("Đa Dạng Chiến Thuật (+15% HP/ATK)");
+        } else {
+             synergyBonusAtk += 0.1;
+             activeSynergies.push("Hỗ Trợ Thế Lực (+10% ATK)");
+        }
+
+        if (uniqueElements.size === 1 && !elements.includes('Neutral')) {
+            synergyBonusAtk += 0.3;
+            activeSynergies.push("Cộng Hưởng Nguyên Tố (+30% ATK)");
+        } else if (uniqueElements.size === 3) {
+            synergyBonusAtk += 0.15;
+            synergyBonusHp += 0.15;
+            activeSynergies.push("Nguyên Tố Hỗn Hợp (+15% HP/ATK)");
+        } else {
+             const counts = elements.reduce((acc, el) => { acc[el] = (acc[el] || 0) + 1; return acc; }, {} as Record<string, number>);
+             if (Object.values(counts).some(c => c === 2)) {
+                 synergyBonusAtk += 0.1;
+                 activeSynergies.push("Cộng Hưởng Nhẹ (+10% ATK)");
+             }
+        }
+    } else if (activeCards.length === 2) {
+        if (activeCards[0].faction === activeCards[1].faction) {
+           synergyBonusAtk += 0.1;
+           activeSynergies.push("Hỗ Trợ Thế Lực (+10% ATK)");
+        }
+        if (activeCards[0].element === activeCards[1].element && activeCards[0].element !== 'Neutral') {
+           synergyBonusAtk += 0.1;
+           activeSynergies.push("Cộng Hưởng Nhẹ (+10% ATK)");
+        }
+    }
+
+    if (synergyBonusHp > 0) totalHp = Math.floor(totalHp * (1 + synergyBonusHp));
+    if (synergyBonusAtk > 0) totalAtk = Math.floor(totalAtk * (1 + synergyBonusAtk));
+
+    return { hp: totalHp, atk: totalAtk, activeSynergies, synergyBonusAtk, synergyBonusHp };
 };
 
 export const getSquadDodgeRate = (squad: (Card | null)[]): number => {

@@ -21,6 +21,7 @@ export default function App() {
   const {
     currency, modifyCurrency, hasEnoughCurrency,
     level, experience, gainExperience,
+    pityCounter, updatePity,
     inventory, modifyInventory,
     cards, addCard, removeCard, updateCard,
     squad, setSquad, leaderId, setLeaderId,
@@ -192,6 +193,24 @@ export default function App() {
       }
   };
 
+  const handleGenerateAltText = async (cardId: string) => {
+      const card = cards.find(c => c.id === cardId);
+      if(!card) return;
+      
+      setIsProcessing(true);
+      try {
+          const { generateAltTextFromAI } = await import('./services/ai');
+          const altText = await generateAltTextFromAI(card, config);
+          const cardToUpdate = { ...card, altText };
+          await updateCard(cardToUpdate);
+          setToast({ msg: 'Đã tạo Alt Text thành công!', type: 'success' });
+      } catch (e: any) {
+          handleAlert("Lỗi AI Vision", e.message || "Dịch vụ AI đang bận.");
+      } finally {
+          setIsProcessing(false);
+      }
+  };
+
   return (
     <div className="min-h-screen overflow-x-hidden flex flex-col font-sans selection:bg-cinematic-gold selection:text-black relative">
         <div className="fixed inset-0 z-40 noise-overlay pointer-events-none"></div>
@@ -258,7 +277,7 @@ export default function App() {
                 </div>
             </div>
 
-            {activeTab === 'extract' && <ExtractView config={config} currency={currency} modifyCurrency={modifyCurrency} inventory={inventory} modifyInventory={modifyInventory} onSaveCard={addCard} onError={(m)=>setToast({msg:m, type:'error'})} onAlert={handleAlert} isGlobalProcessing={isProcessing} setGlobalProcessing={setIsProcessing} />}
+            {activeTab === 'extract' && <ExtractView config={config} currency={currency} modifyCurrency={modifyCurrency} inventory={inventory} modifyInventory={modifyInventory} level={level} pityCounter={pityCounter} updatePity={updatePity} onSaveCard={addCard} onError={(m)=>setToast({msg:m, type:'error'})} onAlert={handleAlert} isGlobalProcessing={isProcessing} setGlobalProcessing={setIsProcessing} />}
             {activeTab === 'fusion' && <FusionView config={config} currency={currency} modifyCurrency={modifyCurrency} fusionSlot1={fusionSlot1} fusionSlot2={fusionSlot2} setFusionSlot1={setFusionSlot1} setFusionSlot2={setFusionSlot2} onOpenSelector={(s) => setSelectorTarget(`fusion${s}`)} onCompleteFusion={handleCompleteFusion} onError={(m)=>setToast({msg:m, type:'error'})} onAlert={handleAlert} isGlobalProcessing={isProcessing} setGlobalProcessing={setIsProcessing} />}
             {activeTab === 'combat' && <CombatView config={config} currency={currency} modifyCurrency={modifyCurrency} modifyInventory={modifyInventory} gainExperience={gainExperience} squad={squad} leaderId={leaderId} setLeaderId={setLeaderId} setBoss={setBoss} boss={boss} onOpenSquadSelector={(s) => setSelectorTarget(`squad${s+1}` as any)} onClearSquadSlot={(idx) => {const n=[...squad]; n[idx]=null; setSquad(n); if (squad[idx]?.id === leaderId) setLeaderId(null);}} onError={(m)=>setToast({msg:m, type:'error'})} onAlert={handleAlert} onConfirm={handleConfirm} isGlobalProcessing={isProcessing} setGlobalProcessing={setIsProcessing} />}
             
@@ -281,6 +300,7 @@ export default function App() {
                         onReshoot={handleReshootTrigger} 
                         onDismantle={handleDismantle} 
                         onTranslate={handleTranslateCard}
+                        onGenerateAltText={handleGenerateAltText}
                         isReshooting={reshootingCards.has(modalCardId)}
                         config={config} 
                     />
