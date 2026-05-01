@@ -3,8 +3,6 @@ import { AppConfig, Card, Boss } from "../types";
 
 export const GlobalApiState = {
     geminiBannedUntil: 0,
-    pollinationsCustomKeyBannedUntil: 0,
-    pollinationsProBannedUntil: 0,
     currentStatusMsg: "",
     notify: (msg: string) => {
         if (typeof window !== 'undefined') {
@@ -18,21 +16,6 @@ export const GlobalApiState = {
         }
     }
 };
-
-function getNextHourTimestamp() {
-    const now = new Date();
-    // Reset at exactly the start of the next hour (e.g., 2:00, 3:00)
-    now.setHours(now.getHours() + 1);
-    now.setMinutes(0, 0, 0);
-    now.setMilliseconds(0);
-    return now.getTime();
-}
-
-function formatWaitTime(seconds: number): string {
-    const m = Math.floor(seconds / 60);
-    const s = seconds % 60;
-    return `${m}:${s.toString().padStart(2, '0')}`;
-}
 
 function extractJsonFromString(text: string) {
     const start = text.indexOf('{');
@@ -157,69 +140,28 @@ ${JSON.stringify({ ...Object.keys(schemaProps).reduce((a,k)=>({...a, [k]: schema
     const FREE_URL = "https://text.pollinations.ai/v1/chat/completions";
 
     // Tier 1: User's Custom SK_KEY
-    if (hasCustomKey && Date.now() > GlobalApiState.pollinationsCustomKeyBannedUntil) {
-        let retries = 0;
-        while (retries < 3) {
-            try {
-                if (retries === 0) GlobalApiState.notify("Đang sử dụng Pollinations (Custom Key)...");
-                else GlobalApiState.notify(`Thử lại Custom Key (Lần ${retries}/2)...`);
-                
-                return await tryFetchText(FREE_URL, true, "Polli Text (Custom Key)");
-            } catch (e: any) {
-                if (e.message.includes("429_LIMIT") && retries < 2) {
-                    retries++;
-                    await new Promise(r => setTimeout(r, 2000));
-                    continue;
-                }
-                
-                if (e.message.includes("429_LIMIT")) {
-                    GlobalApiState.pollinationsCustomKeyBannedUntil = getNextHourTimestamp();
-                    GlobalApiState.notify("Custom Key hết phấn hoa! Tự động chuyển sang Proxy...");
-                } else {
-                    console.warn("Pollinations Custom Key Error:", e);
-                    GlobalApiState.notify("Lỗi Custom Key! Chuyển sang API dự phòng...");
-                    GlobalApiState.pollinationsCustomKeyBannedUntil = Date.now() + 3 * 60 * 1000;
-                }
-                break;
-            }
+    if (hasCustomKey) {
+        try {
+            GlobalApiState.notify("Đang dùng Pollinations (Custom Key)...");
+            return await tryFetchText(FREE_URL, true, "Polli Text (Custom Key)");
+        } catch (e: any) {
+            console.warn("Pollinations Custom Key Error:", e);
+            GlobalApiState.notify("Custom Key lỗi/hết phấn hoa! Chuyển sang Proxy...");
         }
     }
 
     // Tier 2: Proxy (Built-in SK_KEY)
-    if (Date.now() > GlobalApiState.pollinationsProBannedUntil) {
-        let retries = 0;
-        while (retries < 3) {
-            try {
-                if (retries === 0) GlobalApiState.notify("Đang sử dụng Pollinations (Proxy SK_KEY)...");
-                else GlobalApiState.notify(`Thử lại Pollinations Proxy (Lần ${retries}/2)...`);
-                
-                // useKey=false for PROXY_URL because proxy has built-in key
-                return await tryFetchText(PROXY_URL, false, "Polli Text (Proxy SK_KEY)");
-            } catch (e: any) {
-                if (e.message.includes("429_LIMIT") && retries < 2) {
-                    retries++;
-                    await new Promise(r => setTimeout(r, 2000));
-                    continue;
-                }
-                
-                if (e.message.includes("429_LIMIT")) {
-                    GlobalApiState.pollinationsProBannedUntil = getNextHourTimestamp();
-                    GlobalApiState.notify("Proxy hết phấn hoa! Chuyển tự động sang API Free...");
-                } else {
-                    console.warn("Pollinations Proxy Text Error:", e);
-                    GlobalApiState.notify("Lỗi kết nối Proxy! Chuyển tự động sang API Free...");
-                    GlobalApiState.pollinationsProBannedUntil = Date.now() + 3 * 60 * 1000;
-                }
-                break;
-            }
-        }
+    try {
+        GlobalApiState.notify("Đang dùng Pollinations (Proxy SK_KEY)...");
+        return await tryFetchText(PROXY_URL, false, "Polli Text (Proxy SK_KEY)");
+    } catch (e: any) {
+        console.warn("Pollinations Proxy Text Error:", e);
+        GlobalApiState.notify("Proxy lỗi/hết phấn hoa! Chuyển tự động sang API Free...");
     }
 
     // Tier 3: Free URL (No Key)
     try {
-        if (Date.now() <= GlobalApiState.pollinationsProBannedUntil && Date.now() <= GlobalApiState.pollinationsCustomKeyBannedUntil) {
-            GlobalApiState.notify("Sử dụng Pollinations Free API (No Key)...");
-        }
+        GlobalApiState.notify("Sử dụng Pollinations Free API (No Key)...");
         return await tryFetchText(FREE_URL, false, "Polli Text (Free API)");
     } catch(e: any) {
         GlobalApiState.setCurrentApi("Lỗi API ❌");
@@ -476,68 +418,28 @@ Base Character Info: ${fallbackPrompt}`;
     const FREE_URL = "https://image.pollinations.ai";
 
     // Tier 1: User's Custom SK_KEY
-    if (hasCustomKey && Date.now() > GlobalApiState.pollinationsCustomKeyBannedUntil) {
-        let retries = 0;
-        while (retries < 3) {
-            try {
-                if (retries === 0) GlobalApiState.notify("Đang dùng Pollinations Image (Custom Key)...");
-                else GlobalApiState.notify(`Thử lại kết nối ảnh Custom Key (Lần ${retries}/2)...`);
-                
-                return await tryFetchImage(FREE_URL, true, "Polli Image (Custom Key)");
-            } catch (e: any) {
-                if (e.message.includes("429_LIMIT") && retries < 2) {
-                    retries++;
-                    await new Promise(r => setTimeout(r, 2000));
-                    continue;
-                }
-                
-                if (e.message.includes("429_LIMIT")) {
-                    GlobalApiState.pollinationsCustomKeyBannedUntil = getNextHourTimestamp();
-                    GlobalApiState.notify("Custom Key hết phấn hoa hình ảnh! Chuyển qua Proxy...");
-                } else {
-                    console.warn("Pollinations Custom Key Image Error:", e);
-                    GlobalApiState.notify("Lỗi kết nối ảnh Custom Key! Chuyển qua dự phòng...");
-                    GlobalApiState.pollinationsCustomKeyBannedUntil = Date.now() + 3 * 60 * 1000;
-                }
-                break;
-            }
+    if (hasCustomKey) {
+        try {
+            GlobalApiState.notify("Đang dùng Pollinations Image (Custom Key)...");
+            return await tryFetchImage(FREE_URL, true, "Polli Image (Custom Key)");
+        } catch (e: any) {
+            console.warn("Pollinations Custom Key Image Error:", e);
+            GlobalApiState.notify("Custom Key lỗi ảnh! Chuyển qua Proxy...");
         }
     } 
 
     // Tier 2: Proxy (Has SK_KEY built-in)
-    if (Date.now() > GlobalApiState.pollinationsProBannedUntil) {
-        let retries = 0;
-        while (retries < 3) {
-            try {
-                if (retries === 0) GlobalApiState.notify("Đang dùng Pollinations Image (Proxy SK_KEY)...");
-                else GlobalApiState.notify(`Thử lại kết nối ảnh Proxy (Lần ${retries}/2)...`);
-                
-                return await tryFetchImage(PROXY_URL, false, "Polli Image (Proxy SK_KEY)");
-            } catch (e: any) {
-                if (e.message.includes("429_LIMIT") && retries < 2) {
-                    retries++;
-                    await new Promise(r => setTimeout(r, 2000));
-                    continue;
-                }
-                
-                if (e.message.includes("429_LIMIT")) {
-                    GlobalApiState.pollinationsProBannedUntil = getNextHourTimestamp();
-                    GlobalApiState.notify("Proxy hết phấn hoa hình ảnh! Chuyển qua API Free...");
-                } else {
-                    console.warn("Pollinations Proxy Image Error:", e);
-                    GlobalApiState.notify("Lỗi kết nối ảnh Proxy! Chuyển qua API Free...");
-                    GlobalApiState.pollinationsProBannedUntil = Date.now() + 3 * 60 * 1000;
-                }
-                break;
-            }
-        }
+    try {
+        GlobalApiState.notify("Đang dùng Pollinations Image (Proxy SK_KEY)...");
+        return await tryFetchImage(PROXY_URL, false, "Polli Image (Proxy SK_KEY)");
+    } catch (e: any) {
+        console.warn("Pollinations Proxy Image Error:", e);
+        GlobalApiState.notify("Proxy lỗi ảnh! Chuyển qua API Free...");
     } 
 
     // Tier 3: Free API URL (No Key)
     try {
-        if (Date.now() <= GlobalApiState.pollinationsProBannedUntil && Date.now() <= GlobalApiState.pollinationsCustomKeyBannedUntil) {
-            GlobalApiState.notify("Sử dụng Pollinations Image Free API (No Key)...");
-        }
+        GlobalApiState.notify("Sử dụng Pollinations Image Free API (No Key)...");
         return await tryFetchImage(FREE_URL, false, "Polli Image (Free API)");
     } catch (e: any) {
         console.warn("Lỗi tải ảnh qua tất cả API:", e);
