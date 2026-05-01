@@ -14,6 +14,13 @@ export const GlobalApiState = {
         if (typeof window !== 'undefined') {
             window.dispatchEvent(new CustomEvent('api_active_name', { detail: apiName }));
         }
+    },
+    setIdle: () => {
+        if (typeof window !== 'undefined') {
+            window.dispatchEvent(new CustomEvent('api_active_name', { detail: 'Idle' }));
+            GlobalApiState.currentStatusMsg = "";
+            window.dispatchEvent(new CustomEvent('api_status_message', { detail: '' }));
+        }
     }
 };
 
@@ -170,18 +177,39 @@ ${JSON.stringify({ ...Object.keys(schemaProps).reduce((a,k)=>({...a, [k]: schema
     }
 }
 
+export const rollFaction = (): string => {
+    const r = Math.random() * 100;
+    if (r < 30) return 'Tech';
+    if (r < 60) return 'Magic';
+    if (r < 90) return 'Mutant';
+    if (r < 95) return 'Light';
+    return 'Dark';
+};
+
+export const rollElement = (): string => {
+    const r = Math.random() * 100;
+    if (r < 18) return 'Fire';
+    if (r < 36) return 'Water';
+    if (r < 54) return 'Earth';
+    if (r < 72) return 'Wind';
+    if (r < 90) return 'Lightning';
+    return 'Neutral';
+};
+
 export const generateCardFromAI = async (query: string, assignedRank: string, config: AppConfig): Promise<any> => {
     const langStr = config.language === 'en' ? 'ENGLISH (Tiếng Anh)' : 'TIẾNG VIỆT';
     const hasPassive = ['SR', 'SSR', 'UR'].includes(assignedRank);
     const ultimateLv = assignedRank === 'N' ? 1 : assignedRank === 'R' ? 2 : assignedRank === 'SR' ? 3 : assignedRank === 'SSR' ? 5 : 10;
+    const enforcedFaction = rollFaction();
+    const enforcedElement = rollElement();
     
     const sysPrompt = `Giám đốc Nghệ thuật AI. Trả về đúng schema JSON quy định. (TRẢ LỜI NGẮN GỌN, TRÁNH VƯỢT QUÁ GIỚI HẠN TOKEN)
-1. Nội suy 'gender', 'universe'. Faction chọn 1 (Tech, Magic, Mutant). Chiều cao/cân nặng tự nhiên. TRƯỜNG 'measurements' (số đo 3 vòng) BẮT BUỘC trả về ĐỊNH DẠNG SỐ "XX-XX-XX" (VD: 90-60-90).
+1. Nội suy 'gender', 'universe'. Faction BẮT BUỘC LÀ: '${enforcedFaction}'. Chiều cao/cân nặng tự nhiên. TRƯỜNG 'measurements' (số đo 3 vòng) BẮT BUỘC trả về ĐỊNH DẠNG SỐ "XX-XX-XX" (VD: 90-60-90).
 2. TRỌNG TÂM: Trường 'inspiredBy' PHẢI chứa TÊN CHÍNH XÁC của nhân vật gốc bằng Tiếng Anh.
 3. Trường 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH, NGẮN GỌN DƯỚI 50 TỪ, miêu tả trang phục, khuôn mặt.
 4. Hạng thẻ BẮT BUỘC là: ${assignedRank}.
 5. TẤT CẢ CÁC TRƯỜNG VĂN BẢN KHÁC (name, occupation, personality, lore, ultimateMove...) BẮT BUỘC VIẾT NGẮN GỌN DƯỚI 50 TỪ BẰNG NGÔN NGỮ: ${langStr}.
-6. Sinh ngẫu nhiên Đặc tính Nguyên Tố: 'Fire', 'Water', 'Earth', 'Lightning', 'Wind', 'Neutral'.
+6. Đặc tính Nguyên Tố BẮT BUỘC LÀ: '${enforcedElement}'.
 7. Thẻ hạng N và R KHÔNG CÓ passiveSkill (trả về rỗng hoặc null). Thẻ SR, SSR, UR BẮT BUỘC có passiveSkill liên quan nguyên tố.`;
     const prompt = `Tạo thẻ nhân vật từ: ${query}. Xếp hạng: ${assignedRank}. Ngôn ngữ: ${langStr}. Nhớ GIỮ CÁC TRƯỜNG TEXT NGẮN GỌN.`;
     
@@ -197,13 +225,15 @@ export const generateCardFromAI = async (query: string, assignedRank: string, co
     res.language = config.language;
     res.ultimateLevel = ultimateLv;
     res.origin = 'Extracted';
+    GlobalApiState.setIdle();
     return res;
 };
 
 export const generateFusionFromAI = async (c1: Card, c2: Card, targetRank: string, config: AppConfig): Promise<any> => {
     const targetHeight = Math.floor((c1.height || 170) * 0.3 + (c2.height || 170) * 0.7);
     const targetWeight = Math.floor((c1.weight || 60) * 0.3 + (c2.weight || 60) * 0.7);
-    const forcedFaction = c1.faction || 'Tech';
+    const forcedFaction = Math.random() > 0.5 ? c1.faction : c2.faction; // Inherit faction from parents dynamically
+    const forcedElement = rollElement(); // Roll a new element for the fused card or you could mix... let's just roll randomly for variety
     const forcedGender = c1.gender || 'Unknown';
     const forcedUniverse = c2.universe || 'Unknown';
     const langStr = config.language === 'en' ? 'ENGLISH (Tiếng Anh)' : 'TIẾNG VIỆT';
@@ -212,7 +242,7 @@ export const generateFusionFromAI = async (c1: Card, c2: Card, targetRank: strin
 
     const sysPrompt = `Tiến sĩ Sinh học lai tạo (Chimera Protocol). Trả JSON hợp lệ. (NGẮN GỌN DƯỚI 50 TỪ MỖI TRƯỜNG).
 1. Hạng thẻ BẮT BUỘC là: ${targetRank}.
-2. Tộc Hệ BẮT BUỘC LÀ: '${forcedFaction}'. Giới tính BẮT BUỘC LÀ: '${forcedGender}'. Vũ trụ BẮT BUỘC LÀ: '${forcedUniverse}'.
+2. Tộc Hệ BẮT BUỘC LÀ: '${forcedFaction}'. Giới tính BẮT BUỘC LÀ: '${forcedGender}'. Vũ trụ BẮT BUỘC LÀ: '${forcedUniverse}'. Đặc tính Nguyên Tố BẮT BUỘC LÀ: '${forcedElement}'.
 3. Chiều cao khoảng ${targetHeight}cm, cân nặng khoảng ${targetWeight}kg. 'measurements' ĐỊNH DẠNG "XX-XX-XX".
 4. Trường 'inspiredBy' là sự kết hợp tên gốc.
 5. 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH (NGẮN GỌN).
@@ -237,6 +267,7 @@ Ngôn ngữ: ${langStr}. Trả JSON ngắn gọn.`;
     res.ultimateLevel = ultimateLv;
     res.origin = 'Forged';
     res.parents = [c1.id, c2.id];
+    GlobalApiState.setIdle();
     return res;
 };
 
@@ -248,10 +279,14 @@ export const generateBossFromAI = async (sHp: number, sAtk: number, difficulty: 
     let threatPrefix = "Alpha";
     if (difficulty === 'elite') { hpRange = "15000 - 25000"; atkRange = "3500 - 6000"; rewardRange = "1500 - 3000"; threatPrefix = "Elite"; }
     if (difficulty === 'nightmare') { hpRange = "35000 - 55000"; atkRange = "8000 - 13000"; rewardRange = "5000 - 15000"; threatPrefix = "Nightmare"; }
+    
+    // Smooth Distribution Enforcement
+    const enforcedFaction = rollFaction();
+    const enforcedElement = rollElement();
 
     const sysPrompt = `Game Master AI (DDA). JSON Ngôn ngữ: ${langStr}. (Mục visualDescription ghi Tiếng Anh). GIỮ CÁC TEXT NGẮN GỌN DƯỚI 40 TỪ.`;
     // We no longer display or base the prompt heavily on sHp/sAtk. We just give absolute ranges.
-    const prompt = `Tạo Boss cấp độ ${threatPrefix} có chỉ số sức mạnh cố định: HP dao động (${hpRange}) và ATK dao động (${atkRange}). Random vũ trụ, Tộc Hệ, Đặc tính Nguyên Tố. Phần thưởng đánh bại (${rewardRange} DC). Thêm tiền tố "${threatPrefix} " vào threatLevel. JSON ngắn gọn!`;
+    const prompt = `Tạo Boss cấp độ ${threatPrefix} có chỉ số sức mạnh cố định: HP dao động (${hpRange}) và ATK dao động (${atkRange}). Random vũ trụ. BẮT BUỘC TỘC HỆ (Faction) LÀ: '${enforcedFaction}'. Đặc tính Nguyên Tố BẮT BUỘC LÀ: '${enforcedElement}'. Phần thưởng (${rewardRange} DC). Thêm tiền tố "${threatPrefix} " vào threatLevel. JSON ngắn gọn!`;
 
     const props = {
         id: { type: Type.STRING }, name: { type: Type.STRING }, universe: { type: Type.STRING }, faction: { type: Type.STRING }, element: { type: Type.STRING },
@@ -260,7 +295,9 @@ export const generateBossFromAI = async (sHp: number, sAtk: number, difficulty: 
     };
     const req = ["name", "universe", "faction", "element", "threatLevel", "hp", "attack", "reward", "lore", "passiveSkill", "visualDescription"];
 
-    return await executeTextAI(prompt, sysPrompt, config, props, req);
+    const res = await executeTextAI(prompt, sysPrompt, config, props, req);
+    GlobalApiState.setIdle();
+    return res;
 };
 
 export const translateCardWithAI = async (card: Card, targetLang: 'vi' | 'en', config: AppConfig): Promise<Partial<Card>> => {
@@ -284,7 +321,9 @@ Ultimate Move: ${card.ultimateMove}`;
     };
     const req = ["name", "occupation", "nationality", "personality", "lore", "ultimateMove"];
     
-    return await executeTextAI(prompt, sysPrompt, config, props, req);
+    const res = await executeTextAI(prompt, sysPrompt, config, props, req);
+    GlobalApiState.setIdle();
+    return res;
 };
 
 export const generateImageFromAi = async (data: any, config: AppConfig, overrideModel?: string): Promise<string> => {
@@ -304,15 +343,21 @@ export const generateImageFromAi = async (data: any, config: AppConfig, override
     const baseVisuals = data.visualDescription;
     const genderTerm = data.gender?.toLowerCase().includes('nữ') ? 'female character' : (data.gender?.toLowerCase().includes('nam') ? 'male character' : 'character');
     const universeTerm = data.universe ? `from ${data.universe} universe` : 'cinematic style';
-    const factionTheme = data.faction === 'Tech' ? 'cyberpunk, sci-fi, neon, mechanical' : (data.faction === 'Magic' ? 'fantasy, magical aura, mystical, spellcasting' : 'mutant, organic, bio-engineered, monstrous or natural power');
+    let factionTheme = 'mutant, organic, bio-engineered, monstrous or natural power';
+    if (data.faction === 'Tech') factionTheme = 'cyberpunk, sci-fi, neon, mechanical';
+    else if (data.faction === 'Magic') factionTheme = 'fantasy, magical aura, mystical, spellcasting';
+    else if (data.faction === 'Light') factionTheme = 'divine, heavenly, glowing aura, holy, majestic, bright white and gold';
+    else if (data.faction === 'Dark') factionTheme = 'demonic, sinister, shadows, purple and black aura, abyssal, corrupted';
     
-    // Boss Image Caching Logic
+    // Boss Image Caching Logic (Pool by Faction and Threat Level to save API calls)
     const isBoss = data.hp && data.attack && !data.cardClass; // Boss detection
+    let bossCacheKey = "";
     if (isBoss) {
-        const cacheKey = `boss_img_${data.universe}_${data.name}`.replace(/\s+/g, '_').toLowerCase();
-        const cached = localStorage.getItem(cacheKey);
+        const threatLvlStr = data.threatLevel ? data.threatLevel.split(" ")[0].toLowerCase() : "alpha";
+        bossCacheKey = `boss_img_pool_${data.faction}_${threatLvlStr}`.replace(/\s+/g, '_').toLowerCase();
+        const cached = localStorage.getItem(bossCacheKey);
         if (cached) {
-            GlobalApiState.notify("Sử dụng diện mạo Boss từ Archive (Cache)...");
+            GlobalApiState.notify("Sử dụng diện mạo Boss tái tổ hợp từ Archive (Cache)...");
             return cached;
         }
     }
@@ -338,14 +383,13 @@ Base Character Info: ${fallbackPrompt}`;
 
     // Internal function to save to cache
     const saveToCacheIfBoss = (imgUrl: string) => {
-        if (isBoss) {
-            const cacheKey = `boss_img_${data.universe}_${data.name}`.replace(/\s+/g, '_').toLowerCase();
+        if (isBoss && bossCacheKey) {
             try {
-                localStorage.setItem(cacheKey, imgUrl);
+                localStorage.setItem(bossCacheKey, imgUrl);
             } catch(e) {
                 // Clear old boss images if quota exceeded
-                Object.keys(localStorage).filter(k=>k.startsWith('boss_img_')).forEach(k=>localStorage.removeItem(k));
-                localStorage.setItem(cacheKey, imgUrl);
+                Object.keys(localStorage).filter(k=>k.startsWith('boss_img_pool_')).forEach(k=>localStorage.removeItem(k));
+                localStorage.setItem(bossCacheKey, imgUrl);
             }
         }
     };
@@ -421,7 +465,9 @@ Base Character Info: ${fallbackPrompt}`;
     if (hasCustomKey) {
         try {
             GlobalApiState.notify("Đang dùng Pollinations Image (Custom Key)...");
-            return await tryFetchImage(FREE_URL, true, "Polli Image (Custom Key)");
+            const res = await tryFetchImage(FREE_URL, true, "Polli Image (Custom Key)");
+            GlobalApiState.setIdle();
+            return res;
         } catch (e: any) {
             console.warn("Pollinations Custom Key Image Error:", e);
             GlobalApiState.notify("Custom Key lỗi ảnh! Chuyển qua Proxy...");
@@ -431,7 +477,9 @@ Base Character Info: ${fallbackPrompt}`;
     // Tier 2: Proxy (Has SK_KEY built-in)
     try {
         GlobalApiState.notify("Đang dùng Pollinations Image (Proxy SK_KEY)...");
-        return await tryFetchImage(PROXY_URL, false, "Polli Image (Proxy SK_KEY)");
+        const res = await tryFetchImage(PROXY_URL, false, "Polli Image (Proxy SK_KEY)");
+        GlobalApiState.setIdle();
+        return res;
     } catch (e: any) {
         console.warn("Pollinations Proxy Image Error:", e);
         GlobalApiState.notify("Proxy lỗi ảnh! Chuyển qua API Free...");
@@ -440,11 +488,14 @@ Base Character Info: ${fallbackPrompt}`;
     // Tier 3: Free API URL (No Key)
     try {
         GlobalApiState.notify("Sử dụng Pollinations Image Free API (No Key)...");
-        return await tryFetchImage(FREE_URL, false, "Polli Image (Free API)");
+        const res = await tryFetchImage(FREE_URL, false, "Polli Image (Free API)");
+        GlobalApiState.setIdle();
+        return res;
     } catch (e: any) {
         console.warn("Lỗi tải ảnh qua tất cả API:", e);
         GlobalApiState.setCurrentApi("Lỗi Render Ảnh ❌");
         GlobalApiState.notify("Tất cả API ảnh đều quá tải hoặc lỗi!");
+        GlobalApiState.setIdle();
         throw e;
     }
 }
@@ -486,6 +537,8 @@ export const generateAltTextFromAI = async (card: Card, config: AppConfig): Prom
         }
     });
 
+    GlobalApiState.setIdle();
+    
     if (response.text) return response.text.trim();
     return "Alt text generation failed.";
 };

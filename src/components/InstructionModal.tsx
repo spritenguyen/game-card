@@ -227,7 +227,7 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                     <h4 className="text-sm font-bold text-cinematic-gold font-mono uppercase tracking-widest">Version 1.1.1: Elemental Resonance</h4>
                                 </div>
                                 <div className="bg-white/2 min-h-[50px] p-4 rounded-xl border border-white/5 text-zinc-400 text-xs leading-relaxed space-y-2">
-                                    <p><strong className="text-white">● Tương khắc Tộc hệ:</strong> <span className="text-blue-400">Tech</span> &gt; <span className="text-purple-400">Magic</span> &gt; <span className="text-red-400">Mutant</span> &gt; <span className="text-blue-400">Tech</span>. Gây thêm 30% sát thương.</p>
+                                    <p><strong className="text-white">● Tương khắc Tộc hệ:</strong> Dòng cơ bản: <span className="text-blue-400">Tech</span> &gt; <span className="text-purple-400">Magic</span> &gt; <span className="text-red-400">Mutant</span> &gt; <span className="text-blue-400">Tech</span>. Dòng Thần Bí: <span className="text-yellow-300">Light</span> &lt;&gt; <span className="text-zinc-400">Dark</span> (Thiên Địch: Gây thêm 30% sát thương lên nhau). Hệ khắc chế luôn gây thêm 30% sát thương.</p>
                                     <p><strong className="text-white">● Ngôi sao Nguyên tố:</strong> Áp dụng các nguyên tố <span className="text-red-500">Fire</span>, <span className="text-blue-500">Water</span>, <span className="text-green-500">Nature</span>... để tạo ra lợi thế vượt trội hoặc bất lợi cực lớn trong chiến đấu thông qua bảng Tứ Nguyên Tố.</p>
                                 </div>
                             </section>

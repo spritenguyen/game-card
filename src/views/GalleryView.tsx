@@ -108,6 +108,8 @@ export const GalleryView: React.FC<Props> = ({ cards, onOpenCard }) => {
                             <option value="Tech">Tech (Công Nghệ)</option>
                             <option value="Magic">Magic (Phép Thuật)</option>
                             <option value="Mutant">Mutant (Đột Biến)</option>
+                            <option value="Light">Light (Ánh Sáng)</option>
+                            <option value="Dark">Dark (Bóng Tối)</option>
                         </select>
                     </div>
 

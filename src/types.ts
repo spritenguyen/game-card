@@ -1,5 +1,5 @@
 export type CardRank = 'N' | 'R' | 'SR' | 'SSR' | 'UR';
-export type FactionType = 'Tech' | 'Magic' | 'Mutant';
+export type FactionType = 'Tech' | 'Magic' | 'Mutant' | 'Light' | 'Dark';
 export type ElementType = 'Fire' | 'Water' | 'Earth' | 'Lightning' | 'Wind' | 'Neutral';
 
 export interface Card {
