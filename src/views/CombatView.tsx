@@ -24,7 +24,7 @@ interface Props {
   currency: number;
   level: number;
   modifyCurrency: (amount: number) => boolean;
-  modifyInventory: (baseDiff: number, eliteDiff: number) => void;
+  modifyInventory: (baseDiff: number, eliteDiff: number, mats?: Record<string, number>) => void;
   gainExperience: (amount: number) => void;
   squad: (Card | null)[];
   leaderId: string | null;
@@ -36,6 +36,7 @@ interface Props {
   onError: (msg: string) => void;
   onAlert: (t: string, m: string) => void;
   onConfirm: (m: string, cb: () => void) => void;
+  updateQuestProgress: (type: string, amount?: number) => void;
   isGlobalProcessing: boolean;
   setGlobalProcessing: (v: boolean) => void;
 }
@@ -57,6 +58,7 @@ export const CombatView: React.FC<Props> = ({
   onError,
   onAlert,
   onConfirm,
+  updateQuestProgress,
   isGlobalProcessing,
   setGlobalProcessing,
 }) => {
@@ -724,7 +726,17 @@ export const CombatView: React.FC<Props> = ({
       );
       modifyCurrency(boss.reward);
       gainExperience(expGained);
-      if (baseDrop > 0 || eliteDrop > 0) modifyInventory(baseDrop, eliteDrop);
+      updateQuestProgress('boss', 1);
+      
+      const matDrops: Record<string, number> = {};
+      if (boss.drops && boss.drops.length > 0) {
+          boss.drops.forEach(d => {
+              matDrops[d.item] = d.amount;
+              rewardLogMsgs.push(`<span class="text-cinematic-gold font-bold">+${d.amount} ${d.item}</span>`);
+          });
+      }
+      
+      modifyInventory(baseDrop, eliteDrop, matDrops);
 
       onAlert("Chiến dịch xuất sắc!", rewardLogMsgs.join("<br>"));
       setBoss(null);

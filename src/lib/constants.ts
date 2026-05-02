@@ -37,4 +37,4 @@ export const ELEMENTS = {
     'Neutral': { id: 'Neutral', name: 'NEUTRAL', icon: 'fa-atom', color: 'text-zinc-400', glow: 'shadow-[0_0_15px_rgba(161,161,170,0.4)]' }
 };
 
-export const APP_VERSION = 'v1.2.4-Hotfix.AutoAPI';
+export const APP_VERSION = 'v1.3.0-BlackMarket';

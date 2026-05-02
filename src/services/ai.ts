@@ -275,10 +275,10 @@ export const generateBossFromAI = async (sHp: number, sAtk: number, difficulty: 
     const langStr = config.language === 'en' ? 'ENGLISH (Tiếng Anh)' : 'TIẾNG VIỆT';
     let hpRange = "5000 - 9000";
     let atkRange = "1200 - 2500";
-    let rewardRange = "300 - 1000";
+    let rewardRange = "250 - 300";
     let threatPrefix = "Alpha";
-    if (difficulty === 'elite') { hpRange = "15000 - 25000"; atkRange = "3500 - 6000"; rewardRange = "1500 - 3000"; threatPrefix = "Elite"; }
-    if (difficulty === 'nightmare') { hpRange = "35000 - 55000"; atkRange = "8000 - 13000"; rewardRange = "5000 - 15000"; threatPrefix = "Nightmare"; }
+    if (difficulty === 'elite') { hpRange = "15000 - 25000"; atkRange = "3500 - 6000"; rewardRange = "375 - 600"; threatPrefix = "Elite"; }
+    if (difficulty === 'nightmare') { hpRange = "45000 - 70000"; atkRange = "10000 - 16000"; rewardRange = "750 - 1800"; threatPrefix = "Nightmare"; }
     
     // Smooth Distribution Enforcement
     const enforcedFaction = rollFaction();
@@ -296,6 +296,20 @@ export const generateBossFromAI = async (sHp: number, sAtk: number, difficulty: 
     const req = ["name", "universe", "faction", "element", "threatLevel", "hp", "attack", "reward", "lore", "passiveSkill", "visualDescription"];
 
     const res = await executeTextAI(prompt, sysPrompt, config, props, req);
+    
+    // Create Drops based on Element/Faction
+    res.drops = [];
+    if (res.element && res.element !== 'Neutral') {
+        const amount = difficulty === 'nightmare' ? 5 : difficulty === 'elite' ? 2 : 1;
+        res.drops.push({ item: `${res.element} Shard`, amount });
+    }
+    if (res.faction) {
+        const amount = difficulty === 'nightmare' ? 3 : difficulty === 'elite' ? 1 : 0;
+        if (amount > 0) {
+            res.drops.push({ item: `${res.faction} Core`, amount });
+        }
+    }
+
     GlobalApiState.setIdle();
     return res;
 };

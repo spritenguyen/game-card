@@ -42,10 +42,40 @@ export interface Boss {
   threatLevel: string;
   hp: number;
   attack: number;
-  reward: number;
+  reward: number; // DC
+  drops?: { item: string, amount: number }[]; // Additional item drops
   lore: string;
   visualDescription: string;
   imageUrl?: string;
+}
+
+export type ExpeditionStatus = 'idle' | 'ongoing' | 'completed';
+
+export interface Expedition {
+  id: string;
+  name: string;
+  description: string;
+  durationMinutes: number;
+  requiredElement?: ElementType;
+  requiredFaction?: FactionType;
+  rewardDC: number;
+  rewardMaterials: { item: string, amount: number }[];
+  status: ExpeditionStatus;
+  startTime?: number;
+  assignedCardId?: string;
+}
+
+export interface Quest {
+  id: string;
+  title: string;
+  description: string;
+  targetCount: number;
+  currentCount: number;
+  rewardDC: number;
+  rewardTickets: { type: 'base' | 'elite', amount: number }[];
+  isCompleted: boolean;
+  isClaimed: boolean;
+  type: 'boss' | 'extract' | 'fusion' | 'expedition';
 }
 
 export interface AppConfig {
@@ -63,6 +93,8 @@ export interface AppConfig {
 export interface Inventory {
   baseTickets: number;
   eliteTickets: number;
+  materials: Record<string, number>;
+  quantumDust: number;
 }
 
 export interface GameState {

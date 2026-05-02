@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { Card, AppConfig } from '../types';
 import { FullCard } from '../components/FullCard';
-import { getFusionCost, getFactionInfo } from '../lib/gameLogic';
+import { getFusionCost, getFactionInfo, getRankIndex } from '../lib/gameLogic';
 import { generateFusionFromAI, generateImageFromAi } from '../services/ai';
+import { FACTIONS, ELEMENTS } from '../lib/constants';
 
 interface Props {
   config: AppConfig;
   currency: number;
   modifyCurrency: (amount: number) => boolean;
+  inventory: any;
+  modifyInventory: (bd: number, ed: number, m?: Record<string, number>, dd?: number) => void;
   fusionSlot1: Card | null;
   fusionSlot2: Card | null;
   setFusionSlot1: (c: Card | null) => void;
@@ -20,7 +23,7 @@ interface Props {
   setGlobalProcessing: (v: boolean) => void;
 }
 
-export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, fusionSlot1, fusionSlot2, setFusionSlot1, setFusionSlot2, onOpenSelector, onCompleteFusion, onError, onAlert, isGlobalProcessing, setGlobalProcessing }) => {
+export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, inventory, modifyInventory, fusionSlot1, fusionSlot2, setFusionSlot1, setFusionSlot2, onOpenSelector, onCompleteFusion, onError, onAlert, isGlobalProcessing, setGlobalProcessing }) => {
     const [card, setCard] = useState<Card | null>(null);
     const [isLoadingImage, setIsLoadingImage] = useState(false);
     const [targetRankString, setTargetRankString] = useState<string>('');
@@ -34,22 +37,101 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
 
         setGlobalProcessing(true);
         try {
-            if (!modifyCurrency(-dynamicCost)) throw new Error("Giao dịch Credit bị từ chối.");
+            const r1 = getRankIndex(fusionSlot1.cardClass);
+            const r2 = getRankIndex(fusionSlot2.cardClass);
+            
+            if (r1 === 4 || r2 === 4) {
+                 setGlobalProcessing(false);
+                 return onError("Không thể dùng thẻ UR làm vật liệu lai tạo.");
+            }
 
-            // Calculate target rank purely on frontend
-            const getRankIdx = (cls?: string) => { const u=cls?.toUpperCase()||''; if(u.includes('UR'))return 4; if(u.includes('SSR'))return 3; if(u.includes('SR'))return 2; if(u.includes('R'))return 1; return 0; };
-            const r1 = getRankIdx(fusionSlot1.cardClass);
-            const r2 = getRankIdx(fusionSlot2.cardClass);
+            const maxR = Math.max(r1, r2);
+            let reqCore = 0;
+            let reqShard = 0;
+            let reqDust = 0;
+
+            if (maxR === 2) { // SR
+                reqCore = 1;
+                reqShard = 1;
+            } else if (maxR === 3) { // SSR
+                reqCore = 2;
+                reqShard = 2;
+                reqDust = 50;
+            }
+
+            const coreName = `${fusionSlot1.faction} Core`;
+            const shardName = `${fusionSlot2.element} Shard`;
+
+            if (reqCore > 0 && (inventory.materials?.[coreName] || 0) < reqCore) {
+                setGlobalProcessing(false);
+                return onError(`Thiếu ${reqCore} ${coreName} (Yêu cầu bởi Thẻ SR+).`);
+            }
+            if (reqShard > 0 && (inventory.materials?.[shardName] || 0) < reqShard) {
+                setGlobalProcessing(false);
+                return onError(`Thiếu ${reqShard} ${shardName} (Yêu cầu bởi Thẻ SR+).`);
+            }
+            if (reqDust > 0 && (inventory.quantumDust || 0) < reqDust) {
+                setGlobalProcessing(false);
+                return onError(`Thiếu ${reqDust} Quantum Dust (Yêu cầu bởi Thẻ SSR).`);
+            }
+
+            if (!modifyCurrency(-dynamicCost)) {
+                setGlobalProcessing(false);
+                return onError("Giao dịch Credit bị từ chối.");
+            }
+
+            if (reqCore > 0 || reqShard > 0 || reqDust > 0) {
+                 const dedMaterials: Record<string, number> = {};
+                 if (reqCore > 0) dedMaterials[coreName] = -reqCore;
+                 if (reqShard > 0) {
+                     dedMaterials[shardName] = (dedMaterials[shardName] || 0) - reqShard;
+                 }
+                 modifyInventory(0, 0, dedMaterials, -reqDust);
+            }
+
             const roll = Math.random()*100;
-            let inc = roll<30?0:(roll<80?1:(roll<95?2:3));
-            const tgtR = Math.min(4, Math.max(r1,r2)+inc);
+            let tgtR = maxR;
+            if (maxR === 0) {
+                if (roll < 50) tgtR = 0;
+                else if (roll < 90) tgtR = 1; // 40% R
+                else tgtR = 2; // 10% SR
+            } else if (maxR === 1) { 
+                if (roll < 60) tgtR = 1;
+                else if (roll < 95) tgtR = 2; // 35% SR
+                else tgtR = 3; // 5% SSR
+            } else if (maxR === 2) { 
+                if (roll < 70) tgtR = 2;
+                else if (roll < 97) tgtR = 3; // 27% SSR
+                else tgtR = 4; // 3% UR
+            } else if (maxR === 3) { 
+                if (roll < 95) tgtR = 3;
+                else tgtR = 4; // 5% UR
+            }
+            if (tgtR > 4) tgtR = 4;
+
             const targetRank = ['N', 'R', 'SR', 'SSR', 'UR'][tgtR];
             setTargetRankString(targetRank);
+
+            let newFaction = fusionSlot1.faction || 'Tech';
+            let newElement = fusionSlot2.element || 'Neutral';
+            const factionKeys = Object.keys(FACTIONS);
+            const elementKeys = Object.keys(ELEMENTS);
+            let isMutated = false;
+
+            if (Math.random() < 0.15) { // 15% mutation chance
+                isMutated = true;
+                if (Math.random() < 0.5) {
+                    newFaction = factionKeys[Math.floor(Math.random() * factionKeys.length)] as any;
+                } else {
+                    newElement = elementKeys[Math.floor(Math.random() * elementKeys.length)] as any;
+                }
+            }
 
             const cardData = await generateFusionFromAI(fusionSlot1, fusionSlot2, targetRank, config);
             cardData.cardClass = targetRank;
             cardData.id = 'CINE-F-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substr(2, 4).toUpperCase();
-            cardData.faction = fusionSlot1.faction || 'Tech';
+            cardData.faction = newFaction as any;
+            cardData.element = newElement as any;
             cardData.universe = fusionSlot2.universe || 'Unknown';
             
             setCard(cardData);
@@ -65,7 +147,11 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
             }
 
             await onCompleteFusion(cardData, fusionSlot1.id, fusionSlot2.id);
-            onAlert("Hệ Thống Cine-Tech", `Lai tạo thành công!<br>Nhận Thẻ hạng <strong>${targetRank}</strong>.<br>2 Thẻ gốc đã bị tiêu hủy.`);
+            if (isMutated) {
+                onAlert("ĐỘT BIẾN GEN", `DNA phát sinh bất thường! Thể mới đạt hệ: ${newFaction} - ${newElement}`);
+            } else {
+                onAlert("Hệ Thống Cine-Tech", `Lai tạo thành công!<br>Nhận Thẻ hạng <strong>${targetRank}</strong>.<br>2 Thẻ gốc đã bị tiêu hủy.`);
+            }
             
         } catch(e: any) {
             modifyCurrency(dynamicCost);
@@ -118,8 +204,15 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                     </div>
 
                     <div className="flex flex-col items-center justify-center py-4 relative">
-                        <div className="absolute -top-6 bg-cinematic-900 border border-cinematic-cyan/50 text-cinematic-cyan text-[10px] px-3 py-1 rounded-full font-bold shadow-lg z-10 whitespace-nowrap">
-                            Phí: {canFuse ? `${dynamicCost} DC` : 'Tùy cấp độ'}
+                        <div className="absolute -top-10 sm:-top-8 flex flex-col items-center gap-1 w-max">
+                            <div className="bg-cinematic-900 border border-cinematic-cyan/50 text-cinematic-cyan text-[10px] px-3 py-1 rounded-full font-bold shadow-lg z-10 whitespace-nowrap">
+                                Phí: {canFuse ? `${dynamicCost} DC` : 'Tùy cấp độ'}
+                            </div>
+                            {canFuse && Math.max(getRankIndex(fusionSlot1.cardClass), getRankIndex(fusionSlot2.cardClass)) >= 2 && (
+                                <div className="text-[8px] bg-red-900/50 text-red-200 px-2 py-0.5 rounded border border-red-500/30 whitespace-nowrap">
+                                    + Cần v.phẩm đặc thù (Core/Shard)
+                                </div>
+                            )}
                         </div>
                         <button 
                             onClick={executeFusion} 

@@ -15,9 +15,11 @@ export const useGameState = () => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [level, setLevel] = useState<number>(1);
     const [experience, setExperience] = useState<number>(0);
-    const [inventory, setInventory] = useState({ baseTickets: 0, eliteTickets: 0 });
+    const [inventory, setInventory] = useState({ baseTickets: 0, eliteTickets: 0, materials: {} as Record<string, number>, quantumDust: 0 });
     const [leaderId, setLeaderId] = useState<string | null>(null);
     const [pityCounter, setPityCounter] = useState<number>(0);
+    const [quests, setQuests] = useState<any[]>([]);
+    const [expeditions, setExpeditions] = useState<any[]>([]);
 
     const updatePity = useCallback((newPity: number) => {
         setPityCounter(newPity);
@@ -38,8 +40,38 @@ export const useGameState = () => {
 
         const storedInventory = localStorage.getItem('cineInventory');
         if (storedInventory) {
-            try { setInventory(JSON.parse(storedInventory)); } catch(e){}
+            try { 
+                const parsed = JSON.parse(storedInventory);
+                setInventory({
+                    baseTickets: parsed.baseTickets || 0,
+                    eliteTickets: parsed.eliteTickets || 0,
+                    materials: parsed.materials || {},
+                    quantumDust: parsed.quantumDust || 0
+                }); 
+            } catch(e){}
         }
+        
+        const storedQuests = localStorage.getItem('cineQuests');
+        if (storedQuests) {
+            try { setQuests(JSON.parse(storedQuests)); } catch(e){}
+        } else {
+             setQuests([
+                 { id: 'q1', type: 'extract', title: 'Triệu hồi 1 lần', description: 'Thực hiện 1 lần Extract', targetCount: 1, currentCount: 0, rewardDC: 50, rewardTickets: [], isCompleted: false, isClaimed: false },
+                 { id: 'q2', type: 'boss', title: 'Tiêu diệt 1 Boss', description: 'Đánh bại 1 Boss bất kỳ', targetCount: 1, currentCount: 0, rewardDC: 100, rewardTickets: [{type: 'base', amount: 1}], isCompleted: false, isClaimed: false },
+                 { id: 'q3', type: 'fusion', title: 'Lai tạo thẻ', description: 'Tiến hành Fusion 1 lần', targetCount: 1, currentCount: 0, rewardDC: 150, rewardTickets: [], isCompleted: false, isClaimed: false }
+             ]);
+        }
+        
+        const storedExpeditions = localStorage.getItem('cineExpeditions');
+        if (storedExpeditions) {
+             try { setExpeditions(JSON.parse(storedExpeditions)); } catch(e){}
+        } else {
+             setExpeditions([
+                 { id: 'e1', name: 'Thăm dò tàn tích Lửa', description: 'Khám phá tàn tích nguyên tố hệ Fire', durationMinutes: 30, requiredElement: 'Fire', rewardDC: 200, rewardMaterials: [{item: 'Fire Shard', amount: 3}], status: 'idle' },
+                 { id: 'e2', name: 'Nghiên cứu công nghệ Mutant', description: 'Tìm hiểu tại khu vực Mutant', durationMinutes: 60, requiredFaction: 'Mutant', rewardDC: 400, rewardMaterials: [{item: 'Mutant Core', amount: 1}], status: 'idle' }
+             ]);
+        }
+
         const storedLeaderId = localStorage.getItem('cineLeaderId');
         if (storedLeaderId) setLeaderId(storedLeaderId);
 
@@ -80,9 +112,20 @@ export const useGameState = () => {
         loadCards();
     }, []);
 
-    const modifyInventory = useCallback((baseDiff: number, eliteDiff: number) => {
+    const modifyInventory = useCallback((baseDiff: number, eliteDiff: number, materialsDiff?: Record<string, number>, quantumDustDiff: number = 0) => {
         setInventory(prev => {
-            const next = { baseTickets: Math.max(0, prev.baseTickets + baseDiff), eliteTickets: Math.max(0, prev.eliteTickets + eliteDiff) };
+            const nextMats = { ...(prev.materials || {}) };
+            if (materialsDiff) {
+                for (const [mat, amount] of Object.entries(materialsDiff)) {
+                    nextMats[mat] = Math.max(0, (nextMats[mat] || 0) + amount);
+                }
+            }
+            const next = { 
+                baseTickets: Math.max(0, prev.baseTickets + baseDiff), 
+                eliteTickets: Math.max(0, prev.eliteTickets + eliteDiff),
+                materials: nextMats,
+                quantumDust: Math.max(0, (prev.quantumDust || 0) + quantumDustDiff)
+            };
             localStorage.setItem('cineInventory', JSON.stringify(next));
             return next;
         });
@@ -153,11 +196,13 @@ export const useGameState = () => {
         localStorage.removeItem('cineInventory');
         localStorage.removeItem('cineLeaderId');
         localStorage.removeItem('cineApiConfig');
+        localStorage.removeItem('cineQuests');
+        localStorage.removeItem('cineExpeditions');
         setCurrency(1500);
         setLevel(1);
         setExperience(0);
         setPityCounter(0);
-        setInventory({ baseTickets: 0, eliteTickets: 0 });
+        setInventory({ baseTickets: 0, eliteTickets: 0, materials: {}, quantumDust: 0 });
         setCards([]);
         setSquad([null, null, null]);
         setLeaderId(null);
@@ -165,14 +210,71 @@ export const useGameState = () => {
         setFusionSlot1(null);
         setFusionSlot2(null);
         setConfig(DEFAULT_APP_CONFIG);
+        setQuests([]);
+        setExpeditions([]);
         setIsProcessing(false);
     };
+
+    const updateQuestProgress = useCallback((type: string, amount: number = 1) => {
+        setQuests(prev => {
+            const next = prev.map(q => {
+                if (q.type === type && !q.isCompleted && !q.isClaimed) {
+                    const newCount = Math.min(q.targetCount, q.currentCount + amount);
+                    return { ...q, currentCount: newCount, isCompleted: newCount >= q.targetCount };
+                }
+                return q;
+            });
+            localStorage.setItem('cineQuests', JSON.stringify(next));
+            return next;
+        });
+    }, []);
+
+    const completeExpedition = useCallback((expId: string) => {
+        setExpeditions(prev => {
+            const next = prev.map(e => {
+                if (e.id === expId) {
+                    return { ...e, status: 'completed' as const };
+                }
+                return e;
+            });
+            localStorage.setItem('cineExpeditions', JSON.stringify(next));
+            return next;
+        });
+    }, []);
+
+    const claimExpedition = useCallback((expId: string) => {
+        setExpeditions(prev => {
+            const next = prev.map(e => {
+                if (e.id === expId) {
+                    return { ...e, status: 'idle' as const, startTime: undefined, assignedCardId: undefined };
+                }
+                return e;
+            });
+            localStorage.setItem('cineExpeditions', JSON.stringify(next));
+            return next;
+        });
+    }, []);
+
+    const startExpedition = useCallback((expId: string, cardId: string) => {
+        setExpeditions(prev => {
+            const next = prev.map(e => {
+                if (e.id === expId) {
+                    return { ...e, status: 'ongoing' as const, startTime: Date.now(), assignedCardId: cardId };
+                }
+                return e;
+            });
+            localStorage.setItem('cineExpeditions', JSON.stringify(next));
+            return next;
+        });
+    }, []);
 
     return {
         currency, modifyCurrency, hasEnoughCurrency,
         level, setLevel, experience, setExperience, gainExperience,
         pityCounter, updatePity,
         inventory, modifyInventory,
+        quests, setQuests, updateQuestProgress,
+        expeditions, setExpeditions, startExpedition, completeExpedition, claimExpedition,
         cards, addCard, removeCard, updateCard,
         squad, setSquad, leaderId, setLeaderId: (id: string | null) => { setLeaderId(id); if (id) localStorage.setItem('cineLeaderId', id); else localStorage.removeItem('cineLeaderId'); },
         boss, setBoss,

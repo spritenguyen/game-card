@@ -206,7 +206,7 @@ export const FullCard: React.FC<{
                 
                 <div className="flex flex-wrap gap-2 justify-center sm:justify-end w-full sm:w-auto">
                     {!isSaved && !isLoadingImage && context === 'extract' && onSave && (
-                        <button onClick={() => onSave(card)} className="bg-white text-black font-bold px-6 py-2.5 rounded-lg text-xs tracking-widest uppercase hover:bg-zinc-200 transition-colors shadow-lg shadow-white/10 hover:shadow-white/20 active:scale-95 duration-200">Save Data</button>
+                        <button onClick={() => onSave(card)} className="bg-white text-black font-bold px-6 py-2.5 rounded-lg text-[10px] tracking-widest uppercase hover:bg-zinc-200 transition-colors shadow-lg shadow-white/10 hover:shadow-white/20 active:scale-95 duration-200"><i className="fa-solid fa-check"></i> Tiếp Tục</button>
                     )}
                     
                     {isModal && isSaved && !isLoadingImage && (

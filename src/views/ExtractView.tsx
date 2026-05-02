@@ -16,11 +16,12 @@ interface Props {
   onSaveCard: (card: Card) => Promise<void>;
   onError: (msg: string) => void;
   onAlert: (title: string, msg: string) => void;
+  updateQuestProgress: (type: string, amount?: number) => void;
   isGlobalProcessing: boolean;
   setGlobalProcessing: (state: boolean) => void;
 }
 
-export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency, inventory, modifyInventory, level, pityCounter, updatePity, onSaveCard, onError, onAlert, isGlobalProcessing, setGlobalProcessing }) => {
+export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency, inventory, modifyInventory, level, pityCounter, updatePity, onSaveCard, onError, onAlert, updateQuestProgress, isGlobalProcessing, setGlobalProcessing }) => {
   const [query, setQuery] = useState('');
   const [card, setCard] = useState<Card | null>(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
@@ -60,11 +61,14 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
 
           try {
               const imgUrl = await generateImageFromAi(cardData, config);
-              setCard(prev => ({ ...prev!, imageUrl: imgUrl }));
+              cardData.imageUrl = imgUrl;
+              setCard({ ...cardData });
           } catch(e) {
-              onError("Cảnh báo: Hệ thống Vision bận. Thẻ vẫn được tạo (Không ảnh).");
+              onError("Cảnh báo: Hệ thống Vision bận. Thẻ vẫn được lưu (Nhưng không có ảnh).");
           } finally {
               setIsLoadingImage(false);
+              await onSaveCard(cardData);
+              updateQuestProgress('extract', 1);
           }
 
       } catch (e: any) {
@@ -82,10 +86,8 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
       }
   };
 
-  const handleSave = async (cardToSave: Card) => {
-      await onSaveCard(cardToSave);
-      setCard(null); // hide after saving
-      onAlert("Hệ Thống Cine-Tech", "Thẻ đã được lưu vào Vault!");
+  const handleSave = async () => {
+      setCard(null); // hide after viewing
   };
 
   return (

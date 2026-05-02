@@ -33,7 +33,7 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-serif text-white tracking-widest uppercase leading-none">HƯỚNG DẪN VẬN HÀNH</h3>
-                                    <p className="text-[9px] text-zinc-500 font-mono tracking-widest mt-1">CINE-TECH PROTOCOL: USER_MANUAL_V1.2.4</p>
+                                    <p className="text-[9px] text-zinc-500 font-mono tracking-widest mt-1">CINE-TECH PROTOCOL: USER_MANUAL_V1.3.0</p>
                                 </div>
                             </div>
                             <button onClick={onClose} className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors">
@@ -57,16 +57,28 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                     </div>
                                     <div className="bg-white/5 p-3 rounded-lg border border-white/10">
                                         <h5 className="text-[11px] font-bold text-cinematic-cyan mb-1 font-mono uppercase"><i className="fa-solid fa-dna mr-1"></i> 2. Thu dọn & Dung hợp</h5>
-                                        <p className="text-[10px] text-zinc-400 leading-relaxed">Phân giải các thẻ không dùng ở mục Thẻ (Card Detail) để hoàn lại DC. Ghép DNA 2 nhân vật ở tab Dung hợp (Fusion) để sinh thực thể cường hóa!</p>
+                                        <p className="text-[10px] text-zinc-400 leading-relaxed">Phân giải các thẻ không dùng ở mục Thẻ (Card Detail) để hoàn lại DC / Nguyên liệu. Ghép DNA 2 nhân vật ở tab Dung hợp (Fusion) để sinh thực thể cường hóa!</p>
                                     </div>
                                     <div className="bg-white/5 p-3 rounded-lg border border-white/10">
                                         <h5 className="text-[11px] font-bold text-red-400 mb-1 font-mono uppercase"><i className="fa-solid fa-crosshairs mr-1"></i> 3. Tác chiến (Combat)</h5>
-                                        <p className="text-[10px] text-zinc-400 leading-relaxed">Triển khai Đội hình qua Giao thức Mạng. Chọn Mục tiêu (Boss) thích hợp, chiến thắng để thu về DC, EXP và Vé đặc quyền.</p>
+                                        <p className="text-[10px] text-zinc-400 leading-relaxed">Triển khai Đội hình qua Giao thức Mạng. Chọn Mục tiêu (Boss) thích hợp, chiến thắng để thu về DC, EXP, Vé đặc quyền và Vật phẩm Rơi (Core/Shard).</p>
                                     </div>
                                     <div className="bg-white/5 p-3 rounded-lg border border-white/10">
-                                        <h5 className="text-[11px] font-bold text-purple-400 mb-1 font-mono uppercase"><i className="fa-solid fa-arrow-trend-up mr-1"></i> 4. Level & Trái Gọt</h5>
-                                        <p className="text-[10px] text-zinc-400 leading-relaxed">Nhận EXP qua Tác chiến. Level càng cao, tỷ lệ trích xuất thẻ UR (vũ khí tối thượng) càng tăng tốc và dễ dàng chinh phục Ác mộng.</p>
+                                        <h5 className="text-[11px] font-bold text-purple-400 mb-1 font-mono uppercase"><i className="fa-solid fa-shop mr-1"></i> 4. Ủy thác & Chợ Đen</h5>
+                                        <p className="text-[10px] text-zinc-400 leading-relaxed">Cử Thẻ Bài đi Ủy thác (Expeditions) thu thập DC/Vật phẩm. Bán vật phẩm dư tại Chợ Đen hoặc dùng Quantum Dust Reroll Tộc/Hệ cho Đơn vị.</p>
                                     </div>
+                                </div>
+                            </section>
+
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-purple-500 to-cyan-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-500 font-mono uppercase tracking-widest">Version 1.3.0: Thị trường Đen & Hoạt động Vệ tinh</h4>
+                                </div>
+                                <div className="bg-purple-950/20 min-h-[50px] p-4 rounded-xl border border-purple-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Cập nhật Đơn vị Vệ tinh (UNITS):</strong> Cổng Bounties cho phép game thủ theo dõi nhiệm vụ; Cổng Expeditions (Ủy thác) để triển khai đặc vụ tìm kiếm tài nguyên. Tab Storage tích hợp trong UNIT cho phép theo dõi Core và Shard.</p>
+                                    <p><strong className="text-white">● Hệ thống Thị Trường Đen (MARKET):</strong> Giao dịch các vé trích xuất, mua bán Shard/Core để thu thập Quantum Dust. Hỗ trợ "Tái lập Cấu trúc Gen", cho phép sử dụng Dust & Vật phẩm tương ứng để Reroll (Hệ / Tộc) cho các Đơn vị Thẻ chưa hoàn hảo.</p>
+                                    <p><strong className="text-white">● Quản lý Tài Nguyên:</strong> Hệ thống Boss nay sẽ rớt mảnh (Shard) dựa trên Nguyên Tố và lõi (Core) dựa trên Tộc Hệ. Thẻ bài có thể được khai thác sâu hơn và cá nhân hóa tốt hơn bằng cách ghép gen.</p>
                                 </div>
                             </section>
 

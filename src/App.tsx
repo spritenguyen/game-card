@@ -3,6 +3,8 @@ import { useGameState } from "./hooks/useGameState";
 import { ExtractView } from "./views/ExtractView";
 import { FusionView } from "./views/FusionView";
 import { CombatView } from "./views/CombatView";
+import { MissionsView } from "./views/MissionsView";
+import { BlackMarketView } from "./views/BlackMarketView";
 import { GalleryView } from "./views/GalleryView";
 import { Dialog } from "./components/ui/Dialog";
 import { Toast } from "./components/ui/Toast";
@@ -16,7 +18,7 @@ import { Card } from "./types";
 import { ReshootDialog } from "./components/ReshootDialog";
 import { ApiMonitor } from "./components/ApiMonitor";
 
-type Tab = "extract" | "fusion" | "combat";
+type Tab = "extract" | "fusion" | "combat" | "missions" | "blackmarket";
 
 export default function App() {
   const {
@@ -30,6 +32,14 @@ export default function App() {
     updatePity,
     inventory,
     modifyInventory,
+    quests,
+    setQuests,
+    updateQuestProgress,
+    expeditions,
+    setExpeditions,
+    startExpedition,
+    completeExpedition,
+    claimExpedition,
     cards,
     addCard,
     removeCard,
@@ -176,6 +186,7 @@ export default function App() {
     await addCard(newCard);
     setFusionSlot1(null);
     setFusionSlot2(null);
+    updateQuestProgress('fusion', 1);
   };
 
   const handleReshootTrigger = (cardId: string) => {
@@ -356,6 +367,13 @@ export default function App() {
                 {inventory.eliteTickets}
               </span>
             </div>
+            <div className="w-[1px] h-3 bg-white/20"></div>
+            <div className="flex items-center gap-1">
+              <i className="fa-brands fa-galactic-senate text-amber-500 opacity-80"></i>{" "}
+              <span className="font-bold text-amber-400 tabular-nums">
+                {inventory.quantumDust}
+              </span>
+            </div>
           </div>
           <div
             className="flex items-center gap-1.5 bg-zinc-900 px-2 py-0.5 rounded border border-cinematic-gold/20 shadow-lg"
@@ -401,6 +419,8 @@ export default function App() {
               { id: "extract", icon: "fa-microscope", label: "CORE" },
               { id: "fusion", icon: "fa-dna", label: "FORGE" },
               { id: "combat", icon: "fa-crosshairs", label: "OPS" },
+              { id: "missions", icon: "fa-satellite-dish", label: "UNITS" },
+              { id: "blackmarket", icon: "fa-shop", label: "MARKET" },
             ].map((btn) => (
               <button
                 key={btn.id}
@@ -429,6 +449,7 @@ export default function App() {
             onSaveCard={addCard}
             onError={(m) => setToast({ msg: m, type: "error" })}
             onAlert={handleAlert}
+            updateQuestProgress={updateQuestProgress}
             isGlobalProcessing={isProcessing}
             setGlobalProcessing={setIsProcessing}
           />
@@ -438,6 +459,8 @@ export default function App() {
             config={config}
             currency={currency}
             modifyCurrency={modifyCurrency}
+            inventory={inventory}
+            modifyInventory={modifyInventory}
             fusionSlot1={fusionSlot1}
             fusionSlot2={fusionSlot2}
             setFusionSlot1={setFusionSlot1}
@@ -475,9 +498,40 @@ export default function App() {
             onError={(m) => setToast({ msg: m, type: "error" })}
             onAlert={handleAlert}
             onConfirm={handleConfirm}
+            updateQuestProgress={updateQuestProgress}
             isGlobalProcessing={isProcessing}
             setGlobalProcessing={setIsProcessing}
           />
+        )}
+        {activeTab === "missions" && (
+            <MissionsView
+                quests={quests}
+                expeditions={expeditions}
+                cards={cards}
+                inventory={inventory}
+                updateQuestProgress={updateQuestProgress}
+                startExpedition={startExpedition}
+                completeExpedition={completeExpedition}
+                claimExpedition={claimExpedition}
+                modifyCurrency={modifyCurrency}
+                modifyInventory={modifyInventory}
+                setQuests={setQuests}
+                onAlert={handleAlert}
+            />
+        )}
+        {activeTab === "blackmarket" && (
+            <BlackMarketView
+                currency={currency}
+                inventory={inventory}
+                cards={cards}
+                modifyCurrency={modifyCurrency}
+                modifyInventory={modifyInventory}
+                updateCard={updateCard}
+                onAlert={handleAlert}
+                isGlobalProcessing={isProcessing}
+                setGlobalProcessing={setIsProcessing}
+                config={config}
+            />
         )}
 
         <GalleryView cards={cards} onOpenCard={setModalCardId} />
