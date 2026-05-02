@@ -300,6 +300,25 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
         <div className="w-full flex flex-col items-center animate-fade-in pb-12">
             <div className="w-full max-w-4xl glass-panel rounded-3xl p-6 sm:p-10 mb-8 relative overflow-hidden shadow-2xl border border-cinematic-cyan/20">
                 <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 50% 50%, #00f3ff 0%, transparent 60%)" }}></div>
+                
+                <div className="flex flex-wrap items-center justify-center gap-2 mb-6 relative z-10">
+                    <div className="bg-black/60 border border-cinematic-gold/30 px-3 py-1 rounded-full text-[10px] sm:text-xs flex items-center gap-2 shadow-lg">
+                        <i className="fa-solid fa-meteor text-cinematic-gold"></i>
+                        <span className="text-white/70 uppercase tracking-wider">Quantum Dust:</span>
+                        <span className="font-bold text-cinematic-gold font-mono">{inventory.quantumDust || 0}</span>
+                    </div>
+                    {Object.entries(inventory.materials || {})
+                        .filter(([_, count]) => (count as number) > 0)
+                        .map(([name, count]) => (
+                            <div key={name} className="bg-black/60 border border-cinematic-cyan/30 px-3 py-1 rounded-full text-[10px] sm:text-xs flex items-center gap-2 shadow-lg">
+                                <i className="fa-solid fa-gem text-cinematic-cyan"></i>
+                                <span className="text-white/70 uppercase tracking-wider">{name}:</span>
+                                <span className="font-bold text-cinematic-cyan font-mono">{count as number}</span>
+                            </div>
+                        ))
+                    }
+                </div>
+
                 <h2 className="text-center font-serif text-2xl text-white mb-2 tracking-widest relative z-10">GIAO THỨC CHIMERA</h2>
                 <div className="text-center mb-10 relative z-10">
                     <p className="text-[10px] text-red-400 uppercase tracking-widest bg-red-900/20 py-1 inline-block px-4 border border-red-900/50 rounded-full mx-auto mb-2"><i className="fa-solid fa-triangle-exclamation mr-2"></i> Thể gốc bị tiêu hủy vĩnh viễn</p>
@@ -384,9 +403,9 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                         {canFuse && maxR >= 1 && (
                             <div className="text-[9px] text-cinematic-muted uppercase tracking-widest mb-4 flex flex-col items-center gap-1">
                                 <span className="flex items-center gap-2"><i className="fa-solid fa-circle-info"></i> Hệ thống sẽ tự động trừ phí Nguyên liệu:</span>
-                                {reqCore > 0 && <span className="text-cinematic-cyan">- {reqCore} {coreName}</span>}
-                                {reqShard > 0 && <span className="text-cinematic-cyan">- {reqShard} {shardName}</span>}
-                                {reqDust > 0 && <span className="text-cinematic-gold border border-cinematic-gold/30 px-2 rounded bg-cinematic-gold/10 mt-0.5">- {reqDust} Quantum Dust</span>}
+                                {reqCore > 0 && <span className={(inventory.materials?.[coreName] || 0) >= reqCore ? "text-cinematic-cyan" : "text-red-500 font-bold"}>- {reqCore} {coreName}</span>}
+                                {reqShard > 0 && <span className={(inventory.materials?.[shardName] || 0) >= reqShard ? "text-cinematic-cyan" : "text-red-500 font-bold"}>- {reqShard} {shardName}</span>}
+                                {reqDust > 0 && <span className={(inventory.quantumDust || 0) >= reqDust ? "text-cinematic-gold border border-cinematic-gold/30 px-2 rounded bg-cinematic-gold/10 mt-0.5" : "text-red-500 font-bold border border-red-500/30 px-2 rounded bg-red-900/20 mt-0.5"}>- {reqDust} Quantum Dust</span>}
                             </div>
                         )}
 

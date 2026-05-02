@@ -208,7 +208,7 @@ export const generateCardFromAI = async (query: string, assignedRank: string, co
 2. TRỌNG TÂM: Trường 'inspiredBy' PHẢI chứa TÊN CHÍNH XÁC của nhân vật gốc bằng Tiếng Anh.
 3. Trường 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH, NGẮN GỌN DƯỚI 50 TỪ, miêu tả trang phục, khuôn mặt.
 4. Hạng thẻ BẮT BUỘC là: ${assignedRank}.
-5. TẤT CẢ CÁC TRƯỜNG VĂN BẢN KHÁC (name, occupation, personality, lore, ultimateMove...) BẮT BUỘC VIẾT NGẮN GỌN DƯỚI 50 TỪ BẰNG NGÔN NGỮ: ${langStr}.
+5. TẤT CẢ CÁC TRƯỜNG VĂN BẢN KHÁC (name, occupation, personality, lore, ultimateMove...) BẮT BUỘC VIẾT NGẮN GỌN DƯỚI 50 TỪ BẰNG NGÔN NGỮ: ${langStr}. Sinh ra ultimateStats cho ultimateMove với power (100-3000), cooldown (2-8), scaling ('150% ATK' hoặc '200% MATK'...), energyCost (50-200).
 6. Đặc tính Nguyên Tố BẮT BUỘC LÀ: '${enforcedElement}'.
 7. Thẻ hạng N và R KHÔNG CÓ passiveSkill (trả về rỗng hoặc null). Thẻ SR, SSR, UR BẮT BUỘC có passiveSkill liên quan nguyên tố.`;
     const prompt = `Tạo thẻ nhân vật từ: ${query}. Xếp hạng: ${assignedRank}. Ngôn ngữ: ${langStr}. Nhớ GIỮ CÁC TRƯỜNG TEXT NGẮN GỌN.`;
@@ -217,9 +217,18 @@ export const generateCardFromAI = async (query: string, assignedRank: string, co
         id: { type: Type.STRING }, name: { type: Type.STRING }, gender: { type: Type.STRING }, universe: { type: Type.STRING },
         faction: { type: Type.STRING }, element: { type: Type.STRING }, occupation: { type: Type.STRING }, nationality: { type: Type.STRING }, cardClass: { type: Type.STRING },
         height: { type: Type.INTEGER }, weight: { type: Type.INTEGER }, measurements: { type: Type.STRING }, personality: { type: Type.STRING },
-        lore: { type: Type.STRING }, inspiredBy: { type: Type.STRING }, visualDescription: { type: Type.STRING }, passiveSkill: { type: Type.STRING }, ultimateMove: { type: Type.STRING }
+        lore: { type: Type.STRING }, inspiredBy: { type: Type.STRING }, visualDescription: { type: Type.STRING }, passiveSkill: { type: Type.STRING }, ultimateMove: { type: Type.STRING },
+        ultimateStats: {
+            type: Type.OBJECT,
+            properties: {
+                power: { type: Type.INTEGER },
+                cooldown: { type: Type.INTEGER },
+                scaling: { type: Type.STRING },
+                energyCost: { type: Type.INTEGER }
+            }
+        }
     };
-    const req = ["name","gender","universe","faction","element","occupation","nationality","cardClass","height","weight","measurements","personality","lore","inspiredBy","visualDescription","ultimateMove"];
+    const req = ["name","gender","universe","faction","element","occupation","nationality","cardClass","height","weight","measurements","personality","lore","inspiredBy","visualDescription","ultimateMove","ultimateStats"];
     
     const res = await executeTextAI(prompt, sysPrompt, config, props, req);
     res.language = config.language;
@@ -246,7 +255,7 @@ export const generateFusionFromAI = async (c1: Card, c2: Card, targetRank: strin
 3. Chiều cao khoảng ${targetHeight}cm, cân nặng khoảng ${targetWeight}kg. 'measurements' ĐỊNH DẠNG "XX-XX-XX".
 4. Trường 'inspiredBy' là sự kết hợp tên gốc.
 5. 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH (NGẮN GỌN).
-6. CÁC TRƯỜNG VĂN BẢN KHÁC (lore, ultimateMove...) BẮT BUỘC VIẾT BẰNG NGÔN NGỮ: ${langStr} (NGẮN GỌN).
+6. CÁC TRƯỜNG VĂN BẢN KHÁC (lore, ultimateMove...) BẮT BUỘC VIẾT BẰNG NGÔN NGỮ: ${langStr} (NGẮN GỌN). Sinh ra ultimateStats cho ultimateMove với power (100-3000), cooldown (2-8), scaling ('150% ATK' hoặc '200% MATK'...), energyCost (50-200).
 7. Thẻ hạng N và R KHÔNG CÓ passiveSkill (trả về null). Thẻ SR, SSR, UR BẮT BUỘC có passiveSkill (kế thừa hoặc tiến hóa từ bản gốc).`;
 
     const prompt = `Lai tạo DNA từ ${c1.name} và ${c2.name}. 
@@ -258,9 +267,18 @@ Ngôn ngữ: ${langStr}. Trả JSON ngắn gọn.`;
         id: { type: Type.STRING }, name: { type: Type.STRING }, gender: { type: Type.STRING }, universe: { type: Type.STRING },
         faction: { type: Type.STRING }, element: { type: Type.STRING }, occupation: { type: Type.STRING }, nationality: { type: Type.STRING }, cardClass: { type: Type.STRING },
         height: { type: Type.INTEGER }, weight: { type: Type.INTEGER }, measurements: { type: Type.STRING }, personality: { type: Type.STRING },
-        lore: { type: Type.STRING }, inspiredBy: { type: Type.STRING }, visualDescription: { type: Type.STRING }, passiveSkill: { type: Type.STRING }, ultimateMove: { type: Type.STRING }
+        lore: { type: Type.STRING }, inspiredBy: { type: Type.STRING }, visualDescription: { type: Type.STRING }, passiveSkill: { type: Type.STRING }, ultimateMove: { type: Type.STRING },
+        ultimateStats: {
+            type: Type.OBJECT,
+            properties: {
+                power: { type: Type.INTEGER },
+                cooldown: { type: Type.INTEGER },
+                scaling: { type: Type.STRING },
+                energyCost: { type: Type.INTEGER }
+            }
+        }
     };
-    const req = ["name","gender","universe","faction","element","occupation","nationality","cardClass","height","weight","measurements","personality","lore","inspiredBy","visualDescription","ultimateMove"];
+    const req = ["name","gender","universe","faction","element","occupation","nationality","cardClass","height","weight","measurements","personality","lore","inspiredBy","visualDescription","ultimateMove","ultimateStats"];
     
     const res = await executeTextAI(prompt, sysPrompt, config, props, req);
     res.language = config.language;

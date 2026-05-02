@@ -5,6 +5,7 @@ import {
   getComboStats,
   getSquadDodgeRate,
   calculateCombatStats,
+  calculateUltimateStats,
   getElementAdvantage,
 } from "../lib/gameLogic";
 import { generateBossFromAI, generateImageFromAi } from "../services/ai";
@@ -531,9 +532,11 @@ export const CombatView: React.FC<Props> = ({
 
       if (Math.random() * 100 < 25) {
         isCrit = true;
+        const ultStats = calculateUltimateStats(attackerCard);
+        const baseMul = ultStats.power ? (ultStats.power / 100) : 1.5;
         const ultMul = attackerCard.ultimateLevel
-          ? 1.5 + attackerCard.ultimateLevel * 0.15
-          : 2.0;
+          ? baseMul + attackerCard.ultimateLevel * 0.15
+          : (baseMul === 1.5 ? 2.0 : baseMul);
         currentAtk = Math.floor(currentAtk * ultMul);
         const ultiName = attackerCard.ultimateMove || "Đòn Đánh Chí Mạng";
         
@@ -1147,6 +1150,17 @@ export const CombatView: React.FC<Props> = ({
                    <span className="text-5xl md:text-7xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-white to-cinematic-cyan drop-shadow-2xl" style={{ WebkitTextStroke: "2px rgba(0,243,255,0.5)" }}>
                       {activeCutInCard.ultimateMove || "CRITICAL STRIKE"}
                    </span>
+                   {calculateUltimateStats(activeCutInCard) && (
+                     <motion.div 
+                       initial={{ opacity: 0, y: 20 }}
+                       animate={{ opacity: 1, y: 0 }}
+                       transition={{ delay: 0.4 }}
+                       className="flex items-center gap-4 mt-2 bg-black/60 px-4 py-2 rounded border border-cinematic-cyan/30 backdrop-blur-sm"
+                     >
+                        <span className="text-red-400 font-mono text-sm tracking-wider"><i className="fa-solid fa-fire mr-1"></i>PWR: {calculateUltimateStats(activeCutInCard).power}</span>
+                        <span className="text-yellow-400 font-mono text-sm tracking-wider"><i className="fa-solid fa-crosshairs mr-1"></i>SCALE: {calculateUltimateStats(activeCutInCard).scaling}</span>
+                     </motion.div>
+                   )}
                 </motion.div>
               </div>
             </motion.div>

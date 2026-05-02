@@ -82,6 +82,36 @@ export const getCardRole = (card: Card): 'Tanker' | 'DPS' | 'Support' => {
     return 'DPS';
 };
 
+export const calculateUltimateStats = (card: Card) => {
+    if (card.ultimateStats) return card.ultimateStats;
+    
+    // Auto-calculate for retro-compatibility
+    const rank = getRankIndex(card.cardClass);
+    const role = getCardRole(card);
+    const multi = [1, 1.5, 2.5, 5, 10][rank];
+    
+    let powBase = 200;
+    let cd = 4;
+    let cost = 80;
+    let scalingType = '120% ATK';
+    
+    if (role === 'DPS') { powBase = 300; cd = 3; cost = 100; scalingType = '150% ATK'; }
+    if (role === 'Tanker') { powBase = 150; cd = 5; cost = 80; scalingType = '200% DEF'; }
+    if (role === 'Support') { powBase = 100; cd = 4; cost = 60; scalingType = '150% MATK'; }
+    
+    const isMagic = card.faction === 'Magic' || card.faction === 'Light' || card.faction === 'Dark';
+    if (isMagic && scalingType.includes('ATK') && !scalingType.includes('MATK')) {
+        scalingType = scalingType.replace('ATK', 'MATK');
+    }
+    
+    return {
+        power: Math.floor(powBase * multi),
+        cooldown: Math.max(2, cd - Math.floor(rank / 2)),
+        scaling: scalingType,
+        energyCost: cost
+    };
+};
+
 export const calculateCombatStats = (card: Card | null) => {
     if (!card) return { hp: 0, atk: 0, patk: 0, matk: 0, def: 0, mdef: 0, res: 0, elementalDmg: {}, elementalRes: {} };
     const multi = [1, 1.5, 2.5, 5, 10][getRankIndex(card.cardClass)];

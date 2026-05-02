@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card } from '../types';
-import { getRankIndex, getFactionInfo, calculateCombatStats, getDismantleValue, getCardRole } from '../lib/gameLogic';
+import { getRankIndex, getFactionInfo, calculateCombatStats, getDismantleValue, getCardRole, calculateUltimateStats } from '../lib/gameLogic';
 import { AppConfig, ElementType } from '../types';
 import { ELEMENTS } from '../lib/constants';
 
@@ -168,10 +168,16 @@ export const FullCard: React.FC<{
                             <span className="text-[9px] text-indigo-400/70 font-mono uppercase mb-1 z-10">Kháng Phép (MDEF)</span>
                             <span className="font-mono text-2xl text-indigo-300 font-bold z-10">{calculateCombatStats(displayCard).mdef}</span>
                         </div>
-                        <div className="bg-zin-900/20 border border-zinc-800 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                        <div className="bg-zinc-900/20 border border-zinc-800 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
                             <i className="fa-solid fa-sparkles text-zinc-500/20 text-4xl absolute right-2 top-2"></i>
                             <span className="text-[9px] text-cinematic-cyan/70 font-mono uppercase mb-1 z-10">Tuyệt Kỹ (Ultimate)</span>
                             <span className="font-serif text-xs text-zinc-300 z-10 line-clamp-2" title={displayCard.ultimateMove}>{displayCard.ultimateMove || 'N/A'}</span>
+                            {calculateUltimateStats(displayCard) && (
+                                <div className="mt-2 flex items-center justify-between z-10 border-t border-zinc-800 pt-1.5">
+                                    <span className="text-[9px] text-red-400 font-mono"><i className="fa-solid fa-fire mr-1"></i>{calculateUltimateStats(displayCard).power} PWR</span>
+                                    <span className="text-[9px] text-yellow-500 font-mono"><i className="fa-solid fa-bolt mr-1"></i>{calculateUltimateStats(displayCard).energyCost} COST</span>
+                                </div>
+                            )}
                         </div>
                      </div>
                   </div>
@@ -245,7 +251,27 @@ export const FullCard: React.FC<{
                                 <span className="flex items-center gap-1.5"><i className="fa-solid fa-bolt scale-125"></i> Ultimate Details</span>
                                 {displayCard.ultimateLevel && <span className="text-cinematic-cyan/70">Lv.{displayCard.ultimateLevel}</span>}
                             </span>
-                            <span className={`font-serif text-sm text-zinc-300 block leading-relaxed relative z-10`}>{displayCard.ultimateMove || 'Unknown'}</span>
+                            <span className={`font-serif text-sm text-zinc-300 block leading-relaxed relative z-10 ${calculateUltimateStats(displayCard) ? 'mb-4' : ''}`}>{displayCard.ultimateMove || 'Unknown'}</span>
+                            {calculateUltimateStats(displayCard) && (
+                                <div className="grid grid-cols-2 gap-2 mt-2 pt-3 border-t border-cinematic-cyan/10 relative z-10">
+                                    <div className="bg-black/40 p-2 rounded-lg border border-white/5">
+                                        <span className="text-[8px] text-zinc-500 uppercase font-mono block mb-0.5">Sức mạnh cơ bản (Power)</span>
+                                        <span className="text-xs text-white font-mono font-bold">{calculateUltimateStats(displayCard).power}</span>
+                                    </div>
+                                    <div className="bg-black/40 p-2 rounded-lg border border-white/5">
+                                        <span className="text-[8px] text-zinc-500 uppercase font-mono block mb-0.5">Tỉ lệ chuyển đổi (Scaling)</span>
+                                        <span className="text-xs text-cinematic-cyan font-mono font-bold">{calculateUltimateStats(displayCard).scaling}</span>
+                                    </div>
+                                    <div className="bg-black/40 p-2 rounded-lg border border-white/5">
+                                        <span className="text-[8px] text-zinc-500 uppercase font-mono block mb-0.5">Thời gian hồi (Cooldown)</span>
+                                        <span className="text-xs text-white font-mono font-bold">{calculateUltimateStats(displayCard).cooldown} lượt</span>
+                                    </div>
+                                    <div className="bg-black/40 p-2 rounded-lg border border-white/5">
+                                        <span className="text-[8px] text-zinc-500 uppercase font-mono block mb-0.5">Tiêu hao năng lượng (Cost)</span>
+                                        <span className="text-xs text-yellow-400 font-mono font-bold">{calculateUltimateStats(displayCard).energyCost} MN</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
 

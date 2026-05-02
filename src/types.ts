@@ -36,6 +36,12 @@ export interface Card {
   visualDescription: string;
   ultimateMove: string;
   ultimateLevel?: number;
+  ultimateStats?: {
+    power: number; // e.g. 100-1000
+    cooldown: number; // e.g. 2-5 turns
+    scaling: string; // e.g. '150% ATK'
+    energyCost: number; // e.g. 50-100
+  };
   origin?: 'Extracted' | 'Forged';
   parents?: string[];
   imageUrl?: string;
