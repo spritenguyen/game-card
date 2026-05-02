@@ -178,11 +178,11 @@ export default function App() {
 
   const handleCompleteFusion = async (
     newCard: Card,
-    old1Id: string,
-    old2Id: string,
+    oldIdsToDelete: string[]
   ) => {
-    await removeCard(old1Id);
-    await removeCard(old2Id);
+    for (const id of oldIdsToDelete) {
+      await removeCard(id);
+    }
     await addCard(newCard);
     setFusionSlot1(null);
     setFusionSlot2(null);
@@ -460,6 +460,7 @@ export default function App() {
             currency={currency}
             modifyCurrency={modifyCurrency}
             inventory={inventory}
+            cards={cards}
             modifyInventory={modifyInventory}
             fusionSlot1={fusionSlot1}
             fusionSlot2={fusionSlot2}
