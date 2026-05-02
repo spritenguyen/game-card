@@ -69,7 +69,7 @@ export default function App() {
   const [showSettings, setShowSettings] = useState(false);
   const [modalCardId, setModalCardId] = useState<string | null>(null);
   const [selectorTarget, setSelectorTarget] = useState<
-    "squad1" | "squad2" | "squad3" | "fusion1" | "fusion2" | null
+    "squad1" | "squad2" | "squad3" | "squad4" | "squad5" | "squad6" | "fusion1" | "fusion2" | null
   >(null);
 
   // Dialog state

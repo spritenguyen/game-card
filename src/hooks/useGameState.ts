@@ -7,7 +7,7 @@ import { rollFaction, rollElement } from '../services/ai';
 export const useGameState = () => {
     const [currency, setCurrency] = useState<number>(1500);
     const [cards, setCards] = useState<Card[]>([]);
-    const [squad, setSquad] = useState<(Card | null)[]>([null, null, null]);
+    const [squad, setSquad] = useState<(Card | null)[]>([null, null, null, null, null, null]);
     const [boss, setBoss] = useState<Boss | null>(null);
     const [fusionSlot1, setFusionSlot1] = useState<Card | null>(null);
     const [fusionSlot2, setFusionSlot2] = useState<Card | null>(null);

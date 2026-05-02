@@ -31,23 +31,32 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
       if (!query.trim()) return onError("Vui lòng nhập định danh nguyên mẫu.");
       
       let cost = 0;
+      let extractType: 'standard' | 'quick' | 'deep' = 'standard';
+      
       if (type === 'dc') {
           if (currency < 200) return onError("Không đủ Data Credits (Yêu cầu 200 DC).");
           cost = 200;
+          extractType = 'standard';
       } else if (type === 'baseTicket') {
           if (inventory.baseTickets < 1) return onError("Không đủ Vé Trích Xuất (Base Ticket).");
+          if (currency < 500) return onError("Không đủ Data Credits (Yêu cầu thêm 500 DC).");
+          cost = 500;
+          extractType = 'quick';
       } else if (type === 'eliteTicket') {
           if (inventory.eliteTickets < 1) return onError("Không đủ Vé Đặc Quyền (Elite Ticket).");
+          if (currency < 1000) return onError("Không đủ Data Credits (Yêu cầu thêm 1000 DC).");
+          cost = 1000;
+          extractType = 'deep';
       }
 
       setGlobalProcessing(true);
-      if (type === 'dc' && !modifyCurrency(-cost)) { setGlobalProcessing(false); return; }
+      if (cost > 0 && !modifyCurrency(-cost)) { setGlobalProcessing(false); return; }
       if (type === 'baseTicket') modifyInventory(-1, 0);
       if (type === 'eliteTicket') modifyInventory(0, -1);
 
       try {
-          // If eliteTicket, minimum rank is SR
-          const rollOut = rollExtractRank(level, pityCounter, type === 'eliteTicket');
+          // Roll rank
+          const rollOut = rollExtractRank(level, pityCounter, extractType);
           const assignedRank = rollOut.rank;
           const newPity = rollOut.newPity;
 
@@ -72,7 +81,7 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
           }
 
       } catch (e: any) {
-          if (type === 'dc') modifyCurrency(cost);
+          if (cost > 0) modifyCurrency(cost);
           if (type === 'baseTicket') modifyInventory(1, 0);
           if (type === 'eliteTicket') modifyInventory(0, 1);
           
@@ -121,24 +130,30 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
                 className="bg-zinc-800 border border-cinematic-gold/30 hover:border-cinematic-gold/80 text-cinematic-gold px-4 py-3 rounded-xl transition-all hover:bg-zinc-700 flex flex-col items-center justify-center disabled:opacity-50 relative overflow-hidden group"
             >
                 <div className="absolute inset-0 bg-cinematic-gold/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="text-[10px] uppercase font-mono tracking-widest mb-1 text-white/50">Tiêu chuẩn</div>
+                <div className="text-[10px] uppercase font-mono tracking-widest mb-1 text-white/50">Tiêu chuẩn (N - R)</div>
                 <div className="font-bold flex items-center gap-2">200 DC {isGlobalProcessing && <i className="fa-solid fa-circle-notch animate-spin"></i>}</div>
             </button>
             <button 
                 onClick={() => handleExtract('baseTicket')} 
-                disabled={isGlobalProcessing || inventory.baseTickets < 1}
+                disabled={isGlobalProcessing || inventory.baseTickets < 1 || currency < 500}
                 className="bg-black/50 border border-cinematic-cyan/30 hover:border-cinematic-cyan text-cinematic-cyan px-4 py-3 rounded-xl transition-all hover:bg-cinematic-cyan/10 flex flex-col items-center justify-center disabled:opacity-50 disabled:hover:bg-black/50"
             >
                 <div className="text-[10px] uppercase font-mono tracking-widest mb-1 text-white/50">Trích xuất nhanh</div>
-                <div className="font-bold flex items-center gap-2"><i className="fa-solid fa-ticket"></i> {inventory.baseTickets} / 1</div>
+                <div className="font-bold flex flex-col items-center gap-1 text-xs">
+                   <span className="flex items-center gap-2"><i className="fa-solid fa-ticket"></i> {inventory.baseTickets} / 1</span>
+                   <span className="text-[9px] bg-cinematic-gold/10 text-cinematic-gold px-2 rounded-full border border-cinematic-gold/30">+ 500 DC</span>
+                </div>
             </button>
             <button 
                 onClick={() => handleExtract('eliteTicket')} 
-                disabled={isGlobalProcessing || inventory.eliteTickets < 1}
+                disabled={isGlobalProcessing || inventory.eliteTickets < 1 || currency < 1000}
                 className="bg-black/50 border border-purple-500/30 hover:border-purple-500 text-purple-400 px-4 py-3 rounded-xl transition-all hover:bg-purple-500/10 flex flex-col items-center justify-center disabled:opacity-50"
             >
                 <div className="text-[10px] uppercase font-mono tracking-widest mb-1 text-[#d8b4fe]/50 flex items-center gap-1"><i className="fa-solid fa-star text-[8px]"></i> Chuyên Sâu (SR+)</div>
-                <div className="font-bold flex items-center gap-2"><i className="fa-solid fa-ticket"></i> {inventory.eliteTickets} / 1</div>
+                <div className="font-bold flex flex-col items-center gap-1 text-xs">
+                   <span className="flex items-center gap-2"><i className="fa-solid fa-ticket"></i> {inventory.eliteTickets} / 1</span>
+                   <span className="text-[9px] bg-cinematic-gold/10 text-cinematic-gold px-2 rounded-full border border-cinematic-gold/30">+ 1000 DC</span>
+                </div>
             </button>
         </div>
       </div>

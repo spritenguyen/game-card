@@ -15,11 +15,13 @@ export const MiniCard: React.FC<{
   const borderGlow = isUR ? 'border-cinematic-cyan shadow-[0_0_15px_rgba(0,243,255,0.3)]' : 'border-white/10';
   const badgeColor = isUR ? 'bg-cinematic-cyan text-black' : 'bg-cinematic-gold text-black';
 
-  const isUnavailable = locked || selected || reshooting;
+  const isUnavailable = locked || reshooting;
   let extraClasses = 'cursor-pointer hover:scale-105 hover:-translate-y-2 hover:border-cinematic-gold/60';
-  if (isUnavailable) {
-    if (selected) extraClasses = 'opacity-50 border-green-500 shadow-[0_0_15px_rgba(34,197,94,0.3)] pointer-events-none scale-95';
-    else if (reshooting) extraClasses = 'opacity-70 pointer-events-none';
+  
+  if (selected) {
+      extraClasses = 'border-green-400 shadow-[0_0_20px_rgba(34,197,94,0.5)] pointer-events-none scale-[0.98] ring-2 ring-green-400 ring-offset-2 ring-offset-black';
+  } else if (isUnavailable) {
+    if (reshooting) extraClasses = 'opacity-70 pointer-events-none';
     else extraClasses = 'opacity-40 grayscale pointer-events-none';
   }
 
@@ -83,7 +85,11 @@ export const MiniCard: React.FC<{
           <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/40 backdrop-blur-[2px]"><i className="fa-solid fa-lock text-3xl text-white/70 drop-shadow-lg"></i></div>
         )}
         {selected && (
-          <div className="absolute inset-0 flex items-center justify-center bg-green-900/40 border-2 border-green-500/50 z-20"><i className="fa-solid fa-circle-check text-4xl text-green-400 drop-shadow-md bg-black/50 rounded-full"></i></div>
+          <div className="absolute inset-0 bg-green-500/10 z-20 pointer-events-none">
+             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-md rounded-full w-12 h-12 flex items-center justify-center border-2 border-green-400 shadow-[0_0_15px_rgba(34,197,94,0.6)]">
+                 <i className="fa-solid fa-check text-green-400 text-2xl drop-shadow-md"></i>
+             </div>
+          </div>
         )}
         {reshooting && (
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 backdrop-blur-sm z-20"><i className="fa-solid fa-camera animate-pulse text-2xl text-cinematic-gold mb-2"></i><span className="text-[8px] uppercase tracking-widest text-cinematic-gold font-bold">Đang Reshoot...</span></div>
