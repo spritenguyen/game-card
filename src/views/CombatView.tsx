@@ -10,6 +10,7 @@ import {
 import { generateBossFromAI, generateImageFromAi } from "../services/ai";
 import { ELEMENTS } from "../lib/constants";
 import { motion, AnimatePresence } from "motion/react";
+import { initAudio, playHitSound, playSkillSound, playGlassBreakSound, startCombatBgm, stopCombatBgm } from "../lib/audio";
 
 interface DamagePopup {
   id: number;
@@ -17,6 +18,9 @@ interface DamagePopup {
   x: number;
   y: number;
   isCrit: boolean;
+  target: 'boss' | 'squad';
+  dmgType?: string;
+  colorClass?: string;
 }
 
 interface Props {
@@ -40,6 +44,8 @@ interface Props {
   isGlobalProcessing: boolean;
   setGlobalProcessing: (v: boolean) => void;
 }
+
+const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export const CombatView: React.FC<Props> = ({
   config,
@@ -79,12 +85,19 @@ export const CombatView: React.FC<Props> = ({
   const [activeAttackerIdx, setActiveAttackerIdx] = useState<number | null>(
     null,
   );
+  const [isBossAttacking, setIsBossAttacking] = useState(false);
+  const [activeCutInCard, setActiveCutInCard] = useState<Card | null>(null);
+  
+  const [hitStop, setHitStop] = useState(false);
+  const [glassBreak, setGlassBreak] = useState(false);
 
   const [showFullPassive, setShowFullPassive] = useState(false);
 
   let {
     hp: squadHp,
     atk: squadAtk,
+    def: squadDef,
+    res: squadRes,
     activeSynergies,
     synergyBonusAtk,
   } = getComboStats(squad);
@@ -256,30 +269,41 @@ export const CombatView: React.FC<Props> = ({
     }
   };
 
+  const triggerHitStop = async () => {
+    setHitStop(true);
+    await delay(120);
+    setHitStop(false);
+  };
+
   const addDamagePopup = (
     value: number,
     target: "boss" | "squad",
     isCrit: boolean,
+    dmgType?: string,
+    colorClass?: string,
+    yOffset: number = 0
   ) => {
+    playHitSound(isCrit);
     const id =
       Date.now() + Math.random() + (target === "squad" ? "_squad" : "_boss");
     // Randomized position around target area
-    const x =
-      target === "boss" ? Math.random() * 60 - 30 : Math.random() * 100 - 50;
-    const y = target === "boss" ? -50 : -40;
+    const x = target === "boss" ? Math.random() * 60 - 30 : Math.random() * 80 - 40;
+    const y = (target === "boss" ? -50 : -40) + yOffset;
     setDamagePopups((prev) => [
       ...prev,
-      { id: parseFloat(id.split("_")[0]), value, x, y, isCrit, target } as any,
+      { id: parseFloat(id.split("_")[0]), value, x, y, isCrit, target, dmgType, colorClass },
     ]);
     setTimeout(() => {
       setDamagePopups((prev) =>
-        prev.filter((p) => (p as any).id !== parseFloat(id.split("_")[0])),
+        prev.filter((p) => p.id !== parseFloat(id.split("_")[0])),
       );
-    }, 1000);
+    }, 1200);
   };
 
   const executeBattle = async () => {
     if (inBattle || !boss) return;
+    initAudio();
+    startCombatBgm();
     setInBattle(true);
     setGlobalProcessing(true);
     setStrikeUses(0);
@@ -425,7 +449,6 @@ export const CombatView: React.FC<Props> = ({
 
     const activeSquad = squad.filter((c) => c !== null) as Card[];
     let turn = 1;
-    const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
     let currentActualBossAtk = actualBossAtk;
     let isEnraged = false;
@@ -441,11 +464,12 @@ export const CombatView: React.FC<Props> = ({
       while (tacticalQueue.current.length > 0) {
         const action = tacticalQueue.current.shift();
         if (action === "strike") {
+          playSkillSound();
           const dmg = Math.floor(boss.hp * 0.2);
           currentBossHp -= dmg;
           setDisplayBossHp(Math.max(0, currentBossHp));
           triggerShake("boss");
-          addDamagePopup(dmg, "boss", false);
+          addDamagePopup(dmg, "boss", false, "Tech", "text-yellow-400", 0);
           addLog(
             <span>
               🚀 <strong>CAN THIỆP CHIẾN THUẬT: ORBITAL STRIKE!</strong> Giáng
@@ -456,6 +480,7 @@ export const CombatView: React.FC<Props> = ({
           );
           await delay(600);
         } else if (action === "heal") {
+          playSkillSound();
           const healAmt = Math.floor(squadHp * 0.3);
           currentSquadHp = Math.min(squadHp, currentSquadHp + healAmt);
           setDisplaySquadHp(currentSquadHp);
@@ -511,6 +536,13 @@ export const CombatView: React.FC<Props> = ({
           : 2.0;
         currentAtk = Math.floor(currentAtk * ultMul);
         const ultiName = attackerCard.ultimateMove || "Đòn Đánh Chí Mạng";
+        
+        playSkillSound();
+        setActiveCutInCard(attackerCard);
+        await delay(1800);
+        setActiveCutInCard(null);
+        await delay(200);
+
         critLog = (
           <>
             <div className="text-cinematic-cyan font-bold bg-cinematic-cyan/10 border border-cinematic-cyan/30 px-2 py-1 rounded inline-block mb-1 shadow-[0_0_10px_rgba(0,243,255,0.3)]">
@@ -581,11 +613,50 @@ export const CombatView: React.FC<Props> = ({
         }
       }
 
-      currentAtk = Math.floor(currentAtk * (0.9 + Math.random() * 0.2));
+      const attackerIsPhysical = ["Tech", "Mutant"].includes(attackerCard.faction);
+      const bossImplicitDef = boss.attack * 0.4;
+      const bossImplicitRes = boss.attack * 0.4;
+      const targetDefense = attackerIsPhysical ? bossImplicitDef : bossImplicitRes;
+      const bossReductionRate = targetDefense / (targetDefense + 1000);
 
+      currentAtk = Math.floor(currentAtk * (0.9 + Math.random() * 0.2));
+      let elementalDmgValue = 0;
+      let elementName = "";
+      if (attackerCard.element && attackerCard.element !== 'Neutral') {
+          // Assume elemental dmg is ~20% of base atk if they have an element
+          elementalDmgValue = Math.floor(currentAtk * 0.2); 
+          elementName = attackerCard.element;
+      }
+
+      currentAtk = Math.max(1, Math.floor(currentAtk * (1 - bossReductionRate)));
+      
+      const dmgType = attackerIsPhysical ? "Physical" : "Magic";
+      const colorClass = attackerIsPhysical ? "text-orange-400" : "text-purple-400";
+      
       triggerShake("boss");
-      addDamagePopup(currentAtk, "boss", isCrit);
-      currentBossHp -= currentAtk;
+      
+      // Base damage popup
+      addDamagePopup(currentAtk, "boss", isCrit, dmgType, colorClass, 0);
+      
+      if (isCrit) {
+         await triggerHitStop();
+      }
+      
+      // Elemental damage popup
+      if (elementalDmgValue > 0) {
+        let elColor = "text-cyan-400";
+        if (elementName === 'Fire') elColor = "text-red-500";
+        else if (elementName === 'Water') elColor = "text-blue-400";
+        else if (elementName === 'Lightning') elColor = "text-yellow-400";
+        else if (elementName === 'Earth') elColor = "text-emerald-500";
+        else if (elementName === 'Wind') elColor = "text-teal-400";
+        
+        setTimeout(() => {
+          addDamagePopup(elementalDmgValue, "boss", false, elementName, elColor, 35);
+        }, 150);
+      }
+      
+      currentBossHp -= (currentAtk + elementalDmgValue);
       setDisplayBossHp(Math.max(0, currentBossHp));
 
       let dmgColor = isCrit
@@ -594,7 +665,11 @@ export const CombatView: React.FC<Props> = ({
       addLog(
         <span>
           {critLog}[Lượt {turn}] Lực lượng tiền tuyến tấn công:{" "}
-          <span className={dmgColor}>-{currentAtk} HP</span> {triggerStatusLog}
+          <span className={dmgColor}>-{currentAtk + elementalDmgValue} HP</span>
+          <span className="text-[10px] text-zinc-500 ml-1">({dmgType})</span>
+          {elementalDmgValue > 0 && <span className="text-[10px] text-cyan-400 ml-1">+{elementalDmgValue} {elementName} DMG</span>}
+          {" "}
+          {triggerStatusLog}
         </span>,
         isCrit ? "text-white" : "text-zinc-400",
       );
@@ -648,6 +723,11 @@ export const CombatView: React.FC<Props> = ({
         bossStatus.turnsLeft--;
       }
 
+      if (!skipBossTurn) {
+        setIsBossAttacking(true);
+        await delay(300);
+      }
+
       if (skipBossTurn) {
         addLog(
           <span>
@@ -667,13 +747,21 @@ export const CombatView: React.FC<Props> = ({
           "text-cinematic-gold",
         );
       } else {
-        const bossDmg = Math.floor(
+        const bossAttackIsPhysical = ["Tech", "Mutant"].includes(boss.faction);
+        const squadDefenseValue = bossAttackIsPhysical ? squadDef : squadRes;
+        const reductionRate = squadDefenseValue / (squadDefenseValue + 1000);
+        
+        const rawBossDmg = Math.floor(
           currentBossTurnAtk * (0.9 + Math.random() * 0.2),
         );
+        const bossDmg = Math.max(1, Math.floor(rawBossDmg * (1 - reductionRate)));
+
         currentSquadHp -= bossDmg;
         setDisplaySquadHp(Math.max(0, currentSquadHp));
         triggerShake("squad");
-        addDamagePopup(bossDmg, "squad", false);
+        const bossDmgType = bossAttackIsPhysical ? "Physical" : "Magic";
+        const bossColorClass = bossAttackIsPhysical ? "text-red-400" : "text-purple-400";
+        addDamagePopup(bossDmg, "squad", false, bossDmgType, bossColorClass, 0);
         addLog(
           <span>
             [Lượt {turn}] <i className="fa-solid fa-burst text-red-500"></i>{" "}
@@ -681,15 +769,23 @@ export const CombatView: React.FC<Props> = ({
             <span className="text-red-500 font-bold drop-shadow-[0_0_5px_rgba(239,68,68,0.8)]">
               -{bossDmg} HP
             </span>
+            <span className="text-[10px] text-zinc-500 ml-2">({bossDmgType}) (Bị giảm {(reductionRate * 100).toFixed(0)}% nhờ {bossAttackIsPhysical ? "DEF" : "MDEF"})</span>
           </span>,
           "text-white/80 bg-red-900/10 p-1 border-l-2 border-red-500",
         );
       }
+      setIsBossAttacking(false);
+      await delay(500);
       turn++;
     }
 
     await delay(800);
     if (currentBossHp <= 0) {
+      playGlassBreakSound();
+      setGlassBreak(true);
+      await delay(1500); // Wait for shatter animation
+      setGlassBreak(false);
+
       let baseDrop = 0;
       let eliteDrop = 0;
       let expGained = 0;
@@ -751,6 +847,7 @@ export const CombatView: React.FC<Props> = ({
       );
     }
 
+    stopCombatBgm();
     setInBattle(false);
     setGlobalProcessing(false);
   };
@@ -779,11 +876,11 @@ export const CombatView: React.FC<Props> = ({
         animate={
           isAttacking
             ? {
-                y: -40,
-                scale: 1.15,
+                y: [0, -250, 0],
+                scale: [1, 1.2, 1],
                 boxShadow: "0 0 40px rgba(0, 243, 255, 0.4)",
                 borderColor: "rgba(0, 243, 255, 0.6)",
-                zIndex: 40,
+                zIndex: 100,
               }
             : shakeSquad
               ? {
@@ -811,7 +908,11 @@ export const CombatView: React.FC<Props> = ({
                   zIndex: 10,
                 }
         }
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        transition={
+          isAttacking 
+            ? { duration: 1.1, times: [0, 0.27, 1] } 
+            : { type: "spring", stiffness: 400, damping: 25 }
+        }
         onClick={() => !inBattle && onOpenSquadSelector(index)}
         className={`w-24 h-36 sm:w-32 sm:h-48 rounded-xl flex flex-col items-center justify-center cursor-pointer relative group bg-black/40 border transition-all overflow-hidden shadow-lg`}
       >
@@ -829,6 +930,18 @@ export const CombatView: React.FC<Props> = ({
             animate={{ opacity: 1, scale: 1.4 }}
             className="absolute inset-0 bg-cinematic-cyan/20 blur-xl pointer-events-none"
           ></motion.div>
+        )}
+        {/* Elemental Magic Ring */}
+        {card.element && (
+           <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              className={`absolute -inset-4 rounded-full border border-dashed opacity-30 pointer-events-none z-[-1] ${(ELEMENTS as any)[card.element]?.color?.replace('text-', 'border-') || 'border-white/20'}`}
+              style={{
+                 borderWidth: '2px',
+                 boxShadow: `0 0 10px ${(ELEMENTS as any)[card.element]?.color ? 'currentColor' : 'rgba(255,255,255,0)'}`
+              }}
+           />
         )}
         <div className="absolute top-1 right-1 z-20 flex flex-col gap-1 items-end">
           <div
@@ -908,7 +1021,138 @@ export const CombatView: React.FC<Props> = ({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-[100] bg-zinc-950 overflow-y-auto overflow-x-hidden no-scrollbar"
+        style={{
+           filter: hitStop ? "invert(0.1) contrast(200%) brightness(150%) blur(1px)" : "none",
+           transform: hitStop ? "scale(1.03)" : "scale(1)",
+           transition: "transform 0.05s, filter 0.05s"
+        }}
       >
+        <AnimatePresence>
+          {glassBreak && (
+             <motion.div
+               initial={{ opacity: 0 }}
+               animate={{ opacity: 1 }}
+               exit={{ opacity: 0 }}
+               className="fixed inset-0 z-[300] pointer-events-none flex items-center justify-center overflow-hidden"
+             >
+                {/* Red/Black flash instead of pure white to fit dark theme */}
+                <motion.div 
+                  initial={{ opacity: 0.8 }}
+                  animate={{ opacity: 0 }}
+                  transition={{ duration: 1 }}
+                  className="absolute inset-0 bg-red-950 mix-blend-color-dodge" 
+                />
+                
+                {/* Shattered Image Pieces */}
+                <div className="relative w-64 h-64 md:w-96 md:h-96">
+                  {/* Central broken crack effect */}
+                  <motion.div
+                    initial={{ opacity: 1, scale: 1 }}
+                    animate={{ opacity: 0, scale: 1.5 }}
+                    transition={{ duration: 0.5 }}
+                    className="absolute inset-0 bg-white/20 blur-sm"
+                    style={{ clipPath: 'polygon(50% 0%, 55% 45%, 100% 50%, 55% 55%, 50% 100%, 45% 55%, 0% 50%, 45% 45%)' }}
+                  />
+
+                  {[...Array(20)].map((_, i) => {
+                    const tx = (Math.random() - 0.5) * 1000;
+                    const ty = (Math.random() - 0.5) * 1000;
+                    const rot = (Math.random() - 0.5) * 720;
+                    
+                    // Base random vertices for a broken shard shape
+                    const v1x = Math.random() * 50;
+                    const v1y = Math.random() * 50;
+                    const v2x = 50 + Math.random() * 50;
+                    const v2y = Math.random() * 50;
+                    const v3x = 25 + Math.random() * 50;
+                    const v3y = 50 + Math.random() * 50;
+
+                    return (
+                      <motion.div
+                        key={i}
+                        initial={{ x: 0, y: 0, scale: 1, rotate: 0, opacity: 1 }}
+                        animate={{
+                          x: tx,
+                          y: ty,
+                          scale: 0.5,
+                          rotate: rot,
+                          opacity: 0
+                        }}
+                        transition={{ duration: 1.2, ease: "easeOut" }}
+                        className="absolute inset-0 border border-white/40 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]"
+                        style={{
+                          backgroundImage: `url(${boss.imageUrl})`,
+                          backgroundSize: '100% 100%',
+                          backgroundPosition: 'center',
+                          clipPath: `polygon(${v1x}% ${v1y}%, ${v2x}% ${v2y}%, ${v3x}% ${v3y}%)`,
+                          filter: "saturate(0) brightness(1.5) contrast(1.5)"
+                        }}
+                      />
+                    );
+                  })}
+                </div>
+             </motion.div>
+          )}
+          {activeCutInCard && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.2 } }}
+              className="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none overflow-hidden"
+            >
+              {/* Dark background */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.8 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 bg-black"
+              />
+              
+              {/* Speed lines background */}
+              <div className="absolute inset-0 opacity-20 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(255,255,255,0.1)_10px,rgba(255,255,255,0.1)_20px)] animate-[pan_2s_linear_infinite]" />
+
+              <div className="relative w-full h-full flex items-center justify-center">
+                {/* Slanted color strip */}
+                <motion.div
+                  initial={{ scaleY: 0, opacity: 0, rotate: -15, width: "150%" }}
+                  animate={{ scaleY: 1, opacity: 1, rotate: -15 }}
+                  exit={{ scaleY: 0, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute h-64 bg-cinematic-cyan/30 blur-md transform -translate-y-12"
+                />
+
+                {/* Character Image */}
+                <motion.img
+                   src={activeCutInCard.imageUrl}
+                   alt="cut-in"
+                   crossOrigin="anonymous"
+                   className="h-[75vh] object-contain relative z-10 drop-shadow-[0_0_30px_rgba(0,243,255,0.8)] filter contrast-125"
+                   initial={{ x: "-100vw", scale: 1.2, skewX: -10 }}
+                   animate={{ x: 0, scale: 1, skewX: 0 }}
+                   exit={{ x: "100vw", scale: 1.2, skewX: 10, transition: { duration: 0.2 } }}
+                   transition={{ type: "spring", damping: 15, stiffness: 100 }}
+                />
+
+                {/* Ultimate Name */}
+                <motion.div
+                   className="absolute bottom-1/4 right-8 md:right-[15%] z-20 flex flex-col items-end"
+                   initial={{ opacity: 0, x: 100 }}
+                   animate={{ opacity: 1, x: 0 }}
+                   exit={{ opacity: 0, x: -100, transition: { duration: 0.2 } }}
+                   transition={{ delay: 0.3, type: "spring" }}
+                >
+                   <span className="text-white/80 text-xl md:text-3xl font-mono tracking-widest uppercase mb-1 drop-shadow-md">
+                     ULTIMATE SKILL
+                   </span>
+                   <span className="text-5xl md:text-7xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-white to-cinematic-cyan drop-shadow-2xl" style={{ WebkitTextStroke: "2px rgba(0,243,255,0.5)" }}>
+                      {activeCutInCard.ultimateMove || "CRITICAL STRIKE"}
+                   </span>
+                </motion.div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <div className="min-h-screen flex flex-col items-center justify-between py-12 sm:py-8 px-2 sm:px-4 relative">
           {/* Cinema Background Layers */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-red-600/10 via-transparent to-black pointer-events-none"></div>
@@ -1025,13 +1269,29 @@ export const CombatView: React.FC<Props> = ({
           {/* Top: Boss Section */}
           <motion.div
             animate={
-              shakeBoss
+              isBossAttacking
+                ? {
+                    y: [0, 200, 0],
+                    scale: [1, 1.3, 1],
+                    zIndex: 100,
+                  }
+                : shakeBoss
                 ? {
                     x: [-20, 20, -20, 20, 0],
                     y: [-10, 10, -10, 10, 0],
                     rotate: [-2, 2, -2, 2, 0],
                   }
-                : {}
+                : {
+                    y: [0, -15, 0],
+                    scale: [1, 1.03, 1],
+                  }
+            }
+            transition={
+              isBossAttacking 
+                ? { duration: 0.8, times: [0, 0.4, 1] } 
+                : shakeBoss 
+                ? { duration: 0.3 } 
+                : { duration: 3, repeat: Infinity, ease: "easeInOut" }
             }
             className="w-full max-w-lg flex flex-col items-center relative z-20 mt-8"
           >
@@ -1057,34 +1317,45 @@ export const CombatView: React.FC<Props> = ({
                 ></motion.div>
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-
-                {/* Damage Popups for Boss - Enhanced */}
-                <AnimatePresence>
-                  {damagePopups
-                    .filter((p) => (p as any).target === "boss")
-                    .map((p) => (
-                      <motion.div
-                        key={p.id}
-                        initial={{ opacity: 1, y: 40, scale: 0.2, rotate: -10 }}
-                        animate={{
-                          opacity: 0,
-                          y: -200,
-                          scale: p.isCrit ? 3 : 1.8,
-                          rotate: 10,
-                        }}
-                        className={`absolute inset-0 flex items-center justify-center pointer-events-none z-[110] font-black italic ${p.isCrit ? "text-cinematic-cyan text-7xl drop-shadow-[0_0_25px_rgba(0,243,255,1)]" : "text-orange-500 text-5xl drop-shadow-[0_0_15px_rgba(249,115,22,0.8)]"}`}
-                        style={{ left: `${p.x}px` }}
-                      >
-                        {p.value}
-                        {p.isCrit && (
-                          <div className="absolute -top-6 text-xs uppercase font-serif tracking-[0.5em] text-white">
-                            Critical
-                          </div>
-                        )}
-                      </motion.div>
-                    ))}
-                </AnimatePresence>
               </div>
+
+              {/* Damage Popups for Boss - Enhanced */}
+              <AnimatePresence>
+                {damagePopups
+                  .filter((p) => p.target === "boss")
+                  .map((p) => (
+                    <motion.div
+                      key={p.id}
+                      initial={{ opacity: 0, y: 40 + (p.y || 0), scale: 0.5, rotate: -5 }}
+                      animate={{
+                        opacity: [0, 1, 1, 0],
+                        y: [40 + (p.y || 0), -50 + (p.y || 0), -100 + (p.y || 0), -150 + (p.y || 0)],
+                        scale: p.isCrit ? [0.5, 1.8, 1.5, 1.5] : [0.5, 1.2, 1, 1],
+                        rotate: [-5, 5, 0, 0],
+                      }}
+                      transition={{ duration: 1.5, times: [0, 0.2, 0.7, 1], ease: "easeOut" }}
+                      className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-[110] font-black italic ${p.isCrit ? "text-cinematic-cyan text-5xl drop-shadow-[0_0_15px_rgba(0,243,255,1)]" : `${p.colorClass || 'text-orange-500'} text-4xl drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]`}`}
+                      style={{ left: `${p.x}px`, WebkitTextStroke: "1.5px black", textShadow: "0 4px 10px rgba(0,0,0,0.8)" }}
+                    >
+                      <div className="flex items-center gap-2">
+                         {p.dmgType === "Physical" && <i className="fa-solid fa-burst text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Magic" && <i className="fa-solid fa-wand-magic-sparkles text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Fire" && <i className="fa-solid fa-fire text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Water" && <i className="fa-solid fa-droplet text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Lightning" && <i className="fa-solid fa-bolt text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Earth" && <i className="fa-solid fa-leaf text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Wind" && <i className="fa-solid fa-wind text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Tech" && <i className="fa-solid fa-crosshairs text-[0.5em] opacity-80"></i>}
+                         <span>-{p.value}</span>
+                      </div>
+                      {p.isCrit && (
+                        <div className="absolute -top-6 text-xs uppercase font-serif tracking-[0.5em] text-white">
+                          Critical
+                        </div>
+                      )}
+                    </motion.div>
+                  ))}
+              </AnimatePresence>
 
               <motion.div
                 initial={{ y: 20, opacity: 0 }}
@@ -1206,16 +1477,31 @@ export const CombatView: React.FC<Props> = ({
               {/* Damage Popups for Squad */}
               <AnimatePresence>
                 {damagePopups
-                  .filter((p) => (p as any).target === "squad")
+                  .filter((p) => p.target === "squad")
                   .map((p) => (
                     <motion.div
                       key={p.id}
-                      initial={{ opacity: 1, y: 0, scale: 0.5 }}
-                      animate={{ opacity: 0, y: -250, scale: 2 }}
-                      className="absolute inset-0 flex items-center justify-center pointer-events-none z-[110] font-black text-red-500 text-6xl drop-shadow-[0_0_30px_rgba(239,68,68,1)]"
-                      style={{ left: `${p.x}px` }}
+                      initial={{ opacity: 0, y: p.y || 0, scale: 0.5 }}
+                      animate={{ 
+                        opacity: [0, 1, 1, 0], 
+                        y: [p.y || 0, -50 + (p.y || 0), -100 + (p.y || 0), -150 + (p.y || 0)], 
+                        scale: [0.5, 1.4, 1.2, 1.2] 
+                      }}
+                      transition={{ duration: 1.5, times: [0, 0.2, 0.7, 1], ease: "easeOut" }}
+                      className={`absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-[110] font-black ${p.colorClass || 'text-red-500'} text-4xl drop-shadow-[0_0_15px_rgba(0,0,0,0.8)]`}
+                      style={{ left: `${p.x}px`, WebkitTextStroke: "1.5px black", textShadow: "0 4px 10px rgba(0,0,0,0.8)" }}
                     >
-                      -{p.value}
+                      <div className="flex items-center gap-2">
+                         {p.dmgType === "Physical" && <i className="fa-solid fa-burst text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Magic" && <i className="fa-solid fa-wand-magic-sparkles text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Fire" && <i className="fa-solid fa-fire text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Water" && <i className="fa-solid fa-droplet text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Lightning" && <i className="fa-solid fa-bolt text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Earth" && <i className="fa-solid fa-leaf text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Wind" && <i className="fa-solid fa-wind text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Tech" && <i className="fa-solid fa-crosshairs text-[0.5em] opacity-80"></i>}
+                         <span>-{p.value}</span>
+                      </div>
                     </motion.div>
                   ))}
               </AnimatePresence>
@@ -1298,6 +1584,24 @@ export const CombatView: React.FC<Props> = ({
               </span>
               <span className="text-xs font-mono font-bold text-orange-400 tabular-nums">
                 {squadAtk}
+              </span>
+            </div>
+            <div className="w-[1px] h-6 bg-white/10"></div>
+            <div className="flex flex-col items-center">
+              <span className="text-[8px] text-zinc-500 uppercase font-mono mb-0.5">
+                SQUAD_DEF
+              </span>
+              <span className="text-xs font-mono font-bold text-slate-400 tabular-nums">
+                {squadDef}
+              </span>
+            </div>
+            <div className="w-[1px] h-6 bg-white/10"></div>
+            <div className="flex flex-col items-center">
+              <span className="text-[8px] text-zinc-500 uppercase font-mono mb-0.5">
+                SQUAD_RES
+              </span>
+              <span className="text-xs font-mono font-bold text-purple-400 tabular-nums">
+                {squadRes}
               </span>
             </div>
             <div className="w-[1px] h-6 bg-white/10"></div>
@@ -1420,32 +1724,45 @@ export const CombatView: React.FC<Props> = ({
           ) : (
             <div
               id="bossContainer"
-              className={`w-full max-w-2xl bg-zinc-950/80 border border-red-900/40 rounded-2xl p-5 flex flex-col sm:flex-row gap-6 shadow-[0_0_40px_rgba(220,38,38,0.1)] relative overflow-hidden backdrop-blur-md ${shakeBoss ? "combat-shake" : ""} ${flashBoss ? "bg-red-500/20" : ""}`}
+              className={`w-full max-w-2xl bg-zinc-950/80 border border-red-900/40 rounded-2xl p-5 flex flex-col sm:flex-row gap-6 shadow-[0_0_40px_rgba(220,38,38,0.1)] relative backdrop-blur-md ${shakeBoss ? "combat-shake" : ""} ${flashBoss ? "bg-red-500/20" : ""}`}
             >
               <AnimatePresence>
                 {damagePopups
-                  .filter((p) => (p as any).target === "boss")
+                  .filter((p) => p.target === "boss")
                   .map((p) => (
-                    <motion.div
+                      <motion.div
                       key={p.id}
-                      initial={{ opacity: 1, y: 0, scale: 0.5 }}
+                      initial={{ opacity: 0, y: p.y || 0, scale: 0.5 }}
                       animate={{
-                        opacity: 0,
-                        y: -100,
-                        scale: p.isCrit ? 2 : 1.2,
+                        opacity: [0, 1, 1, 0],
+                        y: [p.y || 0, -30 + (p.y || 0), -60 + (p.y || 0), -90 + (p.y || 0)],
+                        scale: p.isCrit ? [0.5, 1.5, 1.2, 1.2] : [0.5, 1.2, 1, 1],
                       }}
-                      className={`absolute pointer-events-none z-[100] font-black italic ${p.isCrit ? "text-cinematic-cyan text-4xl drop-shadow-[0_0_10px_rgba(0,243,255,1)]" : "text-orange-500 text-2xl"}`}
+                      transition={{ duration: 1.5, times: [0, 0.2, 0.7, 1], ease: "easeOut" }}
+                      className={`absolute flex flex-col items-center pointer-events-none z-[100] font-black italic ${p.isCrit ? "text-cinematic-cyan text-3xl drop-shadow-[0_0_10px_rgba(0,243,255,1)]" : `${p.colorClass || 'text-orange-500'} text-2xl drop-shadow-[0_0_5px_rgba(0,0,0,0.8)]`}`}
                       style={{
                         left: `calc(50% + ${p.x}px)`,
                         top: `calc(40% + ${p.y}px)`,
+                        WebkitTextStroke: "1px black", textShadow: "0 4px 8px rgba(0,0,0,0.8)"
                       }}
                     >
                       {p.isCrit && (
-                        <div className="text-[10px] uppercase tracking-[0.3em] font-mono mb-[-10px] text-center">
+                        <div className="text-[10px] uppercase tracking-[0.3em] font-mono mb-2 text-center text-white">
                           Critical
                         </div>
                       )}
-                      {p.value}
+                      
+                      <div className="flex items-center gap-2">
+                         {p.dmgType === "Physical" && <i className="fa-solid fa-burst text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Magic" && <i className="fa-solid fa-wand-magic-sparkles text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Fire" && <i className="fa-solid fa-fire text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Water" && <i className="fa-solid fa-droplet text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Lightning" && <i className="fa-solid fa-bolt text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Earth" && <i className="fa-solid fa-leaf text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Wind" && <i className="fa-solid fa-wind text-[0.5em] opacity-80"></i>}
+                         {p.dmgType === "Tech" && <i className="fa-solid fa-crosshairs text-[0.5em] opacity-80"></i>}
+                         <span>-{p.value}</span>
+                      </div>
                     </motion.div>
                   ))}
               </AnimatePresence>
@@ -1624,16 +1941,31 @@ export const CombatView: React.FC<Props> = ({
               >
                 <AnimatePresence>
                   {damagePopups
-                    .filter((p) => (p as any).target === "squad")
+                    .filter((p) => p.target === "squad")
                     .map((p) => (
                       <motion.div
                         key={p.id}
-                        initial={{ opacity: 1, y: 0 }}
-                        animate={{ opacity: 0, y: -100 }}
-                        className="absolute pointer-events-none z-[100] font-black text-red-500 text-3xl drop-shadow-[0_0_10px_rgba(239,68,68,1)]"
-                        style={{ left: `calc(50% + ${p.x}px)`, top: "20px" }}
+                        initial={{ opacity: 0, y: p.y || 0, scale: 0.5 }}
+                        animate={{ 
+                            opacity: [0, 1, 1, 0], 
+                            y: [p.y || 0, -20 + (p.y || 0), -40 + (p.y || 0), -70 + (p.y || 0)],
+                            scale: [0.5, 1.2, 1, 1]
+                        }}
+                        transition={{ duration: 1.5, times: [0, 0.2, 0.7, 1], ease: "easeOut" }}
+                        className={`absolute flex flex-col items-center pointer-events-none z-[100] font-black ${p.colorClass || 'text-red-500'} text-2xl drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]`}
+                        style={{ left: `calc(50% + ${p.x}px)`, top: "20px", WebkitTextStroke: "1px black", textShadow: "0 4px 8px rgba(0,0,0,0.8)" }}
                       >
-                        -{p.value}
+                        <div className="flex items-center gap-1">
+                           {p.dmgType === "Physical" && <i className="fa-solid fa-burst text-[0.6em] opacity-80"></i>}
+                           {p.dmgType === "Magic" && <i className="fa-solid fa-wand-magic-sparkles text-[0.6em] opacity-80"></i>}
+                           {p.dmgType === "Fire" && <i className="fa-solid fa-fire text-[0.6em] opacity-80"></i>}
+                           {p.dmgType === "Water" && <i className="fa-solid fa-droplet text-[0.6em] opacity-80"></i>}
+                           {p.dmgType === "Lightning" && <i className="fa-solid fa-bolt text-[0.6em] opacity-80"></i>}
+                           {p.dmgType === "Earth" && <i className="fa-solid fa-leaf text-[0.6em] opacity-80"></i>}
+                           {p.dmgType === "Wind" && <i className="fa-solid fa-wind text-[0.6em] opacity-80"></i>}
+                           {p.dmgType === "Tech" && <i className="fa-solid fa-crosshairs text-[0.6em] opacity-80"></i>}
+                           <span>-{p.value}</span>
+                        </div>
                       </motion.div>
                     ))}
                 </AnimatePresence>

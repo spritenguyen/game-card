@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card } from '../types';
-import { getRankIndex, getFactionInfo, calculateCombatStats, getDismantleValue } from '../lib/gameLogic';
+import { getRankIndex, getFactionInfo, calculateCombatStats, getDismantleValue, getCardRole } from '../lib/gameLogic';
 import { AppConfig, ElementType } from '../types';
 import { ELEMENTS } from '../lib/constants';
 
@@ -21,7 +21,7 @@ export const FullCard: React.FC<{
   const isUR = getRankIndex(card.cardClass) === 4;
   const facInfo = getFactionInfo(card.faction);
   
-  const [expandedLore, setExpandedLore] = useState(!isModal);
+  const [activeTab, setActiveTab] = useState<'combat' | 'element' | 'lore'>('combat');
 
   const displayCard = card.translations?.[config.language || 'vi'] 
       ? { ...card, ...card.translations[config.language || 'vi'] } 
@@ -109,38 +109,116 @@ export const FullCard: React.FC<{
                 </div>
                 <div className="text-[10px] text-zinc-500 font-mono tracking-widest uppercase mb-1.5 flex items-center gap-2">
                     <div className="w-4 h-[1px] bg-zinc-700"></div>
+                    <span className="text-zinc-300 font-bold">{getCardRole(displayCard)}</span>
+                    <span className="opacity-50">|</span>
                     {displayCard.occupation}
                 </div>
                 <h2 className={`font-serif text-3xl md:text-4xl font-bold leading-tight drop-shadow-md ${isUR ? 'text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-blue-400' : 'text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400'}`}>{displayCard.name}</h2>
             </div>
             
-            {/* Compact Stats Grid */}
-            <div className="mt-4 pb-4 border-b border-zinc-800/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 shrink-0">
-                <div className="shrink-0 flex items-center gap-2">
-                    <div className="bg-green-950/20 border border-green-900/30 px-2.5 py-1.5 rounded-lg flex items-center gap-2 shadow-inner" title="Sức bền (Health Points)">
-                        <i className="fa-solid fa-heart text-green-500/70 text-base drop-shadow-[0_0_8px_rgba(34,197,94,0.5)]"></i>
-                        <div>
-                            <span className="block text-[7px] text-green-500/50 font-mono uppercase leading-none mb-0.5">HP</span>
-                            <span className="font-mono text-lg text-green-400 leading-none font-bold">{calculateCombatStats(displayCard).hp}</span>
-                        </div>
-                    </div>
-                    <div className="bg-orange-950/20 border border-orange-900/30 px-2.5 py-1.5 rounded-lg flex items-center gap-2 shadow-inner" title="Hỏa lực (Attack Points)">
-                        <i className="fa-solid fa-burst text-orange-500/70 text-base drop-shadow-[0_0_8px_rgba(249,115,22,0.5)]"></i>
-                        <div>
-                            <span className="block text-[7px] text-orange-500/50 font-mono uppercase leading-none mb-0.5">ATK</span>
-                            <span className="font-mono text-lg text-orange-400 leading-none font-bold">{calculateCombatStats(displayCard).atk}</span>
-                        </div>
-                    </div>
-                </div>
-                <div className="w-full sm:text-right border-t border-zinc-800/50 pt-2 sm:border-t-0 sm:pt-0 min-w-0 flex flex-col justify-center">
-                    <span className="block text-[9px] text-cinematic-cyan/70 font-mono uppercase mb-0.5 tracking-wider"><i className="fa-solid fa-sparkles mr-1"></i> Ultimate</span>
-                    <span className={`font-serif text-xs text-zinc-300 truncate block opacity-80`} title={displayCard.ultimateMove}>{displayCard.ultimateMove || 'N/A'}</span>
-                </div>
+            {/* Navigation Tabs */}
+            <div className="mt-5 flex gap-4 border-b border-zinc-800/80 mb-4 shrink-0 overflow-x-auto no-scrollbar scroll-smooth">
+                <button 
+                  onClick={() => setActiveTab('combat')}
+                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'combat' ? 'text-white border-b-2 border-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
+                >
+                  <i className="fa-solid fa-khanda mr-1.5"></i> Thực Chiến
+                </button>
+                <button 
+                  onClick={() => setActiveTab('element')}
+                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'element' ? 'text-white border-b-2 border-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
+                >
+                  <i className="fa-solid fa-bolt mr-1.5"></i> Nguyên Tố
+                </button>
+                <button 
+                  onClick={() => setActiveTab('lore')}
+                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'lore' ? 'text-white border-b-2 border-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
+                >
+                  <i className="fa-solid fa-id-card mr-1.5"></i> Hồ Sơ
+                </button>
             </div>
 
-            {/* Toggleable Details Area */}
-            <div className={`grid transition-[grid-template-rows,opacity,margin] duration-500 ease-in-out ${expandedLore ? 'grid-rows-[1fr] mt-5 opacity-100' : 'grid-rows-[0fr] mt-0 opacity-0'}`}>
-                <div className="overflow-hidden flex flex-col gap-5">
+            {/* Tab Contents */}
+            <div className="relative flex-1 overflow-y-auto pr-2 no-scrollbar min-h-0">
+               {activeTab === 'combat' && (
+                  <div className="flex flex-col gap-4 animate-fade-in">
+                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div className="bg-green-950/20 border border-green-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-2 text-green-500/10 text-4xl"><i className="fa-solid fa-heart"></i></div>
+                            <span className="text-[9px] text-green-500/70 font-mono uppercase mb-1 z-10">Sức Bền (HP)</span>
+                            <span className="font-mono text-2xl text-green-400 font-bold z-10">{calculateCombatStats(displayCard).hp}</span>
+                        </div>
+                        <div className="bg-orange-950/20 border border-orange-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-2 text-orange-500/10 text-4xl"><i className="fa-solid fa-hand-fist"></i></div>
+                            <span className="text-[9px] text-orange-500/70 font-mono uppercase mb-1 z-10">ST Vật Lý (PATK)</span>
+                            <span className="font-mono text-2xl text-orange-400 font-bold z-10">{calculateCombatStats(displayCard).patk}</span>
+                        </div>
+                        <div className="bg-purple-950/20 border border-purple-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-2 text-purple-500/10 text-4xl"><i className="fa-solid fa-wand-magic-sparkles"></i></div>
+                            <span className="text-[9px] text-purple-500/70 font-mono uppercase mb-1 z-10">ST Phép (MATK)</span>
+                            <span className="font-mono text-2xl text-purple-400 font-bold z-10">{calculateCombatStats(displayCard).matk}</span>
+                        </div>
+                        <div className="bg-slate-950/20 border border-slate-800/60 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-2 text-slate-500/10 text-4xl"><i className="fa-solid fa-shield"></i></div>
+                            <span className="text-[9px] text-slate-500/70 font-mono uppercase mb-1 z-10">Chiến Giáp (DEF)</span>
+                            <span className="font-mono text-2xl text-slate-300 font-bold z-10">{calculateCombatStats(displayCard).def}</span>
+                        </div>
+                        <div className="bg-indigo-950/20 border border-indigo-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-2 text-indigo-500/10 text-4xl"><i className="fa-solid fa-shield-virus"></i></div>
+                            <span className="text-[9px] text-indigo-400/70 font-mono uppercase mb-1 z-10">Kháng Phép (MDEF)</span>
+                            <span className="font-mono text-2xl text-indigo-300 font-bold z-10">{calculateCombatStats(displayCard).mdef}</span>
+                        </div>
+                        <div className="bg-zin-900/20 border border-zinc-800 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                            <i className="fa-solid fa-sparkles text-zinc-500/20 text-4xl absolute right-2 top-2"></i>
+                            <span className="text-[9px] text-cinematic-cyan/70 font-mono uppercase mb-1 z-10">Tuyệt Kỹ (Ultimate)</span>
+                            <span className="font-serif text-xs text-zinc-300 z-10 line-clamp-2" title={displayCard.ultimateMove}>{displayCard.ultimateMove || 'N/A'}</span>
+                        </div>
+                     </div>
+                  </div>
+               )}
+
+               {activeTab === 'element' && (
+                  <div className="flex flex-col gap-4 animate-fade-in">
+                      <div className="bg-white/5 border border-white/10 rounded-xl p-4 relative overflow-hidden">
+                         <h3 className="text-[10px] text-zinc-400 font-mono uppercase mb-3 flex items-center justify-between">
+                            <span><i className="fa-solid fa-fire mr-1.5"></i> Sát Thương Nguyên Tố</span>
+                         </h3>
+                         {displayCard.element && displayCard.element !== 'Neutral' ? (
+                            <div className="flex items-center gap-3">
+                               <div className={`w-12 h-12 rounded-full border bg-black/50 flex items-center justify-center text-2xl ${elementVisual.color} border-${elementVisual.color.split('-')[1]}-500/50 shadow-[0_0_15px_currentColor]`}>
+                                  <i className={`fa-solid ${elementVisual.icon}`}></i>
+                               </div>
+                               <div>
+                                  <span className="text-xs text-zinc-400 block mb-1">Cộng Thêm</span>
+                                  <span className={`font-mono text-xl font-bold ${elementVisual.color}`}>+{calculateCombatStats(displayCard).elementalDmg[displayCard.element]}</span>
+                                  <span className="text-xs text-zinc-500 ml-1">DMG</span>
+                               </div>
+                            </div>
+                         ) : (
+                            <div className="text-xs text-zinc-500 italic">Thẻ bài không có sát thương hệ tự nhiên.</div>
+                         )}
+                      </div>
+
+                      <div className="bg-black/40 border border-zinc-800 rounded-xl p-4">
+                         <h3 className="text-[10px] text-zinc-400 font-mono uppercase mb-3"><i className="fa-solid fa-shield-cat mr-1.5"></i> Kháng Nguyên Tố</h3>
+                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                             {['Fire', 'Water', 'Earth', 'Lightning', 'Wind', 'Neutral'].map(el => {
+                                 const ev = (ELEMENTS as any)[el];
+                                 const resVal = calculateCombatStats(displayCard).elementalRes[el] || 0;
+                                 return (
+                                     <div key={el} className="flex items-center justify-between bg-white/[0.02] border border-white/5 p-2 rounded-lg">
+                                         <span className={`text-[10px] font-mono flex items-center gap-1.5 ${ev.color}`}><i className={`fa-solid ${ev.icon}`}></i> {ev.name}</span>
+                                         <span className="font-mono text-xs text-white font-bold">{resVal}</span>
+                                     </div>
+                                 );
+                             })}
+                         </div>
+                      </div>
+                  </div>
+               )}
+
+               {activeTab === 'lore' && (
+                  <div className="flex flex-col gap-4 animate-fade-in pb-4">
                     <div className="grid grid-cols-2 gap-3">
                         <div className="bg-black/40 p-3 rounded-xl border border-zinc-800/40 shadow-inner">
                             <span className="block text-[9px] text-zinc-500 font-mono uppercase mb-1 flex items-center justify-between">H/W <i className="fa-solid fa-ruler-vertical opacity-30"></i></span>
@@ -183,18 +261,12 @@ export const FullCard: React.FC<{
                             </div>
                         )}
                     </div>
-                </div>
+                  </div>
+               )}
             </div>
 
-            <button 
-               onClick={() => setExpandedLore(!expandedLore)}
-               className="w-full mt-4 mb-5 py-2.5 bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white text-[10px] font-mono tracking-widest uppercase rounded-lg flex items-center justify-center gap-2 transition-all border border-white/5 shrink-0"
-            >
-               {expandedLore ? <><i className="fa-solid fa-chevron-up"></i> Tắt Hồ Sơ</> : <><i className="fa-solid fa-chevron-down"></i> Bộ Hồ Sơ Chi Tiết</>}
-            </button>
-
             {/* Actions */}
-            <div className="mt-auto pt-5 border-t border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0">
+            <div className="mt-4 pt-4 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0 transition-all">
                 <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono text-center sm:text-left flex items-center gap-3">
                     <i className="fa-solid fa-dna text-xl opacity-20"></i>
                     <div>

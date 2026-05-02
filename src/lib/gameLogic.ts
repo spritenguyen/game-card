@@ -75,10 +75,19 @@ export const getElementAdvantage = (atkElement?: string, defElement?: string): n
     return 1.0;
 };
 
+export const getCardRole = (card: Card): 'Tanker' | 'DPS' | 'Support' => {
+    if (card.role) return card.role;
+    if (card.weight && card.weight >= 70) return 'Tanker';
+    if (['Magic', 'Light', 'Dark'].includes(card.faction)) return 'Support';
+    return 'DPS';
+};
+
 export const calculateCombatStats = (card: Card | null) => {
-    if (!card) return { hp: 0, atk: 0 };
+    if (!card) return { hp: 0, atk: 0, patk: 0, matk: 0, def: 0, mdef: 0, res: 0, elementalDmg: {}, elementalRes: {} };
     const multi = [1, 1.5, 2.5, 5, 10][getRankIndex(card.cardClass)];
-    const baseHp = (card.weight || 50) * 10 + (card.height || 160) * 2;
+    
+    const role = getCardRole(card);
+    let baseHp = (card.weight || 50) * 10 + (card.height || 160) * 2;
     let avgMeas = 80;
     if (card.measurements) {
         const extracted = card.measurements.match(/\d{2,3}[-\./]\d{2,3}[-\./]\d{2,3}/);
@@ -87,25 +96,94 @@ export const calculateCombatStats = (card: Card | null) => {
             if (parts.length >= 3 && !isNaN(parts[0])) avgMeas = (parts[0] + parts[1] + parts[2]) / 3;
         }
     }
+    
+    let defBase = 50;
+    let mdefBase = 50;
+    let patkBase = avgMeas * 2.5;
+    let matkBase = avgMeas * 2.5;
+
+    if (role === 'Tanker') {
+        baseHp *= 1.5;
+        defBase = 100;
+        mdefBase = 100;
+        patkBase *= 0.5;
+        matkBase *= 0.5;
+    } else if (role === 'Support') {
+        defBase = 60;
+        mdefBase = 80;
+        patkBase *= 0.8;
+        matkBase *= 1.2;
+    } else {
+        defBase = 40;
+        mdefBase = 40;
+        patkBase *= 1.3;
+        matkBase *= 1.3;
+    }
+
+    if (card.faction === 'Tech' || card.faction === 'Mutant') {
+        patkBase *= 1.3; defBase += 20; 
+    } else if (card.faction === 'Magic' || card.faction === 'Light' || card.faction === 'Dark') {
+        matkBase *= 1.3; mdefBase += 20;
+    }
+    
+    const elementalDmg: Record<string, number> = {};
+    const elementalRes: Record<string, number> = {};
+    
+    ['Fire', 'Water', 'Earth', 'Lightning', 'Wind', 'Neutral'].forEach(el => elementalRes[el] = 0);
+    
+    let resBase = 20;
+    if (card.element && card.element !== 'Neutral') {
+        elementalDmg[card.element] = 50 * multi;
+        elementalRes[card.element] = 20 * multi;
+    }
+    if (card.element === 'Fire' || card.element === 'Water') resBase = 40;
+    if (card.element === 'Earth') { defBase += 20; mdefBase += 20; resBase += 20; }
+    if (card.element === 'Lightning' || card.element === 'Wind') resBase -= 10;
+    if (card.element === 'Neutral') { resBase = 30; defBase += 10; mdefBase += 10; }
+
     return {
         hp: Math.floor(baseHp * multi),
-        atk: Math.floor((avgMeas * 2.5) * multi)
+        atk: Math.floor(Math.max(patkBase, matkBase) * multi), // Fallback for UI
+        patk: Math.floor(patkBase * multi),
+        matk: Math.floor(matkBase * multi),
+        def: Math.floor(defBase * multi),
+        mdef: Math.floor(mdefBase * multi),
+        res: Math.floor(resBase * multi),
+        elementalDmg,
+        elementalRes
     };
 };
 
 export const getComboStats = (squad: (Card | null)[]) => {
     let totalHp = 0;
     let totalAtk = 0;
+    let totalPatk = 0;
+    let totalMatk = 0;
+    let totalDef = 0;
+    let totalMdef = 0;
+    let totalRes = 0;
+    const elementalDmg: Record<string, number> = {};
+    const elementalRes: Record<string, number> = {};
+    
     const activeCards = squad.filter(c => c !== null) as Card[];
     
     activeCards.forEach(c => {
-        const { hp, atk } = calculateCombatStats(c);
-        totalHp += hp;
-        totalAtk += atk;
+        const stats = calculateCombatStats(c);
+        totalHp += stats.hp;
+        totalAtk += stats.atk;
+        totalPatk += stats.patk;
+        totalMatk += stats.matk;
+        totalDef += stats.def;
+        totalMdef += stats.mdef;
+        totalRes += stats.res;
+        Object.entries(stats.elementalDmg).forEach(([k,v]) => elementalDmg[k] = (elementalDmg[k] || 0) + v);
+        Object.entries(stats.elementalRes).forEach(([k,v]) => elementalRes[k] = (elementalRes[k] || 0) + v);
     });
 
     let synergyBonusAtk = 0;
     let synergyBonusHp = 0;
+    let synergyBonusDef = 0;
+    let synergyBonusRes = 0;
     let activeSynergies: string[] = [];
 
     // Calculate Synergy
@@ -119,11 +197,13 @@ export const getComboStats = (squad: (Card | null)[]) => {
         if (uniqueFactions.size === 1) {
             synergyBonusAtk += 0.3;
             synergyBonusHp += 0.3;
-            activeSynergies.push("Đồng Lòng Thế Lực (+30% HP/ATK)");
+            synergyBonusDef += 0.2;
+            activeSynergies.push("Đồng Lòng Thế Lực (+30% HP/ATK, +20% DEF/MDEF)");
         } else if (uniqueFactions.size === 3) {
             synergyBonusAtk += 0.15;
             synergyBonusHp += 0.15;
-            activeSynergies.push("Đa Dạng Chiến Thuật (+15% HP/ATK)");
+            synergyBonusRes += 0.2;
+            activeSynergies.push("Đa Dạng Chiến Thuật (+15% HP/ATK, +20% Kháng)");
         } else {
              synergyBonusAtk += 0.1;
              activeSynergies.push("Hỗ Trợ Thế Lực (+10% ATK)");
@@ -131,7 +211,8 @@ export const getComboStats = (squad: (Card | null)[]) => {
 
         if (uniqueElements.size === 1 && !elements.includes('Neutral')) {
             synergyBonusAtk += 0.3;
-            activeSynergies.push("Cộng Hưởng Nguyên Tố (+30% ATK)");
+            synergyBonusRes += 0.3;
+            activeSynergies.push("Cộng Hưởng Nguyên Tố (+30% ATK, +30% Kháng)");
         } else if (uniqueElements.size === 3) {
             synergyBonusAtk += 0.15;
             synergyBonusHp += 0.15;
@@ -155,9 +236,36 @@ export const getComboStats = (squad: (Card | null)[]) => {
     }
 
     if (synergyBonusHp > 0) totalHp = Math.floor(totalHp * (1 + synergyBonusHp));
-    if (synergyBonusAtk > 0) totalAtk = Math.floor(totalAtk * (1 + synergyBonusAtk));
+    if (synergyBonusAtk > 0) {
+        totalAtk = Math.floor(totalAtk * (1 + synergyBonusAtk));
+        totalPatk = Math.floor(totalPatk * (1 + synergyBonusAtk));
+        totalMatk = Math.floor(totalMatk * (1 + synergyBonusAtk));
+    }
+    if (synergyBonusDef > 0) {
+        totalDef = Math.floor(totalDef * (1 + synergyBonusDef));
+        totalMdef = Math.floor(totalMdef * (1 + synergyBonusDef));
+    }
+    if (synergyBonusRes > 0) {
+        totalRes = Math.floor(totalRes * (1 + synergyBonusRes));
+        Object.keys(elementalRes).forEach(k => elementalRes[k] = Math.floor(elementalRes[k] * (1 + synergyBonusRes)));
+    }
 
-    return { hp: totalHp, atk: totalAtk, activeSynergies, synergyBonusAtk, synergyBonusHp };
+    return { 
+        hp: totalHp, 
+        atk: totalAtk,
+        patk: totalPatk, 
+        matk: totalMatk, 
+        def: totalDef, 
+        mdef: totalMdef,
+        res: totalRes,
+        elementalDmg,
+        elementalRes,
+        activeSynergies,
+        synergyBonusAtk,
+        synergyBonusHp,
+        synergyBonusDef,
+        synergyBonusRes
+    };
 };
 
 export const getSquadDodgeRate = (squad: (Card | null)[]): number => {

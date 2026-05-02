@@ -1,6 +1,19 @@
 export type CardRank = 'N' | 'R' | 'SR' | 'SSR' | 'UR';
 export type FactionType = 'Tech' | 'Magic' | 'Mutant' | 'Light' | 'Dark';
 export type ElementType = 'Fire' | 'Water' | 'Earth' | 'Lightning' | 'Wind' | 'Neutral';
+export type CardRole = 'Tanker' | 'DPS' | 'Support';
+
+export interface CombatStats {
+    hp: number;
+    atk: number;
+    patk: number;
+    matk: number;
+    def: number;
+    mdef: number;
+    res: number;
+    elementalDmg: Record<string, number>;
+    elementalRes: Record<string, number>;
+}
 
 export interface Card {
   id: string;
@@ -9,6 +22,7 @@ export interface Card {
   universe: string;
   faction: FactionType;
   element?: ElementType;
+  role?: CardRole;
   passiveSkill?: string;
   occupation: string;
   nationality: string;

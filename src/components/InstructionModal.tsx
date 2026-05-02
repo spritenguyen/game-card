@@ -33,7 +33,7 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-serif text-white tracking-widest uppercase leading-none">HƯỚNG DẪN VẬN HÀNH</h3>
-                                    <p className="text-[9px] text-zinc-500 font-mono tracking-widest mt-1">CINE-TECH PROTOCOL: USER_MANUAL_V1.3.0</p>
+                                    <p className="text-[9px] text-zinc-500 font-mono tracking-widest mt-1">CINE-TECH PROTOCOL: USER_MANUAL_V1.3.1</p>
                                 </div>
                             </div>
                             <button onClick={onClose} className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors">
@@ -67,6 +67,19 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                         <h5 className="text-[11px] font-bold text-purple-400 mb-1 font-mono uppercase"><i className="fa-solid fa-shop mr-1"></i> 4. Ủy thác & Chợ Đen</h5>
                                         <p className="text-[10px] text-zinc-400 leading-relaxed">Cử Thẻ Bài đi Ủy thác (Expeditions) thu thập DC/Vật phẩm. Bán vật phẩm dư tại Chợ Đen hoặc dùng Quantum Dust Reroll Tộc/Hệ cho Đơn vị.</p>
                                     </div>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.3.1 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-red-500 to-yellow-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-yellow-500 font-mono uppercase tracking-widest">Version 1.3.1: Combat Impact Upgrade</h4>
+                                </div>
+                                <div className="bg-red-950/20 min-h-[50px] p-4 rounded-xl border border-red-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Hệ thống Nhịp Thở & Lơ Lửng:</strong> Phân cảnh chiến đấu được đẩy dần mô phỏng tự nhiên hơn với hơi thở của Boss.</p>
+                                    <p><strong className="text-white">● Cơ chế Hit-Stop & Shatter:</strong> Đòn đánh chí mạng sẽ tạo ra độ trễ Hit-stop (dừng khung hình), và hiệu ứng Vỡ Gương (Glass Break) được kích hoạt khi Tiêu diệt Boss để tạo cảm giác uy lực.</p>
+                                    <p><strong className="text-white">● Vòng Ma Pháp & Âm Nhạc:</strong> Vòng Âm dương và Nguyên tố kích hoạt dưới khu vực dàn trận hiển thị sắc màu từng Hệ cho Squad. Âm thanh Synth BGM và SFX chiến đấu đã được bổ sung nhằm tăng độ "nặng" cho đòn đánh.</p>
                                 </div>
                             </section>
 
