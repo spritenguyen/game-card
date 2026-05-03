@@ -196,11 +196,11 @@ export const rollElement = (): string => {
     return 'Neutral';
 };
 
-export const generateCardFromAI = async (query: string, assignedRank: string, config: AppConfig): Promise<any> => {
+export const generateCardFromAI = async (query: string, assignedRank: string, config: AppConfig, forcedFaction?: string): Promise<any> => {
     const langStr = config.language === 'en' ? 'ENGLISH (Tiếng Anh)' : 'TIẾNG VIỆT';
     const hasPassive = ['SR', 'SSR', 'UR'].includes(assignedRank);
     const ultimateLv = assignedRank === 'N' ? 1 : assignedRank === 'R' ? 2 : assignedRank === 'SR' ? 3 : assignedRank === 'SSR' ? 5 : 10;
-    const enforcedFaction = rollFaction();
+    const enforcedFaction = forcedFaction || rollFaction();
     const enforcedElement = rollElement();
     
     const sysPrompt = `Giám đốc Nghệ thuật AI. Trả về đúng schema JSON quy định. (TRẢ LỜI NGẮN GỌN, TRÁNH VƯỢT QUÁ GIỚI HẠN TOKEN)
@@ -289,14 +289,58 @@ Ngôn ngữ: ${langStr}. Trả JSON ngắn gọn.`;
     return res;
 };
 
+export const generateAscensionFromAI = async (baseCard: Card, config: AppConfig): Promise<any> => {
+    const langStr = config.language === 'en' ? 'ENGLISH (Tiếng Anh)' : 'TIẾNG VIỆT';
+    const ultimateLv = 10;
+
+    const sysPrompt = `Chuyên gia Tối Thượng Hóa (Ascension Protocol). Trả JSON hợp lệ. (NGẮN GỌN DƯỚI 50 TỪ MỖI TRƯỜNG).
+1. Hạng thẻ BẮT BUỘC là: UR.
+2. Tộc Hệ, Nguyên Tố, Giới tính, Vũ trụ, Chiều cao, Cân nặng, Số đo 3 vòng, Quốc tịch BẮT BUỘC PHÂN TÍCH VÀ KẾ THỪA Y HỆT TỪ THẺ GỐC. KHÔNG THAY ĐỔI NHỮNG THÔNG TIN CƠ BẢN NÀY.
+3. Tên nhân vật (name): Giữ tên gốc nhưng có thể thêm tiền tố/hậu tố siêu việt (vd: "God-Emperor [Tên gốc]" hoặc "[Tên gốc] - Kẻ Thức Tỉnh").
+4. 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH (NGẮN GỌN). Miêu tả biểu hiện sức mạnh thần thánh, aura rực rỡ, trang phục tiến hóa ở dạng tối thượng.
+5. CÁC TRƯỜNG VĂN BẢN KHÁC (lore, ultimateMove, passiveSkill...) BẮT BUỘC VIẾT BẰNG NGÔN NGỮ: ${langStr} (NGẮN GỌN). Thể hiện sức mạnh vô song, câu chuyện về sự thức tỉnh. Sinh ra ultimateStats cho ultimateMove với power (2500-5000), cooldown (2-5), scaling ('300% ATK' hoặc '400% MATK'...), energyCost (80-150).`;
+
+    const prompt = `Thức tỉnh thẻ bài sau lên hạng UR: 
+- Tên: ${baseCard.name}
+- Tộc/Hệ: ${baseCard.faction} / ${baseCard.element}
+- Ngoại hình cũ: ${baseCard.visualDescription}
+- Chiêu cuối cũ: ${baseCard.ultimateMove}
+Nhiệm vụ: Cường hóa mọi thứ, tạo ra phiên bản thần thánh của nhân vật này. Trả JSON.`;
+
+    const props = {
+        id: { type: Type.STRING }, name: { type: Type.STRING }, gender: { type: Type.STRING }, universe: { type: Type.STRING },
+        faction: { type: Type.STRING }, element: { type: Type.STRING }, occupation: { type: Type.STRING }, nationality: { type: Type.STRING }, cardClass: { type: Type.STRING },
+        height: { type: Type.INTEGER }, weight: { type: Type.INTEGER }, measurements: { type: Type.STRING }, personality: { type: Type.STRING },
+        lore: { type: Type.STRING }, inspiredBy: { type: Type.STRING }, visualDescription: { type: Type.STRING }, passiveSkill: { type: Type.STRING }, ultimateMove: { type: Type.STRING },
+        ultimateStats: {
+            type: Type.OBJECT,
+            properties: {
+                power: { type: Type.INTEGER },
+                cooldown: { type: Type.INTEGER },
+                scaling: { type: Type.STRING },
+                energyCost: { type: Type.INTEGER }
+            }
+        }
+    };
+    const req = ["name","gender","universe","faction","element","occupation","nationality","cardClass","height","weight","measurements","personality","lore","inspiredBy","visualDescription","ultimateMove","ultimateStats","passiveSkill"];
+    
+    const res = await executeTextAI(prompt, sysPrompt, config, props, req);
+    res.language = config.language;
+    res.ultimateLevel = ultimateLv;
+    res.origin = 'Forged';
+    res.parents = [baseCard.id];
+    GlobalApiState.setIdle();
+    return res;
+};
+
 export const generateBossFromAI = async (sHp: number, sAtk: number, difficulty: 'normal' | 'elite' | 'nightmare', config: AppConfig): Promise<any> => {
     const langStr = config.language === 'en' ? 'ENGLISH (Tiếng Anh)' : 'TIẾNG VIỆT';
-    let hpRange = "5000 - 9000";
-    let atkRange = "1200 - 2500";
+    let hpRange = "15000 - 30000";
+    let atkRange = "3000 - 5500";
     let rewardRange = "250 - 300";
     let threatPrefix = "Alpha";
-    if (difficulty === 'elite') { hpRange = "15000 - 25000"; atkRange = "3500 - 6000"; rewardRange = "375 - 600"; threatPrefix = "Elite"; }
-    if (difficulty === 'nightmare') { hpRange = "45000 - 70000"; atkRange = "10000 - 16000"; rewardRange = "750 - 1800"; threatPrefix = "Nightmare"; }
+    if (difficulty === 'elite') { hpRange = "50000 - 80000"; atkRange = "8000 - 14000"; rewardRange = "375 - 600"; threatPrefix = "Elite"; }
+    if (difficulty === 'nightmare') { hpRange = "150000 - 250000"; atkRange = "25000 - 45000"; rewardRange = "850 - 2500"; threatPrefix = "Nightmare"; }
     
     // Smooth Distribution Enforcement
     const enforcedFaction = rollFaction();

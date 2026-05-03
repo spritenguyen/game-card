@@ -69,6 +69,67 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
         shardName = `${fusionSlot2.element} Shard`;
     }
 
+    const getMaxUpgradeAmount = (id: string) => {
+        if (id === 'quantumDust') {
+            const remaining = (inventory.quantumDust || 0) - reqDust;
+            return Math.max(0, remaining);
+        } else {
+            let requiredThisMat = 0;
+            if (id === coreName) requiredThisMat += reqCore;
+            if (id === shardName) requiredThisMat += reqShard;
+            const remaining = (inventory.materials?.[id] || 0) - requiredThisMat;
+            return Math.max(0, remaining);
+        }
+    };
+
+    let bonusRoll = 0;
+    let totalMutationChance = 15; 
+    if (upgradeItem) {
+        if (upgradeItem.type === 'item') {
+            if (upgradeItem.id === 'quantumDust') {
+                bonusRoll = upgradeItem.amount / 10;
+            } else {
+                totalMutationChance += 5 * upgradeItem.amount; 
+            }
+        } else if (upgradeItem.type === 'card') {
+            const cRank = getRankIndex(upgradeItem.card.cardClass);
+            if (cRank === 3) bonusRoll = 20;
+            else if (cRank === 2) bonusRoll = 10;
+            else bonusRoll = 5;
+            totalMutationChance += 15;
+        }
+    }
+    
+    totalMutationChance = Math.min(100, totalMutationChance);
+
+    const getProbabilities = (baseMaxR: number, bonus: number) => {
+        let thresholds: { rank: string, t: number }[] = [];
+        if (baseMaxR === 0) thresholds = [{rank: 'N', t: 50}, {rank: 'R', t: 90}, {rank: 'SR', t: 100}];
+        else if (baseMaxR === 1) thresholds = [{rank: 'R', t: 60}, {rank: 'SR', t: 95}, {rank: 'SSR', t: 100}];
+        else if (baseMaxR === 2) thresholds = [{rank: 'SR', t: 70}, {rank: 'SSR', t: 97}, {rank: 'UR', t: 100}];
+        else if (baseMaxR === 3) thresholds = [{rank: 'SSR', t: 95}, {rank: 'UR', t: 100}];
+        else return [];
+
+        const getCumulative = (x: number) => Math.max(0, Math.min(100, x));
+        
+        let probs: { rank: string, prob: number }[] = [];
+        let prevT = 0;
+        for (let i = 0; i < thresholds.length; i++) {
+            let t = thresholds[i].t;
+            let prob = (t === 100 ? 100 : getCumulative(t - bonus)) - getCumulative(prevT - bonus);
+            if (t === 100) {
+                 prob = 100 - getCumulative(prevT - bonus);
+            }
+            if (prob > 0.01) {
+                probs.push({ rank: thresholds[i].rank, prob });
+            }
+            prevT = t;
+        }
+        return probs;
+    };
+
+    const currentProbs = canFuse ? getProbabilities(maxR, bonusRoll) : [];
+
     const executeFusion = async () => {
         if (!canFuse) return;
         if (currency < dynamicCost) return onError(`Không đủ Data Credits (Yêu cầu ${dynamicCost} DC).`);
@@ -139,29 +200,33 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
             }
 
             let mutationChance = 0.15;
-            let roll = Math.random()*100;
-            let dustBonus = 0;
+            let roll = Math.random()*100 + bonusRoll;
             let newFaction = fusionSlot1.faction || 'Tech';
             let newElement = fusionSlot2.element || 'Neutral';
+            let isMutated = false;
+            let forcedFaction: FactionType | null = null;
+            let forcedElement: ElementType | null = null;
+            let cardMutationTriggered = false;
 
             if (upgradeItem) {
-                if (upgradeItem.type === 'item') {
-                    if (upgradeItem.id === 'quantumDust') {
-                        dustBonus = (upgradeItem.amount / 100) * 10; 
-                        roll += dustBonus; // Increase the roll value making higher ranks easier
-                    } else {
-                        mutationChance += 0.05 * upgradeItem.amount; 
+                if (upgradeItem.type === 'item' && upgradeItem.id !== 'quantumDust') {
+                    mutationChance += 0.05 * upgradeItem.amount;
+                    if (upgradeItem.id.endsWith(' Core')) {
+                        const tgtFaction = upgradeItem.id.replace(' Core', '') as FactionType;
+                        if (FACTIONS[tgtFaction]) {
+                            forcedFaction = tgtFaction;
+                        }
+                    } else if (upgradeItem.id.endsWith(' Shard')) {
+                        const tgtElement = upgradeItem.id.replace(' Shard', '') as ElementType;
+                        if (ELEMENTS[tgtElement]) {
+                            forcedElement = tgtElement;
+                        }
                     }
                 } else if (upgradeItem.type === 'card') {
-                    const cRank = getRankIndex(upgradeItem.card.cardClass);
-                    // Sacrifice card boosts
-                    if (cRank === 3) roll += 20; // SSR
-                    else if (cRank === 2) roll += 10; // SR
-                    else roll += 5; // N, R
-                    
                     mutationChance += 0.15; 
                     
                     if (Math.random() < mutationChance) {
+                        cardMutationTriggered = true;
                         // Force mutation to match the sacrificed card's traits
                         if (Math.random() < 0.5) newFaction = upgradeItem.card.faction;
                         else newElement = upgradeItem.card.element;
@@ -194,16 +259,21 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
 
             const factionKeys = Object.keys(FACTIONS);
             const elementKeys = Object.keys(ELEMENTS);
-            let isMutated = false;
 
             if (mutationChance > 0 && Math.random() < mutationChance) { 
                 isMutated = true;
-                if (Math.random() < 0.5) {
-                    newFaction = factionKeys[Math.floor(Math.random() * factionKeys.length)] as any;
+                if (forcedFaction) {
+                    newFaction = forcedFaction;
+                } else if (forcedElement) {
+                    newElement = forcedElement;
                 } else {
-                    newElement = elementKeys[Math.floor(Math.random() * elementKeys.length)] as any;
+                    if (Math.random() < 0.5) {
+                        newFaction = factionKeys[Math.floor(Math.random() * factionKeys.length)] as any;
+                    } else {
+                        newElement = elementKeys[Math.floor(Math.random() * elementKeys.length)] as any;
+                    }
                 }
-            } else if (mutationChance === 0) {
+            } else if (cardMutationTriggered) {
                 isMutated = true; // mutated from sacrifice card above
             }
 
@@ -275,7 +345,7 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
     const openUpgradeModal = () => {
         setActiveUpgradeTab('item');
         setTempUpgradeId('quantumDust');
-        setTempUpgradeAmount(100);
+        setTempUpgradeAmount(1);
         setTempUpgradeCard(null);
         setShowUpgradeModal(true);
     };
@@ -376,16 +446,19 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                             ) : (
                                 <>
                                     <i className="fa-solid fa-plus text-xl sm:text-2xl text-cinematic-gold/40 group-hover:text-cinematic-gold/80 transition-colors mb-1"></i>
-                                    <span className="text-[7px] sm:text-[9px] uppercase tracking-widest text-cinematic-gold/50 group-hover:text-cinematic-gold/80 text-center px-2">Xúc tác</span>
-                                    <span className="text-[6px] sm:text-[7px] text-red-500/80 mt-1 uppercase text-center block leading-tight px-1 group-hover:text-red-400">Có thể hiến tế Thẻ</span>
+                                    <span className="text-[6.5px] sm:text-[8px] uppercase tracking-widest text-center whitespace-nowrap leading-none mt-1 shadow-black drop-shadow-md">
+                                        <span className="text-cinematic-gold/50 group-hover:text-cinematic-gold/80">XÚC TÁC</span>
+                                        <span className="text-zinc-600 mx-1">|</span>
+                                        <span className="text-red-500/80 group-hover:text-red-400">CÓ THỂ HIẾN TẾ THẺ</span>
+                                    </span>
                                 </>
                             )}
                         </div>
                         {upgradeItem ? (
-                            <div className="absolute -bottom-6 w-max text-[8px] sm:text-[9px] text-cinematic-gold bg-cinematic-gold/10 px-3 py-1 rounded-full border border-cinematic-gold/30 shadow-lg whitespace-nowrap tracking-wider z-10">
-                                {upgradeItem.type === 'item' ? 
-                                    (upgradeItem.id === 'quantumDust' ? `+${((upgradeItem.amount/100)*10).toFixed(0)} Roll Rank` : `+${(upgradeItem.amount * 5)}% Đột biến`) 
-                                : `Hiến Tế: Tăng mạnh cấp thẻ`}
+                            <div className="absolute -bottom-6 w-max text-[8px] sm:text-[9px] text-cinematic-gold bg-cinematic-gold/10 px-3 py-1 rounded-full border border-cinematic-gold/30 shadow-lg whitespace-nowrap tracking-wider z-10 flex gap-2">
+                                {upgradeItem.type === 'item' && upgradeItem.id === 'quantumDust' && <span>+{bonusRoll.toFixed(0)} Roll Rank</span>}
+                                {upgradeItem.type !== 'item' && <span>+{bonusRoll.toFixed(0)} Roll Rank</span>}
+                                {upgradeItem.type === 'item' && upgradeItem.id !== 'quantumDust' && <span className="text-cinematic-cyan">{upgradeItem.id.endsWith(' Core') ? `Lai ${upgradeItem.id.replace(' Core', '')}` : upgradeItem.id.endsWith(' Shard') ? `T/tính ${upgradeItem.id.replace(' Shard', '')}` : `+${upgradeItem.amount * 5}% Biến dị`}</span>}
                             </div>
                         ) : (
                             <div className="absolute -bottom-6 w-max text-[8px] sm:text-[9px] text-cinematic-muted tracking-widest uppercase">
@@ -406,6 +479,28 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                                 {reqCore > 0 && <span className={(inventory.materials?.[coreName] || 0) >= reqCore ? "text-cinematic-cyan" : "text-red-500 font-bold"}>- {reqCore} {coreName}</span>}
                                 {reqShard > 0 && <span className={(inventory.materials?.[shardName] || 0) >= reqShard ? "text-cinematic-cyan" : "text-red-500 font-bold"}>- {reqShard} {shardName}</span>}
                                 {reqDust > 0 && <span className={(inventory.quantumDust || 0) >= reqDust ? "text-cinematic-gold border border-cinematic-gold/30 px-2 rounded bg-cinematic-gold/10 mt-0.5" : "text-red-500 font-bold border border-red-500/30 px-2 rounded bg-red-900/20 mt-0.5"}>- {reqDust} Quantum Dust</span>}
+                            </div>
+                        )}
+
+                        {canFuse && (
+                            <div className="flex flex-col items-center mb-6 w-full px-2">
+                                <div className="text-[10px] text-cinematic-muted uppercase tracking-widest mb-2 flex items-center gap-2">
+                                    <i className="fa-solid fa-chart-pie"></i> Tỉ lệ dự kiến
+                                </div>
+                                <div className="flex flex-wrap justify-center gap-2 w-full">
+                                    {currentProbs.map(p => (
+                                        <div key={p.rank} className="flex flex-col items-center bg-black/40 border border-white/10 rounded-lg px-3 py-1 min-w-[60px]">
+                                            <span className={`text-xs font-bold ${p.rank === 'UR' ? 'text-red-500' : p.rank === 'SSR' ? 'text-yellow-500' : p.rank === 'SR' ? 'text-purple-400' : p.rank === 'R' ? 'text-blue-400' : 'text-gray-400'}`}>
+                                                {p.rank}
+                                            </span>
+                                            <span className="text-[10px] text-white/80">{p.prob.toFixed(1).replace('.0', '')}%</span>
+                                        </div>
+                                    ))}
+                                    <div className="flex flex-col items-center bg-cinematic-cyan/10 border border-cinematic-cyan/30 rounded-lg px-3 py-1 min-w-[60px] max-w-[80px]">
+                                        <span className="text-xs font-bold text-cinematic-cyan text-center truncate w-full px-1">{upgradeItem && upgradeItem.type === 'item' && upgradeItem.id.endsWith(' Core') ? `Tộc ${upgradeItem.id.replace(' Core', '')}` : upgradeItem && upgradeItem.type === 'item' && upgradeItem.id.endsWith(' Shard') ? `Hệ ${upgradeItem.id.replace(' Shard', '')}` : 'Biến dị'}</span>
+                                        <span className="text-[10px] text-white/80 uppercase">{upgradeItem && upgradeItem.type === 'item' && (upgradeItem.id.endsWith(' Core') || upgradeItem.id.endsWith(' Shard')) ? '100%' : `${totalMutationChance.toFixed(1).replace('.0', '')}%`}</span>
+                                    </div>
+                                </div>
                             </div>
                         )}
 
@@ -459,7 +554,7 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                                         <div className="flex-1">
                                             <div className="text-sm font-bold text-white mb-0.5">Quantum Dust</div>
                                             <div className="text-[10px] text-cinematic-gold/80">+Tỉ lệ nhận hạng cao</div>
-                                            <div className="text-[10px] text-white/50 mt-1">Đang có: {inventory.quantumDust || 0}</div>
+                                            <div className="text-[10px] text-white/50 mt-1">Đang có: {inventory.quantumDust || 0} | Khả dụng: {getMaxUpgradeAmount('quantumDust')}</div>
                                         </div>
                                     </label>
 
@@ -471,8 +566,8 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                                             </div>
                                             <div className="flex-1">
                                                 <div className="text-sm font-bold text-white mb-0.5">{mat}</div>
-                                                <div className="text-[10px] text-cinematic-cyan/80">+Tỉ lệ đột biến Gen</div>
-                                                <div className="text-[10px] text-white/50 mt-1">Đang có: {inventory.materials[mat]}</div>
+                                                <div className="text-[10px] text-cinematic-cyan/80">+Tỉ lệ biến dị Gen</div>
+                                                <div className="text-[10px] text-white/50 mt-1">Đang có: {inventory.materials[mat]} | Khả dụng: {getMaxUpgradeAmount(mat)}</div>
                                             </div>
                                         </label>
                                     ))}
@@ -499,17 +594,17 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                                                     value={tempUpgradeAmount}
                                                     onChange={(e) => {
                                                         const val = parseInt(e.target.value) || 0;
-                                                        const max = tempUpgradeId === 'quantumDust' ? (inventory.quantumDust || 0) : (inventory.materials[tempUpgradeId] || 0);
+                                                        const max = tempUpgradeId ? getMaxUpgradeAmount(tempUpgradeId) : 0;
                                                         setTempUpgradeAmount(Math.min(max, Math.max(0, val)));
                                                     }}
                                                     min={0}
                                                 />
-                                                <div className="text-[8px] text-white/40 mt-1">Tối đa: {tempUpgradeId === 'quantumDust' ? (inventory.quantumDust || 0) : (inventory.materials[tempUpgradeId] || 0)}</div>
+                                                <div className="text-[8px] text-white/40 mt-1">Tối đa: {tempUpgradeId ? getMaxUpgradeAmount(tempUpgradeId) : 0}</div>
                                             </div>
 
                                             <button 
                                                 onClick={() => {
-                                                    const max = tempUpgradeId === 'quantumDust' ? (inventory.quantumDust || 0) : (inventory.materials[tempUpgradeId] || 0);
+                                                    const max = tempUpgradeId ? getMaxUpgradeAmount(tempUpgradeId) : 0;
                                                     setTempUpgradeAmount(Math.min(max, tempUpgradeId === 'quantumDust' ? tempUpgradeAmount + 50 : tempUpgradeAmount + 1));
                                                 }}
                                                 className="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center"

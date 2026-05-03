@@ -9,7 +9,7 @@ interface Props {
   currency: number;
   modifyCurrency: (amount: number) => boolean;
   inventory: Inventory;
-  modifyInventory: (baseDiff: number, eliteDiff: number) => void;
+  modifyInventory: (baseDiff: number, eliteDiff: number, materialsDiff?: Record<string, number>) => void;
   level: number;
   pityCounter: number;
   updatePity: (p: number) => void;
@@ -23,8 +23,11 @@ interface Props {
 
 export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency, inventory, modifyInventory, level, pityCounter, updatePity, onSaveCard, onError, onAlert, updateQuestProgress, isGlobalProcessing, setGlobalProcessing }) => {
   const [query, setQuery] = useState('');
+  const [selectedCore, setSelectedCore] = useState<string>('');
   const [card, setCard] = useState<Card | null>(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
+
+  const availableCores = Object.keys(inventory.materials || {}).filter(k => k.endsWith(' Core') && inventory.materials[k] > 0);
 
   const handleExtract = async (type: 'dc' | 'baseTicket' | 'eliteTicket') => {
       if (isGlobalProcessing) return;
@@ -53,6 +56,9 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
       if (cost > 0 && !modifyCurrency(-cost)) { setGlobalProcessing(false); return; }
       if (type === 'baseTicket') modifyInventory(-1, 0);
       if (type === 'eliteTicket') modifyInventory(0, -1);
+      if (selectedCore && inventory.materials && inventory.materials[selectedCore] > 0) {
+          modifyInventory(0, 0, { [selectedCore]: -1 });
+      }
 
       try {
           // Roll rank
@@ -60,7 +66,8 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
           const assignedRank = rollOut.rank;
           const newPity = rollOut.newPity;
 
-          const cardData = await generateCardFromAI(query, assignedRank, config);
+          const forcedFaction = selectedCore ? selectedCore.replace(' Core', '') : undefined;
+          const cardData = await generateCardFromAI(query, assignedRank, config, forcedFaction);
           cardData.id = 'CINE-E-' + Date.now().toString(36).toUpperCase() + Math.random().toString(36).substr(2, 4).toUpperCase();
           cardData.cardClass = assignedRank;
           
@@ -84,6 +91,7 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
           if (cost > 0) modifyCurrency(cost);
           if (type === 'baseTicket') modifyInventory(1, 0);
           if (type === 'eliteTicket') modifyInventory(0, 1);
+          if (selectedCore) modifyInventory(0, 0, { [selectedCore]: 1 });
           
           if (e.message === "API_KEY_INVALID") {
               onAlert("Hệ Thống Cine-Tech", "API Key của bạn không hợp lệ. Vui lòng kiểm tra lại trong System Override.");
@@ -122,6 +130,28 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
                 placeholder="Nguyên mẫu (VD: Jinx Arcane, Guts, Tifa...)" 
             />
         </div>
+
+        {availableCores.length > 0 && (
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 bg-black/40 p-3 rounded-xl border border-white/5">
+                <span className="text-[10px] text-cinematic-muted uppercase tracking-widest"><i className="fa-solid fa-flask text-cinematic-cyan mr-1"></i> Xúc tác ép Tộc (Tùy chọn):</span>
+                <select 
+                    value={selectedCore}
+                    onChange={(e) => setSelectedCore(e.target.value)}
+                    disabled={isGlobalProcessing}
+                    className="bg-cinematic-900/80 text-white text-xs px-3 py-1.5 rounded-lg border border-white/10 outline-none flex-1 w-full"
+                >
+                    <option value="">-- Không Dùng --</option>
+                    {availableCores.map(core => (
+                        <option key={core} value={core}>{core} (Có: {inventory.materials[core]})</option>
+                    ))}
+                </select>
+                {selectedCore && (
+                    <span className="text-[9px] text-cinematic-cyan border border-cinematic-cyan/30 px-2 py-1 rounded bg-cinematic-cyan/10 whitespace-nowrap">
+                        Ép Tộc: {selectedCore.replace(' Core', '')}
+                    </span>
+                )}
+            </div>
+        )}
         
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <button 

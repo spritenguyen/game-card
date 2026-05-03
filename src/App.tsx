@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useGameState } from "./hooks/useGameState";
 import { ExtractView } from "./views/ExtractView";
 import { FusionView } from "./views/FusionView";
+import { ForgeTabView } from "./views/ForgeTabView";
 import { CombatView } from "./views/CombatView";
 import { MissionsView } from "./views/MissionsView";
 import { BlackMarketView } from "./views/BlackMarketView";
@@ -18,7 +19,7 @@ import { Card } from "./types";
 import { ReshootDialog } from "./components/ReshootDialog";
 import { ApiMonitor } from "./components/ApiMonitor";
 
-type Tab = "extract" | "fusion" | "combat" | "missions" | "blackmarket";
+type Tab = "extract" | "forge" | "combat" | "missions" | "blackmarket" | "gallery";
 
 export default function App() {
   const {
@@ -317,86 +318,88 @@ export default function App() {
       </div>
 
       {/* Top Bar Compact */}
-      <div className="relative z-10 w-full bg-black/60 border-b border-white/5 py-1.5 px-4 flex justify-between items-center text-[10px] text-cinematic-muted backdrop-blur-md">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center">
-            <i
-              className={`fa-solid fa-hard-drive mr-1.5 ${dbStatus === "online" ? "text-green-500" : "text-red-500"}`}
-            ></i>
-            <span className="hidden sm:inline">VAULT:</span>{" "}
-            <span
-              className={
-                dbStatus === "online" ? "text-green-400" : "text-red-400"
-              }
+      <div className="relative z-10 w-full bg-black/60 border-b border-white/5 py-1.5 px-2 sm:px-4 text-[10px] text-cinematic-muted backdrop-blur-md">
+        <div className="flex flex-wrap sm:flex-nowrap justify-between items-center gap-2">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center">
+              <i
+                className={`fa-solid fa-hard-drive mr-1.5 ${dbStatus === "online" ? "text-green-500" : "text-red-500"}`}
+              ></i>
+              <span className="hidden sm:inline">VAULT:</span>{" "}
+              <span
+                className={
+                  dbStatus === "online" ? "text-green-400" : "text-red-400"
+                }
+              >
+                {dbStatus === "online" ? "ONLINE" : "OFFLINE"}
+              </span>
+            </div>
+            <button
+              onClick={() => setShowSettings(true)}
+              className="text-cinematic-cyan hover:text-white transition-colors flex items-center gap-1 border border-cinematic-cyan/20 px-1.5 py-0.5 rounded bg-cinematic-900/30 font-mono"
+              title="Cấu hình hệ thống (System Settings)"
             >
-              {dbStatus === "online" ? "ONLINE" : "OFFLINE"}
-            </span>
+              <i className="fa-solid fa-sliders text-[9px]"></i> OVERRIDE
+            </button>
           </div>
-          <button
-            onClick={() => setShowSettings(true)}
-            className="text-cinematic-cyan hover:text-white transition-colors flex items-center gap-1 border border-cinematic-cyan/20 px-1.5 py-0.5 rounded bg-cinematic-900/30 font-mono"
-            title="Cấu hình hệ thống (System Settings)"
-          >
-            <i className="fa-solid fa-sliders text-[9px]"></i> OVERRIDE
-          </button>
-        </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setShowInstructions(true)}
-            className="text-zinc-500 hover:text-cinematic-gold transition-colors flex items-center gap-1 border border-white/5 px-2 py-0.5 rounded bg-zinc-900/50 font-mono"
-            title="Hướng dẫn chơi (Manual)"
-          >
-            <i className="fa-solid fa-circle-question text-[9px]"></i>{" "}
-            <span className="hidden sm:inline">MANUAL</span>
-          </button>
-          <div
-            className="flex items-center gap-2 bg-zinc-900 px-3 py-0.5 rounded border border-white/10 shadow-lg"
-            title="Inventory"
-          >
-            <div className="flex items-center gap-1">
-              <i className="fa-solid fa-ticket text-cinematic-cyan opacity-80"></i>{" "}
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <button
+              onClick={() => setShowInstructions(true)}
+              className="text-zinc-500 hover:text-cinematic-gold transition-colors flex items-center gap-1 border border-white/5 px-2 py-0.5 rounded bg-zinc-900/50 font-mono shrink-0"
+              title="Hướng dẫn chơi (Manual)"
+            >
+              <i className="fa-solid fa-circle-question text-[9px]"></i>{" "}
+              <span className="hidden sm:inline">MANUAL</span>
+            </button>
+            <div
+              className="flex items-center gap-2 bg-zinc-900 px-3 py-0.5 rounded border border-white/10 shadow-lg shrink-0"
+              title="Inventory"
+            >
+              <div className="flex items-center gap-1">
+                <i className="fa-solid fa-ticket text-cinematic-cyan opacity-80"></i>{" "}
+                <span className="font-bold text-white tabular-nums">
+                  {inventory.baseTickets}
+                </span>
+              </div>
+              <div className="w-[1px] h-3 bg-white/20"></div>
+              <div className="flex items-center gap-1">
+                <i className="fa-solid fa-ticket text-purple-400 opacity-80"></i>{" "}
+                <span className="font-bold text-white tabular-nums">
+                  {inventory.eliteTickets}
+                </span>
+              </div>
+              <div className="w-[1px] h-3 bg-white/20"></div>
+              <div className="flex items-center gap-1">
+                <i className="fa-brands fa-galactic-senate text-amber-500 opacity-80"></i>{" "}
+                <span className="font-bold text-amber-400 tabular-nums">
+                  {inventory.quantumDust}
+                </span>
+              </div>
+            </div>
+            <div
+              className="flex items-center gap-1.5 bg-zinc-900 px-2 py-0.5 rounded border border-cinematic-gold/20 shadow-lg shrink-0"
+              title="Data Credits (DC): Tài nguyên giao dịch"
+            >
+              <div className="w-1.5 h-1.5 rounded-full bg-cinematic-gold animate-pulse"></div>
               <span className="font-bold text-white tabular-nums">
-                {inventory.baseTickets}
+                {currency}
+              </span>
+              <span className="text-[9px] text-cinematic-gold opacity-70">
+                DC
               </span>
             </div>
-            <div className="w-[1px] h-3 bg-white/20"></div>
-            <div className="flex items-center gap-1">
-              <i className="fa-solid fa-ticket text-purple-400 opacity-80"></i>{" "}
-              <span className="font-bold text-white tabular-nums">
-                {inventory.eliteTickets}
-              </span>
-            </div>
-            <div className="w-[1px] h-3 bg-white/20"></div>
-            <div className="flex items-center gap-1">
-              <i className="fa-brands fa-galactic-senate text-amber-500 opacity-80"></i>{" "}
-              <span className="font-bold text-amber-400 tabular-nums">
-                {inventory.quantumDust}
-              </span>
-            </div>
-          </div>
-          <div
-            className="flex items-center gap-1.5 bg-zinc-900 px-2 py-0.5 rounded border border-cinematic-gold/20 shadow-lg"
-            title="Data Credits (DC): Tài nguyên giao dịch"
-          >
-            <div className="w-1.5 h-1.5 rounded-full bg-cinematic-gold animate-pulse"></div>
-            <span className="font-bold text-white tabular-nums">
-              {currency}
-            </span>
-            <span className="text-[9px] text-cinematic-gold opacity-70">
-              DC
-            </span>
-          </div>
-          <div
-            className="flex items-center gap-1.5 bg-zinc-900 px-2 py-0.5 rounded border border-cinematic-cyan/20 shadow-lg"
-            title={`Kinh nghiệm (EXP): ${experience % 1000}/1000`}
-          >
-            <span className="text-cinematic-cyan font-bold">LV.{level}</span>
-            <div className="w-8 h-1 bg-white/5 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-cinematic-cyan"
-                style={{ width: `${(experience % 1000) / 10}%` }}
-              ></div>
+            <div
+              className="flex items-center gap-1.5 bg-zinc-900 px-2 py-0.5 rounded border border-cinematic-cyan/20 shadow-lg shrink-0"
+              title={`Kinh nghiệm (EXP): ${experience % 1000}/1000`}
+            >
+              <span className="text-cinematic-cyan font-bold">LV.{level}</span>
+              <div className="w-8 h-1 bg-white/5 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-cinematic-cyan"
+                  style={{ width: `${(experience % 1000) / 10}%` }}
+                ></div>
+              </div>
             </div>
           </div>
         </div>
@@ -414,18 +417,19 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex p-0.5 bg-zinc-900 rounded-lg border border-white/5 shadow-2xl">
+          <div className="flex flex-wrap justify-center gap-1 p-1 bg-zinc-900 rounded-lg border border-white/5 shadow-2xl">
             {[
               { id: "extract", icon: "fa-microscope", label: "CORE" },
-              { id: "fusion", icon: "fa-dna", label: "FORGE" },
+              { id: "forge", icon: "fa-hammer", label: "FORGE" },
               { id: "combat", icon: "fa-crosshairs", label: "OPS" },
               { id: "missions", icon: "fa-satellite-dish", label: "UNITS" },
               { id: "blackmarket", icon: "fa-shop", label: "MARKET" },
+              { id: "gallery", icon: "fa-box-archive", label: "VAULT" },
             ].map((btn) => (
               <button
                 key={btn.id}
                 onClick={() => !isProcessing && setActiveTab(btn.id as Tab)}
-                className={`px-3 py-1.5 rounded-md text-[9px] font-mono font-bold tracking-widest transition-all flex items-center gap-1.5 ${activeTab === btn.id ? "bg-white/10 text-white shadow-inner border border-white/10" : "text-zinc-600 hover:text-zinc-400"}`}
+                className={`px-3 py-1.5 rounded-md text-[9px] sm:text-[10px] font-mono font-bold tracking-widest transition-all flex items-center justify-center gap-1.5 min-w-[30%] sm:min-w-0 flex-1 sm:flex-none ${activeTab === btn.id ? "bg-white/10 text-white shadow-inner border border-white/10" : "text-zinc-600 hover:text-zinc-400 bg-black/20 sm:bg-transparent"}`}
               >
                 <i
                   className={`fa-solid ${btn.icon} ${activeTab === btn.id ? "text-cinematic-cyan" : ""}`}
@@ -454,24 +458,24 @@ export default function App() {
             setGlobalProcessing={setIsProcessing}
           />
         )}
-        {activeTab === "fusion" && (
-          <FusionView
+        {activeTab === "forge" && (
+          <ForgeTabView
             config={config}
             currency={currency}
             modifyCurrency={modifyCurrency}
             inventory={inventory}
             cards={cards}
             modifyInventory={modifyInventory}
+            onCompleteFusion={handleCompleteFusion}
+            onError={(m) => setToast({ msg: m, type: "error" })}
+            onAlert={handleAlert}
+            isProcessing={isProcessing}
+            setIsProcessing={setIsProcessing}
             fusionSlot1={fusionSlot1}
             fusionSlot2={fusionSlot2}
             setFusionSlot1={setFusionSlot1}
             setFusionSlot2={setFusionSlot2}
             onOpenSelector={(s) => setSelectorTarget(`fusion${s}`)}
-            onCompleteFusion={handleCompleteFusion}
-            onError={(m) => setToast({ msg: m, type: "error" })}
-            onAlert={handleAlert}
-            isGlobalProcessing={isProcessing}
-            setGlobalProcessing={setIsProcessing}
           />
         )}
         {activeTab === "combat" && (
@@ -535,7 +539,9 @@ export default function App() {
             />
         )}
 
-        <GalleryView cards={cards} onOpenCard={setModalCardId} />
+        {activeTab === "gallery" && (
+            <GalleryView cards={cards} onOpenCard={setModalCardId} />
+        )}
       </main>
 
       {toast && (
@@ -611,20 +617,19 @@ export default function App() {
           ></div>
           <div className="relative z-10 w-full max-w-[800px] h-[80vh] sm:h-[85vh] bg-zinc-950 border border-white/10 rounded-2xl p-4 sm:p-6 flex flex-col animate-slide-up shadow-2xl">
             <div className="flex items-center justify-between mb-4 border-b border-white/10 pb-3 shrink-0">
-              <h3 className="text-lg sm:text-xl font-serif text-white flex items-center">
+              <h3 className="text-base sm:text-lg lg:text-xl font-serif text-white flex flex-col sm:flex-row sm:items-center gap-2">
                 {selectorTarget.startsWith("fusion") ? (
                   <>
-                    Kho Nguyên Liệu DNA{" "}
-                    <span className="text-[10px] sm:text-xs text-red-400 font-sans ml-3 px-2 py-1 bg-red-500/10 rounded-md border border-red-500/20">
+                    <span>Kho Nguyên Liệu DNA</span>
+                    <span className="text-[9px] sm:text-xs text-red-400 font-sans px-2 py-1 bg-red-500/10 rounded-md border border-red-500/20 w-fit">
                       <i className="fa-solid fa-lock mr-1"></i> Khóa thẻ UR
                     </span>
                   </>
                 ) : (
                   <>
-                    Triển Khai Đội Hình{" "}
-                    <span className="text-[10px] sm:text-xs text-green-400 font-sans ml-3 px-2 py-1 bg-green-500/10 rounded-md border border-green-500/20">
-                      <i className="fa-solid fa-shield-halved mr-1"></i> Lắp
-                      ghép tự do
+                    <span>Triển Khai Đội Hình</span>
+                    <span className="text-[9px] sm:text-xs text-green-400 font-sans px-2 py-1 bg-green-500/10 rounded-md border border-green-500/20 w-fit">
+                      <i className="fa-solid fa-shield-halved mr-1"></i> Lắp ghép tự do
                     </span>
                   </>
                 )}
@@ -637,34 +642,48 @@ export default function App() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto overflow-x-hidden no-scrollbar grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-4 content-start pb-4">
-              {cards.map((c) => {
-                const isFusion = selectorTarget.startsWith("fusion");
-                const isUR = c.cardClass === "UR";
-                const locked = isFusion && isUR;
-                const selected = isFusion
-                  ? fusionSlot1?.id === c.id || fusionSlot2?.id === c.id
-                  : squad.some((sq) => sq?.id === c.id);
-                const reshooting = reshootingCards.has(c.id);
+            <div className="flex-1 overflow-y-auto no-scrollbar pb-6 px-1 lg:px-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 lg:gap-6 content-start">
+                {cards.map((c) => {
+                  const isFusion = selectorTarget.startsWith("fusion");
+                  const isUR = c.cardClass === "UR";
+                  const locked = isFusion && isUR;
+                  const selected = isFusion
+                    ? fusionSlot1?.id === c.id || fusionSlot2?.id === c.id
+                    : squad.some((sq) => sq?.id === c.id);
+                  const reshooting = reshootingCards.has(c.id);
 
-                return (
-                  <MiniCard
-                    key={c.id}
-                    card={c}
-                    context={isFusion ? "fusion-selector" : "squad-selector"}
-                    locked={locked}
-                    selected={selected}
-                    reshooting={reshooting}
-                    onClickAction={() => handleSelectCard(c.id)}
-                  />
-                );
-              })}
+                  return (
+                    <div
+                      key={c.id}
+                      className={`relative transform transition-all duration-300 hover:scale-[1.03] active:scale-95 ${
+                        locked ? "opacity-40 grayscale cursor-not-allowed" : "cursor-pointer"
+                      }`}
+                    >
+                      <MiniCard 
+                        card={c} 
+                        context={isFusion ? "fusion-selector" : "squad-selector"}
+                        locked={locked}
+                        selected={selected}
+                        reshooting={reshooting}
+                        onClickAction={() => !locked && handleSelectCard(c.id)}
+                        extraClasses={selected ? 'ring-2 ring-cinematic-cyan ring-offset-2 ring-offset-zinc-950' : ''}
+                      />
+                      {selected && (
+                        <div className="absolute -top-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 bg-cinematic-cyan text-black rounded-full flex items-center justify-center shadow-xl border-2 border-zinc-950 z-30 animate-bounce-subtle">
+                          <i className="fa-solid fa-check text-[10px] sm:text-xs"></i>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
-            <div className="shrink-0 pt-4 border-t border-white/10 mt-auto">
+            <div className="shrink-0 pt-3 border-t border-white/10 mt-auto">
               <button
                 onClick={() => setSelectorTarget(null)}
-                className="w-full bg-zinc-900 hover:bg-zinc-800 border border-white/5 text-zinc-300 py-3.5 rounded-xl text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-colors shadow-lg"
+                className="w-full bg-zinc-900 hover:bg-zinc-800 border border-white/5 text-zinc-300 py-3 rounded-xl text-[9px] sm:text-xs font-mono tracking-widest uppercase transition-colors shadow-lg"
               >
                 Hủy & Đóng
               </button>

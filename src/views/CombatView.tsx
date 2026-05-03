@@ -1722,7 +1722,7 @@ export const CombatView: React.FC<Props> = ({
             <div className="w-full max-w-sm mb-6 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/5">
               <div className="flex justify-between items-start mb-2 px-2">
                 <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 h-5">
                     <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
                     <span className="text-[8px] font-mono text-green-500 uppercase tracking-widest font-black">
                       SQUAD_INTEGRITY
@@ -1741,9 +1741,11 @@ export const CombatView: React.FC<Props> = ({
                     </div>
                   )}
                 </div>
-                <div className="text-[10px] font-mono font-bold text-green-400 flex items-baseline gap-1 mt-1">
-                  <span className="text-sm">{displaySquadHp}</span>
-                  <span className="opacity-30">/ {squadHp}</span>
+                <div className="h-5 flex items-center">
+                  <div className="text-[10px] font-mono font-bold text-green-400 flex items-baseline gap-1">
+                    <span className="text-sm">{displaySquadHp}</span>
+                    <span className="opacity-30">/ {squadHp}</span>
+                  </div>
                 </div>
               </div>
               <div className="h-3 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 shadow-inner ring-2 ring-green-900/10">
@@ -1936,23 +1938,23 @@ export const CombatView: React.FC<Props> = ({
                 mức độ nguy hiểm khác nhau.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 w-full max-w-2xl">
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 w-full max-w-2xl">
                 {/* Normal Scanner */}
                 <button
                   onClick={() => handleScan("normal")}
                   disabled={isGlobalProcessing}
-                  className="flex-1 bg-black border border-white/10 hover:border-cinematic-cyan/50 p-4 rounded-xl transition-all group flex flex-col items-center disabled:opacity-50"
+                  className="bg-black border border-white/10 hover:border-cinematic-cyan/50 p-2 sm:p-4 rounded-xl transition-all group flex flex-col items-center disabled:opacity-50"
                 >
-                  <div className="text-cinematic-cyan mb-2 text-xl group-hover:scale-110 transition-transform">
+                  <div className="text-cinematic-cyan mb-1 sm:mb-2 text-lg sm:text-xl group-hover:scale-110 transition-transform">
                     <i className="fa-solid fa-radar"></i>
                   </div>
-                  <div className="text-[10px] font-bold text-white tracking-widest uppercase mb-1">
+                  <div className="text-[8px] sm:text-[10px] font-bold text-white tracking-widest uppercase mb-1">
                     Cơ Bản
                   </div>
-                  <div className="text-[9px] text-zinc-500 mb-2">
+                  <div className="text-[7px] sm:text-[9px] text-zinc-500 mb-1 sm:mb-2">
                     Thưởng: Tiêu chuẩn
                   </div>
-                  <div className="text-[10px] font-mono text-cinematic-gold bg-cinematic-gold/10 px-2 py-0.5 rounded">
+                  <div className="text-[8px] sm:text-[10px] font-mono text-cinematic-gold bg-cinematic-gold/10 px-1.5 py-0.5 rounded">
                     50 DC
                   </div>
                 </button>
@@ -1961,18 +1963,18 @@ export const CombatView: React.FC<Props> = ({
                 <button
                   onClick={() => handleScan("elite")}
                   disabled={isGlobalProcessing}
-                  className="flex-1 bg-black border border-white/10 hover:border-purple-500/50 p-4 rounded-xl transition-all group flex flex-col items-center disabled:opacity-50"
+                  className="bg-black border border-white/10 hover:border-purple-500/50 p-2 sm:p-4 rounded-xl transition-all group flex flex-col items-center disabled:opacity-50"
                 >
-                  <div className="text-purple-400 mb-2 text-xl group-hover:scale-110 transition-transform">
+                  <div className="text-purple-400 mb-1 sm:mb-2 text-lg sm:text-xl group-hover:scale-110 transition-transform">
                     <i className="fa-solid fa-satellite"></i>
                   </div>
-                  <div className="text-[10px] font-bold text-white tracking-widest uppercase mb-1">
+                  <div className="text-[8px] sm:text-[10px] font-bold text-white tracking-widest uppercase mb-1">
                     Tinh Anh
                   </div>
-                  <div className="text-[9px] text-zinc-500 mb-2">
+                  <div className="text-[7px] sm:text-[9px] text-zinc-500 mb-1 sm:mb-2 text-center leading-tight">
                     Thưởng: x2 - x3
                   </div>
-                  <div className="text-[10px] font-mono text-cinematic-gold bg-cinematic-gold/10 px-2 py-0.5 rounded">
+                  <div className="text-[8px] sm:text-[10px] font-mono text-cinematic-gold bg-cinematic-gold/10 px-1.5 py-0.5 rounded">
                     100 DC
                   </div>
                 </button>
@@ -1981,19 +1983,19 @@ export const CombatView: React.FC<Props> = ({
                 <button
                   onClick={() => handleScan("nightmare")}
                   disabled={isGlobalProcessing}
-                  className="flex-1 bg-red-900/20 border border-red-500/30 hover:border-red-500 hover:bg-red-900/40 p-4 rounded-xl transition-all group flex flex-col items-center disabled:opacity-50 relative overflow-hidden"
+                  className="bg-red-900/20 border border-red-500/30 hover:border-red-500 hover:bg-red-900/40 p-2 sm:p-4 rounded-xl transition-all group flex flex-col items-center disabled:opacity-50 relative overflow-hidden"
                 >
                   <div className="absolute -inset-4 bg-red-600/10 blur-xl group-hover:bg-red-600/20 transition-colors"></div>
-                  <div className="text-red-500 mb-2 text-xl group-hover:scale-110 transition-transform relative z-10">
+                  <div className="text-red-500 mb-1 sm:mb-2 text-lg sm:text-xl group-hover:scale-110 transition-transform relative z-10">
                     <i className="fa-solid fa-biohazard animate-pulse"></i>
                   </div>
-                  <div className="text-[10px] font-bold text-red-100 tracking-widest uppercase mb-1 relative z-10 drop-shadow-[0_0_5px_rgba(220,38,38,0.8)]">
+                  <div className="text-[8px] sm:text-[10px] font-bold text-red-100 tracking-widest uppercase mb-1 relative z-10 drop-shadow-[0_0_5px_rgba(220,38,38,0.8)] text-center">
                     Ác Mộng
                   </div>
-                  <div className="text-[9px] text-red-300/70 mb-2 relative z-10">
+                  <div className="text-[7px] sm:text-[9px] text-red-300/70 mb-1 sm:mb-2 relative z-10 text-center leading-tight">
                     Thưởng: Khổng Lồ
                   </div>
-                  <div className="text-[10px] font-mono text-red-400 bg-red-500/20 px-2 py-0.5 rounded relative z-10 border border-red-500/30">
+                  <div className="text-[8px] sm:text-[10px] font-mono text-red-400 bg-red-500/20 px-1.5 py-0.5 rounded relative z-10 border border-red-500/30">
                     200 DC
                   </div>
                 </button>
@@ -2207,9 +2209,9 @@ export const CombatView: React.FC<Props> = ({
           <div className="flex-1 flex flex-col gap-8">
             {/* Squad Area */}
             <div className="w-full relative py-6 border-y border-white/5 bg-black/20 rounded-3xl">
-              <div className="flex items-center justify-between px-6 mb-4">
+              <div className="flex items-start justify-between px-6 mb-4">
                 <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 h-5">
                     <div
                       className={`w-2 h-2 rounded-full ${inBattle ? "bg-green-500 animate-pulse" : "bg-green-800"}`}
                     ></div>
@@ -2230,9 +2232,11 @@ export const CombatView: React.FC<Props> = ({
                     </div>
                   )}
                 </div>
-                <span className="text-xs font-mono font-bold text-green-400">
-                  {displaySquadHp} / {squadHp}
-                </span>
+                <div className="h-5 flex items-center">
+                  <span className="text-xs font-mono font-bold text-green-400">
+                    {displaySquadHp} / {squadHp}
+                  </span>
+                </div>
               </div>
 
               <div className="h-1.5 w-full max-w-md mx-auto bg-white/5 rounded-full overflow-hidden mb-8 px-6">

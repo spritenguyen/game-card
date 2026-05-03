@@ -44,6 +44,7 @@ export interface Card {
   };
   origin?: 'Extracted' | 'Forged';
   parents?: string[];
+  overclockLevel?: number;
   imageUrl?: string;
   imageBlob?: Blob;
   timestamp?: number;

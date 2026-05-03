@@ -33,7 +33,7 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-serif text-white tracking-widest uppercase leading-none">HƯỚNG DẪN VẬN HÀNH</h3>
-                                    <p className="text-[9px] text-zinc-500 font-mono tracking-widest mt-1">CINE-TECH PROTOCOL: USER_MANUAL_V1.3.1</p>
+                                    <p className="text-[9px] text-zinc-500 font-mono tracking-widest mt-1">CINE-TECH PROTOCOL: USER_MANUAL_V1.5.4</p>
                                 </div>
                             </div>
                             <button onClick={onClose} className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors">
@@ -67,6 +67,91 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                         <h5 className="text-[11px] font-bold text-purple-400 mb-1 font-mono uppercase"><i className="fa-solid fa-shop mr-1"></i> 4. Ủy thác & Chợ Đen</h5>
                                         <p className="text-[10px] text-zinc-400 leading-relaxed">Cử Thẻ Bài đi Ủy thác (Expeditions) thu thập DC/Vật phẩm. Bán vật phẩm dư tại Chợ Đen hoặc dùng Quantum Dust Reroll Tộc/Hệ cho Đơn vị.</p>
                                     </div>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.5.4 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-amber-400 to-orange-600 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-600 font-mono uppercase tracking-widest">Version 1.5.4: UI Pixel-Perfect Alignment</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-amber-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Combat Layout Fix:</strong> Căn chỉnh tuyệt đối lại SQUAD_INTEGRITY trên các Breakpoint Mobile/Desktop để không bị lẹm viền.</p>
+                                    <p><strong className="text-white">● Chimera UI Patch:</strong> Nội dung "XÚC TÁC" và "CÓ THỂ HIẾN TẾ THẺ" quy về cấu trúc 1 hàng (Inline), gia tăng điểm chạm vùng trung tâm.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.5.3 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-green-400 to-green-600 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-green-600 font-mono uppercase tracking-widest">Version 1.5.3: Adaptive UI/UX & Mobile Enhancement</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-green-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Level Display (Header):</strong> Bố cục hiện thị Level được cải tiến giúp duy trì khả năng quan sát cấp độ liên tục trên mọi kích cỡ thiết bị.</p>
+                                    <p><strong className="text-white">● Sector Scan Framework:</strong> Cấu trúc Radar lưới 3 cột (Grid), điều chỉnh hình dạng thon gọn trên một hàng với thiết bị màn hình nhỏ, gia tăng tính cơ động.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.5.2 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-blue-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-blue-500 font-mono uppercase tracking-widest">Version 1.5.2: Forge Protocol UX & Mobile Tuning</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-cyan/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Forge Tab Gộp Nhất:</strong> Gộp tính năng Chimera và UR Forge vào cùng một phân hệ (FORGE) để tối ưu không gian điều hướng.</p>
+                                    <p><strong className="text-white">● Top-bar Mobile Adaptive:</strong> Thanh Header và System Tabs nay tự động dàn hàng thông minh (Wrap lines) và tối thiểu hóa khoảng trống, đảm bảo tất cả công cụ luôn khả dụng khi xoay dọc hay ngang điện thoại.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.5.1 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-blue-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-blue-500 font-mono uppercase tracking-widest">Version 1.5.1: Mobile UI/UX Optimization</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-cyan/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Tối ưu giao diện:</strong> Thanh điều hướng tự động giãn dòng trên thiết bị di động. Các màn hình chức năng (Đài trích xuất, Lò rèn UR, Chimera) được căn chỉnh tỷ lệ để phù hợp trên mọi kích thước màn hình 16:9 và 9:16.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.5.0 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-yellow-400 to-red-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-red-500 font-mono uppercase tracking-widest">Version 1.5.0: Genesis Forge (Lò Khởi Nguyên)</h4>
+                                </div>
+                                <div className="bg-yellow-950/20 min-h-[50px] p-4 rounded-xl border border-yellow-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Hệ thống "Lò Rèn UR" (UR Forge):</strong> Thêm tab UR FORGE mới cho phép trực tiếp nâng cấp Thẻ SSR lên Hạng Tối Thượng (UR).</p>
+                                    <p><strong className="text-white">● Vật Liệu Yêu Cầu:</strong> Cần 1 Thẻ SSR gốc (giữ lại Hệ/Tộc, thông tin cơ bản) và 2 Thẻ SSR hiến tế, kèm theo Quantum Dust và Data Credits phí duy trì Lò Rèn.</p>
+                                    <p><strong className="text-white">● Cốt Truyện và Ảnh Tối Thượng:</strong> Quá trình nâng cấp thành công sẽ sử dụng AI để viết lại Cốt Truyện, Chiêu Cuối Huyền Thoại, cũng như Sinh ra Thẻ Bài với vẻ ngoài được Tiến Hóa Thần Thánh.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.4.1 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cyan-500 to-indigo-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-500 font-mono uppercase tracking-widest">Version 1.4.1: Chuyên Biệt Hóa Gen</h4>
+                                </div>
+                                <div className="bg-cyan-950/20 min-h-[50px] p-4 rounded-xl border border-cyan-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Cơ chế Ép Tộc & Hệ Mới:</strong> Dung hợp Core/Shard trong tính năng Trích Xuất và Lai Tạo đã có thể ép trực tiếp hệ gene của thẻ đích.</p>
+                                    <p><strong className="text-white">● Tăng cường Tính toán Biến Dị (% Cũ là Đột Biến):</strong> Tích lũy số lượng số vật phẩm ép Tộc tương ứng trực tiếp làm tăng Xác Suất Biến Dị.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.4.0 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-blue-500 to-indigo-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 font-mono uppercase tracking-widest">Version 1.4.0: Giao thức Lai tạo Mở rộng</h4>
+                                </div>
+                                <div className="bg-blue-950/20 min-h-[50px] p-4 rounded-xl border border-blue-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Cập nhật Hiển thị Tỉ lệ Lai tạo:</strong> Cung cấp cái nhìn trực quan, báo cáo rõ xác suất % sinh ra thẻ ở các phân bậc (Tier) tương ứng với tài nguyên hiến tế.</p>
+                                    <p><strong className="text-white">● Cập nhật Kiểm soát Thuật toán Số lượng Xúc tác:</strong> Giao thức kiểm tra tự động khóa Xúc tác nếu Số lượng vật phẩm yêu cầu trong túi đã được đưa vào danh sách chi trả Phí Lai tạo gốc.</p>
+                                    <p><strong className="text-white">● Hệ thống Hiến tế Thẻ (Đã được minh bạch hơn):</strong> Xúc tác từ Thẻ giúp tối ưu Tỉ lệ Đột biến và Nhận thẻ hạng cao, đồng thời hiển thị thông số trước khi thực thi nhằm dễ tiếp cận với toàn bộ player.</p>
                                 </div>
                             </section>
 

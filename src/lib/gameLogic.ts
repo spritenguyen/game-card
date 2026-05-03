@@ -249,14 +249,19 @@ export const calculateCombatStats = (card: Card | null) => {
     mdefBase += 10;
   }
 
+  let overMulti = 1;
+  if (card.cardClass === 'UR' && card.overclockLevel) {
+      overMulti += card.overclockLevel * 0.1; // +10% per level
+  }
+
   return {
-    hp: Math.floor(baseHp * multi),
-    atk: Math.floor(Math.max(patkBase, matkBase) * multi), // Fallback for UI
-    patk: Math.floor(patkBase * multi),
-    matk: Math.floor(matkBase * multi),
-    def: Math.floor(defBase * multi),
-    mdef: Math.floor(mdefBase * multi),
-    res: Math.floor(resBase * multi),
+    hp: Math.floor(baseHp * multi * overMulti),
+    atk: Math.floor(Math.max(patkBase, matkBase) * multi * overMulti), // Fallback for UI
+    patk: Math.floor(patkBase * multi * overMulti),
+    matk: Math.floor(matkBase * multi * overMulti),
+    def: Math.floor(defBase * multi * overMulti),
+    mdef: Math.floor(mdefBase * multi * overMulti),
+    res: Math.floor(resBase * multi * overMulti),
     elementalDmg,
     elementalRes,
   };

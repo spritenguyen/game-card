@@ -76,6 +76,13 @@ export const FullCard: React.FC<{
           {/* Badges */}
           <div className="absolute top-4 left-4 z-20 flex gap-2">
              <div className={`text-sm font-bold tracking-widest uppercase ${isUR ? 'bg-cinematic-cyan text-black' : 'bg-cinematic-gold text-black'} px-3 py-1 rounded-sm shadow-xl`}>{card.cardClass}</div>
+             <div className={`text-xs font-mono font-bold px-2 py-1 rounded-sm border border-white/20 uppercase shadow-xl flex items-center justify-center
+                  ${getCardRole(card) === 'DPS' ? 'text-orange-400 bg-orange-950/80' : 
+                    getCardRole(card) === 'Tanker' ? 'text-blue-400 bg-blue-950/80' : 
+                    'text-green-400 bg-green-950/80'}`}
+             >
+                {getCardRole(card)}
+             </div>
           </div>
           <div className="absolute top-4 right-4 z-20">
              <div className={`text-sm font-bold text-white bg-black/50 border ${facInfo.border} w-8 h-8 rounded-full flex items-center justify-center`}><i className={`fa-solid ${facInfo.icon} ${facInfo.color}`}></i></div>
