@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card } from '../types';
-import { getRankIndex, getFactionInfo, calculateCombatStats, getDismantleValue, getCardRole, calculateUltimateStats } from '../lib/gameLogic';
+import { getRankIndex, getFactionInfo, calculateCombatStats, getDismantleValue, getCardRole, calculateUltimateStats, getDismantleDustValue } from '../lib/gameLogic';
 import { AppConfig, ElementType } from '../types';
 import { ELEMENTS } from '../lib/constants';
 
@@ -328,8 +328,9 @@ export const FullCard: React.FC<{
                                 <button onClick={() => onReshoot(card.id)} disabled={isReshooting} className="bg-zinc-800/80 text-white border border-zinc-700 hover:bg-zinc-700 px-5 py-2.5 rounded-lg text-[10px] tracking-widest uppercase disabled:opacity-50 flex items-center gap-2 font-bold transition-colors active:scale-95 duration-200 shadow-inner"><i className={`fa-solid fa-camera ${isReshooting ? 'animate-pulse text-cinematic-cyan' : ''}`}></i> {isReshooting ? 'Wait...' : 'Reshoot'}</button>
                             )}
                             {onDismantle && (
-                                <button onClick={() => onDismantle(card.id)} disabled={isReshooting} className="bg-red-950/20 text-red-400 border border-red-900/30 hover:bg-red-900/40 px-4 py-2.5 rounded-lg text-[10px] tracking-widest uppercase disabled:opacity-50 transition-colors shadow-inner flex items-center gap-2" title="Dismantle">
-                                    <i className="fa-solid fa-recycle"></i> +{getDismantleValue(card.cardClass)}
+                                <button onClick={() => onDismantle(card.id)} disabled={isReshooting} className="bg-red-950/20 text-red-400 border border-red-900/30 hover:bg-red-900/40 px-3 py-2.5 rounded-lg text-[10px] tracking-widest uppercase disabled:opacity-50 transition-colors shadow-inner flex flex-col items-center justify-center gap-0.5" title="Dismantle">
+                                    <div className="flex items-center gap-1"><i className="fa-solid fa-recycle"></i> +{getDismantleValue(card.cardClass)}</div>
+                                    {getDismantleDustValue(card.cardClass) > 0 && <div className="text-[8px] text-purple-400/80 font-mono tracking-tighter">+{getDismantleDustValue(card.cardClass)} Dust</div>}
                                 </button>
                             )}
                         </>

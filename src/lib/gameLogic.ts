@@ -453,7 +453,11 @@ export const getFusionCost = (c1: Card | null, c2: Card | null): number => {
 };
 
 export const getDismantleValue = (cardClass: string): number => {
-  return [50, 100, 200, 400, 800][getRankIndex(cardClass)];
+  return [50, 100, 200, 400, 800][getRankIndex(cardClass)] || 50;
+};
+
+export const getDismantleDustValue = (cardClass: string): number => {
+  return [0, 5, 20, 50, 200][getRankIndex(cardClass)] || 0;
 };
 
 export const base64ToBlob = (base64Data: string): Blob | null => {

@@ -18,6 +18,7 @@ import { InstructionModal } from "./components/InstructionModal";
 import { Card } from "./types";
 import { ReshootDialog } from "./components/ReshootDialog";
 import { ApiMonitor } from "./components/ApiMonitor";
+import { getDismantleValue, getDismantleDustValue } from "./lib/gameLogic";
 
 type Tab = "extract" | "forge" | "combat" | "missions" | "blackmarket" | "gallery";
 
@@ -241,18 +242,28 @@ export default function App() {
   const handleDismantle = (cardId: string) => {
     const c = cards.find((x) => x.id === cardId);
     if (!c) return;
-    // Get dismantle value roughly
-    const getVal = (cls: string) =>
-      [50, 100, 200, 400, 800][["N", "R", "SR", "SSR", "UR"].indexOf(cls)] ||
-      50;
-    const v = getVal(c.cardClass);
+    
+    const v = getDismantleValue(c.cardClass);
+    const dustVal = getDismantleDustValue(c.cardClass);
+
+    let confirmMsg = `Phân giải <strong>${c.name}</strong>?<br>Nhận: <span class="text-green-400 font-bold">+${v} DC</span>`;
+    if (dustVal > 0) {
+        confirmMsg += ` & <span class="text-purple-400 font-bold">+${dustVal} Dust</span>`;
+    }
 
     handleConfirm(
-      `Phân giải <strong>${c.name}</strong>?<br>Nhận: <span class="text-green-400 font-bold">+${v} DC</span>`,
+      confirmMsg,
       async () => {
         await removeCard(cardId);
         modifyCurrency(v);
-        setToast({ msg: `Thu hồi +${v} DC.`, type: "success" });
+        if (dustVal > 0) {
+            modifyInventory(0, 0, {}, dustVal);
+        }
+        
+        let toastMsg = `Thu hồi +${v} DC`;
+        if (dustVal > 0) toastMsg += ` và +${dustVal} Dust`;
+        setToast({ msg: toastMsg + '.', type: "success" });
+        
         setModalCardId(null);
       },
     );
