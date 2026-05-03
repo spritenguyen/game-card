@@ -149,7 +149,7 @@ export const AscensionView: React.FC<Props> = ({ config, currency, modifyCurrenc
 
     return (
         <div className="w-full flex flex-col items-center animate-fade-in pb-12">
-            <div className="w-full max-w-5xl glass-panel rounded-3xl p-6 sm:p-10 mb-8 relative overflow-hidden shadow-2xl border border-cinematic-gold/20">
+            <div className="w-full max-w-5xl bg-cinematic-900/40 border border-white/5 ring-1 ring-white/5 backdrop-blur-md rounded-3xl p-6 sm:p-10 mb-8 relative overflow-hidden shadow-[inset_0_0_80px_rgba(0,0,0,0.5),0_0_40px_rgba(255,184,0,0.05)]">
                 <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 50% -20%, #ffb800 0%, transparent 70%)" }}></div>
                 
                 <h2 className="text-center font-serif text-3xl text-cinematic-gold mb-2 tracking-widest relative z-10"><i className="fa-solid fa-hammer mr-3"></i>LÒ RÈN KHỞI NGUYÊN (UR)</h2>

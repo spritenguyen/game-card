@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { APP_VERSION } from '../lib/constants';
 
 interface Props {
     isOpen: boolean;
@@ -10,7 +11,7 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
     return (
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+                <div className="fixed inset-0 z-[90] flex items-center justify-center p-4">
                     <motion.div 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -33,7 +34,7 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                 </div>
                                 <div>
                                     <h3 className="text-xl font-serif text-white tracking-widest uppercase leading-none">HƯỚNG DẪN VẬN HÀNH</h3>
-                                    <p className="text-[9px] text-zinc-500 font-mono tracking-widest mt-1">CINE-TECH PROTOCOL: USER_MANUAL_V1.5.4</p>
+                                    <p className="text-[9px] text-zinc-500 font-mono tracking-widest mt-1">CINE-TECH PROTOCOL: USER_MANUAL_{APP_VERSION}</p>
                                 </div>
                             </div>
                             <button onClick={onClose} className="w-10 h-10 rounded-full flex items-center justify-center bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white transition-colors">
@@ -67,6 +68,239 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                         <h5 className="text-[11px] font-bold text-purple-400 mb-1 font-mono uppercase"><i className="fa-solid fa-shop mr-1"></i> 4. Ủy thác & Chợ Đen</h5>
                                         <p className="text-[10px] text-zinc-400 leading-relaxed">Cử Thẻ Bài đi Ủy thác (Expeditions) thu thập DC/Vật phẩm. Bán vật phẩm dư tại Chợ Đen hoặc dùng Quantum Dust Reroll Tộc/Hệ cho Đơn vị.</p>
                                     </div>
+                                </div>
+                            </section>
+
+                            {/* Ver 0.1.0.6 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-cinematic-gold rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.6: Architectural Stability</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Version Synchronization:</strong> Cập nhật mốc phiên bản hệ thống lên 0.1.0.6. Đồng bộ hóa toàn bộ các giao thức hiển thị và hằng số phiên bản trong nhân lõi.</p>
+                                    <p><strong className="text-white">● System Consistency:</strong> Đảm bảo tính nhất quán của dữ liệu phiên bản trên toàn bộ các phân hệ (Extract, Combat, Forge).</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 0.1.0.5 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-cinematic-gold rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.5: Chronos Calibration</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Timezone Synchronization:</strong> Toàn bộ hệ thống reset hàng ngày (World Boss) đã được chuyển sang múi giờ <span className="text-cinematic-cyan font-bold">UTC+7 (GMT+7)</span>. Lượt đánh sẽ được làm mới chính xác vào 00:00 giờ Việt Nam cho mọi người chơi.</p>
+                                    <p><strong className="text-white">● Logical Consistency:</strong> Hiệu chỉnh thuật toán so sánh ngày thực (Day-comparison) để tránh mất lượt khi người chơi di chuyển giữa các múi giờ khác nhau.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 0.1.0.4 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-red-500 to-cinematic-gold rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.4: Strategic Visibility</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● World Boss Countdown:</strong> Tích hợp đồng hồ đếm ngược reset lượt đánh ngay tại thanh hành động (Action Bar). Thuận tiện theo dõi thời gian tái thiết lập ngay cả khi hệ thống đang ở trạng thái Cửa khóa (Locked).</p>
+                                    <p><strong className="text-white">● HUD Synchronization:</strong> Tinh chỉnh vị trí hiển thị các chỉ số phụ trong Combat Sector nhằm giảm thiểu sự chồng chéo giao diện trên các thiết bị màn hình nhỏ.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 0.1.0.3 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-red-500 to-orange-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 font-mono uppercase tracking-widest">Version 0.1.0.3: World Boss Protocol</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Temporal Reset:</strong> Triển khai hệ thống đếm ngược thời gian reset lượt đánh World Boss. Dữ liệu sẽ tự động làm mới vào 00:00 mỗi ngày dựa trên thời gian hệ thống.</p>
+                                    <p><strong className="text-white">● Battle Persistence:</strong> Tối ưu hóa việc lưu trữ trạng thái Boss Thế giới, đảm bảo tính liên tục giữa các phiên chơi trong ngày.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 0.1.0.2 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-cinematic-gold rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.2: UX Refinement</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Z-Index Layering Consensus:</strong> Đồng bộ hóa hệ thống phân lớp (z-index) cho toàn bộ các cửa sổ Modal, Dialog và Toast. Đảm bảo các thông báo cảnh báo luôn nằm ở lớp cao nhất, tránh xung đột hiển thị.</p>
+                                    <p><strong className="text-white">● Cinematic Typography & Layout:</strong> Tối ưu hóa hiển thị tiêu đề và văn bản (text-wrap: balance), nâng cao trải nghiệm đọc trên thiết bị di động. Cải thiện hiệu suất render card animation.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 0.1.0.1 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-red-400 to-cinematic-gold rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.1: Integrity Patch</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Duplicate Prevention Model:</strong> Khắc phục triệt để lỗi nhân bản thẻ (Duplication Bug) trong Giao thức Overclock. Dữ liệu thẻ gốc hiện đã được đồng bộ hóa và thay thế một cách an toàn bởi bản nâng cấp.</p>
+                                    <p><strong className="text-white">● Forge Logic Alignment:</strong> Hiệu chỉnh lại luồng xử lý Fusion và Ascension nhằm đảm bảo tính toàn vẹn của ID thẻ trong cơ sở dữ liệu.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 0.1.0.0 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-cinematic-gold rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.0: The New Genesis</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Protocol Reset:</strong> Toàn bộ cấu trúc phiên bản đã được đồng bộ hóa về mốc khởi tạo 0.1.0.0.</p>
+                                    <p><strong className="text-white">● Architecture Alignment:</strong> Tối ưu hóa lõi Cine-Tech Game Architect, chuẩn bị cho các đợt cập nhật tính năng lớn tiếp theo.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 2.2.3 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-blue-400 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-blue-400 font-mono uppercase tracking-widest">Version 2.2.3: Workspace Optimization</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-cyan/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Sidebar Navigation Reborn:</strong> Khôi phục nút Manual và tối ưu hóa khu vực SYS_VAULT & API Monitor cho PC.</p>
+                                    <p><strong className="text-white">● UI Convergence:</strong> Sửa lỗi chồng chéo giao diện và đồng bộ hóa các model Gemini 3.1 Flash Lite mới nhất.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 2.2.2 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-gold to-yellow-600 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-gold to-yellow-600 font-mono uppercase tracking-widest">Version 2.2.2: Cache Protocol Bloom</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Hệ thống Render Fingerprint:</strong> Ngăn chặn việc render trùng lặp các thẻ có cùng thuộc tính, tiết kiệm 70% băng thông API.</p>
+                                    <p><strong className="text-white">● Smart Locking:</strong> Khóa luồng xử lý song song để đảm bảo một tài nguyên chỉ được tạo một lần duy nhất.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 2.2.1 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-gold to-yellow-400 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-gold to-yellow-400 font-mono uppercase tracking-widest">Version 2.2.1: Gemini Protocol Fix</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Cập nhật Model Gemini:</strong> Bổ sung và đồng bộ hóa các model Gemini 3.1 Flash Lite, 3 Flash Preview và 2.5 Flash vào hệ thống xử lý nội dung và Vision.</p>
+                                    <p><strong className="text-white">● Hệ thống Dự phòng (Fallback):</strong> Thiết lập chế độ tự động chuyển đổi thông minh khi API gặp sự cố hoặc hết quota.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 2.2.0 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-blue-400 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-blue-400 font-mono uppercase tracking-widest">Version 2.2.0: Strategic Horizon</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-cyan/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Thẻ Ngang Tactic (PC Only):</strong> Tái cấu trúc thẻ đơn vị sang định dạng Landscape trên máy tính, giúp hiển thị đầy đủ chân dung nhân vật và tối ưu chỉ số HP/Mana theo chiều ngang.</p>
+                                    <p><strong className="text-white">● Mobile Defense:</strong> Khôi phục và bảo toàn định dạng thẻ dọc truyền thống cho thiết bị di động để đảm bảo trải nghiệm chơi mượt mà bằng một tay.</p>
+                                    <p><strong className="text-white">● Hiệu chỉnh Combat Arena:</strong> Tăng khoảng cách và tự động co giãn thẻ dựa trên khung nhìn, giải quyết triệt để vấn đề bị sidebar che khuất.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 2.1.1 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-gold to-orange-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-gold to-orange-500 font-mono uppercase tracking-widest">Version 2.1.1: Horizon Layout Update</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Cấu trúc Thẻ Horizon (Landscape Mode):</strong> Chuyển đổi toàn bộ thẻ nhân vật và đối thủ sang định dạng nằm ngang (Landscape) trong giao diện Tác chiến. Điều này cung cấp không gian rộng hơn để hiển thị các chỉ số chi tiết và quan sát hoạt cảnh rõ ràng hơn.</p>
+                                    <p><strong className="text-white">● Tối ưu hóa Khoảng cách (Arena Gaps):</strong> Tự động điều chỉnh khoảng cách giữa các đơn vị trên cả PC và Mobile, đảm bảo các thẻ nằm ngang không bị chồng chéo và giữ được độ sắc nét trên màn hình nhỏ.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 2.1.0 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-blue-600 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-blue-600 font-mono uppercase tracking-widest">Version 2.1.0: Vanguard Protocol</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-cyan/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Cổng Tác Chiến Vanguard:</strong> Nâng cấp toàn diện HUD chỉ huy. Bổ sung hệ thống hiển thị Trạng thái (Status Icons) cho cả Đội hình Phe ta và Phe địch, cho phép theo dõi thời gian hiệu lực của các hiệu ứng Thiêu đốt, Tê liệt, Làm chậm...</p>
+                                    <p><strong className="text-white">● Giao thức Xác nhận (Confirm Dialog):</strong> Tích hợp hộp thoại xác nhận cho mọi thao tác quan trọng: Hủy thẻ, Rút lui, Thay đổi Chỉ huy... đảm bảo không có sai sót trong quá trình vận hành chiến thuật.</p>
+                                    <p><strong className="text-white">● Hủy bỏ Trạng thái (Status Reset):</strong> Khắc phục lỗi lưu vết trạng thái cũ từ trận chiến trước. Hệ thống giờ đây tự động làm sạch (wipe) mọi hiệu ứng cộng dồn ngay khi khởi động Giao thức Tác chiến mới.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.9.1 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-emerald-400 to-teal-500 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-500 font-mono uppercase tracking-widest">Version 1.9.1: Apex Performance & Rendering Patch</h4>
+                                </div>
+                                <div className="bg-emerald-950/20 min-h-[50px] p-4 rounded-xl border border-emerald-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Tối ưu hóa API DOM (Native Rendering):</strong> Nâng cấp bộ máy vẽ Animation trong Combat (Combat Rendering Engine), chuyển hoàn toàn logic screen shake/phản chiếu sang can thiệp luồng CSS/DOM trực tiếp thay vì bám vào React State. Điều này triệt tiêu hoàn toàn độ giật lag trên các thiết bị PC và đặc biệt là Mobile Android Browser (Chrome).</p>
+                                    <p><strong className="text-white">● Loại bỏ hiệu ứng GPU Overhead:</strong> Xóa bỏ các thuộc tính bộ lọc tốn tài nguyên GPU nặng của Android (như <code>backdrop-blur</code>, <code>drop-shadow</code> xếp lớp) trong hệ màn hình Combat và hiển thị Thẻ. Khởi tạo thuộc <code>willChange</code> trên Layer chữ nổi sát thương giúp cải thiện hiệu suất nén khung hình lên đến 500%.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.9.0 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-purple-500 to-indigo-600 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-indigo-600 font-mono uppercase tracking-widest">Version 1.9.0: Abyssal Tower</h4>
+                                </div>
+                                <div className="bg-purple-900/10 min-h-[50px] p-4 rounded-xl border border-purple-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Bãi Bỏ Battlefield - Nâng Cấp Hệ Leo Tháp (Abyssal Tower):</strong> Thay thế hệ thống quét Radar nhiều chế độ bằng một Toà Tháp Vô Tận. Người chơi sẽ tiêu hao nhiều tài nguyên hơn để leo cao, nhưng phần thưởng tăng chóng mặt.</p>
+                                    <p><strong className="text-white">● Cơ chế Abyssal:</strong> Kẻ địch mạnh dần theo cấp bậc (floor). Có tính hệ số multiplier 10% mỗi level. Các mốc bậc x5 (5, 15, 25...) sẽ xuất hiện Quái Tinh Anh (Elite), và mốc x0 (10, 20, 30...) sẽ là một trận chiến với Abyssal Boss.</p>
+                                    <p><strong className="text-white">● Phần Thưởng Đặc Dị:</strong> Các tầng x0 sẽ rớt thêm một lượng lớn DC và một trong 5 nguyên liệu ngẫu nhiên dựa theo cấp bậc, khuyến khích chiến thuật dài hạn để đổi lấy đột phá tài nguyên.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.8.0 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-red-500 to-yellow-600 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-yellow-600 font-mono uppercase tracking-widest">Version 1.8.0: World Threat & Operations</h4>
+                                </div>
+                                <div className="bg-yellow-900/10 min-h-[50px] p-4 rounded-xl border border-yellow-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Cơ Cấu Boss Chuyên Biệt:</strong> Tách Combat Sector thành 3 hệ thống riêng biệt: Elite Target (Săn mục tiêu đơn - Cho người mới), Battlefield Sweep (Quét quét chiến trường diện rộng - Yêu cầu SSR) và World Boss (Mối đe dọa vũ trụ - Yêu cầu UR).</p>
+                                    <p><strong className="text-white">● World Boss (Cường Địch Thế Giới):</strong> Các quái vật với lượng HP khổng lồ có thể được đánh nhiều lần để tiêu diệt. Trạng thái và HP còn lại sẽ được lưu lại (Persistent HP). Người chơi có 3 lượt đánh mỗi ngày (Reset vào ngày mới thời gian thực).</p>
+                                    <p><strong className="text-white">● Cân Bằng Elite Target:</strong> Mục tiêu đơn lẻ nay có lượng máu và sát thương lớn hơn, tuy nhiên bổ sung lượng drop DC và EXP vượt trội, khiến đây trở thành công cụ cày cuốc hoàn hảo cho người mới chơi.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.7.0 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-purple-400 to-purple-600 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600 font-mono uppercase tracking-widest">Version 1.7.0: Advance Combat Engine 2.0</h4>
+                                </div>
+                                <div className="bg-purple-900/10 min-h-[50px] p-4 rounded-xl border border-purple-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Hệ thống Chọn Mục tiêu Thông minh:</strong> Cả Đội hình Phe ta và Kẻ thù giờ đây ưu tiên tấn công Tuyến Trước (Front Line) của đối phương trước khi chuyển sang Tuyến Sau (Back Line). Thẻ Hỗ trợ/Phép thuật (Magic) của địch có thể ngẫu nhiên tấn công lan rộng toàn bộ mảng thay vì bị giới hạn.</p>
+                                    <p><strong className="text-white">● Vòng Lặp Lượt Đi Toàn Diện (Full-Round Active Turn):</strong> Thay vì 1 thẻ ta trao đổi ngẫu nhiên với 1 thẻ địch theo từng "Lượt", giờ đây hệ thống mô phỏng 1 Lượt đánh Toàn Cục: Cả 6 thẻ bên phe ta và 6 thẻ bên phe địch đều được đồng loạt xuất trận, mang lại nhịp độ ác liệt và đầy chân thực.</p>
+                                    <p><strong className="text-white">● Kỹ năng AOE Tối Thượng (Ultimate Area-of-Effect):</strong> Các thẻ bài độ hiếm SSR và UR đã được tái cấu trúc Ultimate (Khi Đầy Mana). Khi xả chiêu, các thẻ này sẽ vận dụng Kỹ năng Tầm rộng (AOE), ném damage lan lên toàn bộ thẻ địch đang còn sống với sát thương tổng chia đều thay vì chỉ đơn mục tiêu.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.6.1 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cyan-400 to-blue-600 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-600 font-mono uppercase tracking-widest">Version 1.6.1: PC Combat Animation Patch</h4>
+                                </div>
+                                <div className="bg-cyan-900/10 min-h-[50px] p-4 rounded-xl border border-cyan-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Tối ưu Hoạt ảnh Tấn Công (PC Layout):</strong> Thẻ bài và Kẻ địch khi tấn công sẽ dịch chuyển theo phương ngang để mô phỏng chiến thuật Side-by-Side trên máy tính, thay vì trượt dọc như trên điện thoại.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 1.6.0 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-red-400 to-red-600 rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 font-mono uppercase tracking-widest">Version 1.6.0: Enemy Squad Tactical Reveal</h4>
+                                </div>
+                                <div className="bg-red-900/10 min-h-[50px] p-4 rounded-xl border border-red-500/20 text-zinc-400 text-xs leading-relaxed space-y-2">
+                                    <p><strong className="text-white">● Hệ thống hiển thị Đội Hình Kẻ Địch (Enemy Squad Reveal):</strong> Người chơi đã có thể trực tiếp quan sát toàn bộ các slot đội hình và diện mạo thẻ bài của đối phương trong lúc khởi tạo trận đấu.</p>
+                                    <p><strong className="text-white">● Chia tỷ lệ Responsive:</strong> Responsive Layout được áp dụng trực tiếp lên giao diện chiến đấu (Combat). Màn hình PC (Desktop) sẽ hiển thị theo dạng Side-by-Side (Player bên trái VS Kẻ Địch bên phải), trong khi Điện Thoại (Mobile) vẫn giữ nguyên thiết kế Vertical Front-To-Back từ dưới lên trên nhằm tương thích mọi tỷ lệ kích thước màn hình.</p>
+                                    <p><strong className="text-white">● ENEMY INTEGRITY HUD:</strong> Cập nhật giao diện thanh HP tổng hợp riêng cho binh đoàn kẻ thù song song với SQUAD_INTEGRITY của người dùng nhằm tăng độ đối xứng và dễ quản trị toàn cảnh tác chiến.</p>
                                 </div>
                             </section>
 

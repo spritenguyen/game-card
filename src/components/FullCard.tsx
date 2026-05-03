@@ -88,7 +88,7 @@ export const FullCard: React.FC<{
              <div className={`text-sm font-bold text-white bg-black/50 border ${facInfo.border} w-8 h-8 rounded-full flex items-center justify-center`}><i className={`fa-solid ${facInfo.icon} ${facInfo.color}`}></i></div>
           </div>
           <div className="absolute bottom-4 left-4 right-4 z-20 flex justify-between items-end mb-4 sm:mb-0">
-             <div className="text-[10px] text-white/60 font-mono bg-black/50 px-2 py-1 rounded backdrop-blur-sm"><i className="fa-solid fa-fingerprint"></i> {card.id.split('-')[0]}</div>
+             <div className="text-[10px] text-white/60 font-mono bg-black/50 px-2 py-1 rounded "><i className="fa-solid fa-fingerprint"></i> {card.id.split('-')[0]}</div>
              {isModal && <div className="text-xl font-black text-white/20 uppercase tracking-widest">{card.faction}</div>}
           </div>
       </div>
@@ -120,26 +120,26 @@ export const FullCard: React.FC<{
                     <span className="opacity-50">|</span>
                     {displayCard.occupation}
                 </div>
-                <h2 className={`font-serif text-3xl md:text-4xl font-bold leading-tight drop-shadow-md ${isUR ? 'text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-blue-400' : 'text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400'}`}>{displayCard.name}</h2>
+                <h2 className={`font-serif text-3xl md:text-4xl font-bold leading-tight  ${isUR ? 'text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-blue-400' : 'text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400'}`}>{displayCard.name}</h2>
             </div>
             
             {/* Navigation Tabs */}
             <div className="mt-5 flex gap-4 border-b border-zinc-800/80 mb-4 shrink-0 overflow-x-auto no-scrollbar scroll-smooth">
                 <button 
                   onClick={() => setActiveTab('combat')}
-                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'combat' ? 'text-white border-b-2 border-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
+                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'combat' ? 'text-white border-b-2 border-white _0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
                 >
                   <i className="fa-solid fa-khanda mr-1.5"></i> Thực Chiến
                 </button>
                 <button 
                   onClick={() => setActiveTab('element')}
-                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'element' ? 'text-white border-b-2 border-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
+                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'element' ? 'text-white border-b-2 border-white _0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
                 >
                   <i className="fa-solid fa-bolt mr-1.5"></i> Nguyên Tố
                 </button>
                 <button 
                   onClick={() => setActiveTab('lore')}
-                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'lore' ? 'text-white border-b-2 border-white drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
+                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'lore' ? 'text-white border-b-2 border-white _0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
                 >
                   <i className="fa-solid fa-id-card mr-1.5"></i> Hồ Sơ
                 </button>

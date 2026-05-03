@@ -80,11 +80,11 @@ export const MiniCard: React.FC<{
             </div>
             
             <div className="flex flex-col gap-1 items-end">
-                <span className={`text-[8px] sm:text-[9px] bg-black/60 ${facInfo.color} border border-white/20 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-full shadow-md backdrop-blur-md`} title={facInfo.name}>
+                <span className={`text-[8px] sm:text-[9px] bg-black/60 ${facInfo.color} border border-white/20 w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center rounded-full shadow-md `} title={facInfo.name}>
                   <i className={`fa-solid ${facInfo.icon}`}></i>
                 </span>
                 {elementVisual && (
-                    <span className={`text-[7px] sm:text-[8px] bg-black/60 ${elementVisual.color} border border-white/20 w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center rounded-full shadow-md backdrop-blur-md`} title={card.element}>
+                    <span className={`text-[7px] sm:text-[8px] bg-black/60 ${elementVisual.color} border border-white/20 w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center rounded-full shadow-md `} title={card.element}>
                       <i className={`fa-solid ${elementVisual.icon}`}></i>
                     </span>
                 )}
@@ -92,7 +92,7 @@ export const MiniCard: React.FC<{
         </div>
         
         {locked && !selected && (
-          <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/40 backdrop-blur-[2px]"><i className="fa-solid fa-lock text-3xl text-white/70 drop-shadow-lg"></i></div>
+          <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/40 "><i className="fa-solid fa-lock text-3xl text-white/70 "></i></div>
         )}
         {selected && (
           <div className="absolute inset-0 bg-cinematic-cyan/5 border-2 border-cinematic-cyan z-20 pointer-events-none transition-all duration-300">
@@ -100,7 +100,7 @@ export const MiniCard: React.FC<{
           </div>
         )}
         {reshooting && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 backdrop-blur-sm z-30 transition-all">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70  z-30 transition-all">
             <i className="fa-solid fa-camera animate-pulse text-2xl text-cinematic-cyan mb-2"></i>
             <span className="text-[8px] uppercase tracking-widest text-cinematic-cyan font-bold">Đang Reshoot...</span>
           </div>
@@ -109,7 +109,7 @@ export const MiniCard: React.FC<{
         {/* Bottom Banner Compact */}
         <div className="absolute bottom-0 left-0 w-full p-1 sm:p-1.5 z-10 bg-gradient-to-t from-black via-black/90 to-transparent pt-4 sm:pt-6">
           <div className="flex items-center justify-between gap-1">
-              <div className={`text-[9px] sm:text-[11px] font-serif ${isUR ? 'text-cinematic-cyan' : 'text-white'} font-bold leading-tight line-clamp-1 drop-shadow-md tracking-tight`}>{card.name}</div>
+              <div className={`text-[9px] sm:text-[11px] font-serif ${isUR ? 'text-cinematic-cyan' : 'text-white'} font-bold leading-tight line-clamp-1  tracking-tight`}>{card.name}</div>
               {card.ultimateLevel && <div className="text-[6px] sm:text-[7px] text-cinematic-cyan/80 font-mono font-bold bg-black/60 px-1 rounded">Lv.{card.ultimateLevel}</div>}
           </div>
           <div className="flex items-center gap-1 mt-0.5">

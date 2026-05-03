@@ -204,21 +204,21 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
             let newFaction = fusionSlot1.faction || 'Tech';
             let newElement = fusionSlot2.element || 'Neutral';
             let isMutated = false;
-            let forcedFaction: FactionType | null = null;
-            let forcedElement: ElementType | null = null;
+            let forcedFaction: string | null = null;
+            let forcedElement: string | null = null;
             let cardMutationTriggered = false;
 
             if (upgradeItem) {
                 if (upgradeItem.type === 'item' && upgradeItem.id !== 'quantumDust') {
                     mutationChance += 0.05 * upgradeItem.amount;
                     if (upgradeItem.id.endsWith(' Core')) {
-                        const tgtFaction = upgradeItem.id.replace(' Core', '') as FactionType;
-                        if (FACTIONS[tgtFaction]) {
+                        const tgtFaction = upgradeItem.id.replace(' Core', '') as string;
+                        if ((FACTIONS as any)[tgtFaction]) {
                             forcedFaction = tgtFaction;
                         }
                     } else if (upgradeItem.id.endsWith(' Shard')) {
-                        const tgtElement = upgradeItem.id.replace(' Shard', '') as ElementType;
-                        if (ELEMENTS[tgtElement]) {
+                        const tgtElement = upgradeItem.id.replace(' Shard', '') as string;
+                        if ((ELEMENTS as any)[tgtElement]) {
                             forcedElement = tgtElement;
                         }
                     }
@@ -368,7 +368,7 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
 
     return (
         <div className="w-full flex flex-col items-center animate-fade-in pb-12">
-            <div className="w-full max-w-4xl glass-panel rounded-3xl p-6 sm:p-10 mb-8 relative overflow-hidden shadow-2xl border border-cinematic-cyan/20">
+            <div className="w-full max-w-4xl bg-cinematic-900/40 border border-white/5 ring-1 ring-white/5 backdrop-blur-md rounded-3xl p-6 sm:p-10 mb-8 relative overflow-hidden shadow-[inset_0_0_80px_rgba(0,0,0,0.5),0_0_40px_rgba(0,243,255,0.05)]">
                 <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 50% 50%, #00f3ff 0%, transparent 60%)" }}></div>
                 
                 <div className="flex flex-wrap items-center justify-center gap-2 mb-6 relative z-10">

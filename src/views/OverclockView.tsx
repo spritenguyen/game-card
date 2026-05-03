@@ -115,82 +115,96 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
     };
 
     return (
-        <div className="w-full max-w-4xl mx-auto flex flex-col items-center mt-4 sm:mt-8">
-            <div className="text-center mb-6 sm:mb-8 max-w-lg px-4">
-                <h1 className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cinematic-cyan uppercase tracking-[0.2em] mb-2 font-mono" style={{ WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}>
-                    QUANTUM OVERCLOCK
+        <div className="w-full flex flex-col items-center animate-fade-in pb-12">
+            <div className="w-full max-w-5xl bg-cinematic-900/40 border border-white/5 ring-1 ring-white/5 backdrop-blur-md rounded-3xl p-6 sm:p-10 mb-8 relative overflow-hidden shadow-[inset_0_0_80px_rgba(0,0,0,0.5),0_0_40px_rgba(192,132,252,0.05)]">
+                <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 50% 50%, #c084fc 0%, transparent 60%)" }}></div>
+                
+            <div className="text-center mb-10 max-w-2xl mx-auto relative z-10">
+                <h1 className="text-2xl sm:text-4xl font-serif text-transparent bg-clip-text bg-gradient-to-br from-white via-purple-300 to-purple-500 uppercase tracking-[0.3em] mb-4">
+                    <i className="fa-solid fa-bolt mr-3 text-purple-400"></i>QUANTUM OVERCLOCK
                 </h1>
-                <p className="text-[10px] sm:text-xs text-zinc-400 font-mono">
-                    Nâng cấp Tối Thượng (UR). Phá vỡ giới hạn chỉ số bằng Quantum Dust.
+                <p className="text-[10px] sm:text-[11px] text-zinc-400 font-mono tracking-widest uppercase">
+                    Breach rarity limits with Quantum Dust
                 </p>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-6 w-full items-start justify-center">
+            <div className="flex flex-col md:flex-row gap-8 lg:gap-12 w-full items-start justify-center relative z-10">
                 <div className="w-full md:w-1/2 flex flex-col items-center">
-                    <div className="flex gap-4 mb-4">
-                        {/* Target Slot */}
+                    <div className="flex flex-col gap-6 w-full items-center">
+                        {/* Target Slot, made larger and more prominent */}
                         <div className="flex flex-col items-center">
                             <div 
                                 onClick={() => !isGlobalProcessing && setSelectorTarget({type: 'target'})}
-                                className={`w-32 h-44 sm:w-40 sm:h-56 rounded-2xl flex flex-col items-center justify-center cursor-pointer border-2 transition-all relative overflow-hidden ${targetSlot ? 'border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)] bg-black/60' : 'border-dashed border-white/20 bg-black/40 hover:bg-black/60 hover:border-cinematic-cyan/50'}`}
+                                className={`w-40 h-56 sm:w-48 sm:h-72 rounded-2xl flex flex-col items-center justify-center cursor-pointer border ring-1 transition-all relative overflow-hidden 
+                                    ${targetSlot 
+                                        ? 'border-purple-500/50 ring-purple-500/20 shadow-[0_0_30px_rgba(168,85,247,0.2)] bg-black' 
+                                        : 'border-white/10 ring-white/5 border-dashed bg-black/60 hover:bg-cinematic-900/40 hover:border-purple-500/50 hover:ring-purple-500/20'}`}
                             >
                                 {targetSlot ? (
                                     <>
-                                        <img src={targetSlot.imageUrl} alt="Core" className="absolute inset-0 w-full h-full object-cover opacity-80" />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-                                        <div className="absolute bottom-2 left-0 w-full text-center p-2">
-                                            <span className="text-white font-bold text-xs bg-black/80 px-2 py-1 rounded truncate block">
+                                        <img src={targetSlot.imageUrl} alt="Core" className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-700 hover:scale-105" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+                                        <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl pointer-events-none"></div>
+                                        <div className="absolute bottom-3 left-0 w-full text-center px-2">
+                                            <span className="text-white font-serif tracking-widest text-sm bg-black/60 border border-white/10 px-3 py-1 rounded-sm uppercase inline-block max-w-[90%] truncate backdrop-blur-md">
                                                 {targetSlot.name}
                                             </span>
                                         </div>
                                         {targetSlot.overclockLevel ? (
-                                        <div className="absolute top-2 left-2 bg-purple-600 text-white font-black text-xs px-2 py-1 rounded shadow-lg">
+                                        <div className="absolute top-3 left-3 bg-gradient-to-br from-purple-500 to-purple-800 text-white font-mono tracking-widest uppercase text-[10px] px-2.5 py-1 rounded-sm border border-purple-400/50 shadow-lg">
                                             +{targetSlot.overclockLevel}
                                         </div>
                                         ) : null}
                                     </>
                                 ) : (
-                                    <div className="text-center px-2">
-                                        <i className="fa-solid fa-microchip text-3xl text-white/20 mb-2"></i>
-                                        <p className="text-[8px] text-zinc-400 uppercase tracking-widest">Chọn UR</p>
+                                    <div className="text-center px-4 flex flex-col items-center">
+                                        <i className="fa-solid fa-microchip text-4xl sm:text-5xl text-zinc-700 mb-4"></i>
+                                        <p className="text-[10px] sm:text-xs text-zinc-500 uppercase font-mono tracking-[0.2em]">Select UR Node</p>
                                     </div>
                                 )}
                             </div>
                             {targetSlot && (
-                                <button onClick={() => !isGlobalProcessing && setTargetSlot(null)} className="mt-2 text-[10px] text-red-400 hover:text-red-300 uppercase tracking-widest">
-                                    <i className="fa-solid fa-xmark mr-1"></i> Gỡ
+                                <button onClick={() => !isGlobalProcessing && setTargetSlot(null)} className="mt-4 text-[9px] sm:text-[10px] bg-red-950/30 text-red-400 border border-red-900/50 px-4 py-1.5 rounded-full hover:bg-red-900 hover:text-white transition-all uppercase font-mono tracking-widest flex items-center shadow-lg">
+                                    <i className="fa-solid fa-xmark mr-2"></i> Unlink
                                 </button>
                             )}
                         </div>
 
                          {/* Arrow */}
-                         <div className="flex flex-col justify-center items-center px-2">
-                            <i className="fa-solid fa-plus text-xl text-zinc-600"></i>
+                         <div className="flex justify-center items-center py-2 h-10 w-full relative">
+                            <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-[1px] bg-white/5"></div>
+                            <div className="bg-black border border-white/10 rounded-full w-8 h-8 flex items-center justify-center relative z-10 shadow-lg">
+                                <i className="fa-solid fa-plus text-sm text-zinc-500"></i>
+                            </div>
                          </div>
 
                         {/* Sacrifice Slots */}
-                         <div className="flex flex-col items-center justify-center">
+                         <div className="w-full flex justify-center">
                             {targetSlot && !isMax ? (
-                                <div className={`grid gap-2 ${requiredSacrifices.length > 2 ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                                <div className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-[400px]">
                                     {requiredSacrifices.map((req, idx) => {
                                         const sCard = sacrificeSlots[idx];
                                         return (
                                             <div 
                                                 key={idx}
                                                 onClick={() => !isGlobalProcessing && setSelectorTarget({type:'sacrifice', index: idx})}
-                                                className={`w-20 h-28 sm:w-24 sm:h-32 rounded-xl flex flex-col items-center justify-center cursor-pointer border-2 transition-all relative overflow-hidden ${sCard ? 'border-red-500 shadow-[0_0_10px_rgba(239,68,68,0.3)] bg-black/60' : 'border-dashed border-red-500/30 bg-black/40 hover:bg-black/60 hover:border-red-500/50'}`}
+                                                className={`w-20 h-28 sm:w-24 sm:h-36 rounded-xl flex flex-col items-center justify-center cursor-pointer border ring-1 transition-all relative overflow-hidden shrink-0
+                                                    ${sCard 
+                                                        ? 'border-red-500/50 ring-red-500/20 shadow-[0_0_15px_rgba(239,68,68,0.2)] bg-black' 
+                                                        : 'border-white/5 ring-white/5 border-dashed bg-black/40 hover:bg-cinematic-900/40 hover:border-red-500/30'}`}
                                             >
                                                 {sCard ? (
                                                     <>
-                                                        <img src={sCard.imageUrl} alt="Sacrifice" className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale-[50%] sepia-[20%] hue-rotate-[-30deg]" />
-                                                        <div className="absolute inset-0 bg-gradient-to-t from-red-900/60 via-red-900/20 to-transparent"></div>
-                                                        <div className="absolute bottom-1 left-0 w-full text-center px-1">
-                                                            <span className="text-red-200 font-bold text-[9px] bg-red-950/80 px-1 py-0.5 rounded truncate block">
+                                                        <img src={sCard.imageUrl} alt="Sacrifice" className="absolute inset-0 w-full h-full object-cover opacity-50 grayscale-[80%] sepia-[30%] hue-rotate-[-30deg] mix-blend-luminosity" />
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-red-950/80 via-red-900/20 to-transparent"></div>
+                                                        <div className="absolute inset-0 ring-1 ring-inset ring-red-500/20 rounded-xl pointer-events-none"></div>
+                                                        <div className="absolute bottom-2 w-full text-center px-1">
+                                                            <span className="text-red-200 font-mono tracking-widest text-[8px] bg-black/80 border border-red-900/50 px-1 py-0.5 rounded-sm block w-[90%] mx-auto truncate">
                                                                 {sCard.name}
                                                             </span>
                                                         </div>
-                                                        <div className="absolute top-1 right-1 text-red-500 font-black text-[8px] px-1 py-0.5 bg-red-950/80 rounded border border-red-500/50">
-                                                            Tế
+                                                        <div className="absolute top-1 right-1 text-red-500 font-mono tracking-widest uppercase text-[7px] px-1.5 py-0.5 bg-black/80 rounded-sm border border-red-900/50">
+                                                            S-R
                                                         </div>
                                                         <button 
                                                             onClick={(e) => { 
@@ -201,15 +215,15 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
                                                                     setSacrificeSlots(newSlots);
                                                                 }
                                                             }} 
-                                                            className="absolute top-1 left-1 w-4 h-4 bg-red-900/80 hover:bg-red-700 text-white rounded-full flex items-center justify-center"
+                                                            className="absolute top-1 left-1 w-5 h-5 bg-black/80 border border-white/10 hover:border-red-500 hover:text-red-500 text-zinc-400 rounded-sm flex items-center justify-center transition-colors shadow-lg"
                                                         >
                                                             <i className="fa-solid fa-xmark text-[8px]"></i>
                                                         </button>
                                                     </>
                                                 ) : (
                                                     <div className="text-center px-1 flex flex-col items-center">
-                                                        <i className="fa-solid fa-skull text-xl text-red-500/30 mb-1"></i>
-                                                        <p className="text-[8px] text-red-400 uppercase tracking-widest font-bold">{req.rank}</p>
+                                                        <i className="fa-solid fa-skull text-xl sm:text-2xl text-zinc-800 mb-2"></i>
+                                                        <p className="text-[7px] sm:text-[8px] text-zinc-500 uppercase tracking-[0.2em] font-mono font-bold">REQ: {req.rank}</p>
                                                     </div>
                                                 )}
                                             </div>
@@ -217,96 +231,102 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
                                     })}
                                 </div>
                             ) : (
-                                <div className="w-20 h-28 sm:w-24 sm:h-32 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-zinc-500/30 bg-black/40">
-                                    <i className="fa-solid fa-lock text-xl text-zinc-600/50 mb-1"></i>
-                                    <p className="text-[8px] text-zinc-500 uppercase tracking-widest text-center px-1">Cần Thẻ UR</p>
+                                <div className="w-full max-w-[280px] h-28 sm:h-36 rounded-xl flex flex-col items-center justify-center border border-dashed border-white/5 ring-1 ring-white/5 bg-black/30">
+                                    <i className="fa-solid fa-lock text-2xl text-zinc-800 mb-3"></i>
+                                    <p className="text-[9px] sm:text-[10px] text-zinc-600 uppercase tracking-[0.2em] font-mono text-center px-4">Insert UR Node First</p>
                                 </div>
                             )}
                         </div>
                     </div>
                 </div>
 
-                <div className="w-full md:w-1/2 flex flex-col gap-4">
-                    <div className="bg-black/40 border border-white/10 rounded-xl p-4">
-                        <h3 className="text-cinematic-cyan font-bold text-sm tracking-widest uppercase mb-4 border-b border-white/10 pb-2 font-mono flex items-center justify-between">
-                            <span><i className="fa-solid fa-chart-line mr-2"></i> THÔNG SỐ OVERCLOCK</span>
-                            {targetSlot && <span className="text-purple-400 shrink-0 ml-2">Cấp {currentLvl} / {maxLvl}</span>}
+                <div className="w-full md:w-1/2 flex flex-col gap-5 sm:gap-6">
+                    <div className="bg-black/60 border border-white/5 ring-1 ring-white/5 rounded-2xl p-5 sm:p-6 shadow-inner relative overflow-hidden backdrop-blur-sm">
+                        <div className="absolute top-0 right-0 p-4 opacity-[0.03]"><i className="fa-solid fa-chart-line text-8xl"></i></div>
+                        <h3 className="text-white text-xs sm:text-sm font-serif tracking-[0.2em] uppercase mb-5 border-b border-white/5 pb-3 flex items-center justify-between">
+                            <span><i className="fa-solid fa-microchip text-purple-400 mr-2"></i> Metrics</span>
+                            {targetSlot && <span className="text-purple-400 font-mono text-[10px] bg-purple-500/10 px-2 py-0.5 rounded-sm border border-purple-500/20">Lvl {currentLvl} / {maxLvl}</span>}
                         </h3>
-                        <ul className="text-[11px] text-zinc-300 flex flex-col gap-2 font-mono">
-                            <li className="flex justify-between border-b border-white/5 pb-2">
-                                <span className="text-zinc-500">Mục tiêu nâng cấp:</span>
-                                <span className="text-purple-400 font-bold">UR (Ultra Rare)</span>
+                        <ul className="text-[10px] sm:text-xs text-zinc-400 flex flex-col gap-3 font-mono tracking-widest relative z-10 w-full">
+                            <li className="flex justify-between items-center w-full bg-white/5 p-2 rounded-lg border border-white/5">
+                                <span className="text-zinc-500 uppercase">Target Node</span>
+                                <span className="text-purple-400 font-bold uppercase">UR Protocol</span>
                             </li>
                             {targetSlot && !isMax && (
-                                <li className="flex justify-between items-start pt-1">
-                                    <span className="text-zinc-500">Thẻ tế yêu cầu:</span>
-                                    <div className="flex flex-col items-end gap-1">
+                                <li className="flex justify-between items-start w-full bg-white/5 p-2 rounded-lg border border-white/5">
+                                    <span className="text-zinc-500 uppercase pt-0.5">Sacrifice Reqs</span>
+                                    <div className="flex flex-col items-end gap-1.5 border-l border-white/5 pl-2">
                                     {Object.entries(requiredSacrifices.reduce((acc, curr) => {
                                         acc[curr.rank] = (acc[curr.rank] || 0) + 1;
                                         return acc;
                                     }, {} as Record<string, number>)).map(([rank, count]) => (
-                                        <span key={rank} className={`font-bold ${rank === 'SSR' ? 'text-cinematic-gold' : 'text-purple-400'} bg-black/40 px-2 py-0.5 rounded border border-white/10`}>
-                                            {count}x {rank}
+                                        <span key={rank} className={`font-bold ${rank === 'SSR' ? 'text-cinematic-gold' : 'text-purple-400'} flex items-center gap-1.5`}>
+                                            <span className="text-zinc-600">x{count}</span> {rank}
                                         </span>
                                     ))}
                                     </div>
                                 </li>
                             )}
-                            <li className="flex justify-between">
-                                <span className="text-zinc-500">Hiệu ứng:</span>
-                                <span className="text-green-400">+10% Tất cả chỉ số cơ bản / Thuộc tính</span>
+                            <li className="flex justify-between items-center w-full bg-white/5 p-2 rounded-lg border border-white/5">
+                                <span className="text-zinc-500 uppercase">Yield</span>
+                                <span className="text-green-400 font-bold">+10% Base Stats</span>
                             </li>
-                             <li className="flex justify-between">
-                                <span className="text-zinc-500">Cấp độ hiện tại:</span>
-                                <span className="text-white">{currentLvl > 0 ? `+${currentLvl}` : "Chưa nâng cấp"}</span>
+                             <li className="flex justify-between items-center w-full bg-white/5 p-2 rounded-lg border border-white/5">
+                                <span className="text-zinc-500 uppercase">Current Lvl</span>
+                                <span className="text-white">{currentLvl > 0 ? `+${currentLvl}` : "Baseline"}</span>
                             </li>
                             {targetSlot && !isMax && (
-                                <li className="flex justify-between py-2 border-t border-dashed border-white/10 mt-2">
-                                    <span className="text-zinc-400">Buff kỳ vọng:</span>
-                                    <span className="text-cinematic-cyan font-bold">+{(currentLvl + 1) * 10}% Tổng Chỉ Số</span>
+                                <li className="flex justify-between items-center w-full bg-cinematic-cyan/5 p-2 rounded-lg border border-cinematic-cyan/10 mt-2">
+                                    <span className="text-cinematic-cyan uppercase">Est. Output</span>
+                                    <span className="text-cinematic-cyan font-bold">+{(currentLvl + 1) * 10}% Total</span>
                                 </li>
                             )}
                             {targetSlot && !isMax && (
-                                <li className="flex justify-between py-2 border-t border-dashed border-red-500/30">
-                                    <span className="text-red-400 flex items-center gap-1"><i className="fa-solid fa-skull"></i> Tỷ Lệ Thành Công:</span>
-                                    <span className={`font-bold ${successRate >= 80 ? 'text-green-400' : successRate >= 50 ? 'text-yellow-400' : 'text-red-500'}`}>{successRate}%</span>
+                                <li className="flex justify-between items-center w-full bg-red-950/20 p-2 rounded-lg border border-red-900/30">
+                                    <span className="text-red-400 flex items-center gap-1.5 uppercase"><i className="fa-solid fa-biohazard"></i> Success Rate</span>
+                                    <span className={`font-bold text-sm ${successRate >= 80 ? 'text-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.5)]' : successRate >= 50 ? 'text-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,0.5)]' : 'text-red-500 drop-shadow-[0_0_5px_rgba(239,68,68,0.5)]'}`}>{successRate}%</span>
                                 </li>
                             )}
                             {isMax && (
-                                <li className="flex justify-center py-2 border-t border-dashed border-white/10 mt-2">
-                                    <span className="text-cinematic-gold font-bold uppercase tracking-widest">MAX OVERCLOCK REACHED</span>
+                                <li className="flex justify-center items-center w-full bg-cinematic-gold/10 p-3 rounded-lg border border-cinematic-gold/20 mt-2">
+                                    <span className="text-cinematic-gold font-bold uppercase tracking-[0.3em]">MAXIMUM PROTOCOL</span>
                                 </li>
                             )}
                         </ul>
                     </div>
 
-                    <div className="bg-black/40 border border-white/10 rounded-xl p-4">
-                       <h3 className="text-cinematic-gold font-bold text-sm tracking-widest uppercase mb-4 border-b border-white/10 pb-2 font-mono flex items-center">
-                             <i className="fa-solid fa-server mr-2"></i> CHI PHÍ OVERCLOCK
+                    <div className="bg-black/60 border border-white/5 ring-1 ring-white/5 rounded-2xl p-5 sm:p-6 shadow-inner relative overflow-hidden backdrop-blur-sm">
+                        <div className="absolute top-0 right-0 p-4 opacity-[0.03]"><i className="fa-solid fa-server text-8xl"></i></div>
+                       <h3 className="text-white text-xs sm:text-sm font-serif tracking-[0.2em] uppercase mb-4 border-b border-white/5 pb-3 flex items-center">
+                             <i className="fa-solid fa-coins text-cinematic-gold mr-2"></i> Resource Demand
                         </h3>
-                        <div className="flex flex-col gap-3 font-mono text-xs">
-                            <div className="flex items-center justify-between p-2 bg-black/40 rounded border border-white/5">
-                                <div className="flex items-center gap-2">
-                                    <i className="fa-solid fa-coins text-cinematic-gold"></i>
-                                    <span className="text-zinc-300">Data Credit</span>
+                        <div className="flex flex-col gap-3 font-mono text-[10px] sm:text-xs tracking-widest relative z-10 w-full">
+                            <div className="flex items-center justify-between p-3 sm:p-4 bg-white/5 rounded-xl border border-white/5 hover:border-cinematic-gold/20 transition-colors">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-cinematic-gold/10 flex items-center justify-center border border-cinematic-gold/20 text-cinematic-gold">
+                                        <i className="fa-solid fa-coins"></i>
+                                    </div>
+                                    <span className="text-zinc-400 uppercase">Data Credit</span>
                                 </div>
                                 <div className="flex flex-col items-end">
-                                   <span className={`font-black ${currency >= cost.dc ? 'text-cinematic-gold' : 'text-red-500'}`}>
+                                   <span className={`font-bold text-sm ${currency >= cost.dc ? 'text-cinematic-gold' : 'text-red-500'}`}>
                                        {isMax ? '---' : cost.dc.toLocaleString()}
                                    </span>
-                                   <span className="text-[9px] text-zinc-600">Đang có: {currency.toLocaleString()}</span>
+                                   <span className="text-[8px] sm:text-[9px] text-zinc-600 mt-1">Avail: {currency.toLocaleString()}</span>
                                 </div>
                             </div>
-                            <div className="flex items-center justify-between p-2 bg-black/40 rounded border border-white/5">
-                                <div className="flex items-center gap-2">
-                                    <i className="fa-solid fa-atom text-cinematic-cyan"></i>
-                                    <span className="text-zinc-300">Quantum Dust</span>
+                            <div className="flex items-center justify-between p-3 sm:p-4 bg-white/5 rounded-xl border border-white/5 hover:border-cinematic-cyan/20 transition-colors">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-cinematic-cyan/10 flex items-center justify-center border border-cinematic-cyan/20 text-cinematic-cyan">
+                                        <i className="fa-solid fa-atom"></i>
+                                    </div>
+                                    <span className="text-zinc-400 uppercase">Quantum Dust</span>
                                 </div>
                                  <div className="flex flex-col items-end">
-                                   <span className={`font-black ${(inventory.quantumDust || 0) >= cost.dust ? 'text-cinematic-cyan' : 'text-red-500'}`}>
+                                   <span className={`font-bold text-sm ${(inventory.quantumDust || 0) >= cost.dust ? 'text-cinematic-cyan' : 'text-red-500'}`}>
                                         {isMax ? '---' : cost.dust.toLocaleString()}
                                    </span>
-                                   <span className="text-[9px] text-zinc-600">Đang có: {(inventory.quantumDust || 0).toLocaleString()}</span>
+                                   <span className="text-[8px] sm:text-[9px] text-zinc-600 mt-1">Avail: {(inventory.quantumDust || 0).toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>
@@ -315,19 +335,23 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
                     <button 
                          onClick={executeOverclock}
                          disabled={!canOverclock || isMax}
-                         className={`mt-4 w-full py-4 rounded-xl font-black tracking-[0.3em] uppercase text-sm border-2 transition-all flex items-center justify-center gap-2 relative overflow-hidden ${!canOverclock || isMax ? 'bg-zinc-900 border-zinc-700 text-zinc-500 cursor-not-allowed' : 'bg-purple-900/60 border-purple-500 text-white hover:bg-purple-800 hover:shadow-[0_0_20px_#a855f7]'}`}
+                         className={`mt-2 w-full py-4 sm:py-5 rounded-2xl font-bold font-mono tracking-[0.3em] uppercase text-[10px] sm:text-xs transition-all flex items-center justify-center gap-3 relative overflow-hidden group 
+                             ${!canOverclock || isMax 
+                                 ? 'bg-zinc-950 border border-white/5 text-zinc-600 cursor-not-allowed' 
+                                 : 'bg-purple-900/20 border border-purple-500/50 text-purple-400 hover:bg-purple-500 hover:text-black hover:border-purple-400 shadow-[inset_0_0_20px_rgba(168,85,247,0.2)] hover:shadow-[0_0_30px_rgba(168,85,247,0.4)]'}`}
                      >
+                         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-overlay"></div>
                          {isGlobalProcessing ? (
-                             <><i className="fa-solid fa-circle-notch fa-spin text-purple-400"></i> OVERCLOCKING...</>
+                             <><i className="fa-solid fa-circle-notch fa-spin text-xl"></i> INITIALIZING OVERCLOCK...</>
                          ) : isMax ? (
-                             <><i className="fa-solid fa-lock text-cinematic-gold"></i> MAX LEVEL</>
+                             <><i className="fa-solid fa-lock text-xl opacity-50"></i> MAX PROTOCOL REACHED</>
                          ) : (
-                             <><i className="fa-solid fa-bolt text-purple-400"></i> KHỞI ĐỘNG OVERCLOCK</>
+                             <><i className="fa-solid fa-bolt text-xl group-hover:scale-125 transition-transform"></i> INITIALIZE OVERCLOCK</>
                          )}
-                         {!canOverclock && !isMax && !isGlobalProcessing && <div className="absolute inset-0 bg-black/50"></div>}
                      </button>
                 </div>
             </div>
+          </div>
 
              {selectorTarget && (
                 <div className="fixed inset-0 z-[200] bg-zinc-950/90 backdrop-blur-3xl flex flex-col p-4 sm:p-8 overflow-y-auto">

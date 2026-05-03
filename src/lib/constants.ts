@@ -15,7 +15,7 @@ export const DEFAULT_APP_CONFIG = {
     language: 'vi' as 'vi' | 'en',
     useCustomGemini: false,
     geminiKey: '',
-    geminiModel: 'gemini-2.5-flash',
+    geminiModel: 'gemini-3-flash-preview',
     pollinationsKey: '',
     defaultImageModel: 'flux',
 };
@@ -37,4 +37,4 @@ export const ELEMENTS = {
     'Neutral': { id: 'Neutral', name: 'NEUTRAL', icon: 'fa-atom', color: 'text-zinc-400', glow: 'shadow-[0_0_15px_rgba(161,161,170,0.4)]' }
 };
 
-export const APP_VERSION = 'v1.5.4-GenesisForge';
+export const APP_VERSION = '0.1.0.6';

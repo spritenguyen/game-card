@@ -8,7 +8,7 @@ export const useGameState = () => {
     const [currency, setCurrency] = useState<number>(1500);
     const [cards, setCards] = useState<Card[]>([]);
     const [squad, setSquad] = useState<(Card | null)[]>([null, null, null, null, null, null]);
-    const [boss, setBoss] = useState<Boss | null>(null);
+    const [enemySquad, setEnemySquad] = useState<(Boss | null)[]>([null, null, null, null, null, null]);
     const [fusionSlot1, setFusionSlot1] = useState<Card | null>(null);
     const [fusionSlot2, setFusionSlot2] = useState<Card | null>(null);
     const [config, setConfig] = useState<AppConfig>(DEFAULT_APP_CONFIG);
@@ -206,7 +206,6 @@ export const useGameState = () => {
         setCards([]);
         setSquad([null, null, null]);
         setLeaderId(null);
-        setBoss(null);
         setFusionSlot1(null);
         setFusionSlot2(null);
         setConfig(DEFAULT_APP_CONFIG);
@@ -277,7 +276,7 @@ export const useGameState = () => {
         expeditions, setExpeditions, startExpedition, completeExpedition, claimExpedition,
         cards, addCard, removeCard, updateCard,
         squad, setSquad, leaderId, setLeaderId: (id: string | null) => { setLeaderId(id); if (id) localStorage.setItem('cineLeaderId', id); else localStorage.removeItem('cineLeaderId'); },
-        boss, setBoss,
+        enemySquad, setEnemySquad,
         fusionSlot1, setFusionSlot1,
         fusionSlot2, setFusionSlot2,
         config, saveConfig,

@@ -46,7 +46,7 @@ ${JSON.stringify({ ...Object.keys(schemaProps).reduce((a,k)=>({...a, [k]: schema
             GlobalApiState.notify("Đang dùng Gemini theo tùy chọn...");
             const ai = new GoogleGenAI({ apiKey: geminiKeyToUse });
             const response = await ai.models.generateContent({
-                model: config.geminiModel || "gemini-2.5-flash",
+                model: config.geminiModel || "gemini-3-flash-preview",
                 contents: prompt,
                 config: {
                     systemInstruction: sysPrompt,
@@ -402,30 +402,26 @@ Ultimate Move: ${card.ultimateMove}`;
     return res;
 };
 
-export const generateImageFromAi = async (data: any, config: AppConfig, overrideModel?: string): Promise<string> => {
-    const modelToUse = overrideModel || config.defaultImageModel || 'flux';
-    let stylePrefix = "";
-    if (config.artStyle === 'stylized') {
-        stylePrefix = "Masterpiece, stylized illustration, 2.5D art style, highly detailed character concept art, vibrant colors, clean lines.";
-    } else if (config.artStyle === 'cinematic') {
-        stylePrefix = "Masterpiece, cinematic fashion editorial, haute couture photoshoot, dramatic studio lighting, moody atmosphere, highly detailed.";
-    } else {
-        stylePrefix = "Masterpiece, highly detailed photography, photorealistic, ultra-realistic real human, 8k resolution, cinematic lighting, RAW photo.";
-    }
-    
-    stylePrefix += " Widescreen composition, cinematic wide shot, anamorphic lens.";
+// Cache in-memory to prevent multiple calls for the same card description in one session
+const renderCache = new Map<string, string>();
+const activeRenders = new Map<string, Promise<string>>();
 
-    const likenessTarget = data.inspiredBy ? `(Explicit likeness: ${data.inspiredBy})` : "";
-    const baseVisuals = data.visualDescription;
-    const genderTerm = data.gender?.toLowerCase().includes('nữ') ? 'female character' : (data.gender?.toLowerCase().includes('nam') ? 'male character' : 'character');
-    const universeTerm = data.universe ? `from ${data.universe} universe` : 'cinematic style';
-    let factionTheme = 'mutant, organic, bio-engineered, monstrous or natural power';
-    if (data.faction === 'Tech') factionTheme = 'cyberpunk, sci-fi, neon, mechanical';
-    else if (data.faction === 'Magic') factionTheme = 'fantasy, magical aura, mystical, spellcasting';
-    else if (data.faction === 'Light') factionTheme = 'divine, heavenly, glowing aura, holy, majestic, bright white and gold';
-    else if (data.faction === 'Dark') factionTheme = 'demonic, sinister, shadows, purple and black aura, abyssal, corrupted';
-    
-    // Boss Image Caching Logic (Pool by Faction and Threat Level to save API calls)
+export const generateImageFromAi = async (data: any, config: AppConfig, overrideModel?: string): Promise<string> => {
+    // 1. Create a fingerprint based on physical attributes
+    const fingerprint = `${data.name}-${data.rank}-${data.faction}-${data.element}-${data.level}`;
+
+    // 2. Check early exit (already has URL)
+    if (data.imageUrl && (data.imageUrl.startsWith('data:image/') || data.imageUrl.startsWith('http'))) {
+        return data.imageUrl;
+    }
+
+    // 3. Check session cache
+    if (renderCache.has(fingerprint)) {
+        return renderCache.get(fingerprint)!;
+    }
+
+    // 4. Boss Image Caching Logic (Pool by Faction and Threat Level to save API calls)
+    // Moved up to avoid triggering "AI Render (Khởi tạo)" API status prematurely
     const isBoss = data.hp && data.attack && !data.cardClass; // Boss detection
     let bossCacheKey = "";
     if (isBoss) {
@@ -438,6 +434,37 @@ export const generateImageFromAi = async (data: any, config: AppConfig, override
         }
     }
 
+    // 5. Check if a render is already in progress for this fingerprint
+    if (activeRenders.has(fingerprint)) {
+        return activeRenders.get(fingerprint)!;
+    }
+
+    const renderPromise = (async () => {
+        try {
+            GlobalApiState.setCurrentApi("AI Render (Khởi tạo)");
+            
+            const modelToUse = overrideModel || config.defaultImageModel || 'flux';
+            let stylePrefix = "";
+            if (config.artStyle === 'stylized') {
+                stylePrefix = "Masterpiece, stylized illustration, 2.5D art style, highly detailed character concept art, vibrant colors, clean lines.";
+            } else if (config.artStyle === 'cinematic') {
+                stylePrefix = "Masterpiece, cinematic fashion editorial, haute couture photoshoot, dramatic studio lighting, moody atmosphere, highly detailed.";
+            } else {
+                stylePrefix = "Masterpiece, highly detailed photography, photorealistic, ultra-realistic real human, 8k resolution, cinematic lighting, RAW photo.";
+            }
+            
+            stylePrefix += " Widescreen composition, cinematic wide shot, anamorphic lens.";
+
+            const likenessTarget = data.inspiredBy ? `(Explicit likeness: ${data.inspiredBy})` : "";
+            const baseVisuals = data.visualDescription;
+            const genderTerm = data.gender?.toLowerCase().includes('nữ') ? 'female character' : (data.gender?.toLowerCase().includes('nam') ? 'male character' : 'character');
+            const universeTerm = data.universe ? `from ${data.universe} universe` : 'cinematic style';
+            let factionTheme = 'mutant, organic, bio-engineered, monstrous or natural power';
+            if (data.faction === 'Tech') factionTheme = 'cyberpunk, sci-fi, neon, mechanical';
+    else if (data.faction === 'Magic') factionTheme = 'fantasy, magical aura, mystical, spellcasting';
+    else if (data.faction === 'Light') factionTheme = 'divine, heavenly, glowing aura, holy, majestic, bright white and gold';
+    else if (data.faction === 'Dark') factionTheme = 'demonic, sinister, shadows, purple and black aura, abyssal, corrupted';
+    
     const randomSeed = Math.floor(Math.random() * 1000000);
     const fallbackPrompt = `${stylePrefix} A ${genderTerm} ${universeTerm} ${likenessTarget}. Theme: ${factionTheme}. Details: ${baseVisuals}.`;
     
@@ -574,7 +601,18 @@ Base Character Info: ${fallbackPrompt}`;
         GlobalApiState.setIdle();
         throw e;
     }
+} finally {
+    activeRenders.delete(fingerprint);
 }
+})();
+
+activeRenders.set(fingerprint, renderPromise);
+renderPromise.then(url => {
+    renderCache.set(fingerprint, url);
+});
+
+return renderPromise;
+};
 
 export const generateAltTextFromAI = async (card: Card, config: AppConfig): Promise<string> => {
     const apiKey = (config.useCustomGemini && config.geminiKey) ? config.geminiKey.trim() : process.env.GEMINI_API_KEY;
@@ -588,7 +626,7 @@ export const generateAltTextFromAI = async (card: Card, config: AppConfig): Prom
 
     const mimeType = card.imageUrl.split(';')[0].split(':')[1];
     const base64Data = card.imageUrl.split(',')[1];
-    const modelStr = config.geminiModel || "gemini-2.5-flash";
+    const modelStr = config.geminiModel || "gemini-3-flash-preview";
 
     GlobalApiState.setCurrentApi("Gemini Vision");
     GlobalApiState.notify("Đang phân tích hình ảnh (Vision)...");

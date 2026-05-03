@@ -126,7 +126,7 @@ export interface GameState {
   cards: Card[];
   squad: (Card | null)[];
   leaderId: string | null;
-  boss: Boss | null;
+  enemySquad: (Boss | null)[];
   fusionSlot1: Card | null;
   fusionSlot2: Card | null;
 }
