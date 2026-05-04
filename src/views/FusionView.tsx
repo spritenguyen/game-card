@@ -4,6 +4,7 @@ import { FullCard } from '../components/FullCard';
 import { getFusionCost, getFactionInfo, getRankIndex } from '../lib/gameLogic';
 import { generateFusionFromAI, generateImageFromAi } from '../services/ai';
 import { FACTIONS, ELEMENTS } from '../lib/constants';
+import { Dialog } from '../components/ui/Dialog';
 
 interface Props {
   config: AppConfig;
@@ -36,6 +37,7 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
     const [tempUpgradeAmount, setTempUpgradeAmount] = useState(1);
     const [tempUpgradeId, setTempUpgradeId] = useState<string | null>(null);
     const [tempUpgradeCard, setTempUpgradeCard] = useState<Card | null>(null);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const dynamicCost = getFusionCost(fusionSlot1, fusionSlot2);
     const canFuse = fusionSlot1 && fusionSlot2 && !isGlobalProcessing;
@@ -506,7 +508,7 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                         )}
 
                         <button 
-                            onClick={executeFusion} 
+                            onClick={() => setShowConfirm(true)} 
                             disabled={!canFuse}
                             className={`w-full max-w-xs bg-cinematic-900 border border-cinematic-cyan/50 text-cinematic-cyan hover:bg-cinematic-cyan/20 py-4 sm:py-5 rounded-2xl font-bold tracking-widest uppercase transition-all duration-300 transform shadow-[0_0_30px_rgba(0,243,255,0.15)] disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none flex items-center justify-center gap-3 ${canFuse && !isGlobalProcessing ? 'hover:scale-[1.02] hover:shadow-[0_0_40px_rgba(0,243,255,0.3)]' : ''}`}
                         >
@@ -663,6 +665,15 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                     </div>
                 </div>
             )}
+
+            <Dialog
+                isOpen={showConfirm}
+                title="Xác Nhận Lai Tạo"
+                message={`Bạn có chắc muốn tiến hành lai tạo?<br/>Chi phí: ${dynamicCost} DC.<br/>Các thẻ hiện tại trên đài sẽ bị tiêu hủy vĩnh viễn.`}
+                type="confirm"
+                onClose={() => setShowConfirm(false)}
+                onConfirm={executeFusion}
+            />
         </div>
     );
 };

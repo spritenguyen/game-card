@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Card, AppConfig } from '../types';
 import { FullCard } from '../components/FullCard';
 import { getRankIndex } from '../lib/gameLogic';
 import { MiniCard } from '../components/MiniCard';
+import { Dialog } from '../components/ui/Dialog';
 
 interface Props {
   config: AppConfig;
@@ -22,6 +24,7 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
     const [targetSlot, setTargetSlot] = useState<Card | null>(null);
     const [sacrificeSlots, setSacrificeSlots] = useState<(Card | null)[]>([]);
     const [selectorTarget, setSelectorTarget] = useState<{type: 'target' | 'sacrifice', index?: number} | null>(null);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const getUpgradeCost = (currentLvl: number) => {
         const baseDC = 5000;
@@ -334,7 +337,7 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
                     </div>
 
                     <button 
-                         onClick={executeOverclock}
+                         onClick={() => setShowConfirm(true)}
                          disabled={!canOverclock || isMax}
                          className={`mt-2 w-full py-4 sm:py-5 rounded-2xl font-bold font-mono tracking-[0.3em] uppercase text-[10px] sm:text-xs transition-all flex items-center justify-center gap-3 relative overflow-hidden group 
                              ${!canOverclock || isMax 
@@ -354,13 +357,13 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
             </div>
           </div>
 
-             {selectorTarget && (
+             {selectorTarget && createPortal(
                 <div className="fixed inset-0 z-[200] bg-zinc-950/90 backdrop-blur-3xl flex flex-col p-4 sm:p-8 overflow-y-auto">
                     <div className="flex justify-between items-center mb-6 max-w-5xl mx-auto w-full">
                         <h2 className="text-white font-bold text-lg uppercase tracking-widest">
                              {selectorTarget.type === 'target' ? 'Chọn Thẻ UR (MỤC TIÊU)' : `Chọn Thẻ Tế (${selectorTarget.index !== undefined ? requiredSacrifices[selectorTarget.index].rank : 'SSR/SR'})`}
                         </h2>
-                        <button onClick={() => setSelectorTarget(null)} className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center">
+                        <button onClick={() => setSelectorTarget(null)} className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white">
                             <i className="fa-solid fa-xmark"></i>
                         </button>
                     </div>
@@ -376,8 +379,18 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
                             </div>
                         )}
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
+            
+            <Dialog
+                isOpen={showConfirm}
+                title="Xác Nhận Cường Hóa"
+                message={`Thực hiện ép xung sẽ tiêu tốn:<br/>- ${cost.dc} Data Credits<br/>- ${cost.dust} Quantum Dust<br/>Cùng với ${requiredSacrifices.length} thẻ hiến tế.<br/>Tỉ lệ thành công: <span class="text-purple-400 font-bold">${successRate}%</span>. Bạn có chắc chắn?`}
+                type="confirm"
+                onClose={() => setShowConfirm(false)}
+                onConfirm={executeOverclock}
+            />
         </div>
     );
 };

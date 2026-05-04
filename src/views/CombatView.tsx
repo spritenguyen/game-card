@@ -108,6 +108,21 @@ export const CombatView: React.FC<Props> = ({
 }) => {
   const [opTab, setOpTab] = useState<"battlefield" | "single_boss" | "world_boss">("single_boss");
 
+  const [isLiteMode, setIsLiteMode] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("liteCombatMode");
+      if (saved !== null) return saved === "true";
+      return isMobileEnv;
+    }
+    return false;
+  });
+
+  const toggleLiteMode = () => {
+    const newVal = !isLiteMode;
+    setIsLiteMode(newVal);
+    localStorage.setItem("liteCombatMode", String(newVal));
+  };
+
   const [localWorldBossSquad, setLocalWorldBossSquad] = useState<(Boss | null)[]>([null, null, null, null, null, null]);
 
   // Derived squad based on active tab
@@ -1762,7 +1777,7 @@ export const CombatView: React.FC<Props> = ({
           </div>
         </div>
         <AnimatePresence>
-          {damagePopups
+          {!isLiteMode && damagePopups
             .filter((p) => p.target === `enemy-${index}`)
             .map((p) => (
               <motion.div
@@ -2034,7 +2049,7 @@ export const CombatView: React.FC<Props> = ({
           {card.cardClass}
         </div>
         <AnimatePresence>
-          {damagePopups
+          {!isLiteMode && damagePopups
             .filter((p) => p.target === `squad_${index}`)
             .map((p) => (
               <motion.div
@@ -2086,7 +2101,7 @@ export const CombatView: React.FC<Props> = ({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className={`fixed inset-0 z-[100] bg-zinc-950 overflow-y-auto overflow-x-hidden no-scrollbar ${screenShake ? "screen-shake" : ""}`}
+        className={`fixed inset-0 z-[100] bg-zinc-950 overflow-y-auto overflow-x-hidden no-scrollbar ${screenShake ? "screen-shake" : ""} ${isLiteMode ? "lite-combat-view" : ""}`}
         style={{
           filter: hitStop
             ? "invert(0.1) contrast(200%) brightness(150%) blur(1px)"
@@ -2596,14 +2611,29 @@ export const CombatView: React.FC<Props> = ({
         <div className="absolute top-0 left-0 w-full h-[2px] bg-cinematic-cyan/50 shadow-[0_0_10px_#00f3ff] opacity-50 animate-[scan_6s_ease-in-out_infinite]"></div>
 
         <div className="flex flex-col sm:flex-row items-center sm:justify-between gap-4 mb-6 relative z-10 border-b border-cinematic-cyan/10 pb-6">
-          <div className="flex items-center gap-4 flex-shrink-0">
+          <div className="flex items-center gap-4 flex-shrink-0 w-full sm:w-auto relative">
             <div className="w-12 h-12 rounded-xl bg-cinematic-cyan/10 border border-cinematic-cyan/30 flex items-center justify-center text-cinematic-cyan shadow-[0_0_20px_rgba(0,243,255,0.2)]">
               <i className="fa-solid fa-satellite-dish text-2xl animate-pulse"></i>
             </div>
-            <div>
-              <h2 className="text-xl sm:text-2xl font-black font-mono text-transparent bg-clip-text bg-gradient-to-r from-white to-cinematic-cyan tracking-[0.3em] uppercase leading-none">
-                COMMAND CENTER
-              </h2>
+            <div className="flex-1">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                <h2 className="text-xl sm:text-2xl font-black font-mono text-transparent bg-clip-text bg-gradient-to-r from-white to-cinematic-cyan tracking-[0.3em] uppercase leading-none">
+                  COMMAND CENTER
+                </h2>
+                {isMobileEnv && (
+                  <button 
+                    onClick={toggleLiteMode}
+                    className={`self-start sm:self-auto text-[9px] font-mono px-2 py-0.5 rounded border transition-colors ${
+                      isLiteMode 
+                        ? 'bg-green-500/20 text-green-400 border-green-500/30' 
+                        : 'bg-zinc-800/50 text-zinc-400 border-zinc-700 hover:text-white'
+                    }`}
+                  >
+                     <i className={`fa-solid ${isLiteMode ? "fa-bolt" : "fa-leaf"} mr-1`}></i>
+                     Lite Mode {isLiteMode ? "ON" : "OFF"}
+                  </button>
+                )}
+              </div>
               <p className="text-[10px] sm:text-xs text-cinematic-cyan/60 font-mono tracking-widest mt-1.5 uppercase drop-shadow-[0_0_5px_rgba(0,243,255,0.3)]">
                 Tactical Operations & Radar
               </p>
@@ -2973,7 +3003,7 @@ export const CombatView: React.FC<Props> = ({
                 className="grid grid-cols-3 gap-6 sm:gap-12 relative transition-all z-10 w-full max-w-3xl mx-auto"
               >
                 <AnimatePresence>
-                  {damagePopups
+                  {!isLiteMode && damagePopups
                     .filter((p) => p.target === "squad")
                     .map((p) => (
                       <motion.div

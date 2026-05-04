@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 
 export interface DialogProps {
     isOpen: boolean;
@@ -12,8 +13,8 @@ export interface DialogProps {
 export const Dialog: React.FC<DialogProps> = ({ isOpen, title, message, type, onClose, onConfirm }) => {
     if (!isOpen) return null;
 
-    return (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+    return createPortal(
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose}></div>
             <div className="relative z-10 w-full max-w-sm bg-cinematic-900 border border-white/10 rounded-2xl p-6 shadow-2xl animate-pop-in text-center">
                 {type === 'alert' ? (
@@ -36,6 +37,7 @@ export const Dialog: React.FC<DialogProps> = ({ isOpen, title, message, type, on
                     )}
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };

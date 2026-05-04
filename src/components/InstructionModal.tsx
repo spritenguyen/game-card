@@ -73,6 +73,44 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                 </div>
                             </section>
 
+                            {/* Ver 0.1.0.16 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-cinematic-gold rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.16: Tối Ưu Z-Index và Portal HUD</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Hệ thống Portal rendering:</strong> Các hộp thoại lựa chọn thẻ bài (Selector Modal) trong Giao thức Tiến hóa (UR Forge) và Cường Hoá (Overclock) hiện được render tách biệt bằng `createPortal`, ngăn chặn triệt để lỗi xung đột/chồng chéo Z-Index UI khi bấm thêm thẻ.</p>
+                                    <p><strong className="text-white">● Dialog Overlay Patch:</strong> Sửa lỗi lớp màn xác nhận (`Dialog`) nằm dưới các thành phần nổi trong trò chơi, áp dụng `fixed/absolute` hợp lý cho chế độ Fullscreen Mobile/Desktop PC.</p>
+                                    <p><strong className="text-white">● Code Cleanup:</strong> Loại bỏ các import không sử dụng và tối ưu hóa React DOM rendering cho Giao thức Lai tạo.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 0.1.0.15 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-cinematic-gold rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.15: Thiết Lập Xác Nhận Lò Rèn</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Forge Security Upgrade:</strong> Bổ sung hộp thoại Xác Nhận (Dialog) in-game vào toàn bộ hệ thống Lai tạo (Chimera), Tiến hóa (UR Forge) và Cường Hoá (Overclock). Từ nay, người chơi không thể "bấm nhầm" gây mất thẻ hiến tế và DC.</p>
+                                    <p><strong className="text-white">● Stage Optimization:</strong> Viết lại định dạng lớp màng của khung hiển thị Trò chơi, sử dụng cấu trúc `game-stage` và `game-viewport` nhằm giải quyết vấn đề render Dialog cho PC/Android/iOS được thống nhất.</p>
+                                    <p><strong className="text-white">● Responsive Tab Layout:</strong> Tùy chỉnh padding và độ rộng khung hiển thị Forge để thích ứng linh hoạt hơn trên màn hình 16:9 và 9:16 mà không bị cắt rìa.</p>
+                                </div>
+                            </section>
+
+                            {/* Ver 0.1.0.14 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-cinematic-gold rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.14: Mobile Lite Mode</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Lite Mode (Chế độ Cơ Bản):</strong> Bổ sung thêm nút bật/tắt Lite Mode ngay trên khu vực COMMAND CENTER dành riêng cho thiết bị di động (Tự động bật nếu phát hiện là Android/iOS).</p>
+                                    <p><strong className="text-white">● Tối ưu hiệu suất:</strong> Chế độ mới sẽ bỏ qua việc render hàng chục Layer Text nổi (Damage Popups), loại bỏ đổ bóng động (`box-shadow`), làm mờ (`backdrop-filter`) và các hoạt cảnh CSS phức tạp giúp duy trì 60FPS cho thiết bị cấu hình thấp.</p>
+                                </div>
+                            </section>
+
                             {/* Ver 0.1.0.13 */}
                             <section className="space-y-3">
                                 <div className="flex items-center gap-2">

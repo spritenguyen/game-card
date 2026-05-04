@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Card, AppConfig } from '../types';
 import { FullCard } from '../components/FullCard';
 import { getFactionInfo, getRankIndex } from '../lib/gameLogic';
 import { generateAscensionFromAI, generateImageFromAi } from '../services/ai';
 import { MiniCard } from '../components/MiniCard';
+import { Dialog } from '../components/ui/Dialog';
 
 interface Props {
   config: AppConfig;
@@ -30,6 +32,7 @@ export const AscensionView: React.FC<Props> = ({ config, currency, modifyCurrenc
     
     // Modal state for selecting slots
     const [selectorTarget, setSelectorTarget] = useState<'core' | 'sac1' | 'sac2' | null>(null);
+    const [showConfirm, setShowConfirm] = useState(false);
 
     const DC_COST = 5000;
     const DUST_COST = 200;
@@ -206,7 +209,7 @@ export const AscensionView: React.FC<Props> = ({ config, currency, modifyCurrenc
                 {/* Execute Button */}
                 <div className="flex justify-center relative z-10">
                     <button 
-                        onClick={executeAscension} 
+                        onClick={() => setShowConfirm(true)} 
                         disabled={!canAscend || currency < DC_COST || (inventory.quantumDust || 0) < DUST_COST}
                         className={`w-full max-w-sm py-4 rounded-xl font-bold tracking-widest uppercase transition-all duration-300 shadow-[0_0_30px_rgba(255,184,0,0.2)] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-3 ${canAscend && !isGlobalProcessing ? 'bg-gradient-to-r from-cinematic-gold to-yellow-600 hover:from-yellow-500 hover:to-cinematic-gold text-black hover:scale-105' : 'bg-zinc-800 text-zinc-500'}`}
                     >   
@@ -225,8 +228,8 @@ export const AscensionView: React.FC<Props> = ({ config, currency, modifyCurrenc
             )}
 
             {/* Selector Modal */}
-            {selectorTarget && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {selectorTarget && createPortal(
+                <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setSelectorTarget(null)}></div>
                     <div className="relative z-10 w-full max-w-4xl max-h-[80vh] flex flex-col bg-cinematic-900 border border-white/10 rounded-2xl p-6 shadow-2xl">
                         <div className="flex justify-between items-center mb-6 shrink-0">
@@ -258,8 +261,18 @@ export const AscensionView: React.FC<Props> = ({ config, currency, modifyCurrenc
                             <button onClick={() => setSelectorTarget(null)} className="w-full py-3 bg-white/5 hover:bg-white/10 rounded-xl text-white font-bold tracking-widest uppercase text-[10px]">Hủy</button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
+
+            <Dialog
+                isOpen={showConfirm}
+                title="Xác Nhận Tiến Hóa"
+                message={`Bạn chuẩn bị tiến hóa Thẻ UR. Giao dịch này sẽ tiêu hao:<br/>- ${DC_COST} Data Credits<br/>- ${DUST_COST} Quantum Dust<br/>Cùng với Thẻ Gốc và 2 Tế Vật. Các thẻ này sẽ biến mất vĩnh viễn.`}
+                type="confirm"
+                onClose={() => setShowConfirm(false)}
+                onConfirm={executeAscension}
+            />
         </div>
     );
 };

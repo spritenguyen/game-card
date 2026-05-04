@@ -372,10 +372,11 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-cinematic-950 overflow-hidden flex flex-col sm:flex-row font-sans selection:bg-cinematic-cyan/30 selection:text-white relative text-gray-200">
-      {/* Noise & Glow overlay */}
-      <div className="fixed inset-0 z-40 noise-overlay pointer-events-none opacity-40 mix-blend-overlay"></div>
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" id="bgAmbient">
+    <div className="game-viewport text-gray-200">
+      <div className="game-stage flex flex-col sm:flex-row font-sans selection:bg-cinematic-cyan/30 selection:text-white">
+        {/* Noise & Glow overlay */}
+        <div className="absolute inset-0 z-40 noise-overlay pointer-events-none opacity-40 mix-blend-overlay"></div>
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" id="bgAmbient">
         {/* Dynamic ambient lights based on tab */}
         <div className={`absolute top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full blur-[140px] opacity-20 transform transition-colors duration-1000 ${
             activeTab === "combat" ? "bg-red-600" : 
@@ -389,7 +390,7 @@ export default function App() {
       </div>
 
       {/* Navigation (Sidebar Desktop / Bottom Bar Mobile) */}
-      <nav className={`fixed bottom-0 left-0 right-0 sm:relative z-40 bg-cinematic-900/90 backdrop-blur-2xl border-t sm:border-t-0 sm:border-r border-white/10 flex flex-row sm:flex-col justify-between sm:justify-start order-2 sm:order-1 shrink-0 h-[72px] sm:h-screen transition-all duration-500 ease-in-out pb-safe-offset-1 sm:pb-0 ${
+      <nav className={`absolute bottom-0 left-0 right-0 sm:relative z-40 bg-cinematic-900/90 backdrop-blur-2xl border-t sm:border-t-0 sm:border-r border-white/10 flex flex-row sm:flex-col justify-between sm:justify-start order-2 sm:order-1 shrink-0 h-[calc(72px+env(safe-area-inset-bottom))] sm:h-full transition-all duration-500 ease-in-out pb-[env(safe-area-inset-bottom)] sm:pb-0 ${
         isCombatActive 
           ? "h-0 opacity-0 pointer-events-none sm:w-0 sm:opacity-0 sm:-translate-x-full overflow-hidden" 
           : "sm:w-20 md:w-64"
@@ -691,7 +692,7 @@ export default function App() {
 
       {/* CARD MODAL */}
       {modalCardId && cards.find((c) => c.id === modalCardId) && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+        <div className="absolute inset-0 z-[70] flex items-center justify-center p-4">
           <div
             className="absolute inset-0 bg-black/95"
             onClick={() => setModalCardId(null)}
@@ -718,7 +719,7 @@ export default function App() {
           </button>
           <button
             onClick={() => setModalCardId(null)}
-            className="fixed top-2 right-2 sm:hidden z-50 text-white bg-red-900 w-10 h-10 rounded-full flex items-center justify-center border border-red-500 shadow-lg"
+            className="absolute top-2 right-2 sm:hidden z-50 text-white bg-red-900 w-10 h-10 rounded-full flex items-center justify-center border border-red-500 shadow-lg"
           >
             <i className="fa-solid fa-xmark text-xl"></i>
           </button>
@@ -737,16 +738,16 @@ export default function App() {
         onClose={() => setShowInstructions(false)}
       />
 
-      <div className="fixed bottom-4 left-4 z-40 pointer-events-none sm:hidden">
+      <div className="absolute bottom-[calc(80px+env(safe-area-inset-bottom))] left-4 z-40 pointer-events-none sm:hidden">
         <ApiMonitor isProcessing={isProcessing} />
       </div>
 
-      <div id="tactical-command-portal" className="fixed inset-0 pointer-events-none z-[150]"></div>
+      <div id="tactical-command-portal" className="absolute inset-0 pointer-events-none z-[150]"></div>
 
       {/* SELECTOR MODAL (HUD Style) */}
       {selectorTarget && (
         <div 
-          className="fixed inset-0 z-[80] flex items-center justify-center p-2 sm:p-6 lg:p-12"
+          className="absolute inset-0 z-[80] flex items-center justify-center p-2 sm:p-6 lg:p-12"
           onMouseDown={(e) => { if (e.target === e.currentTarget) setSelectorTarget(null); }}
         >
           <div className="absolute inset-0 bg-cinematic-950/90 backdrop-blur-2xl pointer-events-none"></div>
@@ -980,5 +981,6 @@ export default function App() {
         </div>
       )}
     </div>
+  </div>
   );
 }

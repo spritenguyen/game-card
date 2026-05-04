@@ -118,6 +118,50 @@ h1, h2, h3, .font-serif {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* Thay vì render toàn màn hình mất kiểm soát trên Ultrawide/Tablet, ta bọc Game Stage giới hạn tỷ lệ tỷ lệ tối đa */
+.game-viewport {
+  width: 100vw;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-cinematic-950);
+}
+
+.game-stage {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  background-color: var(--color-cinematic-950);
+  box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+/* Ràng buộc khung nhìn chuẩn 16:9 (mở rộng tối đa 21:9) trên PC để tránh HUD bị loãng */
+@media (min-width: 1024px) {
+  .game-stage {
+    max-width: clamp(1000px, calc(100dvh * 21 / 9), 1920px);
+    max-height: 100dvh;
+    border-left: 1px solid rgba(255,255,255,0.05);
+    border-right: 1px solid rgba(255,255,255,0.05);
+  }
+}
+
+/* Lite Combat Mode - Basic Graphics */
+.lite-combat-view * {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.lite-combat-view .animate-pulse,
+.lite-combat-view [class*="animate-[scan"] {
+  animation: none !important;
+  display: none !important; /* mostly aesthetic scanlines */
+}
+
 @media (max-width: 768px) {
   /* Tắt các hiệu ứng backdrop-filter siêu nặng trên di động (đặc biệt là iOS Safari và Android Chrome)
    * Việc này giúp duy trì 60 FPS trong CombatView */
