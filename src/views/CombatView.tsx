@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { Card, Boss, AppConfig } from "../types";
 import {
@@ -66,8 +66,10 @@ interface Props {
   squad: (Card | null)[];
   leaderId: string | null;
   setLeaderId: (id: string | null) => void;
-  enemySquad: (Boss | null)[];
-  setEnemySquad: (b: (Boss | null)[]) => void;
+  eliteEnemySquad: (Boss | null)[];
+  setEliteEnemySquad: (b: (Boss | null)[]) => void;
+  battlefieldEnemySquad: (Boss | null)[];
+  setBattlefieldEnemySquad: (b: (Boss | null)[]) => void;
   onOpenSquadSelector: (slot: number) => void;
   onClearSquadSlot: (slot: number) => void;
   onError: (msg: string) => void;
@@ -93,8 +95,10 @@ export const CombatView: React.FC<Props> = ({
   squad,
   leaderId,
   setLeaderId,
-  enemySquad,
-  setEnemySquad,
+  eliteEnemySquad,
+  setEliteEnemySquad,
+  battlefieldEnemySquad,
+  setBattlefieldEnemySquad,
   onOpenSquadSelector,
   onClearSquadSlot,
   onError,
@@ -105,10 +109,26 @@ export const CombatView: React.FC<Props> = ({
   setGlobalProcessing,
   onBattleStatusChange,
 }) => {
+  const [opTab, setOpTab] = useState<"battlefield" | "single_boss" | "world_boss">("single_boss");
+
+  const [localWorldBossSquad, setLocalWorldBossSquad] = useState<(Boss | null)[]>([null, null, null, null, null, null]);
+
+  // Derived squad based on active tab
+  const enemySquad = opTab === "world_boss" 
+    ? localWorldBossSquad 
+    : opTab === "battlefield" 
+      ? battlefieldEnemySquad 
+      : eliteEnemySquad;
+
+  const setEnemySquad = useCallback((newSquad: (Boss | null)[]) => {
+    if (opTab === "world_boss") setLocalWorldBossSquad(newSquad);
+    else if (opTab === "battlefield") setBattlefieldEnemySquad(newSquad);
+    else setEliteEnemySquad(newSquad);
+  }, [opTab, setLocalWorldBossSquad, setBattlefieldEnemySquad, setEliteEnemySquad]);
+
   const boss = enemySquad.find(e => e !== null) || null;
   const hasSSR = cards.some(c => c.cardClass === 'SSR' || c.cardClass === 'UR');
   const hasUR = cards.some(c => c.cardClass === 'UR');
-  const [opTab, setOpTab] = useState<"battlefield" | "single_boss" | "world_boss">("single_boss");
 
   const [worldBossState, setWorldBossState] = useState<any>(() => {
     const saved = localStorage.getItem("cineWorldBoss");
@@ -211,7 +231,7 @@ export const CombatView: React.FC<Props> = ({
               bossData.imageUrl = bossImg;
             } catch (e) {}
             setWorldBossState((p: any) => ({ ...p, boss: bossData }));
-            setEnemySquad([bossData, null, null, null, null, null]);
+            setLocalWorldBossSquad([bossData, null, null, null, null, null]);
           } catch {
              // Let user retry
           } finally {
@@ -220,8 +240,6 @@ export const CombatView: React.FC<Props> = ({
         };
         gen();
       }
-    } else {
-      setEnemySquad([null, null, null, null, null, null]);
     }
   }, [opTab, worldBossState.boss, worldBossState.level, config, setGlobalProcessing, setEnemySquad]);
 
@@ -2318,14 +2336,14 @@ export const CombatView: React.FC<Props> = ({
                 <div className="absolute -bottom-1 -right-1 bg-red-900 border border-red-500 text-white text-[7px] sm:text-[8px] font-bold px-1.5 py-0.5 rounded-full z-10">
                   {getTacticalLimit() - strikeUses}
                 </div>
-                <div className="absolute bottom-full mb-4 lg:bottom-auto lg:mb-0 lg:right-full lg:mr-4 top-auto lg:top-1/2 left-1/2 lg:left-auto -translate-x-1/2 lg:translate-x-0 lg:-translate-y-1/2 bg-black/90 border border-red-500/30 px-3 py-2 rounded pointer-events-none opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity flex flex-col items-center lg:items-end ">
-                  <div className="text-[10px] sm:text-xs font-bold text-red-500 mb-1 flex items-center gap-1 font-serif tracking-widest uppercase">
+                <div className="absolute bottom-full mb-4 lg:bottom-auto lg:mb-0 lg:right-full lg:mr-4 top-auto lg:top-1/2 right-0 lg:right-auto lg:left-auto lg:translate-x-0 lg:-translate-y-1/2 bg-black/90 border border-red-500/30 px-3 py-2 rounded pointer-events-none opacity-0 group-hover:opacity-100 whitespace-normal sm:whitespace-nowrap transition-opacity flex flex-col items-center lg:items-end w-[140px] sm:w-auto shadow-2xl">
+                  <div className="text-[10px] sm:text-xs font-bold text-red-500 mb-1 flex items-center gap-1 font-serif tracking-widest uppercase text-center lg:text-right">
                     Orbital Strike <i className="fa-solid fa-satellite"></i>
                   </div>
-                  <div className="text-[9px] text-zinc-400 font-mono uppercase tracking-widest">
+                  <div className="text-[9px] text-zinc-400 font-mono uppercase tracking-widest text-center lg:text-right">
                     -20% HP Boss
                   </div>
-                  <div className="text-[9px] text-red-400 font-mono mt-0.5">
+                  <div className="text-[9px] text-red-400 font-mono mt-0.5 text-center lg:text-right">
                     (Còn {getTacticalLimit() - strikeUses}/{getTacticalLimit()}{" "}
                     lượt)
                   </div>
@@ -2343,14 +2361,14 @@ export const CombatView: React.FC<Props> = ({
                 <div className="absolute -bottom-1 -right-1 bg-green-900 border border-green-500 text-white text-[7px] sm:text-[8px] font-bold px-1.5 py-0.5 rounded-full z-10">
                   {getTacticalLimit() - healUses}
                 </div>
-                <div className="absolute bottom-full mb-4 lg:bottom-auto lg:mb-0 lg:right-full lg:mr-4 top-auto lg:top-1/2 left-1/2 lg:left-auto -translate-x-1/2 lg:translate-x-0 lg:-translate-y-1/2 bg-black/90 border border-green-500/30 px-3 py-2 rounded pointer-events-none opacity-0 group-hover:opacity-100 whitespace-nowrap transition-opacity flex flex-col items-center lg:items-end ">
-                  <div className="text-[10px] sm:text-xs font-bold text-green-500 mb-1 flex items-center gap-1 font-serif tracking-widest uppercase">
+                <div className="absolute bottom-full mb-4 lg:bottom-auto lg:mb-0 lg:right-full lg:mr-4 top-auto lg:top-1/2 right-0 lg:right-auto lg:left-auto lg:translate-x-0 lg:-translate-y-1/2 bg-black/90 border border-green-500/30 px-3 py-2 rounded pointer-events-none opacity-0 group-hover:opacity-100 whitespace-normal sm:whitespace-nowrap transition-opacity flex flex-col items-center lg:items-end w-[140px] sm:w-auto shadow-2xl">
+                  <div className="text-[10px] sm:text-xs font-bold text-green-500 mb-1 flex items-center gap-1 font-serif tracking-widest uppercase text-center lg:text-right">
                     Emergency Repair <i className="fa-solid fa-kit-medical"></i>
                   </div>
-                  <div className="text-[9px] text-zinc-400 font-mono uppercase tracking-widest">
+                  <div className="text-[9px] text-zinc-400 font-mono uppercase tracking-widest text-center lg:text-right">
                     Phục hồi 30% Sinh Lực Đoàn
                   </div>
-                  <div className="text-[9px] text-green-400 font-mono mt-0.5">
+                  <div className="text-[9px] text-green-400 font-mono mt-0.5 text-center lg:text-right">
                     (Còn {getTacticalLimit() - healUses}/{getTacticalLimit()}{" "}
                     lượt)
                   </div>

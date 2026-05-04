@@ -75,11 +75,12 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                             <section className="space-y-3">
                                 <div className="flex items-center gap-2">
                                     <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-cinematic-gold rounded-full"></div>
-                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.6: Architectural Stability</h4>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.6: Combat Core Refactor</h4>
                                 </div>
                                 <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
-                                    <p><strong className="text-white">● Version Synchronization:</strong> Cập nhật mốc phiên bản hệ thống lên 0.1.0.6. Đồng bộ hóa toàn bộ các giao thức hiển thị và hằng số phiên bản trong nhân lõi.</p>
-                                    <p><strong className="text-white">● System Consistency:</strong> Đảm bảo tính nhất quán của dữ liệu phiên bản trên toàn bộ các phân hệ (Extract, Combat, Forge).</p>
+                                    <p><strong className="text-white">● Enemy Squad Separation:</strong> Tách biệt hoàn toàn trạng thái Enemy giữa các tab <span className="text-cinematic-cyan">Elite Target</span>, <span className="text-purple-400">Battlefield</span> và <span className="text-red-400">World Boss</span>. Kẻ địch tìm thấy ở mỗi tab sẽ được quản lý độc lập.</p>
+                                    <p><strong className="text-white">● Combat Persistence:</strong> Hostile (Kẻ địch) sau khi quét được sẽ luôn tồn tại cho đến khi bị tiêu diệt hoặc người chơi chủ động "Rút lui". Dữ liệu được lưu trữ an toàn ngay cả khi tải lại trang (F5) hoặc chuyển tab.</p>
+                                    <p><strong className="text-white">● Integrity Check:</strong> Khắc phục lỗi gán nhầm Boss thế giới sang các mục tiêu đơn lẻ, đảm bảo World Boss luôn vận hành theo cơ chế tích lũy sát thương riêng biệt.</p>
                                 </div>
                             </section>
 

@@ -50,8 +50,10 @@ export default function App() {
     setSquad,
     leaderId,
     setLeaderId,
-    enemySquad,
-    setEnemySquad,
+    eliteEnemySquad,
+    setEliteEnemySquad,
+    battlefieldEnemySquad,
+    setBattlefieldEnemySquad,
     fusionSlot1,
     setFusionSlot1,
     fusionSlot2,
@@ -567,8 +569,10 @@ export default function App() {
             squad={squad}
             leaderId={leaderId}
             setLeaderId={setLeaderId}
-            setEnemySquad={setEnemySquad}
-            enemySquad={enemySquad}
+            eliteEnemySquad={eliteEnemySquad}
+            setEliteEnemySquad={setEliteEnemySquad}
+            battlefieldEnemySquad={battlefieldEnemySquad}
+            setBattlefieldEnemySquad={setBattlefieldEnemySquad}
             onOpenSquadSelector={(s) =>
               setSelectorTarget(`squad${s + 1}` as any)
             }
