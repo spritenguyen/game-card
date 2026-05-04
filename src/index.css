@@ -118,3 +118,21 @@ h1, h2, h3, .font-serif {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+@media (max-width: 768px) {
+  /* Tắt các hiệu ứng backdrop-filter siêu nặng trên di động (đặc biệt là iOS Safari và Android Chrome)
+   * Việc này giúp duy trì 60 FPS trong CombatView */
+  [class*="backdrop-blur-"] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-color: rgba(3, 3, 5, 0.95) !important; /* Đổ nền tối thay cho kính mờ để không làm mất tương phản chữ */
+  }
+
+  /* Loại bỏ độ trễ 300ms khi touch trên Safari/Android */
+  button, 
+  [role="button"],
+  a,
+  .cursor-pointer {
+    touch-action: manipulation;
+  }
+}
+

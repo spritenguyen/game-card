@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
+const isMobileEnv = typeof window !== "undefined" && (window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
 import { createPortal } from "react-dom";
 import { Card, Boss, AppConfig } from "../types";
 import {
@@ -978,7 +979,7 @@ export const CombatView: React.FC<Props> = ({
           }
           if (minTicks === Infinity || minTicks < 0) break;
           
-          const steps = Math.min(10, Math.max(1, Math.floor(minTicks / 10)));
+          const steps = isMobileEnv ? 1 : Math.min(10, Math.max(1, Math.floor(minTicks / 10)));
           const tickPerStep = minTicks / steps;
           for (let step = 0; step < steps; step++) {
               for(let i=0; i<6; i++) {
@@ -987,7 +988,7 @@ export const CombatView: React.FC<Props> = ({
               }
               setDisplaySquadATB([...squadATB]);
               setDisplayEnemyATB([...enemyATB]);
-              await delay(200 / steps);
+              await delay(isMobileEnv ? 80 : 200 / steps);
           }
           continue;
       }
@@ -1743,7 +1744,7 @@ export const CombatView: React.FC<Props> = ({
                   <span><i className="fa-solid fa-heart"></i> {hp}</span>
               </div>
               <div className="h-[3px] bg-red-900/50 w-full rounded-full overflow-hidden relative">
-                  <div className="h-full bg-red-50 transition-all duration-300 absolute left-0 top-0 bottom-0 shadow-[0_0_5px_#fca5a5]" style={{ width: `${(hp / maxHp) * 100}%` }}></div>
+                  <div className={`h-full bg-red-50 transition-all duration-300 absolute left-0 top-0 bottom-0 ${isMobileEnv ? "" : "shadow-[0_0_5px_#fca5a5]"}`} style={{ width: `${(hp / maxHp) * 100}%` }}></div>
               </div>
               <div className="flex justify-between w-full mt-1 mb-[1px]">
                   <span className="text-[7px] text-blue-300"><i className="fa-solid fa-bolt"></i> {Math.floor(mana)}/{maxMana}</span>
@@ -1972,7 +1973,7 @@ export const CombatView: React.FC<Props> = ({
                     <span><i className="fa-solid fa-heart"></i> {displayCardHps[index]}</span>
                 </div>
                 <div className="h-[3px] bg-white/10 w-full rounded-full overflow-hidden relative">
-                    <div className="h-full bg-cinematic-cyan transition-all duration-300 absolute left-0 top-0 bottom-0 shadow-[0_0_5px_#00f3ff]" style={{ width: `${(displayCardHps[index] / (cardMaxHp[index] || 1)) * 100}%` }}></div>
+                    <div className={`h-full bg-cinematic-cyan transition-all duration-300 absolute left-0 top-0 bottom-0 ${isMobileEnv ? "" : "shadow-[0_0_5px_#00f3ff]"}`} style={{ width: `${(displayCardHps[index] / (cardMaxHp[index] || 1)) * 100}%` }}></div>
                     {displayShields[index] > 0 && (
                        <div className="h-full bg-blue-400 opacity-60 transition-all duration-300 absolute right-0 top-0 bottom-0 border-l border-white/30" style={{ width: `${Math.min(100, (displayShields[index] / (cardMaxHp[index] || 1)) * 100)}%` }}></div>
                     )}
@@ -2993,7 +2994,7 @@ export const CombatView: React.FC<Props> = ({
                           times: [0, 0.2, 0.7, 1],
                           ease: "easeOut",
                         }}
-                        className={`absolute left-1/2 top-1/4 -translate-x-1/2 flex flex-col items-center justify-center pointer-events-none z-[200] font-black ${p.colorClass || "text-red-500"} text-6xl sm:text-7xl whitespace-nowrap drop-shadow-[0_0_15px_rgba(220,38,38,0.8)]`}
+                        className={`absolute left-1/2 top-1/4 -translate-x-1/2 flex flex-col items-center justify-center pointer-events-none z-[200] font-black ${p.colorClass || "text-red-500"} text-6xl sm:text-7xl whitespace-nowrap ${isMobileEnv ? "drop-shadow-md" : "drop-shadow-[0_0_15px_rgba(220,38,38,0.8)]"}`}
                         style={{ willChange: 'transform, opacity, scale', WebkitTextStroke: "2px black" }}
                       >
                         <div className="flex items-center gap-2">

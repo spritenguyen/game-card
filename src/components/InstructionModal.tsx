@@ -73,6 +73,18 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                 </div>
                             </section>
 
+                            {/* Ver 0.1.0.13 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-cinematic-gold rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.13: ATB Logic Rewrite</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Hệ thống ATB mới:</strong> Tích hợp Active Time Battle với cơ chế nạp tốc độ, thêm Delay khi thanh hành động đầy giúp dễ theo dõi nhịp độ.</p>
+                                    <p><strong className="text-white">● Cân bằng Tốc độ:</strong> Thêm quy luật tính toán cụ thể cho từng loại quái/boss tùy thuộc vào HP, thuộc hệ và hệ nguyên tố.</p>
+                                </div>
+                            </section>
+
                             {/* Ver 0.1.0.12 */}
                             <section className="space-y-3">
                                 <div className="flex items-center gap-2">
