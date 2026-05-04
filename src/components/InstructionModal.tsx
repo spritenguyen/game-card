@@ -71,6 +71,18 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                 </div>
                             </section>
 
+                            {/* Ver 0.1.0.7 */}
+                            <section className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-4 w-1 bg-gradient-to-b from-cinematic-cyan to-cinematic-gold rounded-full"></div>
+                                    <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.7: Biometric Integrity Patch</h4>
+                                </div>
+                                <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
+                                    <p><strong className="text-white">● Gender Consistency Fix:</strong> Nâng cấp bộ nhận diện giới tính trong Giao thức Render. Đảm bảo thông tin giới tính (Male/Female) từ Blueprint luôn khớp chính xác với kết quả hình ảnh cuối cùng.</p>
+                                    <p><strong className="text-white">● Logical Prompt Enforcement:</strong> Tối ưu hóa logic sinh prompt, ép buộc AI tuân thủ nghiêm ngặt các đặc điểm nhận dạng sinh học của nhân vật trong quá trình trích xuất.</p>
+                                </div>
+                            </section>
+
                             {/* Ver 0.1.0.6 */}
                             <section className="space-y-3">
                                 <div className="flex items-center gap-2">
@@ -78,9 +90,9 @@ export const InstructionModal: React.FC<Props> = ({ isOpen, onClose }) => {
                                     <h4 className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-cinematic-gold font-mono uppercase tracking-widest">Version 0.1.0.6: Combat Core Refactor</h4>
                                 </div>
                                 <div className="bg-cinematic-900/40 min-h-[50px] p-4 rounded-xl border border-cinematic-gold/20 text-zinc-400 text-xs leading-relaxed space-y-1">
-                                    <p><strong className="text-white">● Enemy Squad Separation:</strong> Tách biệt hoàn toàn trạng thái Enemy giữa các tab <span className="text-cinematic-cyan">Elite Target</span>, <span className="text-purple-400">Battlefield</span> và <span className="text-red-400">World Boss</span>. Kẻ địch tìm thấy ở mỗi tab sẽ được quản lý độc lập.</p>
-                                    <p><strong className="text-white">● Combat Persistence:</strong> Hostile (Kẻ địch) sau khi quét được sẽ luôn tồn tại cho đến khi bị tiêu diệt hoặc người chơi chủ động "Rút lui". Dữ liệu được lưu trữ an toàn ngay cả khi tải lại trang (F5) hoặc chuyển tab.</p>
-                                    <p><strong className="text-white">● Integrity Check:</strong> Khắc phục lỗi gán nhầm Boss thế giới sang các mục tiêu đơn lẻ, đảm bảo World Boss luôn vận hành theo cơ chế tích lũy sát thương riêng biệt.</p>
+                                    <p><strong className="text-white">● Recruitment & Reshoot Fix:</strong> Khắc phục triệt để lỗi không phản hồi hoặc không tạo ảnh khi trích xuất thẻ và Photoshoot (Reshoot). Loại bỏ cơ chế cache cũ gây xung đột với các thẻ bài mới trích xuất.</p>
+                                    <p><strong className="text-white">● Material Standardization:</strong> Chuẩn hóa toàn bộ tên gọi vật phẩm và cơ chế phân rã thẻ (Dismantle) cho các cấp bậc SR trở lên.</p>
+                                    <p><strong className="text-white">● Combat Persistence:</strong> Tách biệt và duy trì trạng thái kẻ địch độc lập giữa các chế độ chơi.</p>
                                 </div>
                             </section>
 

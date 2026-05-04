@@ -405,7 +405,11 @@ export const CombatView: React.FC<Props> = ({
     difficulty: "normal" | "elite" | "nightmare",
     cost: number,
   ) => {
-    if (!modifyCurrency(-cost)) return;
+    if (currency < cost) {
+        return onAlert("Hệ Thống", `Không đủ Data Credits (Cần ${cost} DC).`);
+    }
+    
+    modifyCurrency(-cost);
     setGlobalProcessing(true);
     try {
       const bossData = await generateBossFromAI(sHp, sAtk, difficulty, config);
@@ -1396,7 +1400,7 @@ export const CombatView: React.FC<Props> = ({
         const dcReward = 1000 * worldBossState.level;
         const matReward = 10 * worldBossState.level;
         modifyCurrency(dcReward);
-        const randMat = ["TechNode", "ManaCrystal", "MutantCell", "LightCore", "DarkEssence"][Math.floor(Math.random()*5)];
+        const randMat = ["Tech Core", "Magic Core", "Mutant Core", "Light Core", "Dark Core"][Math.floor(Math.random()*5)];
         modifyInventory(0, 0, { [randMat]: matReward });
         addLog(`>>> CHIẾN THẮNG WORLD BOSS LEVEL ${worldBossState.level}! Nhận lượng lớn phần thưởng! <<<`, "font-bold text-lg text-green-400 my-4 uppercase text-center");
         onAlert(

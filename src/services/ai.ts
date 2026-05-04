@@ -204,9 +204,9 @@ export const generateCardFromAI = async (query: string, assignedRank: string, co
     const enforcedElement = rollElement();
     
     const sysPrompt = `Giám đốc Nghệ thuật AI. Trả về đúng schema JSON quy định. (TRẢ LỜI NGẮN GỌN, TRÁNH VƯỢT QUÁ GIỚI HẠN TOKEN)
-1. Nội suy 'gender', 'universe'. Faction BẮT BUỘC LÀ: '${enforcedFaction}'. Chiều cao/cân nặng tự nhiên. TRƯỜNG 'measurements' (số đo 3 vòng) BẮT BUỘC trả về ĐỊNH DẠNG SỐ "XX-XX-XX" (VD: 90-60-90).
+1. Xác định giới tính (gender) của nhân vật ('Male' hoặc 'Female'). Nội suy 'universe'. Faction BẮT BUỘC LÀ: '${enforcedFaction}'. Chiều cao/cân nặng tự nhiên. TRƯỜNG 'measurements' (số đo 3 vòng) BẮT BUỘC trả về ĐỊNH DẠNG SỐ "XX-XX-XX" (VD: 90-60-90).
 2. TRỌNG TÂM: Trường 'inspiredBy' PHẢI chứa TÊN CHÍNH XÁC của nhân vật gốc bằng Tiếng Anh.
-3. Trường 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH, NGẮN GỌN DƯỚI 50 TỪ, miêu tả trang phục, khuôn mặt.
+3. Trường 'visualDescription' BẮT BUỘC viết bằng TIẾNG ANH, NGẮN GỌN DƯỚI 50 TỪ, miêu tả trang phục, khuôn mặt và PHẢI PHÙ HỢP VỚI GIỚI TÍNH ĐÃ CHỌN.
 4. Hạng thẻ BẮT BUỘC là: ${assignedRank}.
 5. TẤT CẢ CÁC TRƯỜNG VĂN BẢN KHÁC (name, occupation, personality, lore, ultimateMove...) BẮT BUỘC VIẾT NGẮN GỌN DƯỚI 50 TỪ BẰNG NGÔN NGỮ: ${langStr}. Sinh ra ultimateStats cho ultimateMove với power (100-3000), cooldown (2-8), scaling ('150% ATK' hoặc '200% MATK'...), energyCost (50-200).
 6. Đặc tính Nguyên Tố BẮT BUỘC LÀ: '${enforcedElement}'.
@@ -406,17 +406,17 @@ Ultimate Move: ${card.ultimateMove}`;
 const renderCache = new Map<string, string>();
 const activeRenders = new Map<string, Promise<string>>();
 
-export const generateImageFromAi = async (data: any, config: AppConfig, overrideModel?: string): Promise<string> => {
+export const generateImageFromAi = async (data: any, config: AppConfig, overrideModel?: string, ignoreCache: boolean = false): Promise<string> => {
     // 1. Create a fingerprint based on physical attributes
-    const fingerprint = `${data.name}-${data.rank}-${data.faction}-${data.element}-${data.level}`;
+    const fingerprint = `${data.name}-${data.cardClass || data.rank || 'N'}-${data.faction}-${data.element}-${data.level || data.overclockLevel || 0}`;
 
-    // 2. Check early exit (already has URL)
-    if (data.imageUrl && (data.imageUrl.startsWith('data:image/') || data.imageUrl.startsWith('http'))) {
+    // 2. Check early exit (already has URL) - Skip if ignoring cache
+    if (!ignoreCache && data.imageUrl && (data.imageUrl.startsWith('data:image/') || data.imageUrl.startsWith('http'))) {
         return data.imageUrl;
     }
 
-    // 3. Check session cache
-    if (renderCache.has(fingerprint)) {
+    // 3. Check session cache - Skip if ignoring cache
+    if (!ignoreCache && renderCache.has(fingerprint)) {
         return renderCache.get(fingerprint)!;
     }
 
@@ -424,7 +424,7 @@ export const generateImageFromAi = async (data: any, config: AppConfig, override
     // Moved up to avoid triggering "AI Render (Khởi tạo)" API status prematurely
     const isBoss = data.hp && data.attack && !data.cardClass; // Boss detection
     let bossCacheKey = "";
-    if (isBoss) {
+    if (isBoss && !ignoreCache) {
         const threatLvlStr = data.threatLevel ? data.threatLevel.split(" ")[0].toLowerCase() : "alpha";
         bossCacheKey = `boss_img_pool_${data.faction}_${threatLvlStr}`.replace(/\s+/g, '_').toLowerCase();
         const cached = localStorage.getItem(bossCacheKey);
@@ -457,7 +457,12 @@ export const generateImageFromAi = async (data: any, config: AppConfig, override
 
             const likenessTarget = data.inspiredBy ? `(Explicit likeness: ${data.inspiredBy})` : "";
             const baseVisuals = data.visualDescription;
-            const genderTerm = data.gender?.toLowerCase().includes('nữ') ? 'female character' : (data.gender?.toLowerCase().includes('nam') ? 'male character' : 'character');
+            const g = data.gender?.toLowerCase() || '';
+            const genderTerm = (g.includes('nữ') || g.includes('female') || g.includes('girl') || g.includes('woman') || g === 'f') 
+                ? 'female character' 
+                : (g.includes('nam') || g.includes('male') || g.includes('boy') || g.includes('man') || g === 'm') 
+                    ? 'male character' 
+                    : 'character';
             const universeTerm = data.universe ? `from ${data.universe} universe` : 'cinematic style';
             let factionTheme = 'mutant, organic, bio-engineered, monstrous or natural power';
             if (data.faction === 'Tech') factionTheme = 'cyberpunk, sci-fi, neon, mechanical';

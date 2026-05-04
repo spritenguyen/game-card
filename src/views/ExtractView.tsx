@@ -53,7 +53,16 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
       }
 
       setGlobalProcessing(true);
-      if (cost > 0 && !modifyCurrency(-cost)) { setGlobalProcessing(false); return; }
+      
+      // Atomic-like check before proceeding
+      if (cost > 0 && currency < cost) {
+          onError(`Không đủ Data Credits (Yêu cầu ${cost} DC).`);
+          setGlobalProcessing(false);
+          return;
+      }
+
+      // Execute deduction
+      if (cost > 0) modifyCurrency(-cost);
       if (type === 'baseTicket') modifyInventory(-1, 0);
       if (type === 'eliteTicket') modifyInventory(0, -1);
       if (selectedCore && inventory.materials && inventory.materials[selectedCore] > 0) {

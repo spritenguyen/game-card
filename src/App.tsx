@@ -18,7 +18,7 @@ import { InstructionModal } from "./components/InstructionModal";
 import { Card } from "./types";
 import { ReshootDialog } from "./components/ReshootDialog";
 import { ApiMonitor } from "./components/ApiMonitor";
-import { getDismantleValue, getDismantleDustValue } from "./lib/gameLogic";
+import { getDismantleValue, getDismantleDustValue, getRankIndex } from "./lib/gameLogic";
 
 type Tab = "extract" | "forge" | "combat" | "missions" | "blackmarket" | "gallery";
 
@@ -216,8 +216,11 @@ export default function App() {
     handleConfirm(
       `Tổ chức Photoshoot mới cho <strong>${card.name}</strong>?<br>Model: <strong>${IMAGE_MODELS.find((m) => m.id === modelId)?.name || modelId}</strong><br>Phí Studio: <span class="text-red-400 font-bold">-50 DC</span>`,
       async () => {
-        if (!modifyCurrency(-50)) return;
-
+        if (currency < 50) {
+            return handleAlert("Lỗi", "Không đủ Data Credits.");
+        }
+        
+        modifyCurrency(-50);
         setReshootingCards((prev) => new Set(prev).add(card.id));
 
         try {
@@ -226,7 +229,7 @@ export default function App() {
           delete cardForAi.imageUrl;
           delete cardForAi.imageBlob;
 
-          const newImgUrl = await generateImageFromAi(cardForAi, config, modelId);
+          const newImgUrl = await generateImageFromAi(cardForAi, config, modelId, true);
           const cardToUpdate = { ...card };
           if (newImgUrl.startsWith("data:image")) {
             cardToUpdate.imageUrl = newImgUrl;
@@ -235,7 +238,11 @@ export default function App() {
             cardToUpdate.imageUrl = newImgUrl;
           }
           await updateCard(cardToUpdate);
-          handleAlert("Photoshoot hoàn tất", "Trang bìa mới đã được cập nhật.");
+          
+          // Ensure the local state is refreshed
+          setToast({ msg: "Đang lưu trữ dữ liệu ảnh mới...", type: "info" });
+          
+          handleAlert("Photoshoot hoàn tất", "Trang bìa mới đã được cập nhật thành công.");
         } catch (e) {
           modifyCurrency(50);
           handleAlert("Lỗi", "Sự cố tại Phim trường. Đã hoàn trả 50 DC.");
@@ -254,27 +261,76 @@ export default function App() {
     const c = cards.find((x) => x.id === cardId);
     if (!c) return;
     
-    const v = getDismantleValue(c.cardClass);
-    const dustVal = getDismantleDustValue(c.cardClass);
+    const rankIdx = getRankIndex(c.cardClass);
+    const dcVal = getDismantleValue(c.cardClass);
+    const baseDust = getDismantleDustValue(c.cardClass);
 
-    let confirmMsg = `Phân giải <strong>${c.name}</strong>?<br>Nhận: <span class="text-green-400 font-bold">+${v} DC</span>`;
-    if (dustVal > 0) {
-        confirmMsg += ` & <span class="text-purple-400 font-bold">+${dustVal} Dust</span>`;
+    let bonusItem: string | null = null;
+    let bonusAmount = 0;
+    let confirmMsg = `Phân giải <strong>${c.name}</strong>?<br>Nhận: <span class="text-green-400 font-bold">+${dcVal} DC</span>`;
+
+    // Roll for SR+ (rankIdx >= 2)
+    if (rankIdx >= 2) {
+      const roll = Math.random() * 100;
+      if (rankIdx === 2) { // SR
+        if (roll < 40) { // 40% chance for Shard
+          bonusItem = ["Fire Shard", "Water Shard", "Earth Shard", "Lightning Shard", "Wind Shard"][Math.floor(Math.random() * 5)];
+          bonusAmount = 1 + Math.floor(Math.random() * 2); // 1-2
+        } else {
+          bonusItem = "Quantum Dust";
+          bonusAmount = baseDust;
+        }
+      } else if (rankIdx === 3) { // SSR
+        if (roll < 60) { // 60% chance for Core
+          bonusItem = ["Tech Core", "Magic Core", "Mutant Core", "Light Core", "Dark Core"][Math.floor(Math.random() * 5)];
+          bonusAmount = 1;
+        } else {
+          bonusItem = "Quantum Dust";
+          bonusAmount = baseDust;
+        }
+      } else if (rankIdx === 4) { // UR
+        if (roll < 75) { // 75% chance for Cores
+          bonusItem = ["Tech Core", "Magic Core", "Mutant Core", "Light Core", "Dark Core"][Math.floor(Math.random() * 5)];
+          bonusAmount = 2;
+        } else {
+          bonusItem = "Quantum Dust";
+          bonusAmount = baseDust;
+        }
+      } else {
+         // Fallback just in case
+         bonusItem = "Quantum Dust";
+         bonusAmount = baseDust;
+      }
+    } else if (baseDust > 0) {
+      bonusItem = "Quantum Dust";
+      bonusAmount = baseDust;
+    }
+
+    if (bonusItem && bonusAmount > 0) {
+      const color = bonusItem.includes("Core") ? "text-cinematic-gold" : bonusItem.includes("Shard") ? "text-cinematic-cyan" : "text-purple-400";
+      confirmMsg += ` & <span class="${color} font-bold">+${bonusAmount} ${bonusItem}</span>`;
+      confirmMsg += `<br><span class="text-[10px] text-zinc-500 italic">(Dismantle SR+ has chance for bonus core/shard)</span>`;
     }
 
     handleConfirm(
       confirmMsg,
       async () => {
         await removeCard(cardId);
-        modifyCurrency(v);
-        if (dustVal > 0) {
-            modifyInventory(0, 0, {}, dustVal);
+        modifyCurrency(dcVal);
+        
+        let toastMsg = `Thu hồi +${dcVal} DC`;
+        
+        if (bonusItem && bonusAmount > 0) {
+          if (bonusItem === "Quantum Dust") {
+            modifyInventory(0, 0, {}, bonusAmount);
+            toastMsg += ` và +${bonusAmount} Dust`;
+          } else {
+            modifyInventory(0, 0, { [bonusItem]: bonusAmount });
+            toastMsg += ` và +${bonusAmount} ${bonusItem}`;
+          }
         }
         
-        let toastMsg = `Thu hồi +${v} DC`;
-        if (dustVal > 0) toastMsg += ` và +${dustVal} Dust`;
         setToast({ msg: toastMsg + '.', type: "success" });
-        
         setModalCardId(null);
       },
     );

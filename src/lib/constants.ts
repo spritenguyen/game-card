@@ -37,4 +37,4 @@ export const ELEMENTS = {
     'Neutral': { id: 'Neutral', name: 'NEUTRAL', icon: 'fa-atom', color: 'text-zinc-400', glow: 'shadow-[0_0_15px_rgba(161,161,170,0.4)]' }
 };
 
-export const APP_VERSION = '0.1.0.6';
+export const APP_VERSION = '0.1.0.7';

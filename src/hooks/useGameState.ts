@@ -48,10 +48,32 @@ export const useGameState = () => {
         if (stored) {
             try { 
                 const parsed = JSON.parse(stored);
+                const materials = parsed.materials || {};
+                
+                // DATA MIGRATION: Merge inconsistent keys
+                const merge = (oldKey: string, newKey: string) => {
+                    if (materials[oldKey] !== undefined) {
+                        materials[newKey] = (materials[newKey] || 0) + materials[oldKey];
+                        delete materials[oldKey];
+                    }
+                };
+                
+                merge('Lightcore', 'Light Core');
+                merge('Darkcore', 'Dark Core');
+                merge('Darkessence', 'Dark Core');
+                merge('DarkEssence', 'Dark Core');
+                merge('Magiccore', 'Magic Core');
+                merge('ManaCrystal', 'Magic Core');
+                merge('Techcore', 'Tech Core');
+                merge('TechNode', 'Tech Core');
+                merge('Mutantcore', 'Mutant Core');
+                merge('MutantCell', 'Mutant Core');
+                merge('LightCore', 'Light Core');
+
                 return {
                     baseTickets: parsed.baseTickets || 0,
                     eliteTickets: parsed.eliteTickets || 0,
-                    materials: parsed.materials || {},
+                    materials: materials,
                     quantumDust: parsed.quantumDust || 0
                 };
             } catch(e) {}
@@ -197,17 +219,11 @@ export const useGameState = () => {
     }, []);
 
     const modifyCurrency = useCallback((amount: number) => {
-        let success = false;
         setCurrency(prev => {
             const next = prev + amount;
-            if (next < 0) {
-                success = false;
-                return prev;
-            }
-            success = true;
+            if (next < 0) return prev;
             return next;
         });
-        return success;
     }, []);
 
     const hasEnoughCurrency = useCallback((amount: number) => {
