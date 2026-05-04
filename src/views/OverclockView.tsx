@@ -358,26 +358,39 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
           </div>
 
              {selectorTarget && createPortal(
-                <div className="fixed inset-0 z-[200] bg-zinc-950/90 backdrop-blur-3xl flex flex-col p-4 sm:p-8 overflow-y-auto">
-                    <div className="flex justify-between items-center mb-6 max-w-5xl mx-auto w-full">
-                        <h2 className="text-white font-bold text-lg uppercase tracking-widest">
-                             {selectorTarget.type === 'target' ? 'Chọn Thẻ UR (MỤC TIÊU)' : `Chọn Thẻ Tế (${selectorTarget.index !== undefined ? requiredSacrifices[selectorTarget.index].rank : 'SSR/SR'})`}
-                        </h2>
-                        <button onClick={() => setSelectorTarget(null)} className="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white">
-                            <i className="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-5xl mx-auto w-full pb-20">
-                        {cards.filter(c => selectorTarget.type === 'target' ? c.cardClass === 'UR' : (selectorTarget.index !== undefined ? c.cardClass === requiredSacrifices[selectorTarget.index].rank : false)).map(c => (
-                            <div key={c.id} onClick={() => handleSelectCard(c.id)} className={`cursor-pointer transform hover:scale-105 transition-transform ${targetSlot?.id === c.id || sacrificeSlots.some(s => s?.id === c.id) ? 'opacity-50 pointer-events-none' : ''}`}>
-                                <MiniCard card={c} />
+                <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setSelectorTarget(null)}></div>
+                    <div className="relative z-10 w-full max-w-4xl max-h-[80vh] flex flex-col bg-cinematic-900 border border-white/10 rounded-2xl p-6 shadow-2xl">
+                        <div className="flex justify-between items-center mb-6 shrink-0">
+                            <h2 className="text-white font-bold text-lg sm:text-xl uppercase tracking-widest font-serif flex items-center gap-3">
+                                Chọn Thẻ 
+                                <span className={selectorTarget.type === 'target' ? "text-cinematic-gold" : "text-red-500"}>
+                                    {selectorTarget.type === 'target' ? 'UR (Mục Tiêu)' : `Tế (${selectorTarget.index !== undefined ? requiredSacrifices[selectorTarget.index].rank : 'SSR/SR'})`}
+                                </span>
+                            </h2>
+                            <button onClick={() => setSelectorTarget(null)} className="w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors">
+                                <i className="fa-solid fa-xmark text-xl"></i>
+                            </button>
+                        </div>
+                        
+                        <div className="flex-1 overflow-y-auto min-h-[300px] pr-2 custom-scrollbar">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                {cards.filter(c => selectorTarget.type === 'target' ? c.cardClass === 'UR' : (selectorTarget.index !== undefined ? c.cardClass === requiredSacrifices[selectorTarget.index].rank : false)).map(c => (
+                                    <div key={c.id} onClick={() => handleSelectCard(c.id)} className={`cursor-pointer transform hover:scale-105 transition-transform ${targetSlot?.id === c.id || sacrificeSlots.some(s => s?.id === c.id) ? 'opacity-50 pointer-events-none' : ''}`}>
+                                        <MiniCard card={c} />
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                        {cards.filter(c => selectorTarget.type === 'target' ? c.cardClass === 'UR' : (selectorTarget.index !== undefined ? c.cardClass === requiredSacrifices[selectorTarget.index].rank : false)).length === 0 && (
-                            <div className="col-span-full py-12 text-center text-zinc-500 font-mono">
-                                Không tìm thấy thẻ {selectorTarget.type === 'target' ? 'UR' : (selectorTarget.index !== undefined ? requiredSacrifices[selectorTarget.index].rank : '')} nào phù hợp.
-                            </div>
-                        )}
+                            {cards.filter(c => selectorTarget.type === 'target' ? c.cardClass === 'UR' : (selectorTarget.index !== undefined ? c.cardClass === requiredSacrifices[selectorTarget.index].rank : false)).length === 0 && (
+                                <div className="py-12 text-center text-zinc-500 font-mono">
+                                    Không tìm thấy thẻ {selectorTarget.type === 'target' ? 'UR' : (selectorTarget.index !== undefined ? requiredSacrifices[selectorTarget.index].rank : '')} nào phù hợp.
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="mt-6 pt-4 border-t border-white/5 shrink-0">
+                            <button onClick={() => setSelectorTarget(null)} className="w-full py-3 bg-white/5 hover:bg-white/10 rounded-xl text-white font-bold tracking-widest uppercase text-[10px]">Hủy</button>
+                        </div>
                     </div>
                 </div>,
                 document.body
