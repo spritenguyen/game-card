@@ -171,25 +171,6 @@ h1, h2, h3, .font-serif {
     background-color: rgba(3, 3, 5, 0.95) !important; /* Đổ nền tối thay cho kính mờ để không làm mất tương phản chữ */
   }
 
-  /* Adaptive Performance / Feature Gating for Mobile Native Native Rendering */
-  .is-ios * {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-  
-  .is-ios [class*="animate-"], 
-  .is-ios [class*="transition-"] {
-    /* Optional: can reduce animation durations if needed, but primary crash vector is GPU memory */
-    will-change: auto !important; /* will-change có thể đẩy iOS cấp thêm quá nhiều GPU layer dẫn đến kill tab */
-  }
-  
-  .is-ios [class*="shadow-"],
-  .is-ios [style*="box-shadow"],
-  .is-ios [style*="filter"] {
-     box-shadow: none !important;
-     filter: none !important;
-  }
-
   /* Loại bỏ độ trễ 300ms khi touch trên Safari/Android */
   button, 
   [role="button"],

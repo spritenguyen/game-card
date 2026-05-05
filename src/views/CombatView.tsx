@@ -122,6 +122,7 @@ export const CombatView: React.FC<Props> = ({
     const newVal = !isLiteMode;
     setIsLiteMode(newVal);
     localStorage.setItem("liteCombatMode", String(newVal));
+    window.dispatchEvent(new Event("litemode-toggled"));
   };
 
   const [localWorldBossSquad, setLocalWorldBossSquad] = useState<(Boss | null)[]>([null, null, null, null, null, null]);
@@ -1716,7 +1717,7 @@ export const CombatView: React.FC<Props> = ({
           </div>
         )}
         {/* Elemental Magic Ring */}
-        {bossData.element && (
+        {bossData.element && !(isLiteMode || device.isIOS) && (
           <motion.div
             animate={{ rotate: -360 }}
             transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
@@ -1939,7 +1940,7 @@ export const CombatView: React.FC<Props> = ({
           </div>
         )}
         {/* Elemental Magic Ring */}
-        {card.element && (
+        {card.element && !(isLiteMode || device.isIOS) && (
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 10, repeat: Infinity, ease: "linear" }}

@@ -115,10 +115,31 @@ export default function App() {
     if (device.isMobile) document.body.classList.add('is-mobile');
     if (device.isPC) document.body.classList.add('is-pc');
     
+    // Automatically apply lite mode if saved or if on low end/mobile
+    const liteModeSaved = localStorage.getItem("liteCombatMode");
+    if (liteModeSaved === "true" || (device.isMobile && liteModeSaved !== "false")) {
+        document.body.classList.add('is-lite');
+    }
+    
     // Automatically collapse sidebar on mobile
     if (device.isMobile && window.innerWidth <= 768) {
         setIsSidebarCollapsed(true);
     }
+    
+    // Listen for storage changes from CombatView (cross-tab or same window if dispatched)
+    const handleStorage = () => {
+      const isLite = localStorage.getItem("liteCombatMode") === "true";
+      if (isLite) document.body.classList.add("is-lite");
+      else document.body.classList.remove("is-lite");
+    };
+    window.addEventListener("storage", handleStorage);
+    // Custom event for same-window toggle from CombatView
+    window.addEventListener("litemode-toggled", handleStorage);
+    
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener("litemode-toggled", handleStorage);
+    };
   }, []);
 
   useEffect(() => {
