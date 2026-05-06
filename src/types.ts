@@ -46,6 +46,14 @@ export interface Card {
   origin?: 'Extracted' | 'Forged';
   parents?: string[];
   overclockLevel?: number;
+  level?: number;
+  exp?: number;
+  trainingSession?: {
+    type: string;
+    startTime: number;
+    endTime: number;
+    expGain: number;
+  };
   imageUrl?: string;
   imageBlob?: Blob;
   timestamp?: number;

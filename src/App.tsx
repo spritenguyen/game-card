@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Icon } from './components/ui/Icon';
+import { motion, AnimatePresence } from "motion/react";
 import { useGameState } from "./hooks/useGameState";
 import { device } from "./lib/device";
 import { ExtractView } from "./views/ExtractView";
@@ -23,8 +24,9 @@ import { ApiMonitor } from "./components/ApiMonitor";
 import { getDismantleValue, getDismantleDustValue, getRankIndex } from "./lib/gameLogic";
 
 import { SkillsView } from "./views/SkillsView";
+import { TrainingCampView } from "./views/TrainingCampView";
 
-type Tab = "extract" | "forge" | "combat" | "missions" | "blackmarket" | "gallery" | "skills";
+type Tab = "extract" | "forge" | "combat" | "missions" | "training" | "blackmarket" | "gallery" | "skills";
 
 export default function App() {
   const {
@@ -449,12 +451,12 @@ export default function App() {
         </div>
 
         {/* Links */}
-        <div className="flex sm:flex-col w-full h-full sm:h-auto px-1 sm:px-3 py-1 sm:py-6 gap-0.5 sm:gap-2 justify-around sm:justify-start items-center sm:items-stretch relative">
+        <div className="flex sm:flex-col w-full h-full sm:h-auto px-0 sm:px-3 py-1 sm:py-6 gap-0 sm:gap-2 justify-between sm:justify-start items-center sm:items-stretch overflow-x-auto no-scrollbar scroll-smooth relative">
           {/* Active indicator for mobile */}
-          <div className="absolute top-0 h-[2px] bg-cinematic-cyan shadow-[0_0_15px_var(--color-cinematic-cyan)] sm:hidden transition-all duration-300 transition-position" 
+          <div className="absolute top-0 h-[2px] bg-cinematic-cyan shadow-[0_0_15px_var(--color-cinematic-cyan)] sm:hidden transition-all duration-300 ease-in-out" 
                style={{ 
-                 width: 'calc(100% / 6 - 8px)', 
-                 left: `calc(${['extract', 'forge', 'combat', 'missions', 'blackmarket', 'gallery'].indexOf(activeTab)} * (100% / 6) + 4px)`
+                 width: 'calc(100% / 7)', 
+                 left: `calc(${['extract', 'forge', 'combat', 'skills', 'missions', 'blackmarket', 'gallery'].indexOf(activeTab)} * (100% / 7))`
                }}
           ></div>
 
@@ -464,13 +466,14 @@ export default function App() {
             { id: "combat", icon: "Crosshair", label: "COMBAT" },
             { id: "skills", icon: "Activity", label: "SKILLS" },
             { id: "missions", icon: "SatelliteDish", label: "MISSIONS" },
+            { id: "training", icon: "Dumbbell", label: "TRAINING" },
             { id: "blackmarket", icon: "Store", label: "MARKET" },
             { id: "gallery", icon: "UserCircle", label: "ARCHIVE" }
           ].map((btn) => (
             <button
               key={btn.id}
               onClick={() => !isProcessing && setActiveTab(btn.id as Tab)}
-              className={`relative flex flex-col sm:flex-row items-center justify-center md:justify-start flex-1 sm:flex-none px-2 sm:px-4 py-2 sm:py-3.5 rounded-xl transition-all group overflow-hidden ${
+              className={`relative flex flex-col sm:flex-row items-center justify-center md:justify-start flex-1 sm:flex-none min-w-[50px] xs:min-w-[60px] sm:min-w-0 px-1 sm:px-4 py-2 sm:py-3.5 rounded-xl transition-all group overflow-hidden ${
                 activeTab === btn.id 
                   ? "text-white sm:bg-gradient-to-r sm:from-white/10 sm:to-transparent sm:border sm:border-white/10 sm:shadow-[inset_2px_0_0_0_var(--color-cinematic-cyan)]" 
                   : "text-zinc-500 hover:text-zinc-200 active:scale-95"
@@ -481,18 +484,18 @@ export default function App() {
               </div>
               
               {activeTab === btn.id && (
-                <div className="hidden sm:block absolute inset-0 bg-gradient-to-r from-cinematic-cyan/10 to-transparent opacity-50"></div>
+                <div className="hidden sm:block absolute inset-0 bg-gradient-to-r from-cinematic-cyan/10 to-transparent opacity-50 border-r-2 border-cinematic-cyan"></div>
               )}
               
-              <Icon name={btn.icon} className={`${btn.icon} text-xl sm:text-base md:w-6 transition-all duration-300 ${
+              <Icon name={btn.icon} className={`${btn.icon} text-lg shrink-0 sm:text-base md:w-6 transition-all duration-300 ${
                 activeTab === btn.id 
-                  ? "text-cinematic-cyan drop-shadow-[0_0_8px_rgba(0,243,255,0.6)] scale-110 sm:scale-100" 
+                  ? "text-cinematic-cyan drop-shadow-[0_0_8px_rgba(0,243,255,0.6)] scale-110 sm:scale-100 mb-0.5 sm:mb-0" 
                   : "group-hover:scale-110"
               }`} />
               
-              <span className={`mt-1 sm:mt-0 sm:ml-3 font-mono text-[8px] sm:text-[11px] font-bold tracking-widest sm:block ${
+              <span className={`mt-1 sm:mt-0 sm:ml-3 font-mono text-[7px] xs:text-[8px] sm:text-[11px] font-bold tracking-tighter xs:tracking-tight sm:tracking-widest sm:block ${
                 activeTab === btn.id ? "text-white" : "text-zinc-500"
-              } truncate max-w-full`}>
+              } truncate max-w-full leading-tight text-center sm:text-left`}>
                 {btn.label}
               </span>
 
@@ -538,7 +541,7 @@ export default function App() {
       </nav>
 
       {/* Main Content Area */}
-      <div className="relative z-20 flex-1 flex flex-col order-1 sm:order-2 h-screen w-full overflow-hidden pb-[72px] sm:pb-0">
+      <div className="relative z-20 flex-1 flex flex-col order-1 sm:order-2 h-screen w-full overflow-hidden pb-[calc(72px+env(safe-area-inset-bottom))] sm:pb-0">
         
         {/* Top HUD (Resources) */}
         <header className="w-full h-14 sm:h-16 border-b border-white/5 bg-cinematic-900/60 backdrop-blur-md flex items-center justify-between px-2 sm:px-6 shrink-0 relative z-[40] overflow-hidden">
@@ -608,7 +611,15 @@ export default function App() {
 
         {/* Main Tab Render */}
         <main className="flex-1 overflow-y-auto overflow-x-hidden no-scrollbar relative scroll-smooth p-2 sm:p-4 lg:p-6 w-full">
-            <div className="w-full h-full max-w-[1600px] mx-auto animate-fade-in">
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={activeTab}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="w-full h-full max-w-[1600px] mx-auto"
+              >
         {activeTab === "extract" && (
           <ExtractView
             config={config}
@@ -701,6 +712,19 @@ export default function App() {
                 refreshExpeditions={refreshExpeditions}
             />
         )}
+        
+        {activeTab === "training" && (
+            <TrainingCampView
+                cards={cards}
+                updateCard={updateCard}
+                onAlert={handleAlert}
+                inventory={inventory}
+                modifyInventory={modifyInventory}
+                isGlobalProcessing={isProcessing}
+                setGlobalProcessing={setIsProcessing}
+            />
+        )}
+        
         {activeTab === "blackmarket" && (
             <BlackMarketView
                 currency={currency}
@@ -723,7 +747,8 @@ export default function App() {
         {activeTab === "skills" && (
             <SkillsView />
         )}
-            </div>
+              </motion.div>
+            </AnimatePresence>
         </main>
       </div>
 

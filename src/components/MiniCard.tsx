@@ -69,6 +69,9 @@ export const MiniCard: React.FC<{
         <div className="absolute top-0 left-0 w-full p-1 sm:p-2 flex justify-between items-start z-10">
             <div className="flex flex-col gap-1 items-start">
                <span className={`text-[8px] sm:text-[9px] font-black ${badgeColor} px-1.5 py-0.5 rounded shadow-sm border border-black/20 tracking-tighter`}>{card.cardClass}</span>
+               {(card.level || 1) > 1 && (
+                  <span className="text-[7px] sm:text-[8px] font-black text-white bg-black/60 px-1 py-0.5 rounded shadow-sm border border-white/20 tracking-tighter">LV.{card.level}</span>
+               )}
                
                <div className="flex flex-col gap-1">
                   <div className="flex items-center justify-center bg-black/60 w-5 h-5 sm:w-6 sm:h-6 rounded border border-white/10 text-[8px] sm:text-[9px] text-zinc-400 shadow-lg">

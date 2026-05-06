@@ -8,11 +8,11 @@ export const getFactionInfo = (factionId: FactionType | string) => {
 
 export const getRankIndex = (classStr?: string): number => {
   if (!classStr) return 0;
-  const up = classStr.toUpperCase();
-  if (up.includes("UR") || up.includes("ULTRA")) return 4;
-  if (up.includes("SSR")) return 3;
-  if (up.includes("SR")) return 2;
-  if (up.includes("R")) return 1;
+  const up = classStr.toUpperCase().trim();
+  if (/\b(?:UR|ULTRA(?:\s*RARE)?)\b/.test(up)) return 4;
+  if (/\bSSR\b/.test(up)) return 3;
+  if (/\b(?:SR|SUPER(?:\s*RARE)?)\b/.test(up)) return 2;
+  if (/\b(?:R|RARE)\b/.test(up)) return 1;
   return 0;
 };
 
@@ -187,7 +187,7 @@ export const calculateCombatStats = (card: Card | null) => {
     );
     if (extracted) {
       const parts = extracted[0].split(/[-\./]/).map((n) => parseInt(n.trim()));
-      if (parts.length >= 3 && !isNaN(parts[0]))
+      if (parts.length >= 3 && !isNaN(parts[0]) && !isNaN(parts[1]) && !isNaN(parts[2]))
         avgMeas = (parts[0] + parts[1] + parts[2]) / 3;
     }
   }
@@ -289,6 +289,13 @@ export const calculateCombatStats = (card: Card | null) => {
       overMulti += card.overclockLevel * 0.1; // +10% per level
   }
   
+  let levelMulti = 1;
+  if (card.level && card.level > 1) {
+      levelMulti += (card.level - 1) * 0.05; // +5% per level
+  }
+  
+  const totalMulti = multi * overMulti * levelMulti;
+  
   let skillEffects = { hp_pct: 0, atk_pct: 0, def_pct: 0, speed_flat: 0 };
   try {
      const stored = localStorage.getItem('cineUnlockedSkills');
@@ -298,14 +305,14 @@ export const calculateCombatStats = (card: Card | null) => {
   } catch(e) {}
 
   return {
-    hp: Math.floor(baseHp * multi * overMulti * (1 + skillEffects.hp_pct)),
-    atk: Math.floor(Math.max(patkBase, matkBase) * multi * overMulti * (1 + skillEffects.atk_pct)), // Fallback for UI
-    patk: Math.floor(patkBase * multi * overMulti * (1 + skillEffects.atk_pct)),
-    matk: Math.floor(matkBase * multi * overMulti * (1 + skillEffects.atk_pct)),
-    def: Math.floor(defBase * multi * overMulti * (1 + skillEffects.def_pct)),
-    mdef: Math.floor(mdefBase * multi * overMulti * (1 + skillEffects.def_pct)),
-    res: Math.floor(resBase * multi * overMulti * (1 + skillEffects.def_pct)),
-    speed: Math.floor(speedBase * (1 + (multi - 1) * 0.1) * overMulti + skillEffects.speed_flat),
+    hp: Math.floor(baseHp * totalMulti * (1 + skillEffects.hp_pct)),
+    atk: Math.floor(Math.max(patkBase, matkBase) * totalMulti * (1 + skillEffects.atk_pct)), // Fallback for UI
+    patk: Math.floor(patkBase * totalMulti * (1 + skillEffects.atk_pct)),
+    matk: Math.floor(matkBase * totalMulti * (1 + skillEffects.atk_pct)),
+    def: Math.floor(defBase * totalMulti * (1 + skillEffects.def_pct)),
+    mdef: Math.floor(mdefBase * totalMulti * (1 + skillEffects.def_pct)),
+    res: Math.floor(resBase * totalMulti * (1 + skillEffects.def_pct)),
+    speed: Math.floor(speedBase * (1 + (totalMulti - 1) * 0.1) + skillEffects.speed_flat),
     elementalDmg,
     elementalRes,
   };
@@ -425,12 +432,16 @@ export const getComboStats = (squad: (Card | null)[]) => {
       activeSynergies.push("Hiệp Đồng Tác Chiến (+10% ATK)");
     }
 
-    const maxElementCount = Math.max(...Object.values(elementCounts));
-    if (maxElementCount >= 4 && !elements.includes("Neutral")) {
+    const elementCountsNoNeutral = { ...elementCounts };
+    delete elementCountsNoNeutral["Neutral"];
+    const maxElementCount = Object.keys(elementCountsNoNeutral).length > 0 
+      ? Math.max(...Object.values(elementCountsNoNeutral)) : 0;
+
+    if (maxElementCount >= 4) {
       synergyBonusAtk += 0.4;
       synergyBonusRes += 0.4;
       activeSynergies.push("Đại Cộng Hưởng Nguyên Tố (+40% ATK, +40% Kháng)");
-    } else if (maxElementCount === 3 && !elements.includes("Neutral")) {
+    } else if (maxElementCount === 3) {
       synergyBonusAtk += 0.3;
       synergyBonusRes += 0.3;
       activeSynergies.push("Cộng Hưởng Nguyên Tố (+30% ATK, +30% Kháng)");
@@ -519,7 +530,7 @@ export const getSquadDodgeRate = (squad: (Card | null)[]): number => {
 
 export const getFusionCost = (c1: Card | null, c2: Card | null): number => {
   if (!c1 || !c2) return 50;
-  const costMap = [10, 20, 40, 80, 0];
+  const costMap = [10, 20, 40, 80, 160];
   return (
     50 +
     costMap[getRankIndex(c1.cardClass)] +

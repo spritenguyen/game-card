@@ -9,13 +9,23 @@ export const Icon = ({ name, className }: { name?: string, className?: string })
   
   if (actualName.includes('fa-mars')) iconName = 'User';
   else if (actualName.includes('fa-venus')) iconName = 'User';
-  else if (actualName.includes('fa-camera')) iconName = 'Camera';
+  else if (actualName.includes('fa-box')) iconName = 'Box';
+  else if (actualName.includes('fa-boxes-stacked')) iconName = 'Boxes';
+  else if (actualName.includes('fa-map-location-dot') || actualName.includes('fa-map-location')) iconName = 'MapPinned';
+  else if (actualName.includes('fa-camera-viewfinder') || actualName.includes('fa-camera-retro') || actualName.includes('fa-camera')) iconName = 'Camera';
+  else if (actualName.includes('fa-shield-cat')) iconName = 'ShieldAlert';
+  else if (actualName.includes('fa-galactic-senate')) iconName = 'Landmark';
+  else if (actualName.includes('fa-street-view')) iconName = 'User';
+  else if (actualName.includes('fa-exchange-alt') || actualName.includes('fa-arrows-rotate')) iconName = 'RefreshCw';
+  else if (actualName.includes('fa-flask-vial') || actualName.includes('fa-flask')) iconName = 'FlaskConical';
+  else if (actualName.includes('fa-shoe-prints')) iconName = 'Footprints';
+  else if (actualName.includes('fa-universal-access') || actualName.includes('fa-universal')) iconName = 'Accessibility';
   else if (actualName.includes('fa-fingerprint')) iconName = 'Fingerprint';
   else if (actualName.includes('fa-earth-americas') || actualName.includes('fa-globe')) iconName = 'Globe';
   else if (actualName.includes('fa-galaxy')) iconName = 'Stars';
   else if (actualName.includes('fa-khanda')) iconName = 'Swords';
   else if (actualName.includes('fa-bolt')) iconName = 'Zap';
-  else if (actualName.includes('fa-id-card')) iconName = 'UserCircle';
+  else if (actualName.includes('fa-id-card')) iconName = 'CircleUser';
   else if (actualName.includes('fa-heart')) iconName = 'Heart';
   else if (actualName.includes('fa-hand-fist')) iconName = 'Frown';
   else if (actualName.includes('fa-wand-magic')) iconName = 'Wand2';
@@ -46,6 +56,9 @@ export const Icon = ({ name, className }: { name?: string, className?: string })
   else if (actualName.includes('fa-server')) iconName = 'Server';
   else if (actualName.includes('fa-atom')) iconName = 'Atom';
   else if (actualName.includes('fa-circle-notch') || actualName.includes('fa-spinner')) iconName = 'Loader2';
+  else if (actualName.includes('fa-circle-question')) iconName = 'CircleHelp';
+  else if (actualName.includes('fa-circle-exclamation')) iconName = 'CircleAlert';
+  else if (actualName.includes('fa-circle-info')) iconName = 'Info';
   else if (actualName.includes('fa-microchip')) iconName = 'Cpu';
   else if (actualName.includes('fa-chart-line')) iconName = 'LineChart';
   else if (actualName.includes('fa-lock')) iconName = 'Lock';
@@ -82,7 +95,7 @@ export const Icon = ({ name, className }: { name?: string, className?: string })
   else if (actualName.includes('fa-droplet')) iconName = 'Droplet';
   else if (actualName.includes('fa-leaf')) iconName = 'Leaf';
   else if (actualName.includes('fa-wind')) iconName = 'Wind';
-  else if (actualName.includes('fa-square-minus')) iconName = 'XSquare';
+  else if (actualName.includes('fa-square-minus')) iconName = 'SquareMinus';
   else if (actualName.includes('fa-wave-square')) iconName = 'Activity';
   else if (actualName.includes('fa-kit-medical')) iconName = 'BriefcaseMedical';
   else if (actualName.includes('fa-forward-fast')) iconName = 'FastForward';
@@ -97,8 +110,10 @@ export const Icon = ({ name, className }: { name?: string, className?: string })
   else if (actualName.includes('fa-tape')) iconName = 'Scissors';
   else if (actualName.includes('fa-gauge')) iconName = 'Gauge';
   else if (actualName.includes('fa-layer-group')) iconName = 'Layers';
-  else if (actualName.includes('fa-triangle-exclamation')) iconName = 'AlertTriangle';
-  else if (actualName.includes('fa-book-open')) iconName = 'BookOpen';
+  else if (actualName.includes('fa-triangle-exclamation')) iconName = 'TriangleAlert';
+  else if (actualName.includes('fa-book-open') || actualName.includes('fa-chalkboard')) iconName = 'BookOpen';
+  else if (actualName.includes('fa-person-running') || actualName.includes('fa-running')) iconName = 'Activity'; // or figure something else out
+  else if (actualName.includes('fa-chess-knight')) iconName = 'Swords';
   else if (actualName.includes('fa-sliders')) iconName = 'Sliders';
   else if (actualName.includes('fa-infinity')) iconName = 'Infinity';
   else if (actualName.includes('fa-scale-balanced')) iconName = 'Scale';
@@ -106,14 +121,17 @@ export const Icon = ({ name, className }: { name?: string, className?: string })
   // Capitalize properly
   iconName = iconName.charAt(0).toUpperCase() + iconName.slice(1);
 
-  if (['Vault', 'Castle', 'Asteroid', 'Zap', 'XSquare', 'ShieldHalf', 'Blank'].includes(iconName)) {
+  if (['Vault', 'Castle', 'Asteroid', 'Zap', 'ShieldHalf', 'Blank'].includes(iconName)) {
       if (iconName === 'Vault') iconName = 'Lock';
       if (iconName === 'Castle') iconName = 'Tent';
       if (iconName === 'Asteroid') iconName = 'Flame';
-      if (iconName === 'XSquare') iconName = 'XSquare';
   }
 
-  const Comp = (LucideIcons as any)[iconName] || (LucideIcons as any)[actualName] || LucideIcons.HelpCircle;
+  let Comp = (LucideIcons as any)[iconName] || (LucideIcons as any)[actualName];
+  if (!Comp) {
+    console.warn(`Icon not found: ${iconName} or ${actualName}`);
+    Comp = (LucideIcons as any).CircleHelp || (LucideIcons as any).HelpCircle;
+  }
   let s = 16;
   if (className?.includes('text-lg')) s = 18;
   if (className?.includes('text-xl')) s = 24;

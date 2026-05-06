@@ -292,20 +292,18 @@ export const FullCard: React.FC<{
                             {calculateUltimateStats(displayCard) && (
                                 <div className="grid grid-cols-2 gap-2 mt-2 pt-3 border-t border-cinematic-cyan/10 relative z-10">
                                     <div className="bg-black/40 p-2 rounded-lg border border-white/5">
-                                        <span className="text-[8px] text-zinc-500 uppercase font-mono block mb-0.5">Sức mạnh cơ bản (Power)</span>
+                                        <span className="text-[8px] text-zinc-500 uppercase font-mono block mb-0.5">Sức mạnh (Power)</span>
                                         <span className="text-xs text-white font-mono font-bold">{calculateUltimateStats(displayCard).power}</span>
                                     </div>
                                     <div className="bg-black/40 p-2 rounded-lg border border-white/5">
-                                        <span className="text-[8px] text-zinc-500 uppercase font-mono block mb-0.5">Tỉ lệ chuyển đổi (Scaling)</span>
-                                        <span className="text-xs text-cinematic-cyan font-mono font-bold">{calculateUltimateStats(displayCard).scaling}</span>
-                                    </div>
-                                    <div className="bg-black/40 p-2 rounded-lg border border-white/5">
-                                        <span className="text-[8px] text-zinc-500 uppercase font-mono block mb-0.5">Thời gian hồi (Cooldown)</span>
-                                        <span className="text-xs text-white font-mono font-bold">{calculateUltimateStats(displayCard).cooldown} lượt</span>
-                                    </div>
-                                    <div className="bg-black/40 p-2 rounded-lg border border-white/5">
-                                        <span className="text-[8px] text-zinc-500 uppercase font-mono block mb-0.5">Tiêu hao năng lượng (Cost)</span>
+                                        <span className="text-[8px] text-zinc-500 uppercase font-mono block mb-0.5">Tiêu hao (Cost)</span>
                                         <span className="text-xs text-yellow-400 font-mono font-bold">{calculateUltimateStats(displayCard).energyCost} MN</span>
+                                    </div>
+                                    <div className="bg-black/40 p-2 rounded-lg border border-white/5 col-span-2">
+                                        <span className="text-[8px] text-zinc-500 uppercase font-mono block mb-0.5">Mô tả (Effect)</span>
+                                        <span className="text-[11px] text-zinc-300 font-sans leading-relaxed">
+                                            Thi triển tuyệt kỹ {displayCard.element !== 'Neutral' ? `hệ ${displayCard.element} ` : ''}gây sát thương tỷ lệ với <span className="text-cinematic-cyan font-bold">{calculateUltimateStats(displayCard).scaling}</span> cho toàn bộ mục tiêu.
+                                        </span>
                                     </div>
                                 </div>
                             )}

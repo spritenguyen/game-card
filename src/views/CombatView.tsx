@@ -16,6 +16,7 @@ import {
 } from "../lib/gameLogic";
 import { generateBossFromAI, generateImageFromAi, generateDialogueFromAI } from "../services/ai";
 import { ELEMENTS } from "../lib/constants";
+import { BATTLEFIELD_SQUADS } from "../data/battlefieldSquads";
 import { getSkillEffects } from "../lib/skills";
 import { CombatLogPanel } from "../components/combat/CombatLogPanel";
 import { CombatHeader } from "../components/combat/CombatHeader";
@@ -168,11 +169,6 @@ export const CombatView: React.FC<Props> = ({
     return { boss: null, lastAttemptDate: new Date().toISOString().split("T")[0], attemptsToday: 0, level: 1 };
   });
 
-  const [towerState, setTowerState] = useState<{floor: number}>(() => {
-    const saved = localStorage.getItem("cineTower");
-    return saved ? JSON.parse(saved) : { floor: 1 };
-  });
-
   const [timeUntilReset, setTimeUntilReset] = useState("");
 
   useEffect(() => {
@@ -216,10 +212,6 @@ export const CombatView: React.FC<Props> = ({
   useEffect(() => {
     localStorage.setItem("cineWorldBoss", JSON.stringify(worldBossState));
   }, [worldBossState]);
-
-  useEffect(() => {
-    localStorage.setItem("cineTower", JSON.stringify(towerState));
-  }, [towerState]);
 
   useEffect(() => {
     if (opTab === "world_boss") {
@@ -805,110 +797,64 @@ export const CombatView: React.FC<Props> = ({
     }, 1200);
   };
 
-  const handleEnterTowerFloor = async () => {
-    const f = towerState.floor;
-    const cost = 100 + Math.floor((f - 1) / 5) * 50; // Cost increases over time
-    if (currency < cost) {
-      return onAlert("Hệ Thống", `Cần ${cost} DC để mở khóa Tầng ${f}.`);
+  const handleExecuteBattlefieldSquad = async (squadIndex: number) => {
+    const configData = BATTLEFIELD_SQUADS[squadIndex];
+    if (!configData) return;
+    
+    if (currency < configData.cost) {
+      return onAlert("Hệ Thống", `Cần ${configData.cost} DC để thách đấu đội hình này.`);
     }
     if (squadHp === 0) {
-      return onAlert("Hệ Thống", "Cần triển khai đội hình trước khi leo tháp!");
+      return onAlert("Hệ Thống", "Cần triển khai đội hình trước khi ra trận!");
     }
     
-    modifyCurrency(-cost);
+    modifyCurrency(-configData.cost);
     setGlobalProcessing(true);
     
     try {
-      const multiplier = Math.pow(1.1, f - 1);
+      // Clone the squad
+      const newSquad: (Boss | null)[] = configData.squad.map(e => e ? { ...e } : null);
+      setEnemySquad(newSquad);
       
-      const isMajorMilestone = f % 10 === 0;
-      const isMinorMilestone = f % 5 === 0;
-      
-      const bHp = Math.floor(12000 * multiplier);
-      const bAtk = Math.floor(600 * multiplier);
-      const bDef = Math.floor(150 * multiplier);
-      const bRes = Math.floor(150 * multiplier);
-      
-      const baseEnemy = await generateBossFromAI(bHp, bAtk, isMajorMilestone ? "nightmare" : "elite", config);
-      if (!["CyberCore", "Ethereal", "VoidBringer", "MechaMutant", "AstroNomad", "ArcaneWeaver"].includes(baseEnemy.faction)) {
-        baseEnemy.faction = ["CyberCore", "Ethereal", "VoidBringer", "MechaMutant", "AstroNomad", "ArcaneWeaver"][Math.floor(Math.random() * 5)];
-      }
-
-      baseEnemy.defense = bDef;
-      baseEnemy.resist = bRes;
-      
-      const numEnemies = isMajorMilestone ? 5 : isMinorMilestone ? 5 : Math.floor(Math.random() * 3) + 3; // 3 to 5 normal
-      let availableIndices = [0, 1, 2, 3, 4, 5];
-      for (let i = availableIndices.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [availableIndices[i], availableIndices[j]] = [availableIndices[j], availableIndices[i]];
-      }
-      const selectedIndices = availableIndices.slice(0, numEnemies);
-      
-      const newSquad: (Boss | null)[] = [null, null, null, null, null, null];
-      selectedIndices.forEach((idx, i) => {
-        const isVanguard = idx < 3;
-        const vTag = isVanguard ? "[VANGUARD] " : "";
-
-        if (isMajorMilestone && i === 0) {
-          // The true boss
-          newSquad[idx] = {
-            ...baseEnemy,
-            name: `${vTag}ABYSS LORD: ${baseEnemy.name}`,
-            hp: Math.floor(baseEnemy.hp * 2.5),
-            attack: Math.floor(baseEnemy.attack * 1.5),
-            threatLevel: "Nightmare"
+      // Request images concurrently for all enemies in the new squad
+      const imagePromises = newSquad.map(async (enemy, i) => {
+        if (!enemy) return null;
+        try {
+          const dummyCard = {
+            gender: "Unknown",
+            universe: enemy.universe,
+            faction: enemy.faction,
+            element: enemy.element,
+            hp: enemy.hp,
+            attack: enemy.attack,
+            threatLevel: enemy.threatLevel,
+            visualDescription: enemy.visualDescription,
           };
-        } else {
-           // Minions or Elites
-           const isElite = isMinorMilestone || (isMajorMilestone && i > 0);
-           newSquad[idx] = {
-             ...baseEnemy,
-             id: `${baseEnemy.id || Date.now()}-minion-${idx}`,
-             name: `${vTag}${baseEnemy.name.split(' ')[0]} ${isElite ? 'Elite' : 'Minion'}`,
-             hp: Math.floor(baseEnemy.hp * (isElite ? 1.0 : 0.6)),
-             attack: Math.floor(baseEnemy.attack * (isElite ? 1.0 : 0.7)),
-             threatLevel: isElite ? "Elite" : "Normal",
-             description: `Thuộc hạ tầng ${f} của tháp Abyssal.`
-           };
+          const imgUrl = await generateImageFromAi(dummyCard, config);
+          return { index: i, imgUrl };
+        } catch (e) {
+          return null;
         }
       });
       
-      setEnemySquad(newSquad);
+      const results = await Promise.all(imagePromises);
       
-      try {
-        const dummyCard = {
-          gender: "Unknown",
-          universe: baseEnemy.universe,
-          faction: baseEnemy.faction,
-          hp: baseEnemy.hp,
-          attack: baseEnemy.attack,
-          threatLevel: isMajorMilestone ? "Nightmare" : "Elite",
-          visualDescription: `Epic abyssal tower enemy. ${baseEnemy.visualDescription}`,
-        };
-        const bossImg = await generateImageFromAi(dummyCard, config);
-        
-        const updatedSquad = [...newSquad];
-        for (let i = 0; i < 6; i++) {
-           if (updatedSquad[i]) {
-              updatedSquad[i] = { ...updatedSquad[i]!, imageUrl: bossImg };
-           }
-        }
-        setEnemySquad(updatedSquad);
-      } catch (e) {}
-
-      const facInfo = getFactionInfo(baseEnemy.faction);
+      const updatedSquad = [...newSquad];
+      results.forEach(res => {
+         if (res && updatedSquad[res.index]) {
+             updatedSquad[res.index] = { ...updatedSquad[res.index]!, imageUrl: res.imgUrl };
+         }
+      });
+      
+      setEnemySquad(updatedSquad);
+      
       setLogs((prev) => [...prev, <div key={Date.now()} className="text-purple-400/80 mb-2 border-b border-purple-900/30 pb-2">
-          Abyssal Tower Tầng {f}: <strong>{numEnemies} Kẻ địch</strong> (Hệ:{" "}
-          <span className={facInfo.color}>
-            <Icon name={facInfo.icon} /> {facInfo.name}
-          </span>
-          ).
+          Battlefield: <strong>{configData.name}</strong> xuất hiện!
         </div>,
       ].slice(-40));
     } catch (e) {
-       console.error("AI Tower Gen Error:", e);
-       onAlert("Lỗi AI", "Có lỗi xảy ra khi tạo kẻ địch tầng tháp. Vui lòng thử lại.");
+       console.error("AI Squad Gen Error:", e);
+       onAlert("Lỗi AI", "Có lỗi xảy ra khi gọi đội hình. Vui lòng thử lại.");
     } finally {
        setGlobalProcessing(false);
     }
@@ -1772,33 +1718,16 @@ export const CombatView: React.FC<Props> = ({
       let finalRating = turn <= 3 ? "S" : turn <= 5 ? "A" : turn <= 10 ? "B" : "C";
       
       if (opTab === "battlefield") {
-        const f = towerState.floor;
-        const expGained = Math.floor(10 * Math.pow(1.1, f - 1));
-        const dcReward = Math.floor(50 * Math.pow(1.1, f - 1));
+        const totalDc = enemySquad.reduce((sum, b) => sum + (b ? b.reward : 0), 0) || 500;
+        const expGained = Math.floor(totalDc / 5);
         
-        let dcBonus = 0;
-        const matDrops: Record<string, number> = {};
         const parsedRewards: any[] = [];
         
-        if (f % 10 === 0) {
-          dcBonus = dcReward * 5;
-          const randMat = ["CyberCore Node", "Ethereal Crystal", "Void Cell", "Mecha Core", "Astro Essence", "Arcane Dust"][Math.floor(Math.random() * 5)];
-          const matAmt = f * 2;
-          matDrops[randMat] = matAmt;
-          parsedRewards.push({ label: "Tài Nguyên", value: `+${matAmt} ${randMat}`, colorClass: "text-purple-400" });
-        } else if (f % 5 === 0) {
-          dcBonus = dcReward * 2;
-        }
-        
-        const totalDc = dcReward + dcBonus;
         modifyCurrency(totalDc);
         gainExperience(expGained);
-        modifyInventory(0, 0, matDrops);
-        
-        setTowerState(p => ({ ...p, floor: p.floor + 1 }));
         
         addLog(
-          `>>> VƯỢT THÁP TẦNG ${f} THÀNH CÔNG! <<<`,
+          `>>> CHIẾN THẮNG BATTLEFIELD! <<<`,
           "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2",
         );
         parsedRewards.unshift({ label: "Kinh Nghiệm", value: `+${expGained} EXP`, colorClass: "text-blue-400" });
@@ -1806,12 +1735,12 @@ export const CombatView: React.FC<Props> = ({
         
         setCombatResult({
           status: "victory",
-          title: `Ghi Nhận Chinh Phục Tầng ${f}`,
+          title: `Trận chiến thành công`,
           rating: finalRating,
           turns: turn,
           exp: expGained,
           rewards: parsedRewards,
-          message: "Mục tiêu Abyssal bị triệt tiêu. Quân đội đang tiến lên tầng tiếp theo!"
+          message: "Toàn bộ kẻ địch đã bị triệt tiêu!"
         });
         setEnemySquad([null, null, null, null, null, null]);
       } else {
@@ -2095,10 +2024,10 @@ export const CombatView: React.FC<Props> = ({
                         <Icon name="fa-fort-awesome text-2xl text-purple-400" className="fa-fort-awesome text-2xl text-purple-400" />
                       </div>
                       <p className="text-sm sm:text-base text-purple-300 font-black tracking-[0.3em] font-mono">
-                        ABYSSAL TOWER
+                        BATTLEFIELD
                       </p>
-                      <p className="text-[10px] text-zinc-500 mt-2 font-mono max-w-md uppercase tracking-widest leading-relaxed">
-                        Endless Spire. Elite encounters every 5 floors. Nightmare encounters every 10 floors.
+                      <p className="text-[10px] text-zinc-500 mt-2 font-mono max-w-md uppercase tracking-widest leading-relaxed text-center">
+                        Engage predetermined enemy configurations. Earn DC and test your squad's synergy against Vanguard, Striker, and Support combinations.
                       </p>
                     </>
                   ) : opTab === "world_boss" ? (
@@ -2142,28 +2071,29 @@ export const CombatView: React.FC<Props> = ({
                     Establishing Satellite Uplink...
                   </div>
                 ) : opTab === "battlefield" ? (
-                  <div className="col-span-1 md:col-span-3 flex justify-center">
+                  BATTLEFIELD_SQUADS.map((squad, index) => (
                     <button 
-                       onClick={handleEnterTowerFloor}
+                       key={index}
+                       onClick={() => handleExecuteBattlefieldSquad(index)}
                        disabled={isGlobalProcessing}
-                       className="w-full max-w-md bg-zinc-950/80 border border-purple-500/30 hover:border-purple-400 p-6 rounded-2xl transition-all group flex flex-col items-center disabled:opacity-50 relative overflow-hidden shadow-[0_0_20px_rgba(168,85,247,0.1)] hover:shadow-[0_0_40px_rgba(168,85,247,0.3)] ring-1 ring-white/5"
+                       className="bg-zinc-950/80 border border-purple-500/30 hover:border-purple-400 p-4 sm:p-6 rounded-xl sm:rounded-2xl transition-all group flex flex-col items-center disabled:opacity-50 relative overflow-hidden shadow-[0_0_20px_rgba(168,85,247,0.1)] hover:shadow-[0_0_40px_rgba(168,85,247,0.3)] ring-1 ring-white/5"
                      >
                         <div className="absolute inset-0 bg-gradient-to-t from-purple-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                        <div className="text-purple-400 mb-4 text-3xl group-hover:scale-125 group-hover:rotate-12 transition-transform duration-500 relative z-10">
-                          <Icon name="fa-fort-awesome" className="fa-fort-awesome" />
+                        <div className="text-purple-400 mb-2 sm:mb-4 text-2xl sm:text-3xl group-hover:scale-125 group-hover:rotate-12 transition-transform duration-500 relative z-10 w-12 h-12 flex items-center justify-center rounded-full bg-purple-900/30">
+                          <Icon name={index === 0 ? "fa-fire" : index === 1 ? "fa-bolt" : "fa-wind"} />
                         </div>
-                        <div className="text-sm font-bold text-white tracking-[0.3em] font-mono uppercase mb-2 relative z-10 text-center">
-                           Initiate Floor {towerState.floor}
+                        <div className="text-[10px] sm:text-xs font-bold text-white tracking-widest font-mono uppercase mb-1 relative z-10 text-center">
+                           {squad.name}
                         </div>
-                        <div className="text-[10px] text-zinc-400 mb-4 relative z-10 text-center uppercase font-mono tracking-widest h-4">
-                           {towerState.floor % 10 === 0 ? <span className="text-red-400 font-bold bg-red-950/50 px-2 py-0.5 rounded border border-red-900"><Icon name="fa-skull mr-1" className="fa-skull mr-1" /> BOSS ENCOUNTER</span> : towerState.floor % 5 === 0 ? <span className="text-purple-400 font-bold bg-purple-950/50 px-2 py-0.5 rounded border border-purple-900"><Icon name="fa-ghost mr-1" className="fa-ghost mr-1" /> ELITE ENCOUNTER</span> : "Standard Engagement"}
+                        <div className="text-[8px] sm:text-[10px] text-zinc-400 mb-3 relative z-10 text-center uppercase font-mono tracking-widest leading-relaxed line-clamp-2 min-h-6">
+                           Mix of Vanguard, Striker & Support Roles
                         </div>
-                        <div className="text-[10px] font-mono text-cinematic-gold bg-black/80 px-4 py-2 rounded-lg border border-cinematic-gold/30 relative z-10 tracking-[0.2em] flex items-center gap-2">
+                        <div className="mt-auto text-[8px] sm:text-[10px] font-mono text-cinematic-gold bg-black/80 px-2 sm:px-4 py-1.5 sm:py-2 rounded-lg border border-cinematic-gold/30 relative z-10 tracking-[0.2em] flex items-center gap-2">
                            <Icon name="fa-coins" className="fa-coins" />
-                           <span className="font-bold">{100 + Math.floor((towerState.floor - 1) / 5) * 50} DC</span>
+                           <span className="font-bold">{squad.cost} DC</span>
                         </div>
                     </button>
-                  </div>
+                  ))
                 ) : (
                   <>
                     {/* Normal Scanner */}

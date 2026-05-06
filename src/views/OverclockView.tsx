@@ -37,7 +37,7 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
     };
 
     const getSuccessRate = (currentLvl: number) => {
-        const rates = [100, 80, 60, 40, 20];
+        const rates = [80, 60, 40, 20, 10];
         return rates[currentLvl] || 0;
     };
 
@@ -72,6 +72,7 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
         } else if (selectorTarget.type === 'sacrifice' && selectorTarget.index !== undefined) {
             const reqRank = requiredSacrifices[selectorTarget.index].rank;
             if (c.cardClass !== reqRank) return onError(`Khe này yêu cầu thẻ hệ ${reqRank}.`);
+            if (c.faction !== targetSlot?.faction) return onError(`Khe này yêu cầu thẻ cùng Tộc Hệ (${targetSlot?.faction}).`);
             if (targetSlot?.id === c.id) return onError("Không thể dùng thẻ mục tiêu làm vật tế.");
             if (sacrificeSlots.some(s => s?.id === c.id)) return onError("Bạn đã chọn thẻ này vào khe khác.");
             const newSlots = [...sacrificeSlots];
@@ -366,7 +367,7 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
                             <h2 className="text-white font-bold text-lg sm:text-xl uppercase tracking-widest font-serif flex items-center gap-3">
                                 Chọn Thẻ 
                                 <span className={selectorTarget.type === 'target' ? "text-cinematic-gold" : "text-red-500"}>
-                                    {selectorTarget.type === 'target' ? 'UR (Mục Tiêu)' : `Tế (${selectorTarget.index !== undefined ? requiredSacrifices[selectorTarget.index].rank : 'SSR/SR'})`}
+                                    {selectorTarget.type === 'target' ? 'UR (Mục Tiêu)' : `Tế (${selectorTarget.index !== undefined ? requiredSacrifices[selectorTarget.index].rank : 'SSR/SR'} - ${targetSlot?.faction})`}
                                 </span>
                             </h2>
                             <button onClick={() => setSelectorTarget(null)} className="w-8 h-8 flex items-center justify-center text-white/50 hover:text-white transition-colors">
@@ -376,15 +377,15 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
                         
                         <div className="flex-1 overflow-y-auto min-h-[300px] pr-2 custom-scrollbar">
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                                {cards.filter(c => selectorTarget.type === 'target' ? c.cardClass === 'UR' : (selectorTarget.index !== undefined ? c.cardClass === requiredSacrifices[selectorTarget.index].rank : false)).map(c => (
+                                {cards.filter(c => selectorTarget.type === 'target' ? c.cardClass === 'UR' : (selectorTarget.index !== undefined ? c.cardClass === requiredSacrifices[selectorTarget.index].rank && c.faction === targetSlot?.faction : false)).map(c => (
                                     <div key={c.id} onClick={() => handleSelectCard(c.id)} className={`cursor-pointer transform hover:scale-105 transition-transform ${targetSlot?.id === c.id || sacrificeSlots.some(s => s?.id === c.id) ? 'opacity-50 pointer-events-none' : ''}`}>
                                         <MiniCard card={c} />
                                     </div>
                                 ))}
                             </div>
-                            {cards.filter(c => selectorTarget.type === 'target' ? c.cardClass === 'UR' : (selectorTarget.index !== undefined ? c.cardClass === requiredSacrifices[selectorTarget.index].rank : false)).length === 0 && (
+                            {cards.filter(c => selectorTarget.type === 'target' ? c.cardClass === 'UR' : (selectorTarget.index !== undefined ? c.cardClass === requiredSacrifices[selectorTarget.index].rank && c.faction === targetSlot?.faction : false)).length === 0 && (
                                 <div className="py-12 text-center text-zinc-500 font-mono">
-                                    Không tìm thấy thẻ {selectorTarget.type === 'target' ? 'UR' : (selectorTarget.index !== undefined ? requiredSacrifices[selectorTarget.index].rank : '')} nào phù hợp.
+                                    Không tìm thấy thẻ {selectorTarget.type === 'target' ? 'UR' : (selectorTarget.index !== undefined ? `${requiredSacrifices[selectorTarget.index].rank} thuộc hệ ${targetSlot?.faction}` : '')} nào phù hợp.
                                 </div>
                             )}
                         </div>
