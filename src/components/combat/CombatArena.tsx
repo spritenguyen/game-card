@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { createPortal } from 'react-dom';
 import { Icon } from '../ui/Icon';
@@ -55,6 +55,8 @@ export const CombatArena: React.FC<CombatArenaProps> = ({
   renderEnemySlot,
   dodgeRate
 }) => {
+  const [showMobileSynergies, setShowMobileSynergies] = useState(false);
+
   if (!boss) return null;
   const bf = getFactionInfo(boss.faction);
   const be = boss.element ? (ELEMENTS as any)[boss.element] || null : null;
@@ -211,7 +213,7 @@ export const CombatArena: React.FC<CombatArenaProps> = ({
                 src={activeCutInCard.imageUrl}
                 alt="cut-in"
                 crossOrigin="anonymous"
-                className="h-[75vh] object-contain relative z-10  filter contrast-125"
+                className="max-h-[60vh] max-w-[90vw] md:max-w-3xl object-scale-down relative z-10 filter contrast-125 mx-auto"
                 initial={{ x: "-100vw", scale: 1.2, skewX: -10 }}
                 animate={{ x: 0, scale: 1, skewX: 0 }}
                 exit={{
@@ -352,7 +354,7 @@ export const CombatArena: React.FC<CombatArenaProps> = ({
                     </span>
                   </div>
                   {activeSynergies && activeSynergies.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-1">
+                    <div className="hidden sm:flex flex-wrap gap-1 mt-1">
                       {activeSynergies.map((syn, idx) => (
                         <div
                           key={idx}
@@ -466,6 +468,41 @@ export const CombatArena: React.FC<CombatArenaProps> = ({
                 </div>
               </div>
             </button>
+          </div>,
+          document.getElementById("tactical-command-portal")!
+        )}
+
+        {/* Mobile Synergies Portal (Left Edge) */}
+        {mounted && activeSynergies && activeSynergies.length > 0 && document.getElementById("tactical-command-portal") && createPortal(
+          <div className="fixed left-0 top-[50%] -translate-y-1/2 sm:hidden z-[200] flex flex-col pointer-events-auto">
+            <button
+              onClick={() => setShowMobileSynergies(!showMobileSynergies)}
+              className="w-8 h-10 bg-cinematic-cyan/20 border border-l-0 border-cinematic-cyan/50 rounded-r-lg flex items-center justify-center backdrop-blur-md shadow-[0_0_10px_rgba(0,243,255,0.2)]"
+            >
+              <Icon name="fa-link text-cinematic-cyan text-xs" className="fa-link text-cinematic-cyan text-xs" />
+            </button>
+            <AnimatePresence>
+              {showMobileSynergies && (
+                <motion.div 
+                  initial={{ opacity: 0, x: -20, scale: 0.9 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -20, scale: 0.9 }}
+                  className="absolute left-10 top-0 bg-black/90 border border-cinematic-cyan/30 p-2.5 rounded-lg flex flex-col gap-1.5 shadow-2xl w-[180px]"
+                >
+                  <div className="text-[10px] text-cinematic-cyan font-bold mb-0.5 border-b border-cinematic-cyan/30 pb-1.5 uppercase tracking-widest font-mono flex items-center justify-between">
+                    <span>Synergies</span>
+                    <button onClick={() => setShowMobileSynergies(false)} className="text-zinc-500 hover:text-white">
+                      <Icon name="fa-xmark" className="fa-xmark" />
+                    </button>
+                  </div>
+                  {activeSynergies.map((syn, idx) => (
+                    <div key={idx} className="bg-cinematic-cyan/10 border border-cinematic-cyan/30 text-cinematic-cyan text-[9px] px-2 py-1 rounded flex items-center gap-1.5 shadow-[0_0_5px_rgba(0,243,255,0.2)]">
+                      <Icon name="fa-link" className="fa-link shrink-0" /> <span className="truncate break-words whitespace-normal leading-tight">{syn}</span>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>,
           document.getElementById("tactical-command-portal")!
         )}

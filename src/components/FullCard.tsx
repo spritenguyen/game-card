@@ -1,9 +1,9 @@
-import React, { useState, createElement } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Icon } from './ui/Icon';
 
 
 import { Card } from '../types';
-import { getRankIndex, getFactionInfo, calculateCombatStats, getDismantleValue, getCardRole, calculateUltimateStats, getDismantleDustValue } from '../lib/gameLogic';
+import { getRankIndex, getFactionInfo, calculateCombatStats, getDismantleValue, getCardRole, calculateUltimateStats, getDismantleDustValue, getRoleIcon } from '../lib/gameLogic';
 import { AppConfig, ElementType } from '../types';
 import { ELEMENTS } from '../lib/constants';
 import { generateDialogueFromAI } from '../services/ai';
@@ -27,7 +27,7 @@ export const FullCard: React.FC<{
   const isUR = getRankIndex(card.cardClass) === 4;
   const facInfo = getFactionInfo(card.faction);
   
-  const [activeTab, setActiveTab] = useState<'combat' | 'element' | 'lore' | 'dialogue'>('combat');
+  const [activeTab, setActiveTab] = useState<'combat' | 'stats' | 'element' | 'lore' | 'dialogue'>('combat');
   const [dialogue, setDialogue] = useState<string | null>(null);
   const [isGeneratingDialogue, setIsGeneratingDialogue] = useState(false);
 
@@ -60,9 +60,12 @@ export const FullCard: React.FC<{
     const elementVisual = getElementVisuals(displayCard.element);
 
   return (
-    <div className={`w-full max-w-5xl rounded-2xl overflow-hidden flex flex-col md:flex-row relative group shadow-2xl mx-auto bg-black ${isUR ? 'border-2 border-cinematic-cyan/50 shadow-[0_0_30px_rgba(0,243,255,0.2)]' : 'border border-white/10'}`}>
+    <div className={`w-full max-w-5xl rounded-2xl overflow-hidden flex flex-col md:flex-row relative group shadow-2xl mx-auto bg-black ${isUR ? 'border-[3px] border-cinematic-cyan/60 shadow-[0_0_40px_rgba(0,243,255,0.3)]' : 'border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.8)]'}`}>
+      {/* Decorative inner noise overlay for premium feel */}
+      <div className="absolute inset-0 z-50 pointer-events-none opacity-[0.015] mix-blend-overlay noise-overlay"></div>
+      
       {/* Image Panel */}
-      <div className="relative w-full md:w-1/2 aspect-[4/5] md:aspect-auto md:min-h-[500px] lg:min-h-[600px] bg-[#111] overflow-hidden shrink-0">
+      <div className="relative w-full md:w-1/2 aspect-[4/5] md:aspect-auto md:min-h-[500px] lg:min-h-[600px] bg-[#050505] overflow-hidden shrink-0">
           <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-10"></div>
 
           
@@ -83,12 +86,12 @@ export const FullCard: React.FC<{
           <img src={card.imageUrl || undefined} alt={card.altText || card.name} title={card.altText} className={`absolute inset-0 w-full h-full object-cover z-[5] ${isLoadingImage || isReshooting ? 'opacity-30' : 'opacity-100'} transition-opacity duration-500`} crossOrigin="anonymous" />
 
           {/* Badges */}
-          <div className="absolute top-4 left-4 z-20 flex gap-2">
+             <div className="absolute top-4 left-4 z-20 flex gap-2">
              <div className={`text-sm font-bold tracking-widest uppercase ${isUR ? 'bg-cinematic-cyan text-black' : 'bg-cinematic-gold text-black'} px-3 py-1 rounded-sm shadow-xl`}>{card.cardClass}</div>
-             <div className={`text-xs font-mono font-bold px-2 py-1 rounded-sm border border-white/20 uppercase shadow-xl flex items-center justify-center
-                  ${getCardRole(card) === 'Vanguard' ? 'text-blue-400 bg-blue-950/80' : getCardRole(card) === 'Striker' ? 'text-orange-400 bg-orange-950/80' : getCardRole(card) === 'Sniper' ? 'text-yellow-400 bg-yellow-950/80' : getCardRole(card) === 'Weaver' ? 'text-purple-400 bg-purple-950/80' : getCardRole(card) === 'Aura' ? 'text-emerald-400 bg-emerald-950/80' : 'text-zinc-400 bg-zinc-950/80'}`}
+             <div className={`text-xs font-mono font-bold px-2 py-1 rounded-sm border border-white/20 uppercase shadow-xl flex items-center justify-center gap-1.5
+                  ${getCardRole(card) === 'Vanguard' ? 'text-blue-400 bg-blue-950/80' : getCardRole(card) === 'Striker' ? 'text-orange-400 bg-orange-950/80' : getCardRole(card) === 'Sniper' ? 'text-yellow-400 bg-yellow-950/80' : getCardRole(card) === 'Weaver' ? 'text-purple-400 bg-purple-950/80' : getCardRole(card) === 'Support' ? 'text-emerald-400 bg-emerald-950/80' : 'text-zinc-400 bg-zinc-950/80'}`}
              >
-                {getCardRole(card)}
+                <Icon name={getRoleIcon(getCardRole(card))} className={getRoleIcon(getCardRole(card))} /> {getCardRole(card)}
              </div>
           </div>
           <div className="absolute top-4 right-4 z-20">
@@ -122,31 +125,38 @@ export const FullCard: React.FC<{
                     )}
                 </div>
                 <div className="text-[10px] text-zinc-500 font-mono tracking-widest uppercase mb-1.5 flex items-center gap-2">
-                    <div className="w-4 h-[1px] bg-zinc-700"></div>
-                    <span className="text-zinc-300 font-bold">{getCardRole(displayCard)}</span>
+                    <div className="w-6 h-[2px] bg-gradient-to-r from-cinematic-gold to-transparent"></div>
+                    <span className="text-zinc-300 font-bold flex items-center gap-1"><Icon name={getRoleIcon(getCardRole(displayCard))} className={getRoleIcon(getCardRole(displayCard))} /> {getCardRole(displayCard)}</span>
                     <span className="opacity-50">|</span>
                     {displayCard.occupation}
                 </div>
-                <h2 className={`font-serif text-3xl md:text-4xl font-bold leading-tight  ${isUR ? 'text-transparent bg-clip-text bg-gradient-to-r from-cinematic-cyan to-blue-400' : 'text-transparent bg-clip-text bg-gradient-to-r from-white to-zinc-400'}`}>{displayCard.name}</h2>
+                <h2 className={`font-serif text-3xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight ${isUR ? 'text-transparent bg-clip-text bg-gradient-to-br from-cinematic-cyan via-white to-blue-500' : 'text-transparent bg-clip-text bg-gradient-to-br from-white via-zinc-200 to-zinc-500'}`}>{displayCard.name}</h2>
             </div>
             
-            {/* Navigation Tabs */}
-            <div className="mt-5 flex gap-4 border-b border-zinc-800/80 mb-4 shrink-0 overflow-x-auto no-scrollbar scroll-smooth">
+             {/* Navigation Tabs */}
+            <div className="mt-5 flex gap-5 border-b border-zinc-800/80 mb-4 shrink-0 overflow-x-auto no-scrollbar scroll-smooth relative">
+                <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
                 <button 
                   onClick={() => setActiveTab('combat')}
-                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'combat' ? 'text-white border-b-2 border-white _0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
+                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'combat' ? 'text-white border-b-2 border-white shadow-[0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
                 >
                   <Icon name="fa-khanda mr-1.5" className="fa-khanda mr-1.5" /> Thực Chiến
                 </button>
                 <button 
+                  onClick={() => setActiveTab('stats')}
+                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'stats' ? 'text-white border-b-2 border-white shadow-[0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
+                >
+                  <Icon name="fa-chart-simple mr-1.5" className="fa-chart-simple mr-1.5" /> Chỉ Số
+                </button>
+                <button 
                   onClick={() => setActiveTab('element')}
-                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'element' ? 'text-white border-b-2 border-white _0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
+                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'element' ? 'text-white border-b-2 border-white shadow-[0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
                 >
                   <Icon name="fa-bolt mr-1.5" className="fa-bolt mr-1.5" /> Nguyên Tố
                 </button>
                 <button 
                   onClick={() => setActiveTab('lore')}
-                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'lore' ? 'text-white border-b-2 border-white _0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
+                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'lore' ? 'text-white border-b-2 border-white shadow-[0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
                 >
                   <Icon name="fa-id-card mr-1.5" className="fa-id-card mr-1.5" /> Hồ Sơ
                 </button>
@@ -169,7 +179,7 @@ export const FullCard: React.FC<{
                           });
                       }
                   }}
-                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'dialogue' ? 'text-white border-b-2 border-white _0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
+                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'dialogue' ? 'text-white border-b-2 border-white shadow-[0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
                 >
                   <Icon name="fa-comment-dots mr-1.5" className="fa-comment-dots mr-1.5" /> Giao Tiếp
                 </button>
@@ -177,6 +187,38 @@ export const FullCard: React.FC<{
 
             {/* Tab Contents */}
             <div className="relative flex-1 overflow-y-auto pr-2 no-scrollbar min-h-0">
+               {activeTab === 'stats' && (
+                  <div className="flex flex-col gap-4 animate-fade-in">
+                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div className="bg-green-950/20 border border-green-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-2 text-green-500/10 text-4xl"><Icon name="fa-heart" className="fa-heart" /></div>
+                            <span className="text-[9px] text-green-500/70 font-mono uppercase mb-1 z-10">HP</span>
+                            <span className="font-mono text-2xl text-green-400 font-bold z-10">{calculateCombatStats(displayCard).hp}</span>
+                        </div>
+                        <div className="bg-red-950/20 border border-red-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-2 text-red-500/10 text-4xl"><Icon name="fa-burst" className="fa-burst" /></div>
+                            <span className="text-[9px] text-red-500/70 font-mono uppercase mb-1 z-10">ATK</span>
+                            <span className="font-mono text-2xl text-red-400 font-bold z-10">{calculateCombatStats(displayCard).atk}</span>
+                        </div>
+                        <div className="bg-slate-950/20 border border-slate-800/60 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-2 text-slate-500/10 text-4xl"><Icon name="fa-shield" className="fa-shield" /></div>
+                            <span className="text-[9px] text-slate-500/70 font-mono uppercase mb-1 z-10">DEF</span>
+                            <span className="font-mono text-2xl text-slate-300 font-bold z-10">{calculateCombatStats(displayCard).def}</span>
+                        </div>
+                        <div className="bg-indigo-950/20 border border-indigo-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-2 text-indigo-500/10 text-4xl"><Icon name="fa-shield-halved" className="fa-shield-halved" /></div>
+                            <span className="text-[9px] text-indigo-400/70 font-mono uppercase mb-1 z-10">M.RES</span>
+                            <span className="font-mono text-2xl text-indigo-300 font-bold z-10">{calculateCombatStats(displayCard).res}</span>
+                        </div>
+                        <div className="bg-yellow-950/20 border border-yellow-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-2 text-yellow-500/10 text-4xl"><Icon name="fa-bolt" className="fa-bolt" /></div>
+                            <span className="text-[9px] text-yellow-500/70 font-mono uppercase mb-1 z-10">SPEED</span>
+                            <span className="font-mono text-2xl text-yellow-400 font-bold z-10">{calculateCombatStats(displayCard).speed}</span>
+                        </div>
+                     </div>
+                  </div>
+               )}
+
                {activeTab === 'combat' && (
                   <div className="flex flex-col gap-4 animate-fade-in">
                      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
@@ -373,13 +415,13 @@ export const FullCard: React.FC<{
             </div>
 
             {/* Actions */}
-            <div className="mt-4 pt-4 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0 transition-all">
+            <div className="mt-4 pt-4 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 shrink-0 transition-all bg-black/20 rounded-xl px-4 py-3 -mx-2">
                 <div className="text-[10px] text-zinc-500 uppercase tracking-widest font-mono text-center sm:text-left flex items-center gap-3">
-                    <Icon name="fa-dna text-xl opacity-20" className="fa-dna text-xl opacity-20" />
+                    <Icon name="fa-dna text-2xl opacity-20 text-cinematic-cyan" className="fa-dna text-2xl opacity-20 text-cinematic-cyan" />
                     <div>
                         <span className="opacity-60 text-[8px] block leading-tight">ORIGIN: {displayCard.origin?.toUpperCase() || 'EXTRACTED'}</span>
                         <span className="opacity-60 block mt-0.5">Blueprint DNA:</span>
-                        <span className="text-zinc-300 font-bold block">{displayCard.inspiredBy}</span>
+                        <span className="text-zinc-300 font-bold block truncate max-w-[150px]" title={displayCard.inspiredBy}>{displayCard.inspiredBy}</span>
                     </div>
                 </div>
                 
@@ -391,21 +433,21 @@ export const FullCard: React.FC<{
                     {isModal && isSaved && !isLoadingImage && (
                         <>
                             {needsTranslation && onTranslate && (
-                               <button onClick={() => onTranslate(card.id)} className="bg-indigo-950/40 text-indigo-300 border border-indigo-500/20 hover:bg-indigo-900/60 px-4 py-2.5 rounded-lg flex items-center justify-center transition-colors shadow-inner" title="Translate"><Icon name="fa-language text-lg" className="fa-language text-lg" /></button>
+                               <button onClick={() => onTranslate(card.id)} className="bg-indigo-950/40 text-indigo-300 border border-indigo-500/20 hover:bg-indigo-900/60 hover:border-indigo-500/50 px-4 py-2.5 rounded-lg flex items-center justify-center transition-colors shadow-[inset_0_0_10px_rgba(0,0,0,0.5)]" title="Translate"><Icon name="fa-language text-lg" className="fa-language text-lg" /></button>
                             )}
                             {onGenerateAltText && !displayCard.altText && (
-                                <button onClick={() => onGenerateAltText(card.id)} disabled={isReshooting || isLoadingImage} className="bg-emerald-950/20 text-emerald-400 border border-emerald-900/30 hover:bg-emerald-900/40 px-3 py-2.5 rounded-lg text-[10px] tracking-widest uppercase disabled:opacity-50 transition-colors shadow-inner flex items-center gap-1.5" title="Generate Alt Text">
+                                <button onClick={() => onGenerateAltText(card.id)} disabled={isReshooting || isLoadingImage} className="bg-emerald-950/20 text-emerald-400 border border-emerald-900/30 hover:bg-emerald-900/40 hover:border-emerald-500/50 px-3 py-2.5 rounded-lg text-[10px] tracking-widest uppercase disabled:opacity-50 transition-colors shadow-inner flex items-center gap-1.5" title="Generate Alt Text">
                                     <Icon name="fa-universal-access" className="fa-universal-access" /> Alt
                                 </button>
                             )}
                             {onReshoot && (
-                                <button onClick={() => onReshoot(card.id)} disabled={isReshooting} className="bg-zinc-800/80 text-white border border-zinc-700 hover:bg-zinc-700 px-5 py-2.5 rounded-lg text-[10px] tracking-widest uppercase disabled:opacity-50 flex items-center gap-2 font-bold transition-colors active:scale-95 duration-200 shadow-inner"><Icon  className={`fa-camera ${isReshooting ? 'animate-pulse text-cinematic-cyan' : ''}`} /> {isReshooting ? 'Wait...' : 'Reshoot'}</button>
+                                <button onClick={() => onReshoot(card.id)} disabled={isReshooting} className="bg-zinc-800/80 text-white border border-zinc-600 hover:bg-zinc-700 hover:border-white/40 px-5 py-2.5 rounded-lg text-[10px] tracking-widest uppercase disabled:opacity-50 flex items-center gap-2 font-bold transition-all active:scale-95 duration-200 shadow-[0_0_15px_rgba(0,0,0,0.5)]"><Icon  className={`fa-camera ${isReshooting ? 'animate-pulse text-cinematic-cyan' : ''}`} /> {isReshooting ? 'Wait...' : 'Reshoot'}</button>
                             )}
                             {onDismantle && (
-                                <button onClick={() => onDismantle(card.id)} disabled={isReshooting} className="bg-red-950/20 text-red-400 border border-red-900/30 hover:bg-red-900/40 px-3 py-2.5 rounded-lg text-[10px] tracking-widest uppercase disabled:opacity-50 transition-colors shadow-inner flex flex-col items-center justify-center gap-0.5" title="Dismantle">
-                                    <div className="flex items-center gap-1"><Icon name="fa-recycle" className="fa-recycle" /> +{getDismantleValue(card.cardClass)}</div>
+                                <button onClick={() => onDismantle(card.id)} disabled={isReshooting} className="bg-red-950/20 text-red-400 border border-red-900/30 hover:bg-red-900/60 hover:border-red-500/50 px-4 py-2.5 rounded-lg text-[10px] tracking-widest uppercase disabled:opacity-50 transition-all shadow-inner flex flex-col items-center justify-center gap-0.5" title="Dismantle">
+                                    <div className="flex items-center gap-1 font-bold text-[11px]"><Icon name="fa-recycle" className="fa-recycle" /> +{getDismantleValue(card.cardClass)} DC</div>
                                     {getRankIndex(card.cardClass) >= 2 ? (
-                                        <div className="text-[8px] text-cinematic-gold/80 font-mono tracking-tighter animate-pulse"><Icon name="fa-sparkles text-[6px]" className="fa-sparkles text-[6px]" /> Material/Dust Chance</div>
+                                        <div className="text-[8px] text-cinematic-gold/80 font-mono tracking-tighter animate-pulse"><Icon name="fa-sparkles text-[6px]" className="fa-sparkles text-[6px]" /> RNG Bonus</div>
                                     ) : (
                                         getDismantleDustValue(card.cardClass) > 0 && <div className="text-[8px] text-purple-400/80 font-mono tracking-tighter">+{getDismantleDustValue(card.cardClass)} Dust</div>
                                     )}

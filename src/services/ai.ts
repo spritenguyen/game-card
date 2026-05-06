@@ -39,11 +39,12 @@ async function executeTextAI(prompt: string, sysPrompt: string, config: AppConfi
 MUST format response as raw JSON matching this structure:
 ${JSON.stringify({ ...Object.keys(schemaProps).reduce((a,k)=>({...a, [k]: schemaProps[k].type}), {}) })}`;
 
-    const geminiKeyToUse = (config.useCustomGemini && config.geminiKey) ? config.geminiKey.trim() : null;
+    const geminiKeyToUse = config.useCustomGemini ? (config.geminiKey?.trim() || process.env.GEMINI_API_KEY) : null;
     if (geminiKeyToUse && Date.now() > GlobalApiState.geminiBannedUntil) {
         try {
-            GlobalApiState.setCurrentApi("Gemini (Custom Key)");
-            GlobalApiState.notify("Đang dùng Gemini theo tùy chọn...");
+            const isSystemKey = !config.geminiKey?.trim();
+            GlobalApiState.setCurrentApi(isSystemKey ? "Gemini (System Key)" : "Gemini (Custom Key)");
+            GlobalApiState.notify(isSystemKey ? "Đang chạy Gemini API hệ thống..." : "Đang dùng Gemini theo tùy chọn...");
             const ai = new GoogleGenAI({ apiKey: geminiKeyToUse });
             const response = await ai.models.generateContent({
                 model: config.geminiModel || "gemini-3-flash-preview",
@@ -644,9 +645,9 @@ return renderPromise;
 };
 
 export const generateAltTextFromAI = async (card: Card, config: AppConfig): Promise<string> => {
-    const apiKey = (config.useCustomGemini && config.geminiKey) ? config.geminiKey.trim() : process.env.GEMINI_API_KEY;
+    const apiKey = config.useCustomGemini ? (config.geminiKey?.trim() || process.env.GEMINI_API_KEY) : null;
     if (!apiKey) {
-        throw new Error("Missing Gemini API Key for image analysis.");
+        throw new Error("Tính năng này yêu cầu bật Gemini Protocol trong Cài đặt.");
     }
 
     if (!card.imageUrl || !card.imageUrl.startsWith('data:image/')) {
@@ -699,28 +700,23 @@ export const generateDialogueFromAI = async (
     context: string,
     config: AppConfig
 ): Promise<string> => {
-    const apiKey = (config.useCustomGemini && config.geminiKey) ? config.geminiKey.trim() : process.env.GEMINI_API_KEY;
-    if (!apiKey) return "Cần kết nối module AI để giao tiếp (Missing API Key).";
-
-    const ai = new GoogleGenAI({ apiKey });
     const langStr = config.language === 'en' ? 'ENGLISH (Tiếng Anh)' : 'TIẾNG VIỆT';
-    const modelStr = config.geminiModel || "gemini-3-flash-preview";
-
-    try {
-        const response = await ai.models.generateContent({
-            model: modelStr,
-            contents: `Viết 1 câu thoại (bộc lộ tính cách) cho nhân vật tên: ${characterInfo.name}, faction: ${characterInfo.faction}.
+    
+    const sysPrompt = "Bạn là hệ thống viết lời thoại in-game. Chỉ trả về đúng 1 câu thoại trực tiếp của nhân vật, không có hành động hay mô tả dư thừa.";
+    const prompt = `Viết 1 câu thoại (bộc lộ tính cách) cho nhân vật tên: ${characterInfo.name}, faction: ${characterInfo.faction}.
 Đặc điểm: ${characterInfo.personality || 'Chiến binh quả cảm'}, ngoại hình: ${characterInfo.visualDescription || 'Bình thường'}.
 Bối cảnh: ${context}.
-Ngôn ngữ: ${langStr}. KHÔNG CÓ NGOẶC KÉP BAO QUANH, DƯỚI 15 TỪ.`,
-            config: {
-                systemInstruction: "Bạn là hệ thống viết lời thoại in-game. Chỉ trả về đúng 1 câu thoại trực tiếp của nhân vật, không có hành động hay mô tả dư thừa.",
-                temperature: 0.8
-            }
-        });
-        
-        if (response.text) {
-            return response.text.trim().replace(/^"|"$/g, '');
+Ngôn ngữ: ${langStr}. KHÔNG CÓ NGOẶC KÉP BAO QUANH, DƯỚI 15 TỪ.`;
+
+    const props = {
+        dialogue: { type: Type.STRING }
+    };
+    const req = ["dialogue"];
+
+    try {
+        const res = await executeTextAI(prompt, sysPrompt, config, props, req);
+        if (res && res.dialogue) {
+            return res.dialogue.trim().replace(/^"|"$/g, '');
         }
         return "Tín hiệu bị nhiễu...";
     } catch(e) {

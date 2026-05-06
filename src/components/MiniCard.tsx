@@ -1,9 +1,9 @@
-import React, { createElement } from 'react';
+import React from 'react';
 import { Icon } from './ui/Icon';
 
 
 import { Card } from '../types';
-import { getRankIndex, getFactionInfo, calculateCombatStats, getCardRole } from '../lib/gameLogic';
+import { getRankIndex, getFactionInfo, calculateCombatStats, getCardRole, getRoleIcon } from '../lib/gameLogic';
 
 
 
@@ -78,9 +78,9 @@ export const MiniCard: React.FC<{
                      {getGenderIcon(card.gender)}
                   </div>
                   <div className={`text-[6px] sm:text-[7px] font-mono font-bold px-1 py-0.5 rounded border border-white/10 uppercase shadow-lg text-center truncate tracking-tighter
-                     ${getCardRole(card) === 'Vanguard' ? 'text-blue-400 bg-blue-950/80' : getCardRole(card) === 'Striker' ? 'text-orange-400 bg-orange-950/80' : getCardRole(card) === 'Sniper' ? 'text-yellow-400 bg-yellow-950/80' : getCardRole(card) === 'Weaver' ? 'text-purple-400 bg-purple-950/80' : getCardRole(card) === 'Aura' ? 'text-emerald-400 bg-emerald-950/80' : 'text-zinc-400 bg-zinc-950/80'}`}
+                     ${getCardRole(card) === 'Vanguard' ? 'text-blue-400 bg-blue-950/80' : getCardRole(card) === 'Striker' ? 'text-orange-400 bg-orange-950/80' : getCardRole(card) === 'Sniper' ? 'text-yellow-400 bg-yellow-950/80' : getCardRole(card) === 'Weaver' ? 'text-purple-400 bg-purple-950/80' : getCardRole(card) === 'Support' ? 'text-emerald-400 bg-emerald-950/80' : 'text-zinc-400 bg-zinc-950/80'}`}
                   >
-                     {getCardRole(card)}
+                     <span className="flex items-center justify-center gap-0.5"><Icon name={getRoleIcon(getCardRole(card))} className={getRoleIcon(getCardRole(card))} /> {getCardRole(card)}</span>
                   </div>
                </div>
             </div>

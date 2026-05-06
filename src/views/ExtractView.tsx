@@ -27,6 +27,7 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
   const [selectedCore, setSelectedCore] = useState<string>('');
   const [card, setCard] = useState<Card | null>(null);
   const [isLoadingImage, setIsLoadingImage] = useState(false);
+  const [activeExtractType, setActiveExtractType] = useState<'dc' | 'baseTicket' | 'eliteTicket' | null>(null);
 
   const availableCores = Object.keys(inventory.materials || {}).filter(k => k.endsWith(' Core') && inventory.materials[k] > 0);
 
@@ -53,12 +54,14 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
           extractType = 'deep';
       }
 
+      setActiveExtractType(type);
       setGlobalProcessing(true);
       
       // Atomic-like check before proceeding
       if (cost > 0 && currency < cost) {
           onError(`Không đủ Data Credits (Yêu cầu ${cost} DC).`);
           setGlobalProcessing(false);
+          setActiveExtractType(null);
           return;
       }
 
@@ -110,6 +113,7 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
           }
       } finally {
           setGlobalProcessing(false);
+          setActiveExtractType(null);
       }
   };
 
@@ -196,66 +200,69 @@ export const ExtractView: React.FC<Props> = ({ config, currency, modifyCurrency,
         )}
         
         {/* Action Buttons */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 z-10">
+        <div className="grid grid-cols-3 gap-2 sm:gap-6 z-10 w-full max-w-[600px] mx-auto">
             <button 
                 onClick={() => handleExtract('dc')} 
                 disabled={isGlobalProcessing}
-                className="bg-zinc-950/60 border border-white/5 hover:border-cinematic-gold/40 text-white p-5 rounded-2xl transition-all hover:bg-cinematic-gold/5 flex flex-col items-center justify-center disabled:opacity-50 relative overflow-hidden group shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] ring-1 ring-white/5"
+                className="bg-zinc-950/60 border border-white/5 hover:border-cinematic-gold/40 text-white p-2 sm:p-5 rounded-xl sm:rounded-2xl transition-all hover:bg-cinematic-gold/5 flex flex-col items-center justify-start sm:justify-center disabled:opacity-50 relative overflow-hidden group shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] ring-1 ring-white/5"
             >
                 <div className="absolute inset-0 bg-gradient-to-t from-cinematic-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="w-12 h-12 rounded-full bg-black/60 flex items-center justify-center mb-3 border border-white/5 group-hover:border-cinematic-gold/30 group-hover:text-cinematic-gold transition-colors shadow-inner">
-                    <Icon name="fa-coins text-xl text-zinc-400 group-hover:text-cinematic-gold transition-colors" className="fa-coins text-xl text-zinc-400 group-hover:text-cinematic-gold transition-colors" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-black/60 flex items-center justify-center mb-1.5 sm:mb-3 border border-white/5 group-hover:border-cinematic-gold/30 group-hover:text-cinematic-gold transition-colors shadow-inner">
+                    <Icon name="fa-coins text-sm sm:text-xl text-zinc-400 group-hover:text-cinematic-gold transition-colors" className="fa-coins text-sm sm:text-xl text-zinc-400 group-hover:text-cinematic-gold transition-colors" />
                 </div>
-                <div className="text-[10px] uppercase font-mono tracking-[0.2em] mb-3 text-zinc-500 group-hover:text-cinematic-gold/80 transition-colors">Standard Extract</div>
-                <div className="font-bold flex items-center gap-2 text-sm sm:text-base font-mono bg-black/40 px-4 py-2 rounded-lg border border-white/5 group-hover:border-cinematic-gold/20">
+                <div className="text-[8px] sm:text-[10px] uppercase font-mono tracking-widest sm:tracking-[0.2em] mb-1.5 sm:mb-3 text-zinc-500 group-hover:text-cinematic-gold/80 transition-colors text-center w-full break-words">Standard Extract</div>
+                
+                <div className="font-bold flex flex-col sm:flex-row items-center gap-1 sm:gap-2 text-[10px] sm:text-base font-mono w-full bg-black/40 px-1 sm:px-4 py-1 sm:py-2 rounded-lg border border-white/5 group-hover:border-cinematic-gold/20 mt-auto">
                     <span className="text-cinematic-gold">200 DC</span>
-                    {isGlobalProcessing && <Icon name="fa-circle-notch animate-spin text-zinc-500 ml-2" className="fa-circle-notch animate-spin text-zinc-500 ml-2" />}
+                    {(isGlobalProcessing && activeExtractType === 'dc') && <Icon name="fa-circle-notch animate-spin text-zinc-500" className="fa-circle-notch animate-spin text-zinc-500" />}
                 </div>
             </button>
             <button 
                 onClick={() => handleExtract('baseTicket')} 
                 disabled={isGlobalProcessing || inventory.baseTickets < 1 || currency < 500}
-                className="bg-zinc-950/60 border border-white/5 hover:border-cinematic-cyan/40 text-white p-5 rounded-2xl transition-all hover:bg-cinematic-cyan/5 flex flex-col items-center justify-center disabled:opacity-40 disabled:hover:bg-zinc-950/60 disabled:hover:border-white/5 relative overflow-hidden group shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] ring-1 ring-white/5 cursor-pointer disabled:cursor-not-allowed"
+                className="bg-zinc-950/60 border border-white/5 hover:border-cinematic-cyan/40 text-white p-2 sm:p-5 rounded-xl sm:rounded-2xl transition-all hover:bg-cinematic-cyan/5 flex flex-col items-center justify-start sm:justify-center disabled:opacity-40 disabled:hover:bg-zinc-950/60 disabled:hover:border-white/5 relative overflow-hidden group shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] ring-1 ring-white/5 cursor-pointer disabled:cursor-not-allowed"
             >
                 <div className="absolute inset-0 bg-gradient-to-t from-cinematic-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="w-12 h-12 rounded-full bg-black/60 flex items-center justify-center mb-3 border border-white/5 group-hover:border-cinematic-cyan/30 group-hover:text-cinematic-cyan transition-colors shadow-inner">
-                    <Icon name="fa-ticket text-xl text-cinematic-cyan/70 group-hover:text-cinematic-cyan transition-colors" className="fa-ticket text-xl text-cinematic-cyan/70 group-hover:text-cinematic-cyan transition-colors" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-black/60 flex items-center justify-center mb-1.5 sm:mb-3 border border-white/5 group-hover:border-cinematic-cyan/30 group-hover:text-cinematic-cyan transition-colors shadow-inner">
+                    <Icon name="fa-ticket text-sm sm:text-xl text-cinematic-cyan/70 group-hover:text-cinematic-cyan transition-colors" className="fa-ticket text-sm sm:text-xl text-cinematic-cyan/70 group-hover:text-cinematic-cyan transition-colors" />
                 </div>
-                <div className="text-[10px] uppercase font-mono tracking-[0.2em] mb-3 text-zinc-500 group-hover:text-cinematic-cyan/80 transition-colors">Quick Extract</div>
+                <div className="text-[8px] sm:text-[10px] uppercase font-mono tracking-widest sm:tracking-[0.2em] mb-1.5 sm:mb-3 text-zinc-500 group-hover:text-cinematic-cyan/80 transition-colors text-center w-full break-words truncate">Quick Extract</div>
                 
-                <div className="font-bold flex flex-col items-center gap-1.5 text-xs sm:text-sm font-mono w-full bg-black/40 p-2 rounded-lg border border-white/5 group-hover:border-cinematic-cyan/20">
-                   <div className="flex items-center justify-between w-full px-2">
-                       <span className="text-zinc-500 text-[10px] tracking-widest">TICKET</span>
-                       <span className="flex items-center gap-1.5 text-cinematic-cyan text-[11px]"><Icon name="fa-ticket" className="fa-ticket" /> {inventory.baseTickets} <span className="text-zinc-600">/ 1</span></span>
+                <div className="font-bold flex flex-col items-center justify-center gap-0.5 sm:gap-1.5 text-[8px] sm:text-sm font-mono w-full bg-black/40 p-1 sm:p-2 rounded-lg border border-white/5 group-hover:border-cinematic-cyan/20 mt-auto">
+                   <div className="flex flex-col sm:flex-row items-center sm:justify-between w-full px-1 sm:px-2">
+                       <span className="hidden sm:inline text-zinc-500 text-[10px] tracking-widest">TICKET</span>
+                       <span className="flex items-center gap-1 sm:gap-1.5 text-cinematic-cyan text-[9px] sm:text-[11px]"><Icon name="fa-ticket" className="fa-ticket" /> {inventory.baseTickets} <span className="text-zinc-600 hidden sm:inline">/ 1</span></span>
                    </div>
-                   <div className="w-full h-[1px] bg-white/5 my-0.5"></div>
-                   <div className="flex items-center justify-between w-full px-2">
-                       <span className="text-zinc-500 text-[10px] tracking-widest">FEE</span>
-                       <span className="text-cinematic-gold text-[11px]">500 DC</span>
+                   <div className="w-full h-[1px] bg-white/5 my-0.5 hidden sm:block"></div>
+                   <div className="flex flex-col sm:flex-row items-center sm:justify-between w-full px-1 sm:px-2">
+                       <span className="hidden sm:inline text-zinc-500 text-[10px] tracking-widest">FEE</span>
+                       <span className="flex items-center gap-1 text-cinematic-gold text-[9px] sm:text-[11px]">500 DC</span>
                    </div>
+                   {(isGlobalProcessing && activeExtractType === 'baseTicket') && <Icon name="fa-circle-notch animate-spin text-zinc-500 mt-1" className="fa-circle-notch animate-spin text-zinc-500 mt-1" />}
                 </div>
             </button>
             <button 
                 onClick={() => handleExtract('eliteTicket')} 
                 disabled={isGlobalProcessing || inventory.eliteTickets < 1 || currency < 1000}
-                className="bg-zinc-950/60 border border-white/5 hover:border-purple-500/40 text-white p-5 rounded-2xl transition-all hover:bg-purple-500/5 flex flex-col items-center justify-center disabled:opacity-40 disabled:hover:bg-zinc-950/60 disabled:hover:border-white/5 relative overflow-hidden group shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] ring-1 ring-white/5 cursor-pointer disabled:cursor-not-allowed"
+                className="bg-zinc-950/60 border border-white/5 hover:border-purple-500/40 text-white p-2 sm:p-5 rounded-xl sm:rounded-2xl transition-all hover:bg-purple-500/5 flex flex-col items-center justify-start sm:justify-center disabled:opacity-40 disabled:hover:bg-zinc-950/60 disabled:hover:border-white/5 relative overflow-hidden group shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] ring-1 ring-white/5 cursor-pointer disabled:cursor-not-allowed"
             >
                 <div className="absolute inset-0 bg-gradient-to-t from-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <div className="w-12 h-12 rounded-full bg-black/60 flex items-center justify-center mb-3 border border-white/5 group-hover:border-purple-500/30 group-hover:text-purple-400 transition-colors shadow-inner">
-                    <Icon name="fa-star text-xl text-purple-400/70 group-hover:text-purple-400 transition-colors" className="fa-star text-xl text-purple-400/70 group-hover:text-purple-400 transition-colors" />
+                <div className="w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-black/60 flex items-center justify-center mb-1.5 sm:mb-3 border border-white/5 group-hover:border-purple-500/30 group-hover:text-purple-400 transition-colors shadow-inner">
+                    <Icon name="fa-star text-sm sm:text-xl text-purple-400/70 group-hover:text-purple-400 transition-colors" className="fa-star text-sm sm:text-xl text-purple-400/70 group-hover:text-purple-400 transition-colors" />
                 </div>
-                <div className="text-[10px] uppercase font-mono tracking-[0.2em] mb-3 text-zinc-500 group-hover:text-purple-400/80 transition-colors flex items-center gap-1.5"><Icon name="fa-shield-halved text-[8px]" className="fa-shield-halved text-[8px]" /> Deep Extract</div>
+                <div className="text-[8px] sm:text-[10px] uppercase font-mono tracking-widest sm:tracking-[0.2em] mb-1.5 sm:mb-3 text-zinc-500 group-hover:text-purple-400/80 transition-colors flex items-center gap-1 sm:gap-1.5 text-center w-full break-words truncate"><Icon name="fa-shield-halved text-[8px] hidden sm:inline" className="fa-shield-halved text-[8px] hidden sm:inline" />Deep Extract</div>
                 
-                <div className="font-bold flex flex-col items-center gap-1.5 text-xs sm:text-sm font-mono w-full bg-black/40 p-2 rounded-lg border border-white/5 group-hover:border-purple-500/20">
-                   <div className="flex items-center justify-between w-full px-2">
-                       <span className="text-zinc-500 text-[10px] tracking-widest">TICKET</span>
-                       <span className="flex items-center gap-1.5 text-purple-400 text-[11px]"><Icon name="fa-ticket" className="fa-ticket" /> {inventory.eliteTickets} <span className="text-zinc-600">/ 1</span></span>
+                <div className="font-bold flex flex-col items-center justify-center gap-0.5 sm:gap-1.5 text-[8px] sm:text-sm font-mono w-full bg-black/40 p-1 sm:p-2 rounded-lg border border-white/5 group-hover:border-purple-500/20 mt-auto">
+                   <div className="flex flex-col sm:flex-row items-center sm:justify-between w-full px-1 sm:px-2">
+                       <span className="hidden sm:inline text-zinc-500 text-[10px] tracking-widest">TICKET</span>
+                       <span className="flex items-center gap-1 sm:gap-1.5 text-purple-400 text-[9px] sm:text-[11px]"><Icon name="fa-ticket" className="fa-ticket" /> {inventory.eliteTickets} <span className="text-zinc-600 hidden sm:inline">/ 1</span></span>
                    </div>
-                   <div className="w-full h-[1px] bg-white/5 my-0.5"></div>
-                   <div className="flex items-center justify-between w-full px-2">
-                       <span className="text-zinc-500 text-[10px] tracking-widest">FEE</span>
-                       <span className="text-cinematic-gold text-[11px]">1000 DC</span>
+                   <div className="w-full h-[1px] bg-white/5 my-0.5 hidden sm:block"></div>
+                   <div className="flex flex-col sm:flex-row items-center sm:justify-between w-full px-1 sm:px-2">
+                       <span className="hidden sm:inline text-zinc-500 text-[10px] tracking-widest">FEE</span>
+                       <span className="flex items-center gap-1 text-cinematic-gold text-[9px] sm:text-[11px]">1000 DC</span>
                    </div>
+                   {(isGlobalProcessing && activeExtractType === 'eliteTicket') && <Icon name="fa-circle-notch animate-spin text-zinc-500 mt-1" className="fa-circle-notch animate-spin text-zinc-500 mt-1" />}
                 </div>
             </button>
         </div>

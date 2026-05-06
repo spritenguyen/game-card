@@ -452,13 +452,6 @@ export default function App() {
 
         {/* Links */}
         <div className="flex sm:flex-col w-full h-full sm:h-auto px-0 sm:px-3 py-1 sm:py-6 gap-0 sm:gap-2 justify-between sm:justify-start items-center sm:items-stretch overflow-x-auto no-scrollbar scroll-smooth relative">
-          {/* Active indicator for mobile */}
-          <div className="absolute top-0 h-[2px] bg-cinematic-cyan shadow-[0_0_15px_var(--color-cinematic-cyan)] sm:hidden transition-all duration-300 ease-in-out" 
-               style={{ 
-                 width: 'calc(100% / 7)', 
-                 left: `calc(${['extract', 'forge', 'combat', 'skills', 'missions', 'blackmarket', 'gallery'].indexOf(activeTab)} * (100% / 7))`
-               }}
-          ></div>
 
           {[
             { id: "extract", icon: "Dna", label: "RECRUIT" },
@@ -960,7 +953,7 @@ export default function App() {
                <div className="flex items-center justify-between p-2 bg-black/30 rounded-lg border border-white/5">
                   <div className="flex flex-col">
                     <span className="text-[10px] text-white font-mono uppercase tracking-wider">Gemini Protocol</span>
-                    <span className="text-[8px] text-zinc-500 font-mono">Use custom API key for logic & vision</span>
+                    <span className="text-[8px] text-zinc-500 font-mono">Cho phép sử dụng thuật toán thông minh từ Gemini</span>
                   </div>
                   <button 
                     onClick={() => setTempConfig({ ...tempConfig, useCustomGemini: !tempConfig.useCustomGemini })}

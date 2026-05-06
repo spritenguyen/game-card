@@ -1,7 +1,7 @@
 export type CardRank = 'N' | 'R' | 'SR' | 'SSR' | 'UR';
 export type FactionType = 'CyberCore' | 'Ethereal' | 'VoidBringer' | 'MechaMutant' | 'AstroNomad' | 'ArcaneWeaver';
 export type ElementType = 'Fire' | 'Water' | 'Earth' | 'Lightning' | 'Wind' | 'Neutral';
-export type CardRole = 'Vanguard' | 'Striker' | 'Sniper' | 'Weaver' | 'Aura' | 'Phantom';
+export type CardRole = 'Vanguard' | 'Striker' | 'Sniper' | 'Weaver' | 'Support' | 'Phantom';
 
 export interface CombatStats {
     hp: number;

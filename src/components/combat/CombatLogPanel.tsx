@@ -21,7 +21,7 @@ export const CombatLogPanel: React.FC<CombatLogPanelProps> = React.memo(({ logs,
       <div className="flex items-center justify-between border-b border-cinematic-cyan/20 pb-2 relative">
         <div className="absolute -bottom-[1px] left-0 w-1/3 h-[2px] bg-gradient-to-r from-cinematic-cyan to-transparent"></div>
         <div className="text-[10px] font-mono text-cinematic-cyan uppercase tracking-[0.2em] flex items-center">
-          <Icon name="fa-satellite-dish mr-2 animate-pulse" className="fa-satellite-dish mr-2" />
+          <Icon name="fa-satellite-dish" className="mr-2 animate-pulse" />
           <span className="font-bold">Mission_Log</span> 
           <span className="text-zinc-500 ml-2">(Max 15)</span>
         </div>
@@ -30,7 +30,7 @@ export const CombatLogPanel: React.FC<CombatLogPanelProps> = React.memo(({ logs,
             onClick={onClear}
             className="text-[9px] font-bold text-zinc-500 hover:text-red-400 font-mono tracking-widest transition-colors flex items-center"
           >
-            <Icon name="fa-trash-can mr-1" /> PURGE
+            <Icon name="fa-trash-can" className="mr-1" /> PURGE
           </button>
         )}
       </div>
@@ -44,7 +44,7 @@ export const CombatLogPanel: React.FC<CombatLogPanelProps> = React.memo(({ logs,
         
         {logs.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center opacity-30 italic gap-2 text-cinematic-cyan">
-            <Icon name="fa-circle-notch animate-spin text-xl" />
+            <Icon name="fa-circle-notch" className="animate-spin text-xl" />
             <span>Awaiting telemetry data...</span>
           </div>
         ) : (

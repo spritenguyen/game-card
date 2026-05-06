@@ -106,11 +106,49 @@ export const getElementAdvantage = (
   return 1.0;
 };
 
+export const getRoleIcon = (role: string): string => {
+  switch (role) {
+    case "Vanguard": return "fa-shield-halved";
+    case "Striker": return "fa-khanda";
+    case "Sniper": return "fa-crosshairs";
+    case "Weaver": return "fa-wand-magic-sparkles";
+    case "Support": return "fa-hand-holding-heart";
+    case "Phantom": return "fa-ghost";
+    default: return "fa-star";
+  }
+};
+
 export const getCardRole = (card: Card): CardRole => {
-  if (card.role) return card.role;
-  if (card.weight && card.weight >= 80) return "Vanguard";
-  if (["Ethereal", "ArcaneWeaver"].includes(card.faction)) return "Weaver";
-  if (["Light", "Aura"].includes(card.faction)) return "Aura";
+  if (card.role) {
+      if (card.role === 'Aura' as any) return 'Support';
+      return card.role;
+  }
+  
+  const textFeatures = [card.passiveSkill, card.ultimateMove, card.occupation, card.lore, card.visualDescription]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+
+  // Support: Healing, shield, buff, aura, support, protect, mend, restore
+  if (/(heal|buff|aura|support|mend|restore|bless|barrier|protect team)/i.test(textFeatures)) {
+      return "Support";
+  }
+  
+  // Sniper: Range, bow, gun, shoot, snipe, rifle, far, distance, arrow, precise
+  if (/(sniper|bow|gun|shoot|rifle|pistol|arrow|range|distant|distance|precise|firearm)/i.test(textFeatures)) {
+      return "Sniper";
+  }
+
+  // Weaver: Magic, spell, arcane, fire, ice, lightning, summon, ethereal, mage, sorcer
+  if (/(magic|spell|arcane|ethereal|mage|sorcer|wizard|summon|element|weaver|incantation)/i.test(textFeatures) || ["Ethereal", "ArcaneWeaver"].includes(card.faction)) {
+      return "Weaver";
+  }
+  
+  // Vanguard: Tank, heavy, large weight, guard, knight, frontline, defend
+  if (/(tank|heavy|guard|knight|frontline|defend|shield|armor|vanguard|stalwart)/i.test(textFeatures) || (card.weight && card.weight >= 80) || (card.height && card.height >= 180)) {
+       return "Vanguard";
+  }
+
   return "Striker"; // Default fallback
 };
 
@@ -139,7 +177,7 @@ export const calculateUltimateStats = (card: Card) => {
     cost = 80;
     scalingType = "200% DEF";
   }
-  if (role === "Weaver" || role === "Aura") {
+  if (role === "Weaver" || role === "Support") {
     powBase = 100;
     cd = 4;
     cost = 60;
@@ -203,7 +241,7 @@ export const calculateCombatStats = (card: Card | null) => {
     mdefBase = 100;
     patkBase *= 0.5;
     matkBase *= 0.5;
-  } else if (role === "Aura") {
+  } else if (role === "Support") {
     defBase = 60;
     mdefBase = 80;
     patkBase *= 0.8;

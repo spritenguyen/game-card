@@ -742,7 +742,7 @@ export const CombatView: React.FC<Props> = ({
          } else if (role === 'Striker') {
             dpsMetrics *= 2.5;
             tankMetrics *= 0.5;
-         } else if (role === 'Weaver' || role === 'Aura') {
+         } else if (role === 'Weaver' || role === 'Support') {
             supportMetrics *= 3.0;
             tankMetrics *= 1.2; // supports need some survivability
          }
@@ -765,12 +765,12 @@ export const CombatView: React.FC<Props> = ({
       for(let i = 3; i < 6; i++) {
          if (available.length === 0) break;
          
-         const currentSupportCount = newSquad.filter(c => c && (getCardRole(c) === 'Weaver' || getCardRole(c) === 'Aura')).length;
+         const currentSupportCount = newSquad.filter(c => c && (getCardRole(c) === 'Weaver' || getCardRole(c) === 'Support')).length;
          
-         if (currentSupportCount === 0 && i === 4 && available.some(x => x.role === 'Weaver' || x.role === 'Aura')) {
+         if (currentSupportCount === 0 && i === 4 && available.some(x => x.role === 'Weaver' || x.role === 'Support')) {
              // Force a support at slot 4 (middle backline) if none selected yet
              available.sort((a,b) => b.supportMetrics - a.supportMetrics);
-             const supIdx = available.findIndex(x => x.role === 'Weaver' || x.role === 'Aura');
+             const supIdx = available.findIndex(x => x.role === 'Weaver' || x.role === 'Support');
              if (supIdx !== -1) {
                  newSquad[i] = available[supIdx].card;
                  available.splice(supIdx, 1);
@@ -901,7 +901,7 @@ export const CombatView: React.FC<Props> = ({
           else { maxM = 60; initM = 10; }
           
           const role = getCardRole(c);
-          if (role === 'Weaver' || role === 'Aura') { maxM -= 20; initM += 20; }
+          if (role === 'Weaver' || role === 'Support') { maxM -= 20; initM += 20; }
           else if (role === 'Striker') { maxM += 20; }
           
           initM += Math.floor((c.level || 1) / 5);
@@ -1251,7 +1251,7 @@ export const CombatView: React.FC<Props> = ({
            squadShields[realIdx] += shieldAmt;
            setDisplayShields([...squadShields]);
            roleStatusLog = <span className="ml-1 text-[9px] text-zinc-300 font-mono bg-zinc-800 px-1 rounded border border-zinc-600">🛡️ +${shieldAmt} Khiên</span>;
-        } else if (role === "Aura" || role === "Weaver" || role === "Phantom") {
+        } else if (role === "Support" || role === "Weaver" || role === "Phantom") {
            const healAmt = Math.floor(cardMaxHp[realIdx] * 0.05);
            currentCardHps = currentCardHps.map((hp, i) => {
               if (squad[i] && hp > 0) {
