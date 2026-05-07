@@ -125,10 +125,11 @@ export const AscensionView: React.FC<Props> = ({ config, currency, modifyCurrenc
     };
 
     const renderEmptySlot = (label: string, isCore: boolean) => (
-        <div className={`w-full h-full flex flex-col items-center justify-center border-2 border-dashed ${isCore ? 'border-cinematic-gold/50' : 'border-red-500/50'} rounded-xl bg-black/40 hover:bg-white/5 transition-all text-center p-1 sm:p-2`}> 
-            <Icon  className={`${isCore ? 'fa-dna' : 'fa-skull'} text-xl sm:text-3xl mb-1 sm:mb-3 ${isCore ? 'text-cinematic-gold/50' : 'text-red-500/50'}`} />
-            <span className={`text-[7px] sm:text-[9px] uppercase tracking-widest font-bold ${isCore ? 'text-cinematic-gold/70' : 'text-red-400'}`}>{label}</span>
-            <span className="text-[6px] sm:text-[8px] text-white/40 mt-1 uppercase">Yêu cầu hệ SSR</span>
+        <div className={`w-full h-full flex flex-col items-center justify-center border-2 border-dashed ${isCore ? 'border-cinematic-gold/50 bg-black/60 shadow-[inset_0_0_50px_rgba(255,184,0,0.1)]' : 'border-red-500/50 bg-black/40 shadow-[inset_0_0_30px_rgba(239,68,68,0.1)]'} rounded-xl hover:bg-white/5 transition-all text-center p-1 sm:p-2 cursor-pointer relative overflow-hidden group`}> 
+            {isCore && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>}
+            <Icon  className={`${isCore ? 'fa-dna' : 'fa-skull'} text-2xl sm:text-4xl mb-2 sm:mb-4 ${isCore ? 'text-cinematic-gold/50 group-hover:text-cinematic-gold group-hover:scale-110 transition-transform' : 'text-red-500/50 group-hover:text-red-500 group-hover:scale-110 transition-transform'}`} />
+            <span className={`text-[8px] sm:text-[10px] uppercase tracking-widest font-bold ${isCore ? 'text-cinematic-gold/70' : 'text-red-400'} z-10 block`}>{label}</span>
+            <span className="text-[7px] sm:text-[9px] text-white/40 mt-1.5 uppercase font-mono border border-white/10 px-2 py-0.5 rounded-sm bg-black/50 z-10 block">Yêu cầu thẻ SSR</span>
         </div>
     );
 
@@ -178,6 +179,14 @@ export const AscensionView: React.FC<Props> = ({ config, currency, modifyCurrenc
                         onClick={() => !coreSlot && setSelectorTarget('core')}
                         className="w-32 h-44 sm:w-56 sm:h-80 cursor-pointer transform hover:scale-105 transition-transform z-10 shrink-0 relative"
                     >
+                        {/* ASCENSION CORE RING BACKGROUND */}
+                        <div className="absolute inset-0 z-[-1] animate-[spin_10s_linear_infinite] opacity-30">
+                            <div className="absolute inset-0 border-4 border-dashed border-cinematic-gold/40 rounded-full scale-150 shadow-[0_0_50px_rgba(255,184,0,0.2)]"></div>
+                        </div>
+                        <div className="absolute inset-0 z-[-1] animate-[spin_8s_linear_infinite_reverse] opacity-20">
+                            <div className="absolute inset-x-[-20%] inset-y-[10%] border-2 border-dotted border-cinematic-cyan/50 rounded-full scale-125 shadow-[0_0_30px_rgba(0,243,255,0.2)]"></div>
+                        </div>
+
                         {coreSlot ? renderCardSlot(coreSlot, () => setCoreSlot(null), true) : renderEmptySlot("Vật Thể Gốc", true)}
                         
                         {/* Energy beams if both sacs exist */}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Icon } from './ui/Icon';
 
 
@@ -30,6 +31,12 @@ export const FullCard: React.FC<{
   const [activeTab, setActiveTab] = useState<'combat' | 'stats' | 'element' | 'lore' | 'dialogue'>('combat');
   const [dialogue, setDialogue] = useState<string | null>(null);
   const [isGeneratingDialogue, setIsGeneratingDialogue] = useState(false);
+
+  useEffect(() => {
+     setActiveTab('combat');
+     setDialogue(null);
+     setIsGeneratingDialogue(false);
+  }, [card.id]);
 
   const displayCard = card.translations?.[config.language || 'vi'] 
       ? { ...card, ...card.translations[config.language || 'vi'] } 
@@ -84,12 +91,30 @@ export const FullCard: React.FC<{
           )}
 
           <img src={card.imageUrl || undefined} alt={card.altText || card.name} title={card.altText} className={`absolute inset-0 w-full h-full object-cover z-[5] ${isLoadingImage || isReshooting ? 'opacity-30' : 'opacity-100'} transition-opacity duration-500`} crossOrigin="anonymous" />
+          
+          {/* Rank Core Visuals for High Rank Cards */}
+          {getRankIndex(card.cardClass) >= 3 && (
+              <div className="absolute inset-x-0 bottom-0 top-1/2 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none z-[6]"></div>
+          )}
+          {getRankIndex(card.cardClass) >= 4 && (
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center pointer-events-none animate-pulse-slow">
+                  <div className="w-10 h-10 border-2 border-cinematic-cyan/50 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,243,255,0.8)] backdrop-blur-sm bg-black/30">
+                      <Icon name="fa-atom text-cinematic-cyan text-xl" />
+                  </div>
+                  <span className="text-[8px] font-mono font-bold text-cinematic-cyan mt-1 tracking-widest uppercase shadow-black drop-shadow-md">Khởi Nguyên</span>
+              </div>
+          )}
+          {getRankIndex(card.cardClass) >= 5 && (
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[6] opacity-30 pointer-events-none">
+                  <Icon name="fa-sun text-yellow-500 text-9xl animate-[spin_20s_linear_infinite] blur-md" />
+              </div>
+          )}
 
           {/* Badges */}
-             <div className="absolute top-4 left-4 z-20 flex gap-2">
-             <div className={`text-sm font-bold tracking-widest uppercase ${isUR ? 'bg-cinematic-cyan text-black' : 'bg-cinematic-gold text-black'} px-3 py-1 rounded-sm shadow-xl`}>{card.cardClass}</div>
+             <div className="absolute top-4 left-4 z-20 flex gap-2 flex-col sm:flex-row">
+             <div className={`text-sm font-bold tracking-widest uppercase ${isUR ? 'bg-gradient-to-r from-cinematic-cyan to-blue-500 text-black border border-cinematic-cyan/50' : 'bg-cinematic-gold text-black'} px-3 py-1 rounded-sm shadow-xl flex items-center justify-center`}><Icon name="fa-crown mr-1.5 hidden sm:block" /> {card.cardClass}</div>
              <div className={`text-xs font-mono font-bold px-2 py-1 rounded-sm border border-white/20 uppercase shadow-xl flex items-center justify-center gap-1.5
-                  ${getCardRole(card) === 'Vanguard' ? 'text-blue-400 bg-blue-950/80' : getCardRole(card) === 'Striker' ? 'text-orange-400 bg-orange-950/80' : getCardRole(card) === 'Sniper' ? 'text-yellow-400 bg-yellow-950/80' : getCardRole(card) === 'Weaver' ? 'text-purple-400 bg-purple-950/80' : getCardRole(card) === 'Support' ? 'text-emerald-400 bg-emerald-950/80' : 'text-zinc-400 bg-zinc-950/80'}`}
+                  ${getCardRole(card) === 'Vanguard' ? 'text-blue-200 bg-blue-950/80 border-blue-500/30' : getCardRole(card) === 'Striker' ? 'text-orange-200 bg-orange-950/80 border-orange-500/30' : getCardRole(card) === 'Sniper' ? 'text-yellow-200 bg-yellow-950/80 border-yellow-500/30' : getCardRole(card) === 'Weaver' ? 'text-purple-200 bg-purple-950/80 border-purple-500/30' : getCardRole(card) === 'Support' ? 'text-emerald-200 bg-emerald-950/80 border-emerald-500/30' : 'text-zinc-200 bg-zinc-950/80 border-zinc-500/30'}`}
              >
                 <Icon name={getRoleIcon(getCardRole(card))} className={getRoleIcon(getCardRole(card))} /> {getCardRole(card)}
              </div>
@@ -140,25 +165,19 @@ export const FullCard: React.FC<{
                   onClick={() => setActiveTab('combat')}
                   className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'combat' ? 'text-white border-b-2 border-white shadow-[0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
                 >
-                  <Icon name="fa-khanda mr-1.5" className="fa-khanda mr-1.5" /> Thực Chiến
-                </button>
-                <button 
-                  onClick={() => setActiveTab('stats')}
-                  className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'stats' ? 'text-white border-b-2 border-white shadow-[0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
-                >
-                  <Icon name="fa-chart-simple mr-1.5" className="fa-chart-simple mr-1.5" /> Chỉ Số
+                  <Icon name="fa-khanda mr-1.5" /> Thực Chiến
                 </button>
                 <button 
                   onClick={() => setActiveTab('element')}
                   className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'element' ? 'text-white border-b-2 border-white shadow-[0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
                 >
-                  <Icon name="fa-bolt mr-1.5" className="fa-bolt mr-1.5" /> Nguyên Tố
+                  <Icon name="fa-bolt mr-1.5" /> Nguyên Tố
                 </button>
                 <button 
                   onClick={() => setActiveTab('lore')}
                   className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'lore' ? 'text-white border-b-2 border-white shadow-[0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
                 >
-                  <Icon name="fa-id-card mr-1.5" className="fa-id-card mr-1.5" /> Hồ Sơ
+                  <Icon name="fa-id-card mr-1.5" /> Hồ Sơ
                 </button>
                 <button 
                   onClick={() => {
@@ -170,7 +189,7 @@ export const FullCard: React.FC<{
                               faction: displayCard.faction,
                               personality: displayCard.personality,
                               visualDescription: displayCard.visualDescription
-                          }, isSaved ? "Bị kiểm tra hồ sơ, hoặc trò chuyện với chỉ huy" : "Vừa mới được triệu hồi (extracted/recruited), nói lời chào mừng với Commander", config).then(res => {
+                          }, isSaved ? "Bị kiểm tra hồ sơ, hoặc trò chuyện với chỉ huy" : "Vừa mới được triệu hồi", config).then(res => {
                               setDialogue(res);
                               setIsGeneratingDialogue(false);
                           }).catch(err => {
@@ -181,89 +200,70 @@ export const FullCard: React.FC<{
                   }}
                   className={`pb-2 text-[10px] sm:text-xs font-mono tracking-widest uppercase transition-all whitespace-nowrap ${activeTab === 'dialogue' ? 'text-white border-b-2 border-white shadow-[0_8px_rgba(255,255,255,0.8)]' : 'text-zinc-500 hover:text-zinc-300 border-b-2 border-transparent'}`}
                 >
-                  <Icon name="fa-comment-dots mr-1.5" className="fa-comment-dots mr-1.5" /> Giao Tiếp
+                  <Icon name="fa-comment-dots mr-1.5" /> Giao Tiếp
                 </button>
             </div>
 
             {/* Tab Contents */}
             <div className="relative flex-1 overflow-y-auto pr-2 no-scrollbar min-h-0">
-               {activeTab === 'stats' && (
-                  <div className="flex flex-col gap-4 animate-fade-in">
-                     <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-                        <div className="bg-green-950/20 border border-green-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-2 text-green-500/10 text-4xl"><Icon name="fa-heart" className="fa-heart" /></div>
-                            <span className="text-[9px] text-green-500/70 font-mono uppercase mb-1 z-10">HP</span>
-                            <span className="font-mono text-2xl text-green-400 font-bold z-10">{calculateCombatStats(displayCard).hp}</span>
-                        </div>
-                        <div className="bg-red-950/20 border border-red-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-2 text-red-500/10 text-4xl"><Icon name="fa-burst" className="fa-burst" /></div>
-                            <span className="text-[9px] text-red-500/70 font-mono uppercase mb-1 z-10">ATK</span>
-                            <span className="font-mono text-2xl text-red-400 font-bold z-10">{calculateCombatStats(displayCard).atk}</span>
-                        </div>
-                        <div className="bg-slate-950/20 border border-slate-800/60 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-2 text-slate-500/10 text-4xl"><Icon name="fa-shield" className="fa-shield" /></div>
-                            <span className="text-[9px] text-slate-500/70 font-mono uppercase mb-1 z-10">DEF</span>
-                            <span className="font-mono text-2xl text-slate-300 font-bold z-10">{calculateCombatStats(displayCard).def}</span>
-                        </div>
-                        <div className="bg-indigo-950/20 border border-indigo-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-2 text-indigo-500/10 text-4xl"><Icon name="fa-shield-halved" className="fa-shield-halved" /></div>
-                            <span className="text-[9px] text-indigo-400/70 font-mono uppercase mb-1 z-10">M.RES</span>
-                            <span className="font-mono text-2xl text-indigo-300 font-bold z-10">{calculateCombatStats(displayCard).res}</span>
-                        </div>
-                        <div className="bg-yellow-950/20 border border-yellow-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-2 text-yellow-500/10 text-4xl"><Icon name="fa-bolt" className="fa-bolt" /></div>
-                            <span className="text-[9px] text-yellow-500/70 font-mono uppercase mb-1 z-10">SPEED</span>
-                            <span className="font-mono text-2xl text-yellow-400 font-bold z-10">{calculateCombatStats(displayCard).speed}</span>
-                        </div>
-                     </div>
-                  </div>
-               )}
-
+               <AnimatePresence mode="wait">
                {activeTab === 'combat' && (
-                  <div className="flex flex-col gap-4 animate-fade-in">
+                  <motion.div 
+                      key="combat"
+                      initial={{ opacity: 0, y: 10 }} 
+                      animate={{ opacity: 1, y: 0 }} 
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex flex-col gap-4"
+                  >
                      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-                        <div className="bg-green-950/20 border border-green-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-2 text-green-500/10 text-4xl"><Icon name="fa-heart" className="fa-heart" /></div>
-                            <span className="text-[9px] text-green-500/70 font-mono uppercase mb-1 z-10">Sức Bền (HP)</span>
-                            <span className="font-mono text-2xl text-green-400 font-bold z-10">{calculateCombatStats(displayCard).hp}</span>
-                        </div>
-                        <div className="bg-orange-950/20 border border-orange-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-2 text-orange-500/10 text-4xl"><Icon name="fa-hand-fist" className="fa-hand-fist" /></div>
-                            <span className="text-[9px] text-orange-500/70 font-mono uppercase mb-1 z-10">ST Vật Lý (PATK)</span>
-                            <span className="font-mono text-2xl text-orange-400 font-bold z-10">{calculateCombatStats(displayCard).patk}</span>
-                        </div>
-                        <div className="bg-purple-950/20 border border-purple-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-2 text-purple-500/10 text-4xl"><Icon name="fa-wand-magic-sparkles" className="fa-wand-magic-sparkles" /></div>
-                            <span className="text-[9px] text-purple-500/70 font-mono uppercase mb-1 z-10">ST Phép (MATK)</span>
-                            <span className="font-mono text-2xl text-purple-400 font-bold z-10">{calculateCombatStats(displayCard).matk}</span>
-                        </div>
-                        <div className="bg-slate-950/20 border border-slate-800/60 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-2 text-slate-500/10 text-4xl"><Icon name="fa-shield" className="fa-shield" /></div>
-                            <span className="text-[9px] text-slate-500/70 font-mono uppercase mb-1 z-10">Chiến Giáp (DEF)</span>
-                            <span className="font-mono text-2xl text-slate-300 font-bold z-10">{calculateCombatStats(displayCard).def}</span>
-                        </div>
-                        <div className="bg-indigo-950/20 border border-indigo-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
-                            <div className="absolute top-0 right-0 p-2 text-indigo-500/10 text-4xl"><Icon name="fa-shield-virus" className="fa-shield-virus" /></div>
-                            <span className="text-[9px] text-indigo-400/70 font-mono uppercase mb-1 z-10">Kháng Phép (MDEF)</span>
-                            <span className="font-mono text-2xl text-indigo-300 font-bold z-10">{calculateCombatStats(displayCard).mdef}</span>
-                        </div>
-                        <div className="bg-zinc-900/20 border border-zinc-800 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden">
-                            <Icon name="fa-sparkles text-zinc-500/20 text-4xl absolute right-2 top-2" className="fa-sparkles text-zinc-500/20 text-4xl absolute right-2 top-2" />
-                            <span className="text-[9px] text-cinematic-cyan/70 font-mono uppercase mb-1 z-10">Tuyệt Kỹ (Ultimate)</span>
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.05 }} className="bg-green-950/20 border border-green-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden group/stat">
+                            <div className="absolute top-0 right-0 p-2 text-green-500/10 text-4xl group-hover/stat:scale-110 group-hover/stat:text-green-500/20 transition-all"><Icon name="fa-heart" /></div>
+                            <span className="text-[9px] text-green-500/70 font-mono uppercase mb-1 z-10 block">Sức Bền (HP)</span>
+                            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="font-mono text-2xl text-green-400 font-bold z-10 drop-shadow-[0_0_5px_rgba(74,222,128,0.5)] block">{calculateCombatStats(displayCard).hp}</motion.span>
+                        </motion.div>
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.1 }} className="bg-orange-950/20 border border-orange-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden group/stat">
+                            <div className="absolute top-0 right-0 p-2 text-orange-500/10 text-4xl group-hover/stat:scale-110 group-hover/stat:text-orange-500/20 transition-all"><Icon name="fa-hand-fist" /></div>
+                            <span className="text-[9px] text-orange-500/70 font-mono uppercase mb-1 z-10 block">Sát Thương (ATK)</span>
+                            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }} className="font-mono text-2xl text-orange-400 font-bold z-10 drop-shadow-[0_0_5px_rgba(251,146,60,0.5)] block">{calculateCombatStats(displayCard).atk}</motion.span>
+                        </motion.div>
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.15 }} className="bg-yellow-950/20 border border-yellow-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden group/stat">
+                            <div className="absolute top-0 right-0 p-2 text-yellow-500/10 text-4xl group-hover/stat:scale-110 group-hover/stat:text-yellow-500/20 transition-all"><Icon name="fa-bolt" /></div>
+                            <span className="text-[9px] text-yellow-500/70 font-mono uppercase mb-1 z-10 block">Tốc Độ (SPD)</span>
+                            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="font-mono text-2xl text-yellow-400 font-bold z-10 drop-shadow-[0_0_5px_rgba(250,204,21,0.5)] block">{calculateCombatStats(displayCard).speed}</motion.span>
+                        </motion.div>
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }} className="bg-slate-950/20 border border-slate-800/60 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden group/stat">
+                            <div className="absolute top-0 right-0 p-2 text-slate-500/10 text-4xl group-hover/stat:scale-110 group-hover/stat:text-slate-500/20 transition-all"><Icon name="fa-shield" /></div>
+                            <span className="text-[9px] text-slate-500/70 font-mono uppercase mb-1 z-10 block">Chiến Giáp (DEF)</span>
+                            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }} className="font-mono text-2xl text-slate-300 font-bold z-10 drop-shadow-[0_0_5px_rgba(203,213,225,0.5)] block">{calculateCombatStats(displayCard).def}</motion.span>
+                        </motion.div>
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.25 }} className="bg-indigo-950/20 border border-indigo-900/40 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden group/stat">
+                            <div className="absolute top-0 right-0 p-2 text-indigo-500/10 text-4xl group-hover/stat:scale-110 group-hover/stat:text-indigo-500/20 transition-all"><Icon name="fa-shield-halved" /></div>
+                            <span className="text-[9px] text-indigo-400/70 font-mono uppercase mb-1 z-10 block">Kháng Phép (RES)</span>
+                            <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="font-mono text-2xl text-indigo-300 font-bold z-10 drop-shadow-[0_0_5px_rgba(165,180,252,0.5)] block">{calculateCombatStats(displayCard).res}</motion.span>
+                        </motion.div>
+                        <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.3 }} className="bg-zinc-900/20 border border-zinc-800 p-3 rounded-xl shadow-inner flex flex-col justify-center relative overflow-hidden group/stat">
+                            <Icon name="fa-sparkles text-zinc-500/20 text-4xl absolute right-2 top-2 group-hover/stat:rotate-12 transition-transform" />
+                            <span className="text-[9px] text-cinematic-cyan/70 font-mono uppercase mb-1 z-10 block">Tuyệt Kỹ (Ultimate)</span>
                             <span className="font-serif text-xs text-zinc-300 z-10 line-clamp-2" title={displayCard.ultimateMove}>{displayCard.ultimateMove || 'N/A'}</span>
                             {calculateUltimateStats(displayCard) && (
                                 <div className="mt-2 flex items-center justify-between z-10 border-t border-zinc-800 pt-1.5">
-                                    <span className="text-[9px] text-red-400 font-mono"><Icon name="fa-fire mr-1" className="fa-fire mr-1" />{calculateUltimateStats(displayCard).power} PWR</span>
-                                    <span className="text-[9px] text-yellow-500 font-mono"><Icon name="fa-bolt mr-1" className="fa-bolt mr-1" />{calculateUltimateStats(displayCard).energyCost} COST</span>
+                                    <span className="text-[9px] text-red-400 font-mono flex items-center"><Icon name="fa-fire mr-1" />{calculateUltimateStats(displayCard).power} PWR</span>
+                                    <span className="text-[9px] text-yellow-500 font-mono flex items-center"><Icon name="fa-bolt mr-1" />{calculateUltimateStats(displayCard).energyCost} COST</span>
                                 </div>
                             )}
-                        </div>
+                        </motion.div>
                      </div>
-                  </div>
+                  </motion.div>
                )}
 
                {activeTab === 'element' && (
-                  <div className="flex flex-col gap-4 animate-fade-in">
+                  <motion.div 
+                      key="element"
+                      initial={{ opacity: 0, y: 10 }} 
+                      animate={{ opacity: 1, y: 0 }} 
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex flex-col gap-4"
+                  >
                       <div className="bg-white/5 border border-white/10 rounded-xl p-4 relative overflow-hidden">
                          <h3 className="text-[10px] text-zinc-400 font-mono uppercase mb-3 flex items-center justify-between">
                             <span><Icon name="fa-fire mr-1.5" className="fa-fire mr-1.5" /> Sát Thương Nguyên Tố</span>
@@ -299,35 +299,40 @@ export const FullCard: React.FC<{
                              })}
                          </div>
                       </div>
-                  </div>
+                  </motion.div>
                )}
-
                {activeTab === 'lore' && (
-                  <div className="flex flex-col gap-4 animate-fade-in pb-4">
+                  <motion.div 
+                      key="lore"
+                      initial={{ opacity: 0, y: 10 }} 
+                      animate={{ opacity: 1, y: 0 }} 
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex flex-col gap-4 pb-4"
+                  >
                     <div className="grid grid-cols-2 gap-3">
-                        <div className="bg-black/40 p-3 rounded-xl border border-zinc-800/40 shadow-inner">
-                            <span className="block text-[9px] text-zinc-500 font-mono uppercase mb-1 flex items-center justify-between">H/W <Icon name="fa-ruler-vertical opacity-30" className="fa-ruler-vertical opacity-30" /></span>
+                        <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} className="bg-black/40 p-3 rounded-xl border border-zinc-800/40 shadow-inner group/lore">
+                            <span className="block text-[9px] text-zinc-500 font-mono uppercase mb-1 flex items-center justify-between">H/W <Icon name="fa-ruler-vertical opacity-30 group-hover/lore:opacity-100 transition-opacity" className="fa-ruler-vertical opacity-30 group-hover/lore:opacity-100 transition-opacity" /></span>
                             <span className="font-mono text-sm text-zinc-200 whitespace-nowrap">{displayCard.height}cm <span className="text-zinc-600 mx-1">|</span> {displayCard.weight}kg</span>
-                        </div>
-                        <div className="bg-black/40 p-3 rounded-xl border border-zinc-800/40 min-w-0 flex flex-col justify-center shadow-inner">
-                            <span className="block text-[9px] text-cinematic-gold/70 font-mono uppercase mb-1 flex items-center justify-between">B-W-H <Icon name="fa-tape opacity-30" className="fa-tape opacity-30" /></span>
+                        </motion.div>
+                        <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} className="bg-black/40 p-3 rounded-xl border border-zinc-800/40 min-w-0 flex flex-col justify-center shadow-inner group/lore">
+                            <span className="block text-[9px] text-cinematic-gold/70 font-mono uppercase mb-1 flex items-center justify-between">B-W-H <Icon name="fa-tape opacity-30 group-hover/lore:opacity-100 transition-opacity" className="fa-tape opacity-30 group-hover/lore:opacity-100 transition-opacity" /></span>
                             <span className={`font-mono text-sm text-pink-300 block truncate`} title={displayCard.measurements}>
                                 {getMeasurementsDisplay(displayCard.measurements)}
                             </span>
-                        </div>
+                        </motion.div>
                     </div>
 
                     <div className="flex flex-col gap-3">
                         {displayCard.passiveSkill && (
-                            <div className="bg-white/5 p-3 rounded-xl border border-white/10 relative overflow-hidden">
-                                <span className={`block text-[10px] ${elementVisual.color || 'text-zinc-400'} font-mono uppercase mb-1.5 flex items-center gap-1.5`}><Icon name={elementVisual.icon} /> Passive Skill</span>
+                            <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }} className="bg-white/5 p-3 rounded-xl border border-white/10 relative overflow-hidden group/passive">
+                                <span className={`block text-[10px] ${elementVisual.color || 'text-zinc-400'} font-mono uppercase mb-1.5 flex items-center gap-1.5`}><Icon name={elementVisual.icon} className="group-hover/passive:scale-125 transition-transform" /> Passive Skill</span>
                                 <span className={`font-serif text-[13px] text-zinc-300 block leading-relaxed relative z-10`}>{displayCard.passiveSkill}</span>
-                            </div>
+                            </motion.div>
                         )}
-                        <div className="bg-cinematic-cyan/5 p-4 rounded-xl border border-cinematic-cyan/20 relative overflow-hidden group/ult">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-cinematic-cyan/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
+                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.25 }} className="bg-cinematic-cyan/5 p-4 rounded-xl border border-cinematic-cyan/20 relative overflow-hidden group/ult">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-cinematic-cyan/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2 group-hover/ult:scale-150 transition-transform duration-500"></div>
                             <span className="block text-[10px] text-cinematic-cyan font-mono uppercase mb-2 flex items-center justify-between gap-1.5">
-                                <span className="flex items-center gap-1.5"><Icon name="fa-bolt scale-125" className="fa-bolt scale-125" /> Ultimate Details</span>
+                                <span className="flex items-center gap-1.5"><Icon name="fa-bolt scale-125 group-hover/ult:animate-pulse" className="fa-bolt scale-125 group-hover/ult:animate-pulse" /> Ultimate Details</span>
                                 {displayCard.ultimateLevel && <span className="text-cinematic-cyan/70">Lv.{displayCard.ultimateLevel}</span>}
                             </span>
                             <span className={`font-serif text-sm text-zinc-300 block leading-relaxed relative z-10 ${calculateUltimateStats(displayCard) ? 'mb-4' : ''}`}>{displayCard.ultimateMove || 'Unknown'}</span>
@@ -349,10 +354,10 @@ export const FullCard: React.FC<{
                                     </div>
                                 </div>
                             )}
-                        </div>
+                        </motion.div>
                     </div>
 
-                    <div className="mb-2">
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="mb-2">
                         <p className={`text-[13px] text-zinc-400 mb-4 italic border-l-2 ${isUR ? 'border-cinematic-cyan' : 'border-zinc-600'} pl-4 py-1 font-serif leading-relaxed opacity-90`}>"{displayCard.personality}"</p>
                         <div 
                             className={`text-sm text-zinc-400/90 leading-relaxed font-sans`} 
@@ -363,28 +368,34 @@ export const FullCard: React.FC<{
                                 <Icon name="fa-universal-access mr-1" className="fa-universal-access mr-1" /> [Image Alt Text]: {displayCard.altText}
                             </div>
                         )}
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                )}
 
                {activeTab === 'dialogue' && (
-                  <div className="flex flex-col gap-4 animate-fade-in pb-4 h-full">
+                  <motion.div 
+                      key="dialogue"
+                      initial={{ opacity: 0, y: 10 }} 
+                      animate={{ opacity: 1, y: 0 }} 
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex flex-col gap-4 pb-4 h-full"
+                  >
                      <div className="bg-black/60 p-4 rounded-xl border border-zinc-700/50 flex-1 flex flex-col justify-end relative overflow-hidden group">
                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                          
                          {isGeneratingDialogue ? (
-                             <div className="relative z-10 flex flex-col items-center justify-center h-40">
+                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="relative z-10 flex flex-col items-center justify-center h-40">
                                  <Icon name="fa-comment-dots animate-pulse text-zinc-500 text-3xl mb-3" />
                                  <span className="text-zinc-400 font-mono text-xs tracking-widest uppercase">Đang thiết lập kết nối mã hóa...</span>
-                             </div>
+                             </motion.div>
                          ) : (
-                             <div className="relative z-10 p-4 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm self-start w-full max-w-sm ml-auto mr-auto shadow-lg">
+                             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="relative z-10 p-4 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm self-start w-full max-w-sm ml-auto mr-auto shadow-lg">
                                 <div className="text-xs text-cinematic-cyan/70 font-mono tracking-widest mb-1.5 flex items-center gap-2 uppercase">
                                     <Icon name="fa-microphone-lines animate-pulse text-[10px]" /> {displayCard.name}
                                 </div>
                                 <div className="font-serif text-lg text-white leading-relaxed italic pr-4">&quot;{dialogue}&quot;</div>
                                 <div className="absolute bottom-2 right-2 text-[10px] text-zinc-600 font-mono"><Icon name="fa-microchip" /> AI Gen</div>
-                             </div>
+                             </motion.div>
                          )}
                      </div>
                      <button
@@ -410,8 +421,9 @@ export const FullCard: React.FC<{
                      >
                         <Icon name="fa-rotate mr-2" className={isGeneratingDialogue ? "animate-spin" : ""} /> Yêu Cầu Câu Mới
                      </button>
-                  </div>
+                  </motion.div>
                )}
+               </AnimatePresence>
             </div>
 
             {/* Actions */}

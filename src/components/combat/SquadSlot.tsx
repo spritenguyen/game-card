@@ -167,21 +167,25 @@ export const SquadSlot = forwardRef<HTMLDivElement, SquadSlotProps>(
         )}
         <div className="absolute top-1 right-1 z-20 flex flex-row gap-1 items-center">
           {card.element && (
-            <div
+            <motion.div
+              animate={{ y: [0, -2, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
               className={`text-[8px] color-[${
                 ELEMENTS[card.element as keyof typeof ELEMENTS]?.color
               }] bg-black/60 w-4 h-4 rounded-full flex items-center justify-center border border-white/10`}
               title={card.element}
             >
               <Icon name={ELEMENTS[card.element as keyof typeof ELEMENTS]?.icon} />
-            </div>
+            </motion.div>
           )}
-          <div
+          <motion.div
+            animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
             className={`text-[9px] ${facInfo.color} bg-black/60 w-5 h-5 rounded-full flex items-center justify-center border border-white/10`}
             title={facInfo.name}
           >
             <Icon name={facInfo.icon} />
-          </div>
+          </motion.div>
         </div>
         <div className="absolute top-1 left-1 z-20 flex gap-1">
           <div className="bg-cinematic-gold text-black text-[8px] font-black px-1 py-0.5 rounded shadow shadow-cinematic-gold/20">

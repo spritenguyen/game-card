@@ -149,21 +149,25 @@ export const EnemySlot = forwardRef<HTMLDivElement, EnemySlotProps>(
 
         <div className="absolute top-1 right-1 z-20 flex flex-row gap-1 items-center">
           {bossData.element && (
-            <div
+            <motion.div
+              animate={{ y: [0, -2, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut", delay: 0.5 }}
               className={`text-[8px] color-[${
                 ELEMENTS[bossData.element as keyof typeof ELEMENTS]?.color
               }] bg-black/60 w-4 h-4 rounded-full flex items-center justify-center border border-white/10`}
               title={bossData.element}
             >
               <Icon name={ELEMENTS[bossData.element as keyof typeof ELEMENTS]?.icon} />
-            </div>
+            </motion.div>
           )}
-          <div
+          <motion.div
+            animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+            transition={{ repeat: Infinity, duration: 4, ease: "easeInOut", delay: 0.5 }}
             className={`text-[9px] ${facInfo.color} bg-black/60 w-5 h-5 rounded-full flex items-center justify-center border border-white/10`}
             title={facInfo.name}
           >
             <Icon name={facInfo.icon} />
-          </div>
+          </motion.div>
         </div>
         <div className="absolute top-1 left-1 z-20">
           <div className="text-[8px] font-black text-white bg-red-600/80 px-1 py-0.5 rounded flex items-center font-mono">

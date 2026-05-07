@@ -22,6 +22,7 @@ import { CombatLogPanel } from "../components/combat/CombatLogPanel";
 import { CombatHeader } from "../components/combat/CombatHeader";
 import { CombatControls } from "../components/combat/CombatControls";
 import { CombatArena } from "../components/combat/CombatArena";
+import { SynergyGuideModal } from "../components/combat/SynergyGuideModal";
 import { SquadSlot } from "../components/combat/SquadSlot";
 import { EnemySlot } from "../components/combat/EnemySlot";
 import { motion, AnimatePresence } from "motion/react";
@@ -78,6 +79,7 @@ interface Props {
   isGlobalProcessing: boolean;
   setGlobalProcessing: (v: boolean) => void;
   onBattleStatusChange?: (inBattle: boolean) => void;
+  onCampaignWin?: (stageId: string) => void;
 }
 
 let globalCombatSpeed = 1;
@@ -108,6 +110,7 @@ export const CombatView: React.FC<Props> = ({
   isGlobalProcessing,
   setGlobalProcessing,
   onBattleStatusChange,
+  onCampaignWin
 }) => {
   const [opTab, setOpTab] = useState<"battlefield" | "single_boss" | "world_boss">("single_boss");
 
@@ -133,6 +136,13 @@ export const CombatView: React.FC<Props> = ({
   };
 
   const [localWorldBossSquad, setLocalWorldBossSquad] = useState<(Boss | null)[]>([null, null, null, null, null, null]);
+
+  useEffect(() => {
+    // If we transition and there's a campaign boss loaded in battlefield, switch to battlefield tab
+    if (battlefieldEnemySquad.some(b => b?.campaignStageId)) {
+        setOpTab("battlefield");
+    }
+  }, [battlefieldEnemySquad]);
 
   const [activeAttackVector, setActiveAttackVector] = useState<{ x: number, y: number } | null>(null);
   const squadRefs = useRef<(HTMLDivElement | null)[]>([null, null, null, null, null, null]);
@@ -260,6 +270,7 @@ export const CombatView: React.FC<Props> = ({
   }, [opTab, worldBossState.boss, worldBossState.level, config, setGlobalProcessing, setEnemySquad]);
 
   const [inBattle, _setInBattle] = useState(false);
+  const [isSynergyGuideOpen, setIsSynergyGuideOpen] = useState(false);
   const [combatSpeed, setCombatSpeed] = useState<number>(1);
   const [combatResult, setCombatResult] = useState<{
     status: "victory" | "defeat" | "draw";
@@ -1287,6 +1298,13 @@ export const CombatView: React.FC<Props> = ({
            atkMod *= elemAdv;
            currentAtk = Math.floor(currentAtk * atkMod);
 
+           let synergyLog: React.ReactNode | null = null;
+           if (elemAdv > 1 || cardFac.strongAgainst === targetEnemy.faction) {
+             synergyLog = <span className="ml-2 text-[9px] px-1.5 py-0.5 rounded font-mono border border-orange-500/50 bg-orange-900/40 text-orange-400 uppercase">Khắc Hệ</span>;
+           } else if (elemAdv < 1 || cardFac.weakAgainst === targetEnemy.faction) {
+             synergyLog = <span className="ml-2 text-[9px] px-1.5 py-0.5 rounded font-mono border border-zinc-500/50 bg-zinc-900/40 text-zinc-500 uppercase">Bị Khắc</span>;
+           }
+
            if (enemyStatuses[targetIdx].some(s => s.type === "pierce" || s.type === "armor_break")) {
              currentAtk = Math.floor(currentAtk * 1.3);
            }
@@ -1347,6 +1365,7 @@ export const CombatView: React.FC<Props> = ({
                  ↳ {targetEnemy.name}: <span className={dmgColor}>-${currentAtk + elementalDmgValue} HP</span>
                  <span className="text-[10px] text-zinc-500 ml-1">(${dmgType})</span>
                  {elementalDmgValue > 0 && <span className="text-[10px] text-cyan-400 ml-1">+${elementalDmgValue} ${elementName} DMG</span>}
+                 {synergyLog}
                </div>
            );
         }
@@ -1565,7 +1584,31 @@ export const CombatView: React.FC<Props> = ({
                 }
             } else {
                 const rawBossDmg = Math.floor(enAtkObj * ultMul * (0.9 + Math.random() * 0.2));
-                let bossDmg = Math.max(1, Math.floor(rawBossDmg * (1 - reductionRate)));
+                let atkMod = 1;
+
+                const bossFac = getFactionInfo(activeEn.faction);
+                let targetCardName = "Đội hình";
+                let synergyLog: React.ReactNode | null = null;
+                
+                if (targetIdx !== -1 && squad[targetIdx]) {
+                     const targetCard = squad[targetIdx]!;
+                     targetCardName = targetCard.name;
+                     if (bossFac.strongAgainst === targetCard.faction) {
+                         atkMod *= 1.3;
+                     } else if (bossFac.weakAgainst === targetCard.faction) {
+                         atkMod *= 0.7;
+                     }
+                     const elemAdv = getElementAdvantage(activeEn.element, targetCard.element);
+                     atkMod *= elemAdv;
+                     
+                     if (elemAdv > 1 || bossFac.strongAgainst === targetCard.faction) {
+                         synergyLog = <span className="ml-2 text-[9px] px-1.5 py-0.5 rounded font-mono border border-red-500/50 bg-red-900/40 text-red-400 uppercase">Boss Khắc Hệ</span>;
+                     } else if (elemAdv < 1 || bossFac.weakAgainst === targetCard.faction) {
+                         synergyLog = <span className="ml-2 text-[9px] px-1.5 py-0.5 rounded font-mono border border-zinc-500/50 bg-zinc-900/40 text-zinc-500 uppercase">Boss Bị Khắc</span>;
+                     }
+                }
+
+                let bossDmg = Math.max(1, Math.floor(rawBossDmg * atkMod * (1 - reductionRate)));
 
                 let shieldAbsorbed = 0;
                 if (targetIdx !== -1) {
@@ -1622,9 +1665,6 @@ export const CombatView: React.FC<Props> = ({
                 addDamagePopup(bossDmg, targetStr, isBossCrit, bossDmgType, bossColorClass, 0);
                 if (isBossCrit) { triggerScreenShake(); await triggerHitStop(); }
 
-                let targetCardName = "Đội hình";
-                if (targetIdx !== -1 && squad[targetIdx]) targetCardName = squad[targetIdx]!.name;
-
                 let finalDmgColor = isBossCrit ? "text-red-500 font-bold  text-lg" : "text-red-500 font-bold ";
 
                 addLog(
@@ -1633,6 +1673,7 @@ export const CombatView: React.FC<Props> = ({
                     [Lượt ${turn}] {activeEn.name} đánh {targetCardName}: <span className={finalDmgColor}>-${bossDmg} HP</span>
                     {shieldAbsorbed > 0 && <span className="text-zinc-300 text-[10px] ml-1">(Khiên đỡ: ${shieldAbsorbed})</span>}
                     <span className="text-[10px] text-zinc-500 ml-2">(${bossDmgType}) (Bị giảm ${(reductionRate * 100).toFixed(0)}%)</span>
+                    {synergyLog}
                   </span>,
                   isBossCrit ? "text-white/80 bg-red-900/30 p-1 border-l-2 border-red-500" : "text-white/80 bg-red-900/10 p-1 border-l-2 border-red-500"
                 );
@@ -1733,6 +1774,13 @@ export const CombatView: React.FC<Props> = ({
         parsedRewards.unshift({ label: "Kinh Nghiệm", value: `+${expGained} EXP`, colorClass: "text-blue-400" });
         parsedRewards.unshift({ label: "Tiền Thưởng", value: `+${totalDc} DC`, colorClass: "text-cinematic-gold" });
         
+        let msg = "Toàn bộ kẻ địch đã bị triệt tiêu!";
+        const campaignBoss = enemySquad.find(e => e && e.campaignStageId);
+        if (campaignBoss && onCampaignWin) {
+            onCampaignWin(campaignBoss.campaignStageId!);
+            msg = "Đã hoàn thành Nhiệm vụ Cốt truyện!";
+        }
+
         setCombatResult({
           status: "victory",
           title: `Trận chiến thành công`,
@@ -1740,7 +1788,7 @@ export const CombatView: React.FC<Props> = ({
           turns: turn,
           exp: expGained,
           rewards: parsedRewards,
-          message: "Toàn bộ kẻ địch đã bị triệt tiêu!"
+          message: msg
         });
         setEnemySquad([null, null, null, null, null, null]);
       } else {
@@ -2215,8 +2263,14 @@ export const CombatView: React.FC<Props> = ({
                     <div
                       className={`w-2 h-2 rounded-sm ${inBattle ? "bg-green-500 animate-pulse shadow-[0_0_10px_#22c55e]" : "bg-cinematic-cyan shadow-[0_0_10px_#00f3ff]"}`}
                     ></div>
-                    <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-[0.2em] font-bold">
+                    <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-[0.2em] font-bold flex items-center gap-3">
                       SQUAD ROSTER
+                      <button
+                          onClick={() => setIsSynergyGuideOpen(true)}
+                          className="text-[8px] sm:text-[10px] px-2 py-0.5 bg-cinematic-cyan/20 border border-cinematic-cyan/40 text-cinematic-cyan rounded hover:bg-cinematic-cyan/40 transition-colors uppercase font-mono tracking-widest flex items-center gap-1 shadow-[0_0_10px_rgba(0,243,255,0.2)]"
+                      >
+                          <Icon name="fa-book-atlas" /> Sách Lược
+                      </button>
                     </span>
                   </div>
                   {activeSynergies && activeSynergies.length > 0 && (
@@ -2383,6 +2437,7 @@ export const CombatView: React.FC<Props> = ({
           </motion.div>
         )}
       </AnimatePresence>
+      <SynergyGuideModal isOpen={isSynergyGuideOpen} onClose={() => setIsSynergyGuideOpen(false)} />
     </div>
   );
 };

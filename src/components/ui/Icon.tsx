@@ -144,7 +144,11 @@ export const Icon = ({ name, className }: { name?: string, className?: string })
 
   let Comp = (LucideIcons as any)[iconName] || (LucideIcons as any)[actualName];
   if (!Comp) {
-    Comp = (LucideIcons as any).CircleHelp || (LucideIcons as any).HelpCircle;
+    console.warn(`Icon not found: ${iconName} or ${actualName}`);
+    Comp = (LucideIcons as any).CircleHelp || (LucideIcons as any).HelpCircle || (LucideIcons as any).Help;
+  }
+  if (!Comp) {
+    return <span className="text-[10px] text-red-500">Icon not found</span>;
   }
   let s = 16;
   if (className?.includes('text-lg')) s = 18;

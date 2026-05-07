@@ -56,6 +56,10 @@ export const useGameState = () => {
         const stored = localStorage.getItem('cineExp');
         return stored ? (parseInt(stored, 10) || 0) : 0;
     });
+    const [campaignProgress, setCampaignProgress] = useState<{chapter: number, stage: number}>(() => {
+        const stored = localStorage.getItem('cineCampaignProgress');
+        return stored ? JSON.parse(stored) : { chapter: 1, stage: 1 };
+    });
     const [inventory, setInventory] = useState(() => {
         const stored = localStorage.getItem('cineInventory');
         if (stored) {
@@ -183,6 +187,10 @@ export const useGameState = () => {
     }, []);
 
     // Persistence Effects
+    useEffect(() => {
+        localStorage.setItem('cineCampaignProgress', JSON.stringify(campaignProgress));
+    }, [campaignProgress]);
+
     useEffect(() => {
         localStorage.setItem('cineUnlockedSkills', JSON.stringify(unlockedSkills));
     }, [unlockedSkills]);
@@ -430,6 +438,7 @@ export const useGameState = () => {
         quests, setQuests, updateQuestProgress, refreshQuests,
         expeditions, setExpeditions, startExpedition, completeExpedition, claimExpedition, refreshExpeditions,
         cards, addCard, removeCard, updateCard,
+        campaignProgress, setCampaignProgress,
         squad, setSquad, leaderId, setLeaderId,
         eliteEnemySquad, setEliteEnemySquad,
         battlefieldEnemySquad, setBattlefieldEnemySquad,

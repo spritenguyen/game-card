@@ -78,6 +78,7 @@ export interface Boss {
   lore: string;
   visualDescription: string;
   imageUrl?: string;
+  campaignStageId?: string;
 }
 
 export type ExpeditionStatus = 'idle' | 'ongoing' | 'completed';

@@ -10,6 +10,7 @@ import { CombatView } from "./views/CombatView";
 import { MissionsView } from "./views/MissionsView";
 import { BlackMarketView } from "./views/BlackMarketView";
 import { GalleryView } from "./views/GalleryView";
+import { CampaignView } from "./views/CampaignView";
 import { Dialog } from "./components/ui/Dialog";
 import { Toast } from "./components/ui/Toast";
 import { MiniCard } from "./components/MiniCard";
@@ -26,7 +27,7 @@ import { getDismantleValue, getDismantleDustValue, getRankIndex } from "./lib/ga
 import { SkillsView } from "./views/SkillsView";
 import { TrainingCampView } from "./views/TrainingCampView";
 
-type Tab = "extract" | "forge" | "combat" | "missions" | "training" | "blackmarket" | "gallery" | "skills";
+type Tab = "extract" | "forge" | "campaign" | "combat" | "missions" | "training" | "blackmarket" | "gallery" | "skills";
 
 export default function App() {
   const {
@@ -54,6 +55,8 @@ export default function App() {
     addCard,
     removeCard,
     updateCard,
+    campaignProgress,
+    setCampaignProgress,
     squad,
     setSquad,
     leaderId,
@@ -454,6 +457,7 @@ export default function App() {
         <div className="flex sm:flex-col w-full h-full sm:h-auto px-0 sm:px-3 py-1 sm:py-6 gap-0 sm:gap-2 justify-between sm:justify-start items-center sm:items-stretch overflow-x-auto no-scrollbar scroll-smooth relative">
 
           {[
+            { id: "campaign", icon: "BookOpen", label: "STORY" },
             { id: "extract", icon: "Dna", label: "RECRUIT" },
             { id: "forge", icon: "Cpu", label: "FORGE" },
             { id: "combat", icon: "Crosshair", label: "COMBAT" },
@@ -613,6 +617,17 @@ export default function App() {
                 transition={{ duration: 0.2, ease: "easeOut" }}
                 className="w-full h-full max-w-[1600px] mx-auto"
               >
+        {activeTab === "campaign" && (
+          <CampaignView
+            cards={cards}
+            campaignProgress={campaignProgress}
+            setCampaignProgress={setCampaignProgress}
+            setBattlefieldEnemySquad={setBattlefieldEnemySquad}
+            onStartCombat={() => setActiveTab("combat")}
+            onAlert={handleAlert}
+            config={config}
+          />
+        )}
         {activeTab === "extract" && (
           <ExtractView
             config={config}
@@ -684,6 +699,17 @@ export default function App() {
             isGlobalProcessing={isProcessing}
             setGlobalProcessing={setIsProcessing}
             onBattleStatusChange={setIsCombatActive}
+            onCampaignWin={(stageId) => {
+              const stageMatch = stageId.match(/c(\d+)-s(\d+)/);
+              if (stageMatch) {
+                const chapter = parseInt(stageMatch[1]);
+                const stage = parseInt(stageMatch[2]);
+                if (chapter === campaignProgress.chapter && stage === campaignProgress.stage) {
+                   setCampaignProgress({ chapter, stage: stage + 1 });
+                   setToast({ msg: "Tiến trình cốt truyện đã được lưu!", type: "success" });
+                }
+              }
+            }}
           />
         )}
         {activeTab === "missions" && (
