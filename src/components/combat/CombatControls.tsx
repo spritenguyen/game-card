@@ -46,19 +46,6 @@ export const CombatControls: React.FC<CombatControlsProps> = ({
            <span className="text-[7px] text-zinc-400 font-mono tracking-widest">Auto Formation</span>
         </div>
       </button>
-      
-      {/* SPEED TOGGLE */}
-      <button
-        onClick={() => setCombatSpeed(prev => prev === 1 ? 2 : prev === 2 ? 4 : 1)}
-        className="group relative px-4 sm:px-6 py-4 rounded-xl font-bold tracking-[0.2em] uppercase transition-all bg-zinc-950/80 border border-cinematic-gold/50 text-white hover:bg-cinematic-gold/20 ring-1 ring-cinematic-gold/20 shadow-[0_0_15px_rgba(255,215,0,0.2)] hover:shadow-[0_0_30px_rgba(255,215,0,0.4)] flex items-center gap-2 sm:gap-3 text-[10px] overflow-hidden"
-      >
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,215,0,0.2),transparent)] -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000"></div>
-        <Icon className={`fa-forward-fast text-xl ${combatSpeed > 1 ? 'text-yellow-400' : 'text-zinc-500'}`} />
-        <div className="flex flex-col items-start gap-1">
-           <span className={combatSpeed > 1 ? 'text-yellow-400' : 'text-zinc-400'}>SPEED x{combatSpeed}</span>
-           <span className="text-[7px] text-zinc-400 font-mono tracking-widest hidden sm:inline">Toggle Pace</span>
-        </div>
-      </button>
 
       <button
         onClick={() => {

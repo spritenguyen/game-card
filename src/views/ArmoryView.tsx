@@ -32,14 +32,26 @@ export const ArmoryView: React.FC<Props> = ({
     
     const totalCores = Object.entries(inventory.materials || {}).filter(([k]) => k.includes('Core')).reduce((sum, [_, v]) => sum + Number(v), 0);
     const totalShards = Object.entries(inventory.materials || {}).filter(([k]) => k.includes('Shard')).reduce((sum, [_, v]) => sum + Number(v), 0);
-    const gearFragments = Object.entries(inventory.materials || {}).filter(([k]) => k.includes('Gear Fragment') || k.toLowerCase().includes('gearfragment') || k === 'Mảnh Trang Bị').reduce((sum, [_, v]) => sum + Number(v), 0) || inventory.materials?.['GearFragment'] || inventory.materials?.['Gear Fragments'] || 0;
+    const gearFragments = Object.entries(inventory.materials || {}).filter(([k]) => k.includes('Gear Fragment') || k.toLowerCase().includes('gearfragment') || k === 'Mảnh Trang Bị' || k.includes('Equipment Shard')).reduce((sum, [_, v]) => sum + Number(v), 0) || inventory.materials?.['GearFragment'] || inventory.materials?.['Gear Fragments'] || 0;
 
     const handleCraftGear = () => {
         if (gearFragments < 10) {
             onAlert("Thất bại", `Cần 10 Mảnh Trang Bị để ghép! (Hiện có: ${gearFragments})`);
             return;
         }
-        modifyInventory(0, 0, { 'Gear Fragments': -10 }); // Assuming 'Gear Fragments' is the key used, or handle differently.
+        
+        let toDeduct = 10;
+        const updates: Record<string, number> = {};
+        for (const [k, v] of Object.entries(inventory.materials || {})) {
+            if ((k.includes('Gear Fragment') || k.toLowerCase().includes('gearfragment') || k === 'Mảnh Trang Bị' || k.includes('Equipment Shard')) && Number(v) > 0) {
+                const deduct = Math.min(Number(v), toDeduct);
+                updates[k] = -deduct;
+                toDeduct -= deduct;
+                if (toDeduct <= 0) break;
+            }
+        }
+        modifyInventory(0, 0, updates);
+        
         const gear = rollGear(50, true);
         if (gear) {
             addGear(gear);
@@ -133,12 +145,13 @@ export const ArmoryView: React.FC<Props> = ({
         doCraftGear();
     };
 
-    const renderGearCard = (gear: Gear, isEquipped: boolean) => {
+   const renderGearCard = (gear: Gear, isEquipped: boolean) => {
         const rarityColors = ['text-zinc-400', 'text-green-400', 'text-blue-400', 'text-purple-400', 'text-amber-400'];
         const rColor = rarityColors[gear.rarity - 1] || 'text-white';
         
         return (
            <div 
+               key={gear.id}
                onClick={() => setSelectedGear(gear)}
                className={`relative p-3 rounded-lg border cursor-pointer hover:scale-105 transition-all ${selectedGear?.id === gear.id ? 'border-cinematic-gold bg-cinematic-gold/10' : 'border-zinc-700 bg-black/60'} group`}    
            >
@@ -158,7 +171,7 @@ export const ArmoryView: React.FC<Props> = ({
     };
 
     return (
-        <div className="h-full w-full flex flex-col md:flex-row pb-20 md:pb-0 font-sans text-zinc-300">
+        <div className="h-full w-full flex flex-col md:flex-row pb-20 md:pb-0 font-sans text-zinc-300 overflow-hidden">
             {/* LEFT: Agent List */}
             <div className="w-full md:w-64 border-r border-zinc-800 bg-black/80 flex flex-col shrink-0">
                <div className="p-4 border-b border-zinc-800 font-bold uppercase tracking-widest text-sm text-white">
@@ -186,11 +199,11 @@ export const ArmoryView: React.FC<Props> = ({
             </div>
 
             {/* MIDDLE: Equipping Layout */}
-            <div className="flex-1 flex flex-col bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-zinc-900/50 relative">
+            <div className="flex-1 flex flex-col bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-zinc-900/50 relative min-h-0 h-full overflow-hidden">
                <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80 pointer-events-none"></div>
                
                {selectedCard ? (
-                  <div className="p-6 relative z-10 flex-1 flex flex-col items-center overflow-y-auto">
+                  <div className="p-6 relative z-10 flex-1 flex flex-col items-center overflow-y-auto w-full">
                       <div className="text-2xl font-black text-white uppercase tracking-widest mb-8 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
                           {selectedCard.name} <span className="text-cinematic-gold text-sm ml-2">ARMORY</span>
                       </div>
@@ -243,6 +256,7 @@ export const ArmoryView: React.FC<Props> = ({
                                   return (
                                       <div key={slot} className={classes} onClick={() => setSelectedGear(gear)}>
                                          <Icon name={`${iconName} text-2xl`} />
+                                         <div className="absolute top-1 right-1 w-4 h-4 bg-black/80 rounded-full flex items-center justify-center text-[8px] font-bold border border-zinc-600 text-white shadow shadow-black">{slot}</div>
                                          <div className="absolute -bottom-4 text-[8px] font-bold tracking-widest text-white/50 bg-black/80 px-1 rounded whitespace-nowrap">{slotLabel}</div>
                                       </div>
                                   );
@@ -251,6 +265,7 @@ export const ArmoryView: React.FC<Props> = ({
                                   return (
                                       <div key={slot} className={classes}>
                                          <Icon name="fa-plus text-xl" />
+                                         <div className="absolute top-1 right-1 w-4 h-4 bg-black/80 rounded-full flex items-center justify-center text-[8px] font-bold border border-zinc-700 text-zinc-400 shadow shadow-black">{slot}</div>
                                          <div className="absolute -bottom-4 text-[8px] font-bold tracking-widest text-zinc-500 bg-black/80 px-1 rounded whitespace-nowrap">{slotLabel}</div>
                                       </div>
                                   );
@@ -262,7 +277,7 @@ export const ArmoryView: React.FC<Props> = ({
 
                       {/* Detail View of Selected Gear inside middle section */}
                       {selectedGear && (
-                          <div className="w-full max-w-sm bg-black/90 border border-cinematic-cyan/30 rounded-xl p-4 flex flex-col shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden group">
+                          <div className="w-full max-w-sm bg-black/90 border border-cinematic-cyan/30 rounded-xl p-4 flex flex-col shrink-0 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden group">
                                {/* Hologram Effects */}
                                <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,243,255,0.05)_2px,rgba(0,243,255,0.05)_4px)] pointer-events-none z-0"></div>
                                <div className="absolute inset-0 bg-cinematic-cyan/5 opacity-0 group-hover:opacity-100 animate-pulse pointer-events-none z-0 transition-opacity"></div>

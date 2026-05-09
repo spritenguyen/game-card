@@ -126,6 +126,7 @@ export const ClinicView: React.FC<Props> = ({
         
         return (
            <div 
+               key={imp.id}
                onClick={() => setSelectedImplant(imp)}
                className={`relative p-3 rounded-lg border cursor-pointer hover:scale-105 transition-all ${selectedImplant?.id === imp.id ? 'border-cinematic-cyan bg-cinematic-cyan/10' : 'border-zinc-700 bg-black/60'} group`}    
            >
@@ -145,7 +146,7 @@ export const ClinicView: React.FC<Props> = ({
     };
 
     return (
-        <div className="h-full w-full flex flex-col md:flex-row pb-20 md:pb-0 font-mono text-zinc-300">
+        <div className="h-full w-full flex flex-col md:flex-row pb-20 md:pb-0 font-mono text-zinc-300 overflow-hidden">
             {/* LEFT: Agent List */}
             <div className="w-full md:w-64 border-r border-zinc-800 bg-black/80 flex flex-col shrink-0">
                <div className="p-4 border-b border-zinc-800 font-bold uppercase tracking-widest text-sm text-white">
@@ -173,11 +174,11 @@ export const ClinicView: React.FC<Props> = ({
             </div>
 
             {/* MIDDLE: Equipping Layout */}
-            <div className="flex-1 flex flex-col bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-zinc-900/50 relative">
+            <div className="flex-1 flex flex-col bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-zinc-900/50 relative min-h-0 h-full overflow-hidden">
                <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/80 pointer-events-none"></div>
                
                {selectedCard ? (
-                  <div className="p-6 relative z-10 flex-1 flex flex-col items-center overflow-y-auto">
+                  <div className="p-6 relative z-10 flex-1 flex flex-col items-center overflow-y-auto w-full">
                       <div className="text-2xl font-black text-white uppercase tracking-widest mb-8 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
                           {selectedCard.name} <span className="text-cinematic-cyan text-sm ml-2">CYBERNETICS</span>
                       </div>
@@ -220,6 +221,7 @@ export const ClinicView: React.FC<Props> = ({
                                   return (
                                       <div key={slot} className={classes} onClick={() => setSelectedImplant(imp)}>
                                          <Icon name="fa-microchip text-2xl" />
+                                         <div className="absolute top-1 right-1 w-4 h-4 bg-black/80 rounded-full flex items-center justify-center text-[8px] font-bold border border-zinc-600 text-white shadow shadow-black">{slot}</div>
                                       </div>
                                   );
                               } else {
@@ -227,6 +229,7 @@ export const ClinicView: React.FC<Props> = ({
                                   return (
                                       <div key={slot} className={classes}>
                                          <Icon name="fa-plus text-xl" />
+                                         <div className="absolute top-1 right-1 w-4 h-4 bg-black/80 rounded-full flex items-center justify-center text-[8px] font-bold border border-zinc-700 text-zinc-400 shadow shadow-black">{slot}</div>
                                       </div>
                                   );
                               }
@@ -237,7 +240,7 @@ export const ClinicView: React.FC<Props> = ({
 
                       {/* Detail View of Selected Implant inside middle section */}
                       {selectedImplant && (
-                          <div className="w-full max-w-sm bg-black/90 border border-cinematic-cyan/30 rounded-xl p-4 flex flex-col shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden group">
+                          <div className="w-full max-w-sm bg-black/90 border border-cinematic-cyan/30 rounded-xl p-4 flex flex-col shrink-0 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden group">
                                {/* Hologram Effects */}
                                <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,243,255,0.05)_2px,rgba(0,243,255,0.05)_4px)] pointer-events-none z-0"></div>
                                <div className="absolute inset-0 bg-cinematic-cyan/5 opacity-0 group-hover:opacity-100 animate-pulse pointer-events-none z-0 transition-opacity"></div>

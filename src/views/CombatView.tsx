@@ -128,14 +128,6 @@ export const CombatView: React.FC<Props> = ({
 }) => {
   const [opTab, setOpTab] = useState<"battlefield" | "single_boss" | "world_boss" | "phantasm">("single_boss");
   
-  useEffect(() => {
-     const mode = window.localStorage.getItem('cineCurrentCombatMode');
-     if (mode) {
-         setOpTab(mode as any);
-         window.localStorage.removeItem('cineCurrentCombatMode');
-     }
-  }, []);
-
   const [logs, _setLogs] = useState<React.ReactNode[]>([
     <div key="init" className="text-cyan-600/50">
       Hệ thống Tác chiến Tương Sinh Tương Khắc đã sẵn sàng...
@@ -207,13 +199,13 @@ export const CombatView: React.FC<Props> = ({
   // Derived squad based on active tab
   const enemySquad = opTab === "world_boss" 
     ? localWorldBossSquad 
-    : opTab === "battlefield" 
+    : (opTab === "battlefield" || opTab === "phantasm")
       ? battlefieldEnemySquad 
       : eliteEnemySquad;
 
   const setEnemySquad = useCallback((newSquad: (Boss | null)[]) => {
     if (opTab === "world_boss") setLocalWorldBossSquad(newSquad);
-    else if (opTab === "battlefield") setBattlefieldEnemySquad(newSquad);
+    else if (opTab === "battlefield" || opTab === "phantasm") setBattlefieldEnemySquad(newSquad);
     else setEliteEnemySquad(newSquad);
   }, [opTab, setLocalWorldBossSquad, setBattlefieldEnemySquad, setEliteEnemySquad]);
 
@@ -330,6 +322,7 @@ export const CombatView: React.FC<Props> = ({
   }, [opTab, worldBossState.boss, worldBossState.level, config, setGlobalProcessing, setEnemySquad]);
 
   const [inBattle, _setInBattle] = useState(false);
+  const [currentTurn, setCurrentTurn] = useState<number>(1);
   const [isSynergyGuideOpen, setIsSynergyGuideOpen] = useState(false);
   const [combatSpeed, setCombatSpeed] = useState<number>(1);
   const [combatResult, setCombatResult] = useState<{
@@ -357,7 +350,20 @@ export const CombatView: React.FC<Props> = ({
     if (onBattleStatusChange) onBattleStatusChange(v);
   };
 
-      const [displayBossHp, setDisplayBossHp] = useState(0);
+  const autoStartRef = useRef(false);
+
+  useEffect(() => {
+     const mode = window.localStorage.getItem('cineCurrentCombatMode');
+     if (mode) {
+         setOpTab(mode as any);
+         window.localStorage.removeItem('cineCurrentCombatMode');
+         if (mode === 'phantasm') {
+             autoStartRef.current = true;
+         }
+     }
+  }, [setOpTab]);
+
+  const [displayBossHp, setDisplayBossHp] = useState(0);
   const [displayEnemyHps, setDisplayEnemyHps] = useState<number[]>([0,0,0,0,0,0]);
   const [displayEnemyManas, setDisplayEnemyManas] = useState<number[]>([0,0,0,0,0,0]);
   const [displaySquadHp, setDisplaySquadHp] = useState(0);
@@ -937,6 +943,8 @@ export const CombatView: React.FC<Props> = ({
   const executeBattle = async () => {
     if (inBattle || !boss) return;
 
+    setCurrentTurn(1);
+
     const addLog = (msg: string | React.ReactNode, colorClass: string) => {
       setLogs((prev) => [...prev, <div key={Math.random()} className={`${colorClass} mb-1.5 animate-fade-in`}>{msg}</div>,
       ].slice(-40));
@@ -1194,6 +1202,7 @@ export const CombatView: React.FC<Props> = ({
 
       totalActions++;
       turn = Math.floor(totalActions / 6) + 1; // logical turn approximation
+      setCurrentTurn(turn);
 
       if (activeWeather === 'acid_rain') {
          if (isSquadActor && squad[activeIdx]?.element === 'Water') {
@@ -2207,6 +2216,13 @@ export const CombatView: React.FC<Props> = ({
     setIsBossAttacking(false);
   };
 
+  useEffect(() => {
+     if (autoStartRef.current && opTab === 'phantasm' && boss !== null && squadHp > 0) {
+         autoStartRef.current = false;
+         executeBattle();
+     }
+  }, [opTab, boss, squadHp, executeBattle]);
+
   const renderEnemySlot = (bossData: Boss | null, index: number) => {
     return (
       <EnemySlot
@@ -2288,6 +2304,9 @@ export const CombatView: React.FC<Props> = ({
             enemySquad={enemySquad}
             renderEnemySlot={renderEnemySlot}
             dodgeRate={dodgeRate}
+            currentTurn={currentTurn}
+            combatSpeed={combatSpeed}
+            setCombatSpeed={setCombatSpeed}
           />
         )}
       </AnimatePresence>
@@ -2301,6 +2320,10 @@ export const CombatView: React.FC<Props> = ({
           squadDef={squadDef}
           squadRes={squadRes}
           dodgeRate={dodgeRate}
+          currentTurn={currentTurn}
+          combatSpeed={combatSpeed}
+          setCombatSpeed={setCombatSpeed}
+          inBattle={inBattle}
         />
 
         {/* Tab Selection */}

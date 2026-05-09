@@ -13,6 +13,10 @@ interface CombatHeaderProps {
   squadDef: number;
   squadRes: number;
   dodgeRate: number;
+  currentTurn?: number;
+  combatSpeed?: number;
+  setCombatSpeed?: (val: number | ((prev: number) => number)) => void;
+  inBattle?: boolean;
 }
 
 export const CombatHeader: React.FC<CombatHeaderProps> = ({
@@ -23,6 +27,10 @@ export const CombatHeader: React.FC<CombatHeaderProps> = ({
   squadDef,
   squadRes,
   dodgeRate,
+  currentTurn,
+  combatSpeed,
+  setCombatSpeed,
+  inBattle
 }) => {
   return (
     <>

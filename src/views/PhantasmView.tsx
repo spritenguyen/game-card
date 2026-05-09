@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Card, AppConfig, PhantasmProgress, Boss } from '../types';
 import { Icon } from '../components/ui/Icon';
 import { calculateCombatStats } from '../lib/gameLogic';
+import { SquadSlot } from '../components/combat/SquadSlot';
 
 interface Props {
   cards: Card[];
   squad: (Card | null)[];
+  leaderId: string | null;
   phantasmProgress: PhantasmProgress;
   setPhantasmProgress: React.Dispatch<React.SetStateAction<PhantasmProgress>>;
   onStartCombat: () => void;
@@ -13,18 +15,23 @@ interface Props {
   config: AppConfig;
   inventory: Record<string, number>;
   onAlert: (t: string, m: string) => void;
+  onOpenSquadSelector: (slot: number) => void;
+  onClearSquadSlot: (slot: number) => void;
 }
 
 export const PhantasmView: React.FC<Props> = ({
   cards,
   squad,
+  leaderId,
   phantasmProgress,
   setPhantasmProgress,
   onStartCombat,
   setBattlefieldEnemySquad,
   config,
   inventory,
-  onAlert
+  onAlert,
+  onOpenSquadSelector,
+  onClearSquadSlot
 }) => {
   const isEn = config.language === 'en';
   const { floor, cardsHp } = phantasmProgress;
@@ -60,8 +67,8 @@ export const PhantasmView: React.FC<Props> = ({
         if (availableSlots.length === 0) break;
         const slot = availableSlots[Math.floor(Math.random() * availableSlots.length)];
         
-        const baseHp = 1000 + floor * 200;
-        const baseAtk = 100 + floor * 20;
+        const baseHp = Math.floor(15000 * Math.pow(1.25, floor - 1));
+        const baseAtk = Math.floor(400 * Math.pow(1.15, floor - 1));
 
         enemySquad[slot] = {
             id: `phantasm_e_${floor}_${i}`,
@@ -145,8 +152,9 @@ export const PhantasmView: React.FC<Props> = ({
                     {squad.map((card, idx) => {
                         if (!card) {
                             return (
-                                <div key={idx} className="aspect-[3/4] bg-zinc-900/50 border border-zinc-800 rounded flex items-center justify-center pointer-events-none opacity-50">
-                                    <Icon name="fa-user text-zinc-700 text-2xl" />
+                                <div key={idx} onClick={() => onOpenSquadSelector(idx)} className="cursor-pointer hover:border-purple-400 transition-colors aspect-[3/4] bg-zinc-900/50 border border-zinc-800 rounded flex flex-col items-center justify-center p-2 text-zinc-500 hover:text-purple-400 text-center relative overflow-hidden group">
+                                    <Icon name="fa-plus text-2xl mb-2 group-hover:scale-125 transition-transform" />
+                                    <span className="text-[10px] font-mono uppercase tracking-widest">{isEn ? 'Deploy' : 'Bổ Nhiệm'}</span>
                                 </div>
                             );
                         }
@@ -157,19 +165,23 @@ export const PhantasmView: React.FC<Props> = ({
                         const isDead = currentHp <= 0;
 
                         return (
-                            <div key={idx} className="relative aspect-[3/4] rounded overflow-hidden border border-zinc-700 bg-black">
-                                <img src={card.imageUrl} className={`w-full h-full object-cover transition-opacity ${isDead ? 'opacity-20 grayscale' : 'opacity-80'}`} alt="" />
+                            <div key={idx} onClick={() => onOpenSquadSelector(idx)} className="relative aspect-[3/4] rounded overflow-hidden border border-zinc-700 bg-black cursor-pointer hover:border-purple-400 transition-colors group">
+                                <img src={card.imageUrl} className={`w-full h-full object-cover transition-opacity ${isDead ? 'opacity-20 grayscale' : 'opacity-80 group-hover:opacity-100'}`} alt="" />
                                 {isDead && (
-                                    <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm pointer-events-none">
                                         <Icon name="fa-skull text-red-500 text-3xl drop-shadow-[0_0_10px_red]" />
                                     </div>
                                 )}
-                                <div className="absolute bottom-0 left-0 right-0 p-1 bg-black/80 flex flex-col gap-1">
-                                    <div className="text-[10px] text-white truncate font-bold">{card.name}</div>
-                                    <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                     <button onClick={(e) => { e.stopPropagation(); onClearSquadSlot(idx); }} className="text-white hover:text-red-400 bg-red-900/50 hover:bg-black/80 px-2 py-1 rounded border border-red-500/50 flex flex-col items-center justify-center shadow-lg transform hover:scale-110 transition-all font-mono text-[10px] tracking-widest"><Icon name="fa-xmark mb-1" /> GỠ {isEn ? 'OUT' : 'RA'}</button>
+                                </div>
+                                <div className="absolute bottom-0 left-0 right-0 p-1.5 bg-gradient-to-t from-black via-black/80 to-transparent flex flex-col gap-1 pointer-events-none">
+                                    <div className="text-[10px] text-white truncate font-bold font-mono">{card.name}</div>
+                                    <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden border border-white/5">
                                         <div className={`h-full ${isDead ? 'bg-red-600' : hpPct > 30 ? 'bg-green-500' : 'bg-red-500'}`} style={{ width: `${hpPct}%` }}></div>
                                     </div>
                                 </div>
+                                {leaderId === card.id && <div className="absolute top-1 left-1 bg-cinematic-gold text-black px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-widest shadow-lg pointer-events-none"><Icon name="fa-crown mr-1" />HQ</div>}
                             </div>
                         );
                     })}

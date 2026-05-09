@@ -752,6 +752,7 @@ export default function App() {
             <PhantasmView
                 cards={cards}
                 squad={squad}
+                leaderId={leaderId}
                 phantasmProgress={phantasmProgress}
                 setPhantasmProgress={setPhantasmProgress}
                 onStartCombat={() => setActiveTab("combat")}
@@ -759,6 +760,13 @@ export default function App() {
                 config={config}
                 inventory={inventory}
                 onAlert={handleAlert}
+                onOpenSquadSelector={(s) => setSelectorTarget(`squad${s + 1}` as any)}
+                onClearSquadSlot={(idx) => {
+                  const n = [...squad];
+                  n[idx] = null;
+                  setSquad(n);
+                  if (squad[idx]?.id === leaderId) setLeaderId(null);
+                }}
             />
         )}
 

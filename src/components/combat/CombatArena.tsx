@@ -30,6 +30,9 @@ interface CombatArenaProps {
   enemySquad: (Card | null)[];
   renderEnemySlot: (card: Card | null, index: number) => ReactNode;
   dodgeRate: number;
+  currentTurn?: number;
+  combatSpeed?: number;
+  setCombatSpeed?: (val: number | ((prev: number) => number)) => void;
 }
 
 export const CombatArena: React.FC<CombatArenaProps> = ({
@@ -54,7 +57,10 @@ export const CombatArena: React.FC<CombatArenaProps> = ({
   displayEnemyHps,
   enemySquad,
   renderEnemySlot,
-  dodgeRate
+  dodgeRate,
+  currentTurn,
+  combatSpeed,
+  setCombatSpeed
 }) => {
   const [showMobileSynergies, setShowMobileSynergies] = useState(false);
 
@@ -67,7 +73,7 @@ export const CombatArena: React.FC<CombatArenaProps> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className={`fixed inset-0 z-[100] bg-zinc-950 overflow-y-auto overflow-x-hidden no-scrollbar ${screenShake ? "combat-shake" : ""} ${isLiteMode ? "lite-combat-view" : ""}`}
+      className={`fixed inset-0 z-[100] bg-zinc-950 overflow-y-auto lg:overflow-hidden overflow-x-hidden no-scrollbar ${screenShake ? "combat-shake" : ""} ${isLiteMode ? "lite-combat-view" : ""}`}
       style={{
         filter: hitStop
           ? "contrast(180%) brightness(130%) saturate(150%) sepia(20%) hue-rotate(-10deg) blur(1px)"
@@ -300,7 +306,7 @@ export const CombatArena: React.FC<CombatArenaProps> = ({
         })()}
       </AnimatePresence>
 
-      <div className="w-full min-h-screen flex flex-col items-center justify-between py-12 sm:py-8 px-2 sm:px-4 relative">
+      <div className="w-full min-h-[100dvh] lg:h-screen lg:min-h-0 flex flex-col items-center justify-center py-12 sm:py-8 px-2 sm:px-4 relative">
         {/* Cinema Background Layers */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-red-600/10 via-transparent to-black pointer-events-none"></div>
 
@@ -367,6 +373,7 @@ export const CombatArena: React.FC<CombatArenaProps> = ({
               SIG: ACTIVE_ENCOUNTER_0x{boss.id % 99}
             </div>
           </div>
+          
           <div className="text-right">
             <div className="text-[10px] font-mono font-bold text-white/60 tracking-widest uppercase">
               {boss.universe} Sector
@@ -644,22 +651,40 @@ export const CombatArena: React.FC<CombatArenaProps> = ({
         </div>
 
         {/* Tactical HUD Footer */}
-        <div className="fixed bottom-2 sm:bottom-3 left-4 sm:left-6 right-4 sm:right-6 flex justify-between items-center text-[7px] sm:text-[9px] font-mono text-zinc-500 z-[160] pointer-events-none">
-          <div className="flex gap-4 sm:gap-6 items-center">
-            <div className="flex items-center gap-2 px-2 py-0.5 rounded border border-white/10 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+        <div className="fixed bottom-2 sm:bottom-3 left-4 sm:left-6 right-4 sm:right-6 flex justify-between items-end sm:items-center text-[7px] sm:text-[9px] font-mono text-zinc-500 z-[160] pointer-events-none">
+          <div className="flex gap-4 sm:gap-6 items-end sm:items-center flex-wrap max-w-[60%]">
+            <div className="flex items-center gap-2 px-2 py-0.5 rounded border border-white/10 shadow-[0_0_10px_rgba(0,0,0,0.5)] bg-black/40">
               <span className="opacity-40">EVAS_RATE:</span>
               <span className="text-cinematic-cyan font-bold">
                 {dodgeRate}%
               </span>
             </div>
-            <div className="hidden sm:flex items-center gap-2 px-2 py-0.5 rounded border border-white/10 shadow-[0_0_10px_rgba(0,0,0,0.5)]">
-              <span className="opacity-40">ENG_MODE:</span>
-              <span className="text-orange-500 font-bold uppercase">
-                Tactical_Sim
-              </span>
+            
+            <div className="flex flex-col gap-1 items-start">
+              {currentTurn !== undefined && (
+                <div className="flex items-center gap-2 px-2 py-0.5 rounded border border-white/10 shadow-[0_0_10px_rgba(0,0,0,0.5)] bg-black/40">
+                   <span className="opacity-40">TURN:</span>
+                   <span className="text-white font-bold">{currentTurn}</span>
+                </div>
+              )}
+              <div className="hidden sm:flex items-center gap-2 px-2 py-0.5 rounded border border-white/10 shadow-[0_0_10px_rgba(0,0,0,0.5)] bg-black/40">
+                <span className="opacity-40">ENG_MODE:</span>
+                <span className="text-orange-500 font-bold uppercase">
+                  Tactical_Sim
+                </span>
+              </div>
+              {setCombatSpeed && combatSpeed && (
+                <button 
+                  onClick={() => setCombatSpeed(prev => prev === 1 ? 2 : prev === 2 ? 4 : 1)}
+                  className={`pointer-events-auto flex items-center gap-2 px-2 py-0.5 rounded border border-white/10 shadow-[0_0_10px_rgba(0,0,0,0.5)] bg-black/40 hover:bg-white/10 transition-colors ${combatSpeed > 1 ? 'text-yellow-400' : 'text-zinc-500'}`}
+                >
+                   <span className="opacity-40 text-zinc-500">SPEED:</span>
+                   <span className="font-bold flex items-center gap-1"><Icon name="fa-forward-fast text-[8px]" /> x{combatSpeed}</span>
+                </button>
+              )}
             </div>
           </div>
-          <div className="flex items-center gap-3 sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
             <div className="tracking-[0.3em] font-black uppercase text-zinc-600">
               Protocol_XN-99
             </div>
