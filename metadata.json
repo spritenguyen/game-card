@@ -2,5 +2,7 @@
   "name": "Cine-Tech: Vanguard",
   "description": "A high-end cinematic tactical combat simulation with AI-generated characters and environments. Featuring real-time combat, genetic fusion, and abyssal challenges.",
   "requestFramePermissions": [],
-  "majorCapabilities": []
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
