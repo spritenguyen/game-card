@@ -3,6 +3,7 @@ import { Icon } from './Icon';
 
 import { createPortal } from 'react-dom';
 import { t } from '../../lib/i18n';
+import { sanitizeHtml } from '../../lib/sanitizeHtml';
 
 export interface DialogProps {
     isOpen: boolean;
@@ -28,7 +29,7 @@ export const Dialog: React.FC<DialogProps> = ({ isOpen, title, message, type, on
                 )}
                 
                 <h3 className="text-lg font-serif text-white mb-2">{title}</h3>
-                <p className="text-sm text-cinematic-muted mb-6 leading-relaxed" dangerouslySetInnerHTML={{ __html: message }}></p>
+                <p className="text-sm text-cinematic-muted mb-6 leading-relaxed" dangerouslySetInnerHTML={{ __html: sanitizeHtml(message) }}></p>
                 
                 <div className="flex gap-3 justify-center">
                     {type === 'alert' ? (

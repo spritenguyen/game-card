@@ -102,11 +102,13 @@ export const BlackMarketView: React.FC<Props> = ({ currency, inventory, cards, m
     };
 
     const handleReroll = async () => {
+        if (isGlobalProcessing) return;
         if (!selectedCardId) return onAlert('Lỗi', 'Vui lòng chọn thẻ!');
         const card = cards.find(c => c.id === selectedCardId);
         if (!card) return;
 
-        if (inventory.quantumDust < 100) return onAlert('Lỗi', 'Cần 100 Quantum Dust để thực hiện!');
+        const dustCost = selectedAttribute === 'role' ? 150 : selectedAttribute === 'gene' ? 200 : 100;
+        if (inventory.quantumDust < dustCost) return onAlert('Lỗi', `Cần ${dustCost} Quantum Dust để thực hiện!`);
 
         let requiredMat = '';
         if (selectedAttribute === 'faction') {
@@ -122,6 +124,7 @@ export const BlackMarketView: React.FC<Props> = ({ currency, inventory, cards, m
         }
 
         setGlobalProcessing(true);
+        let charged = false;
         try {
             if (selectedAttribute !== 'role' && selectedAttribute !== 'gene') {
                 modifyInventory(0, 0, { [requiredMat]: -1 }, -100);
@@ -130,6 +133,7 @@ export const BlackMarketView: React.FC<Props> = ({ currency, inventory, cards, m
             } else if (selectedAttribute === 'gene') {
                 modifyInventory(0, 0, undefined, -200); // Need 200 dust for gene
             }
+            charged = true;
 
             let newFaction = card.faction;
             let newElement = card.element;
@@ -159,6 +163,7 @@ export const BlackMarketView: React.FC<Props> = ({ currency, inventory, cards, m
             onAlert('Thành công', `Cấu trúc gen đã thay đổi: Thuộc tính ${selectedAttribute.toUpperCase()} mới thiết lập thành công!`);
 
         } catch(e) {
+            if (charged) modifyInventory(0, 0, selectedAttribute !== 'role' && selectedAttribute !== 'gene' ? { [requiredMat]: 1 } : undefined, dustCost);
             onAlert('Lỗi', 'Có lỗi khi tái tạo: ' + e);
         } finally {
             setGlobalProcessing(false);

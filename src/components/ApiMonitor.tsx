@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Icon } from './ui/Icon';
-import { GlobalApiState } from '../services/ai';
+import { GlobalApiState } from '../services/ai/status';
 
 interface ApiMonitorProps {
     isProcessing?: boolean;
@@ -18,15 +18,12 @@ export const ApiMonitor: React.FC<ApiMonitorProps> = ({ isProcessing }) => {
             setActiveApi(name);
             if (name === 'Idle') {
                 setInternalThinking(false);
-                setTimeout(() => setStatusMsg(''), 1000);
             } else {
                 setInternalThinking(true);
             }
         };
         const handleStatusMsg = (e: any) => {
-            if (e.detail) {
-                setStatusMsg(e.detail);
-            }
+            setStatusMsg(e.detail);
         };
 
         window.addEventListener('api_active_name', handleApiName);
@@ -50,15 +47,6 @@ export const ApiMonitor: React.FC<ApiMonitorProps> = ({ isProcessing }) => {
 
     const isThinking = isProcessing || internalThinking;
 
-    useEffect(() => {
-        if (!isProcessing && activeApi !== 'Idle' && internalThinking) {
-            // Safe fallback to clear after 15s if it gets stuck
-            const timeout = setTimeout(() => {
-                GlobalApiState.setIdle();
-            }, 15000);
-            return () => clearTimeout(timeout);
-        }
-    }, [isProcessing, activeApi, internalThinking]);
 
     return (
         <div className="flex items-center gap-3 bg-zinc-900/50 border border-white/5 px-2 py-0.5 rounded shadow-lg">

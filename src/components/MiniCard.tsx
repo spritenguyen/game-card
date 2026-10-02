@@ -4,7 +4,8 @@ import { Icon } from './ui/Icon';
 
 
 import { Card } from '../types';
-import { getRankIndex, getFactionInfo, calculateCombatStats, getCardRole, getRoleIcon } from '../lib/gameLogic';
+import { calculateCombatStats } from '../application/gameStats';
+import { getRankIndex, getFactionInfo, getCardRole, getRoleIcon } from '../domain/gameRules';
 
 
 

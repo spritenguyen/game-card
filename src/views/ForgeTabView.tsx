@@ -16,6 +16,7 @@ interface Props {
   cards: Card[];
   modifyInventory: (bd: number, ed: number, m?: Record<string, number>, dd?: number) => void;
   onCompleteFusion: (newCard: Card, oldIdsToDelete: string[]) => Promise<void>;
+  onUpdateCard: (card: Card, consumedIds?: string[]) => Promise<void>;
   removeCard: (id: string) => void;
   updateCard: (c: Card) => void;
   onError: (msg: string) => void;
@@ -103,10 +104,7 @@ export const ForgeTabView: React.FC<Props> = (props) => {
                 {subTab === 'overclock' && (
                     <OverclockView 
                         {...props} 
-                        onUpdateCard={async (c, consumedIds = []) => {
-                            // Combine sacrifice IDs with the main card ID to ensure the old version is removed before adding the new/updated one
-                            props.onCompleteFusion(c, [...consumedIds, c.id]);
-                        }}
+                        onUpdateCard={props.onUpdateCard}
                         isGlobalProcessing={props.isProcessing}
                         setGlobalProcessing={props.setIsProcessing}
                     />

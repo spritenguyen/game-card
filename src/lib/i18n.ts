@@ -1,3 +1,4 @@
+import { browserStorage, SAVE_KEYS } from '../infrastructure/storage/browserStorage';
 import { vi } from '../locales/vi';
 import { en } from '../locales/en';
 
@@ -17,7 +18,7 @@ export const setI18nLanguage = (lang: Language) => {
 export const getCurrentLanguage = (): Language => {
   if (memCacheLanguage) return memCacheLanguage;
   try {
-    const raw = localStorage.getItem("cineApiConfig");
+    const raw = browserStorage.getItem(SAVE_KEYS.config);
     if (raw) {
       const parsed = JSON.parse(raw);
       if (parsed.language === 'en' || parsed.language === 'vi') {

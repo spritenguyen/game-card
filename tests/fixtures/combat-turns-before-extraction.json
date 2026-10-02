@@ -1,0 +1,10866 @@
+[
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        290,
+        150,
+        270,
+        144,
+        48,
+        165
+      ],
+      "enemySpeeds": [
+        112,
+        212,
+        21,
+        72,
+        208,
+        123
+      ]
+    },
+    "result": {
+      "kind": "stalled",
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        908,
+        309,
+        604,
+        1272,
+        1681,
+        705
+      ],
+      "enemyATB": [
+        1102,
+        112,
+        1611,
+        1608,
+        785,
+        924
+      ],
+      "squadSpeeds": [
+        288,
+        247,
+        289,
+        69,
+        248,
+        229
+      ],
+      "enemySpeeds": [
+        95,
+        128,
+        229,
+        257,
+        40,
+        198
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 4,
+      "squadATB": [
+        908,
+        309,
+        604,
+        1272,
+        681,
+        705
+      ],
+      "enemyATB": [
+        1102,
+        112,
+        1611,
+        1608,
+        785,
+        924
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1011,
+        195,
+        555,
+        1423,
+        292,
+        838
+      ],
+      "enemyATB": [
+        902,
+        473,
+        1535,
+        616,
+        1650,
+        1345
+      ],
+      "squadSpeeds": [
+        181,
+        232,
+        237,
+        61,
+        157,
+        138
+      ],
+      "enemySpeeds": [
+        257,
+        112,
+        68,
+        37,
+        175,
+        53
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 4,
+      "squadATB": [
+        1011,
+        195,
+        555,
+        1423,
+        292,
+        838
+      ],
+      "enemyATB": [
+        902,
+        473,
+        1535,
+        616,
+        650,
+        1345
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        75,
+        250,
+        1,
+        273,
+        181,
+        234
+      ],
+      "enemySpeeds": [
+        40,
+        235,
+        4,
+        15,
+        123,
+        159
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        0,
+        915.7509157509157,
+        0,
+        1000,
+        663.003663003663,
+        857.1428571428571
+      ],
+      "enemyATB": [
+        0,
+        860.8058608058608,
+        0,
+        54.94505494505494,
+        450.5494505494505,
+        582.4175824175824
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        566,
+        326,
+        849,
+        1601,
+        1520,
+        494
+      ],
+      "enemyATB": [
+        282,
+        1692,
+        1682,
+        1486,
+        1307,
+        1352
+      ],
+      "squadSpeeds": [
+        127,
+        86,
+        124,
+        219,
+        70,
+        149
+      ],
+      "enemySpeeds": [
+        7,
+        275,
+        46,
+        135,
+        140,
+        113
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 1,
+      "squadATB": [
+        566,
+        326,
+        849,
+        1601,
+        1520,
+        494
+      ],
+      "enemyATB": [
+        282,
+        692,
+        1682,
+        1486,
+        1307,
+        1352
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        132,
+        998,
+        1324,
+        1262,
+        710,
+        73
+      ],
+      "enemyATB": [
+        249,
+        1403,
+        1461,
+        436,
+        630,
+        1052
+      ],
+      "squadSpeeds": [
+        278,
+        277,
+        211,
+        161,
+        228,
+        3
+      ],
+      "enemySpeeds": [
+        89,
+        103,
+        159,
+        9,
+        199,
+        237
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 2,
+      "squadATB": [
+        132,
+        998,
+        1324,
+        1262,
+        710,
+        73
+      ],
+      "enemyATB": [
+        249,
+        1403,
+        461,
+        436,
+        630,
+        1052
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        225,
+        16,
+        209,
+        86,
+        73,
+        171
+      ],
+      "enemySpeeds": [
+        285,
+        214,
+        61,
+        241,
+        164,
+        248
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        789.4736842105262,
+        56.14035087719298,
+        733.3333333333333,
+        301.7543859649123,
+        256.140350877193,
+        600
+      ],
+      "enemyATB": [
+        1000,
+        750.8771929824561,
+        214.03508771929825,
+        845.6140350877192,
+        575.438596491228,
+        870.1754385964912
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        false,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        235,
+        251,
+        112,
+        69,
+        171,
+        283
+      ],
+      "enemySpeeds": [
+        28,
+        265,
+        58,
+        114,
+        162,
+        156
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1182,
+        387,
+        1045,
+        1010,
+        1675,
+        1550
+      ],
+      "enemyATB": [
+        1257,
+        951,
+        1116,
+        1556,
+        1138,
+        1520
+      ],
+      "squadSpeeds": [
+        208,
+        71,
+        50,
+        191,
+        197,
+        24
+      ],
+      "enemySpeeds": [
+        61,
+        185,
+        176,
+        260,
+        253,
+        189
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 3,
+      "squadATB": [
+        1182,
+        387,
+        1045,
+        1010,
+        1675,
+        1550
+      ],
+      "enemyATB": [
+        1257,
+        951,
+        1116,
+        556,
+        1138,
+        1520
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        168,
+        17,
+        44,
+        45,
+        176,
+        161
+      ],
+      "enemySpeeds": [
+        180,
+        46,
+        17,
+        124,
+        44,
+        260
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        646.1538461538462,
+        0,
+        0,
+        0,
+        676.9230769230769,
+        619.2307692307693
+      ],
+      "enemyATB": [
+        692.3076923076924,
+        176.92307692307693,
+        65.38461538461539,
+        0,
+        0,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        366,
+        343,
+        363,
+        521,
+        364,
+        1748
+      ],
+      "enemyATB": [
+        863,
+        1225,
+        85,
+        253,
+        489,
+        554
+      ],
+      "squadSpeeds": [
+        14,
+        261,
+        35,
+        64,
+        239,
+        195
+      ],
+      "enemySpeeds": [
+        120,
+        112,
+        24,
+        203,
+        200,
+        119
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        366,
+        343,
+        363,
+        521,
+        364,
+        748
+      ],
+      "enemyATB": [
+        863,
+        1225,
+        85,
+        253,
+        489,
+        554
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        503,
+        522,
+        942,
+        536,
+        1065,
+        746
+      ],
+      "enemyATB": [
+        1688,
+        304,
+        1230,
+        227,
+        36,
+        486
+      ],
+      "squadSpeeds": [
+        75,
+        245,
+        243,
+        49,
+        176,
+        226
+      ],
+      "enemySpeeds": [
+        123,
+        110,
+        142,
+        210,
+        48,
+        248
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        503,
+        522,
+        942,
+        536,
+        1065,
+        746
+      ],
+      "enemyATB": [
+        688,
+        304,
+        1230,
+        227,
+        36,
+        486
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        149,
+        181,
+        177,
+        260,
+        170,
+        280
+      ],
+      "enemySpeeds": [
+        179,
+        191,
+        16,
+        291,
+        271,
+        12
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        512.0274914089347,
+        0,
+        608.2474226804123,
+        893.4707903780068,
+        584.1924398625429,
+        0
+      ],
+      "enemyATB": [
+        0,
+        656.3573883161512,
+        54.982817869415804,
+        999.9999999999999,
+        931.2714776632301,
+        0
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        442,
+        77,
+        1702,
+        1593,
+        1619,
+        1158
+      ],
+      "enemyATB": [
+        1778,
+        12,
+        1154,
+        1744,
+        1748,
+        407
+      ],
+      "squadSpeeds": [
+        214,
+        37,
+        134,
+        36,
+        258,
+        36
+      ],
+      "enemySpeeds": [
+        54,
+        69,
+        153,
+        210,
+        242,
+        159
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        442,
+        77,
+        1702,
+        1593,
+        1619,
+        1158
+      ],
+      "enemyATB": [
+        778,
+        12,
+        1154,
+        1744,
+        1748,
+        407
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        47,
+        166,
+        47,
+        35,
+        39,
+        142
+      ],
+      "enemySpeeds": [
+        143,
+        159,
+        242,
+        168,
+        42,
+        33
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        186,
+        265,
+        260,
+        198,
+        237,
+        116
+      ],
+      "enemySpeeds": [
+        293,
+        159,
+        212,
+        126,
+        178,
+        44
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        0,
+        904.4368600682594,
+        0,
+        675.7679180887372,
+        808.8737201365188,
+        395.9044368600683
+      ],
+      "enemyATB": [
+        1000,
+        542.6621160409557,
+        723.5494880546075,
+        430.0341296928328,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        false,
+        false,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1476,
+        809,
+        1237,
+        952,
+        146,
+        220
+      ],
+      "enemyATB": [
+        75,
+        861,
+        1609,
+        1556,
+        462,
+        1690
+      ],
+      "squadSpeeds": [
+        120,
+        54,
+        159,
+        8,
+        273,
+        184
+      ],
+      "enemySpeeds": [
+        112,
+        230,
+        69,
+        241,
+        166,
+        213
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 5,
+      "squadATB": [
+        1476,
+        809,
+        1237,
+        952,
+        146,
+        220
+      ],
+      "enemyATB": [
+        75,
+        861,
+        1609,
+        1556,
+        462,
+        690
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        1038,
+        848,
+        218,
+        95,
+        1270,
+        194
+      ],
+      "enemyATB": [
+        1565,
+        1378,
+        1037,
+        1783,
+        1296,
+        131
+      ],
+      "squadSpeeds": [
+        202,
+        21,
+        266,
+        176,
+        226,
+        68
+      ],
+      "enemySpeeds": [
+        136,
+        90,
+        40,
+        48,
+        269,
+        89
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 3,
+      "squadATB": [
+        1038,
+        848,
+        218,
+        95,
+        1270,
+        194
+      ],
+      "enemyATB": [
+        1565,
+        1378,
+        1037,
+        783,
+        1296,
+        131
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        2,
+        74,
+        294,
+        179,
+        267,
+        154
+      ],
+      "enemySpeeds": [
+        28,
+        106,
+        225,
+        34,
+        196,
+        288
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        6.802721088435374,
+        251.70068027210883,
+        999.9999999999999,
+        608.8435374149659,
+        908.1632653061224,
+        523.8095238095237
+      ],
+      "enemyATB": [
+        95.23809523809523,
+        360.5442176870748,
+        765.3061224489795,
+        115.64625850340136,
+        0,
+        979.5918367346939
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1320,
+        1755,
+        1318,
+        1583,
+        1062,
+        1601
+      ],
+      "enemyATB": [
+        849,
+        932,
+        1635,
+        1383,
+        146,
+        577
+      ],
+      "squadSpeeds": [
+        56,
+        290,
+        114,
+        242,
+        103,
+        299
+      ],
+      "enemySpeeds": [
+        242,
+        164,
+        222,
+        93,
+        103,
+        22
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        1320,
+        1755,
+        1318,
+        1583,
+        1062,
+        601
+      ],
+      "enemyATB": [
+        849,
+        932,
+        1635,
+        1383,
+        146,
+        577
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1669,
+        860,
+        1566,
+        1280,
+        1724,
+        379
+      ],
+      "enemyATB": [
+        724,
+        598,
+        1659,
+        265,
+        128,
+        306
+      ],
+      "squadSpeeds": [
+        189,
+        253,
+        168,
+        221,
+        72,
+        48
+      ],
+      "enemySpeeds": [
+        158,
+        248,
+        185,
+        162,
+        248,
+        10
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        669,
+        860,
+        1566,
+        1280,
+        1724,
+        379
+      ],
+      "enemyATB": [
+        724,
+        598,
+        1659,
+        265,
+        128,
+        306
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        285,
+        136,
+        54,
+        250,
+        265,
+        173
+      ],
+      "enemySpeeds": [
+        178,
+        154,
+        21,
+        63,
+        2,
+        181
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        780,
+        31,
+        1237,
+        1208,
+        879,
+        1738
+      ],
+      "enemyATB": [
+        789,
+        1763,
+        352,
+        637,
+        1023,
+        102
+      ],
+      "squadSpeeds": [
+        173,
+        140,
+        45,
+        241,
+        73,
+        154
+      ],
+      "enemySpeeds": [
+        40,
+        22,
+        147,
+        123,
+        205,
+        227
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 1,
+      "squadATB": [
+        780,
+        31,
+        1237,
+        1208,
+        879,
+        1738
+      ],
+      "enemyATB": [
+        789,
+        763,
+        352,
+        637,
+        1023,
+        102
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        652,
+        67,
+        627,
+        273,
+        1126,
+        508
+      ],
+      "enemyATB": [
+        749,
+        624,
+        835,
+        328,
+        649,
+        917
+      ],
+      "squadSpeeds": [
+        120,
+        116,
+        231,
+        257,
+        81,
+        77
+      ],
+      "enemySpeeds": [
+        95,
+        163,
+        66,
+        22,
+        125,
+        50
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 4,
+      "squadATB": [
+        652,
+        67,
+        627,
+        273,
+        126,
+        508
+      ],
+      "enemyATB": [
+        749,
+        624,
+        835,
+        328,
+        649,
+        917
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        265,
+        43,
+        92,
+        206,
+        163,
+        198
+      ],
+      "enemySpeeds": [
+        49,
+        214,
+        103,
+        10,
+        66,
+        226
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        1000,
+        162.26415094339623,
+        347.1698113207547,
+        777.3584905660377,
+        0,
+        747.1698113207548
+      ],
+      "enemyATB": [
+        184.9056603773585,
+        807.5471698113207,
+        388.6792452830189,
+        37.735849056603776,
+        249.0566037735849,
+        0
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        1449,
+        1029,
+        1229,
+        514,
+        1767,
+        1601
+      ],
+      "enemyATB": [
+        1686,
+        1547,
+        1742,
+        474,
+        726,
+        752
+      ],
+      "squadSpeeds": [
+        37,
+        2,
+        237,
+        108,
+        38,
+        210
+      ],
+      "enemySpeeds": [
+        256,
+        146,
+        51,
+        291,
+        115,
+        267
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 4,
+      "squadATB": [
+        1449,
+        1029,
+        1229,
+        514,
+        767,
+        1601
+      ],
+      "enemyATB": [
+        1686,
+        1547,
+        1742,
+        474,
+        726,
+        752
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "squadATB": [
+        1155,
+        819,
+        57,
+        554,
+        418,
+        1492
+      ],
+      "enemyATB": [
+        1016,
+        1094,
+        17,
+        1290,
+        640,
+        580
+      ],
+      "squadSpeeds": [
+        221,
+        200,
+        278,
+        145,
+        208,
+        16
+      ],
+      "enemySpeeds": [
+        228,
+        10,
+        198,
+        144,
+        243,
+        57
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        1155,
+        819,
+        57,
+        554,
+        418,
+        492
+      ],
+      "enemyATB": [
+        1016,
+        1094,
+        17,
+        1290,
+        640,
+        580
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        198,
+        128,
+        110,
+        95,
+        76,
+        284
+      ],
+      "enemySpeeds": [
+        200,
+        197,
+        120,
+        265,
+        189,
+        1
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        697.1830985915493,
+        0,
+        387.32394366197184,
+        334.50704225352115,
+        267.6056338028169,
+        1000
+      ],
+      "enemyATB": [
+        704.2253521126761,
+        693.661971830986,
+        422.53521126760563,
+        933.0985915492959,
+        665.492957746479,
+        3.5211267605633805
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        false
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        46,
+        250,
+        222,
+        210,
+        12,
+        244
+      ],
+      "enemySpeeds": [
+        248,
+        145,
+        294,
+        119,
+        295,
+        9
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        1164,
+        693,
+        131,
+        1137,
+        268,
+        1582
+      ],
+      "enemyATB": [
+        1419,
+        1511,
+        1082,
+        296,
+        820,
+        328
+      ],
+      "squadSpeeds": [
+        187,
+        58,
+        71,
+        281,
+        126,
+        152
+      ],
+      "enemySpeeds": [
+        260,
+        115,
+        243,
+        245,
+        72,
+        195
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        1164,
+        693,
+        131,
+        1137,
+        268,
+        582
+      ],
+      "enemyATB": [
+        1419,
+        1511,
+        1082,
+        296,
+        820,
+        328
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        13,
+        241,
+        175,
+        15,
+        266,
+        28
+      ],
+      "enemySpeeds": [
+        218,
+        227,
+        218,
+        271,
+        12,
+        271
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        0,
+        889.29889298893,
+        0,
+        55.35055350553506,
+        0,
+        103.3210332103321
+      ],
+      "enemyATB": [
+        0,
+        837.6383763837639,
+        804.4280442804428,
+        0,
+        44.28044280442805,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        837,
+        523,
+        864,
+        242,
+        119,
+        1391
+      ],
+      "enemyATB": [
+        1023,
+        1029,
+        1496,
+        1629,
+        589,
+        1623
+      ],
+      "squadSpeeds": [
+        40,
+        265,
+        214,
+        298,
+        133,
+        148
+      ],
+      "enemySpeeds": [
+        16,
+        27,
+        292,
+        292,
+        276,
+        77
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 3,
+      "squadATB": [
+        837,
+        523,
+        864,
+        242,
+        119,
+        1391
+      ],
+      "enemyATB": [
+        1023,
+        1029,
+        1496,
+        629,
+        589,
+        1623
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        837,
+        1563,
+        977,
+        678,
+        594,
+        1689
+      ],
+      "enemyATB": [
+        1766,
+        1707,
+        694,
+        1619,
+        1136,
+        727
+      ],
+      "squadSpeeds": [
+        157,
+        139,
+        154,
+        238,
+        1,
+        147
+      ],
+      "enemySpeeds": [
+        241,
+        119,
+        107,
+        165,
+        134,
+        150
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        837,
+        1563,
+        977,
+        678,
+        594,
+        1689
+      ],
+      "enemyATB": [
+        766,
+        1707,
+        694,
+        1619,
+        1136,
+        727
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        169,
+        234,
+        125,
+        203,
+        176,
+        252
+      ],
+      "enemySpeeds": [
+        293,
+        289,
+        207,
+        292,
+        20,
+        146
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        670.6349206349206,
+        0,
+        496.031746031746,
+        805.5555555555555,
+        698.4126984126984,
+        1000
+      ],
+      "enemyATB": [
+        0,
+        0,
+        821.4285714285714,
+        0,
+        79.36507936507937,
+        579.3650793650794
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        620,
+        510,
+        1352,
+        1575,
+        378,
+        1608
+      ],
+      "enemyATB": [
+        569,
+        697,
+        1186,
+        1506,
+        1631,
+        596
+      ],
+      "squadSpeeds": [
+        171,
+        270,
+        216,
+        193,
+        128,
+        165
+      ],
+      "enemySpeeds": [
+        206,
+        3,
+        248,
+        101,
+        30,
+        164
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        620,
+        510,
+        1352,
+        1575,
+        378,
+        608
+      ],
+      "enemyATB": [
+        569,
+        697,
+        1186,
+        1506,
+        1631,
+        596
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        175,
+        187,
+        264,
+        18,
+        84,
+        166
+      ],
+      "enemySpeeds": [
+        9,
+        54,
+        258,
+        54,
+        196,
+        221
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        297,
+        274,
+        76,
+        73,
+        172,
+        90
+      ],
+      "enemySpeeds": [
+        133,
+        298,
+        109,
+        237,
+        98,
+        102
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        996.6442953020135,
+        0,
+        0,
+        0,
+        577.1812080536913,
+        0
+      ],
+      "enemyATB": [
+        446.30872483221475,
+        1000,
+        365.7718120805369,
+        0,
+        328.8590604026846,
+        342.2818791946309
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        330,
+        209,
+        1382,
+        342,
+        397,
+        1157
+      ],
+      "enemyATB": [
+        1474,
+        632,
+        1604,
+        1045,
+        21,
+        676
+      ],
+      "squadSpeeds": [
+        164,
+        117,
+        272,
+        26,
+        42,
+        15
+      ],
+      "enemySpeeds": [
+        159,
+        199,
+        199,
+        12,
+        282,
+        59
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        330,
+        209,
+        1382,
+        342,
+        397,
+        157
+      ],
+      "enemyATB": [
+        1474,
+        632,
+        1604,
+        1045,
+        21,
+        676
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        1428,
+        1258,
+        652,
+        1555,
+        5,
+        1299
+      ],
+      "enemyATB": [
+        1360,
+        1519,
+        17,
+        706,
+        851,
+        16
+      ],
+      "squadSpeeds": [
+        207,
+        180,
+        170,
+        59,
+        206,
+        259
+      ],
+      "enemySpeeds": [
+        154,
+        261,
+        169,
+        32,
+        231,
+        252
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 3,
+      "squadATB": [
+        1428,
+        1258,
+        652,
+        555,
+        5,
+        1299
+      ],
+      "enemyATB": [
+        1360,
+        1519,
+        17,
+        706,
+        851,
+        16
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        47,
+        50,
+        235,
+        39,
+        91,
+        167
+      ],
+      "enemySpeeds": [
+        247,
+        138,
+        13,
+        155,
+        286,
+        144
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        0,
+        0,
+        951.417004048583,
+        157.89473684210526,
+        368.42105263157896,
+        0
+      ],
+      "enemyATB": [
+        1000,
+        0,
+        52.631578947368425,
+        627.5303643724696,
+        0,
+        582.9959514170041
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        false
+      ],
+      "squadATB": [
+        1745,
+        402,
+        1581,
+        1376,
+        734,
+        190
+      ],
+      "enemyATB": [
+        1625,
+        1033,
+        635,
+        988,
+        1364,
+        974
+      ],
+      "squadSpeeds": [
+        81,
+        296,
+        263,
+        196,
+        170,
+        43
+      ],
+      "enemySpeeds": [
+        142,
+        45,
+        233,
+        107,
+        11,
+        99
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 2,
+      "squadATB": [
+        1745,
+        402,
+        581,
+        1376,
+        734,
+        190
+      ],
+      "enemyATB": [
+        1625,
+        1033,
+        635,
+        988,
+        1364,
+        974
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        false
+      ],
+      "squadATB": [
+        1197,
+        212,
+        613,
+        201,
+        689,
+        678
+      ],
+      "enemyATB": [
+        714,
+        88,
+        905,
+        1577,
+        602,
+        335
+      ],
+      "squadSpeeds": [
+        142,
+        21,
+        85,
+        41,
+        28,
+        164
+      ],
+      "enemySpeeds": [
+        62,
+        190,
+        160,
+        173,
+        254,
+        244
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        197,
+        212,
+        613,
+        201,
+        689,
+        678
+      ],
+      "enemyATB": [
+        714,
+        88,
+        905,
+        1577,
+        602,
+        335
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        276,
+        222,
+        94,
+        147,
+        189,
+        164
+      ],
+      "enemySpeeds": [
+        182,
+        233,
+        249,
+        226,
+        55,
+        190
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "squadATB": [
+        569,
+        38,
+        219,
+        936,
+        1074,
+        1135
+      ],
+      "enemyATB": [
+        161,
+        1737,
+        1403,
+        1371,
+        521,
+        757
+      ],
+      "squadSpeeds": [
+        64,
+        70,
+        146,
+        90,
+        290,
+        85
+      ],
+      "enemySpeeds": [
+        193,
+        219,
+        108,
+        220,
+        299,
+        236
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 1,
+      "squadATB": [
+        569,
+        38,
+        219,
+        936,
+        1074,
+        1135
+      ],
+      "enemyATB": [
+        161,
+        737,
+        1403,
+        1371,
+        521,
+        757
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "squadATB": [
+        1280,
+        1503,
+        1582,
+        1763,
+        1407,
+        1709
+      ],
+      "enemyATB": [
+        1376,
+        145,
+        967,
+        1674,
+        959,
+        809
+      ],
+      "squadSpeeds": [
+        188,
+        283,
+        274,
+        2,
+        86,
+        237
+      ],
+      "enemySpeeds": [
+        89,
+        41,
+        17,
+        296,
+        2,
+        274
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        1280,
+        1503,
+        1582,
+        1763,
+        1407,
+        709
+      ],
+      "enemyATB": [
+        1376,
+        145,
+        967,
+        1674,
+        959,
+        809
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        109,
+        256,
+        128,
+        96,
+        237,
+        111
+      ],
+      "enemySpeeds": [
+        95,
+        246,
+        265,
+        198,
+        296,
+        202
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        0,
+        0,
+        0,
+        324.3243243243243,
+        800.6756756756757,
+        0
+      ],
+      "enemyATB": [
+        320.94594594594594,
+        831.0810810810812,
+        0,
+        668.918918918919,
+        1000,
+        682.4324324324325
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        1051,
+        671,
+        142,
+        1525,
+        318,
+        1564
+      ],
+      "enemyATB": [
+        727,
+        620,
+        1403,
+        461,
+        1613,
+        641
+      ],
+      "squadSpeeds": [
+        213,
+        272,
+        122,
+        68,
+        183,
+        227
+      ],
+      "enemySpeeds": [
+        63,
+        181,
+        187,
+        181,
+        44,
+        296
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 3,
+      "squadATB": [
+        1051,
+        671,
+        142,
+        525,
+        318,
+        1564
+      ],
+      "enemyATB": [
+        727,
+        620,
+        1403,
+        461,
+        1613,
+        641
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        1055,
+        1404,
+        678,
+        216,
+        73,
+        1069
+      ],
+      "enemyATB": [
+        1189,
+        244,
+        376,
+        890,
+        225,
+        948
+      ],
+      "squadSpeeds": [
+        39,
+        92,
+        157,
+        67,
+        131,
+        125
+      ],
+      "enemySpeeds": [
+        294,
+        30,
+        99,
+        261,
+        100,
+        89
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        1055,
+        1404,
+        678,
+        216,
+        73,
+        69
+      ],
+      "enemyATB": [
+        1189,
+        244,
+        376,
+        890,
+        225,
+        948
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        198,
+        23,
+        244,
+        219,
+        102,
+        127
+      ],
+      "enemySpeeds": [
+        95,
+        207,
+        55,
+        144,
+        298,
+        79
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        664.4295302013423,
+        0,
+        818.7919463087248,
+        0,
+        342.2818791946309,
+        426.1744966442953
+      ],
+      "enemyATB": [
+        318.79194630872485,
+        694.6308724832215,
+        184.56375838926175,
+        0,
+        1000,
+        265.1006711409396
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        49,
+        96,
+        254,
+        217,
+        206,
+        221
+      ],
+      "enemySpeeds": [
+        38,
+        8,
+        261,
+        134,
+        26,
+        145
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 1,
+      "squadATB": [
+        1000,
+        0,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        1694,
+        797,
+        1176,
+        1660,
+        713,
+        802
+      ],
+      "enemyATB": [
+        1129,
+        555,
+        1281,
+        608,
+        407,
+        1204
+      ],
+      "squadSpeeds": [
+        82,
+        298,
+        262,
+        23,
+        56,
+        255
+      ],
+      "enemySpeeds": [
+        213,
+        215,
+        253,
+        98,
+        131,
+        60
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 3,
+      "squadATB": [
+        1694,
+        797,
+        1176,
+        660,
+        713,
+        802
+      ],
+      "enemyATB": [
+        1129,
+        555,
+        1281,
+        608,
+        407,
+        1204
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        37,
+        62,
+        60,
+        53,
+        128,
+        34
+      ],
+      "enemySpeeds": [
+        285,
+        21,
+        289,
+        251,
+        59,
+        16
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        0,
+        217.5438596491228,
+        210.52631578947367,
+        185.96491228070175,
+        449.12280701754383,
+        119.29824561403508
+      ],
+      "enemyATB": [
+        1000,
+        73.68421052631578,
+        0,
+        880.7017543859648,
+        207.01754385964912,
+        56.14035087719298
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        479,
+        302,
+        1725,
+        1439,
+        405,
+        1600
+      ],
+      "enemyATB": [
+        1698,
+        551,
+        710,
+        1258,
+        331,
+        815
+      ],
+      "squadSpeeds": [
+        42,
+        86,
+        77,
+        229,
+        134,
+        66
+      ],
+      "enemySpeeds": [
+        73,
+        22,
+        131,
+        81,
+        116,
+        102
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 2,
+      "squadATB": [
+        479,
+        302,
+        725,
+        1439,
+        405,
+        1600
+      ],
+      "enemyATB": [
+        1698,
+        551,
+        710,
+        1258,
+        331,
+        815
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        1412,
+        14,
+        1604,
+        854,
+        968,
+        507
+      ],
+      "enemyATB": [
+        429,
+        920,
+        584,
+        514,
+        460,
+        803
+      ],
+      "squadSpeeds": [
+        165,
+        49,
+        296,
+        23,
+        58,
+        189
+      ],
+      "enemySpeeds": [
+        48,
+        290,
+        17,
+        219,
+        215,
+        116
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 2,
+      "squadATB": [
+        1412,
+        14,
+        604,
+        854,
+        968,
+        507
+      ],
+      "enemyATB": [
+        429,
+        920,
+        584,
+        514,
+        460,
+        803
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        116,
+        234,
+        186,
+        229,
+        283,
+        288
+      ],
+      "enemySpeeds": [
+        292,
+        11,
+        35,
+        149,
+        41,
+        272
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        397.2602739726027,
+        801.3698630136986,
+        0,
+        784.2465753424657,
+        969.1780821917808,
+        986.3013698630136
+      ],
+      "enemyATB": [
+        1000,
+        0,
+        119.86301369863014,
+        0,
+        140.41095890410958,
+        931.5068493150685
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1600,
+        1060,
+        1728,
+        1128,
+        907,
+        1577
+      ],
+      "enemyATB": [
+        618,
+        25,
+        1089,
+        457,
+        1688,
+        713
+      ],
+      "squadSpeeds": [
+        14,
+        190,
+        276,
+        35,
+        299,
+        169
+      ],
+      "enemySpeeds": [
+        172,
+        175,
+        171,
+        289,
+        245,
+        166
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 2,
+      "squadATB": [
+        1600,
+        1060,
+        728,
+        1128,
+        907,
+        1577
+      ],
+      "enemyATB": [
+        618,
+        25,
+        1089,
+        457,
+        1688,
+        713
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        241,
+        186,
+        137,
+        185,
+        77,
+        270
+      ],
+      "enemySpeeds": [
+        126,
+        41,
+        73,
+        290,
+        159,
+        289
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        230,
+        222,
+        160,
+        247,
+        143,
+        102
+      ],
+      "enemySpeeds": [
+        157,
+        98,
+        61,
+        154,
+        180,
+        3
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        931.1740890688259,
+        898.7854251012146,
+        0,
+        1000,
+        578.9473684210526,
+        412.95546558704456
+      ],
+      "enemyATB": [
+        635.6275303643724,
+        396.7611336032389,
+        246.96356275303643,
+        623.4817813765183,
+        728.744939271255,
+        12.145748987854251
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "squadATB": [
+        1277,
+        26,
+        606,
+        1428,
+        109,
+        1331
+      ],
+      "enemyATB": [
+        92,
+        1014,
+        1738,
+        1178,
+        965,
+        1614
+      ],
+      "squadSpeeds": [
+        61,
+        144,
+        229,
+        29,
+        88,
+        160
+      ],
+      "enemySpeeds": [
+        191,
+        31,
+        182,
+        48,
+        279,
+        37
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 2,
+      "squadATB": [
+        1277,
+        26,
+        606,
+        1428,
+        109,
+        1331
+      ],
+      "enemyATB": [
+        92,
+        1014,
+        738,
+        1178,
+        965,
+        1614
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        1157,
+        671,
+        896,
+        1787,
+        78,
+        126
+      ],
+      "enemyATB": [
+        449,
+        954,
+        663,
+        886,
+        1498,
+        582
+      ],
+      "squadSpeeds": [
+        66,
+        227,
+        147,
+        221,
+        109,
+        165
+      ],
+      "enemySpeeds": [
+        32,
+        30,
+        170,
+        167,
+        221,
+        249
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 3,
+      "squadATB": [
+        1157,
+        671,
+        896,
+        787,
+        78,
+        126
+      ],
+      "enemyATB": [
+        449,
+        954,
+        663,
+        886,
+        1498,
+        582
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        53,
+        252,
+        151,
+        129,
+        46,
+        88
+      ],
+      "enemySpeeds": [
+        32,
+        111,
+        286,
+        281,
+        7,
+        257
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        185.31468531468533,
+        881.1188811188812,
+        527.972027972028,
+        451.0489510489511,
+        160.83916083916085,
+        307.69230769230774
+      ],
+      "enemyATB": [
+        0,
+        388.1118881118881,
+        1000,
+        0,
+        24.475524475524477,
+        898.6013986013986
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1126,
+        251,
+        571,
+        71,
+        142,
+        1588
+      ],
+      "enemyATB": [
+        765,
+        738,
+        173,
+        1109,
+        1539,
+        83
+      ],
+      "squadSpeeds": [
+        122,
+        198,
+        220,
+        53,
+        78,
+        9
+      ],
+      "enemySpeeds": [
+        61,
+        253,
+        30,
+        169,
+        277,
+        162
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        1126,
+        251,
+        571,
+        71,
+        142,
+        588
+      ],
+      "enemyATB": [
+        765,
+        738,
+        173,
+        1109,
+        1539,
+        83
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1479,
+        430,
+        1391,
+        1469,
+        447,
+        846
+      ],
+      "enemyATB": [
+        165,
+        926,
+        761,
+        1373,
+        512,
+        520
+      ],
+      "squadSpeeds": [
+        23,
+        92,
+        277,
+        21,
+        90,
+        278
+      ],
+      "enemySpeeds": [
+        128,
+        41,
+        247,
+        119,
+        126,
+        93
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        479,
+        430,
+        1391,
+        1469,
+        447,
+        846
+      ],
+      "enemyATB": [
+        165,
+        926,
+        761,
+        1373,
+        512,
+        520
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        69,
+        224,
+        128,
+        163,
+        216,
+        2
+      ],
+      "enemySpeeds": [
+        105,
+        192,
+        94,
+        145,
+        37,
+        147
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1327,
+        1740,
+        103,
+        63,
+        1755,
+        1149
+      ],
+      "enemyATB": [
+        1243,
+        179,
+        945,
+        538,
+        1199,
+        1561
+      ],
+      "squadSpeeds": [
+        116,
+        1,
+        191,
+        14,
+        23,
+        272
+      ],
+      "enemySpeeds": [
+        248,
+        297,
+        207,
+        259,
+        16,
+        220
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 1,
+      "squadATB": [
+        1327,
+        740,
+        103,
+        63,
+        1755,
+        1149
+      ],
+      "enemyATB": [
+        1243,
+        179,
+        945,
+        538,
+        1199,
+        1561
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        659,
+        1074,
+        1521,
+        347,
+        1180,
+        1117
+      ],
+      "enemyATB": [
+        1511,
+        1087,
+        1750,
+        519,
+        323,
+        1075
+      ],
+      "squadSpeeds": [
+        75,
+        93,
+        213,
+        59,
+        197,
+        90
+      ],
+      "enemySpeeds": [
+        117,
+        105,
+        108,
+        293,
+        196,
+        236
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 2,
+      "squadATB": [
+        659,
+        1074,
+        1521,
+        347,
+        1180,
+        1117
+      ],
+      "enemyATB": [
+        1511,
+        1087,
+        750,
+        519,
+        323,
+        1075
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        106,
+        11,
+        166,
+        266,
+        145,
+        281
+      ],
+      "enemySpeeds": [
+        144,
+        30,
+        132,
+        264,
+        132,
+        131
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        398.49624060150376,
+        0,
+        624.0601503759399,
+        1000,
+        545.1127819548872,
+        0
+      ],
+      "enemyATB": [
+        541.3533834586466,
+        112.78195488721805,
+        496.2406015037594,
+        992.4812030075188,
+        496.2406015037594,
+        0
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        1617,
+        721,
+        1091,
+        1029,
+        769,
+        986
+      ],
+      "enemyATB": [
+        502,
+        1481,
+        1671,
+        1465,
+        823,
+        1176
+      ],
+      "squadSpeeds": [
+        222,
+        109,
+        84,
+        272,
+        14,
+        179
+      ],
+      "enemySpeeds": [
+        289,
+        258,
+        268,
+        215,
+        20,
+        240
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 2,
+      "squadATB": [
+        1617,
+        721,
+        1091,
+        1029,
+        769,
+        986
+      ],
+      "enemyATB": [
+        502,
+        1481,
+        671,
+        1465,
+        823,
+        1176
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        88,
+        535,
+        399,
+        911,
+        165,
+        1616
+      ],
+      "enemyATB": [
+        1292,
+        195,
+        1348,
+        411,
+        1506,
+        1473
+      ],
+      "squadSpeeds": [
+        290,
+        1,
+        177,
+        19,
+        98,
+        144
+      ],
+      "enemySpeeds": [
+        196,
+        293,
+        41,
+        90,
+        206,
+        101
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 5,
+      "squadATB": [
+        88,
+        535,
+        399,
+        911,
+        165,
+        1616
+      ],
+      "enemyATB": [
+        1292,
+        195,
+        1348,
+        411,
+        1506,
+        473
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        18,
+        135,
+        230,
+        251,
+        290,
+        229
+      ],
+      "enemySpeeds": [
+        236,
+        254,
+        75,
+        223,
+        254,
+        69
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        70.86614173228347,
+        0,
+        0,
+        0,
+        0,
+        901.5748031496063
+      ],
+      "enemyATB": [
+        929.1338582677165,
+        1000,
+        295.2755905511811,
+        877.9527559055118,
+        1000,
+        271.65354330708664
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        64,
+        172,
+        71,
+        15,
+        189,
+        115
+      ],
+      "enemySpeeds": [
+        192,
+        229,
+        31,
+        131,
+        111,
+        12
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "squadATB": [
+        945,
+        1141,
+        1284,
+        870,
+        1647,
+        550
+      ],
+      "enemyATB": [
+        1784,
+        1335,
+        1553,
+        995,
+        1563,
+        265
+      ],
+      "squadSpeeds": [
+        96,
+        151,
+        281,
+        39,
+        276,
+        78
+      ],
+      "enemySpeeds": [
+        231,
+        37,
+        285,
+        269,
+        275,
+        220
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        945,
+        1141,
+        1284,
+        870,
+        1647,
+        550
+      ],
+      "enemyATB": [
+        784,
+        1335,
+        1553,
+        995,
+        1563,
+        265
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        false
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        203,
+        43,
+        266,
+        270,
+        116,
+        164
+      ],
+      "enemySpeeds": [
+        160,
+        44,
+        105,
+        74,
+        56,
+        155
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        0,
+        159.25925925925927,
+        0,
+        1000,
+        429.6296296296296,
+        0
+      ],
+      "enemyATB": [
+        592.5925925925926,
+        162.96296296296296,
+        0,
+        0,
+        207.40740740740742,
+        0
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        414,
+        1538,
+        880,
+        924,
+        1504,
+        1113
+      ],
+      "enemyATB": [
+        499,
+        420,
+        415,
+        215,
+        803,
+        368
+      ],
+      "squadSpeeds": [
+        121,
+        230,
+        211,
+        4,
+        150,
+        175
+      ],
+      "enemySpeeds": [
+        276,
+        167,
+        148,
+        90,
+        289,
+        31
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 1,
+      "squadATB": [
+        414,
+        538,
+        880,
+        924,
+        1504,
+        1113
+      ],
+      "enemyATB": [
+        499,
+        420,
+        415,
+        215,
+        803,
+        368
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        598,
+        421,
+        1478,
+        697,
+        916,
+        447
+      ],
+      "enemyATB": [
+        664,
+        899,
+        1380,
+        905,
+        1718,
+        1163
+      ],
+      "squadSpeeds": [
+        135,
+        154,
+        5,
+        125,
+        185,
+        199
+      ],
+      "enemySpeeds": [
+        236,
+        229,
+        74,
+        185,
+        133,
+        90
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 4,
+      "squadATB": [
+        598,
+        421,
+        1478,
+        697,
+        916,
+        447
+      ],
+      "enemyATB": [
+        664,
+        899,
+        1380,
+        905,
+        718,
+        1163
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        73,
+        232,
+        283,
+        152,
+        100,
+        236
+      ],
+      "enemySpeeds": [
+        23,
+        161,
+        147,
+        273,
+        172,
+        12
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        0,
+        819.7879858657243,
+        999.9999999999999,
+        537.1024734982332,
+        353.3568904593639,
+        833.9222614840988
+      ],
+      "enemyATB": [
+        81.2720848056537,
+        568.904593639576,
+        519.434628975265,
+        964.6643109540636,
+        607.773851590106,
+        0
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "squadATB": [
+        454,
+        1178,
+        127,
+        1648,
+        1257,
+        397
+      ],
+      "enemyATB": [
+        1739,
+        102,
+        808,
+        890,
+        1427,
+        831
+      ],
+      "squadSpeeds": [
+        95,
+        208,
+        46,
+        258,
+        218,
+        2
+      ],
+      "enemySpeeds": [
+        182,
+        68,
+        176,
+        208,
+        101,
+        87
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        454,
+        1178,
+        127,
+        1648,
+        1257,
+        397
+      ],
+      "enemyATB": [
+        739,
+        102,
+        808,
+        890,
+        1427,
+        831
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        139,
+        125,
+        41,
+        199,
+        113,
+        17
+      ],
+      "enemySpeeds": [
+        137,
+        0,
+        25,
+        34,
+        54,
+        133
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        92,
+        210,
+        206,
+        75,
+        62,
+        94
+      ],
+      "enemySpeeds": [
+        42,
+        201,
+        270,
+        77,
+        20,
+        25
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        0,
+        777.7777777777778,
+        762.9629629629629,
+        277.77777777777777,
+        229.62962962962962,
+        348.14814814814815
+      ],
+      "enemyATB": [
+        0,
+        0,
+        1000,
+        285.18518518518516,
+        74.07407407407408,
+        92.5925925925926
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1102,
+        965,
+        1655,
+        327,
+        1369,
+        1795
+      ],
+      "enemyATB": [
+        751,
+        854,
+        1043,
+        140,
+        336,
+        916
+      ],
+      "squadSpeeds": [
+        90,
+        11,
+        242,
+        117,
+        148,
+        110
+      ],
+      "enemySpeeds": [
+        297,
+        11,
+        208,
+        128,
+        246,
+        91
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        1102,
+        965,
+        1655,
+        327,
+        1369,
+        795
+      ],
+      "enemyATB": [
+        751,
+        854,
+        1043,
+        140,
+        336,
+        916
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        532,
+        1363,
+        295,
+        1189,
+        1727,
+        297
+      ],
+      "enemyATB": [
+        1465,
+        678,
+        1649,
+        609,
+        155,
+        1337
+      ],
+      "squadSpeeds": [
+        157,
+        139,
+        133,
+        58,
+        184,
+        205
+      ],
+      "enemySpeeds": [
+        148,
+        268,
+        34,
+        60,
+        223,
+        269
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 4,
+      "squadATB": [
+        532,
+        1363,
+        295,
+        1189,
+        727,
+        297
+      ],
+      "enemyATB": [
+        1465,
+        678,
+        1649,
+        609,
+        155,
+        1337
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        255,
+        185,
+        238,
+        245,
+        106,
+        50
+      ],
+      "enemySpeeds": [
+        153,
+        13,
+        27,
+        65,
+        211,
+        44
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        1000,
+        725.4901960784314,
+        933.3333333333333,
+        960.7843137254902,
+        415.6862745098039,
+        196.078431372549
+      ],
+      "enemyATB": [
+        600,
+        50.98039215686274,
+        0,
+        254.9019607843137,
+        827.4509803921568,
+        172.54901960784312
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        54,
+        1289,
+        1515,
+        1521,
+        393,
+        654
+      ],
+      "enemyATB": [
+        623,
+        250,
+        239,
+        1014,
+        580,
+        738
+      ],
+      "squadSpeeds": [
+        87,
+        236,
+        38,
+        91,
+        263,
+        174
+      ],
+      "enemySpeeds": [
+        169,
+        12,
+        152,
+        9,
+        38,
+        7
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 3,
+      "squadATB": [
+        54,
+        1289,
+        1515,
+        521,
+        393,
+        654
+      ],
+      "enemyATB": [
+        623,
+        250,
+        239,
+        1014,
+        580,
+        738
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        408,
+        1036,
+        911,
+        58,
+        918,
+        235
+      ],
+      "enemyATB": [
+        253,
+        1599,
+        839,
+        158,
+        295,
+        938
+      ],
+      "squadSpeeds": [
+        186,
+        299,
+        93,
+        74,
+        195,
+        49
+      ],
+      "enemySpeeds": [
+        214,
+        134,
+        221,
+        148,
+        184,
+        4
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 1,
+      "squadATB": [
+        408,
+        1036,
+        911,
+        58,
+        918,
+        235
+      ],
+      "enemyATB": [
+        253,
+        599,
+        839,
+        158,
+        295,
+        938
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        183,
+        105,
+        159,
+        48,
+        279,
+        264
+      ],
+      "enemySpeeds": [
+        193,
+        256,
+        299,
+        136,
+        45,
+        262
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        1099,
+        777,
+        538,
+        1661,
+        1622,
+        1322
+      ],
+      "enemyATB": [
+        353,
+        1051,
+        975,
+        1067,
+        1436,
+        711
+      ],
+      "squadSpeeds": [
+        122,
+        57,
+        253,
+        195,
+        188,
+        43
+      ],
+      "enemySpeeds": [
+        288,
+        293,
+        147,
+        237,
+        24,
+        14
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 4,
+      "squadATB": [
+        1099,
+        777,
+        538,
+        1661,
+        622,
+        1322
+      ],
+      "enemyATB": [
+        353,
+        1051,
+        975,
+        1067,
+        1436,
+        711
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        1746,
+        1540,
+        122,
+        313,
+        1226,
+        1633
+      ],
+      "enemyATB": [
+        1670,
+        25,
+        218,
+        1272,
+        213,
+        890
+      ],
+      "squadSpeeds": [
+        287,
+        242,
+        179,
+        257,
+        188,
+        292
+      ],
+      "enemySpeeds": [
+        269,
+        147,
+        218,
+        7,
+        89,
+        171
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        746,
+        1540,
+        122,
+        313,
+        1226,
+        1633
+      ],
+      "enemyATB": [
+        1670,
+        25,
+        218,
+        1272,
+        213,
+        890
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        142,
+        221,
+        251,
+        219,
+        271,
+        262
+      ],
+      "enemySpeeds": [
+        262,
+        158,
+        177,
+        20,
+        123,
+        184
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        523.9852398523985,
+        0,
+        926.19926199262,
+        0,
+        1000,
+        966.789667896679
+      ],
+      "enemyATB": [
+        966.789667896679,
+        583.0258302583026,
+        0,
+        73.80073800738008,
+        453.8745387453875,
+        0
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        1237,
+        1492,
+        1297,
+        205,
+        1605,
+        1718
+      ],
+      "enemyATB": [
+        1791,
+        39,
+        60,
+        46,
+        687,
+        759
+      ],
+      "squadSpeeds": [
+        105,
+        273,
+        73,
+        26,
+        298,
+        285
+      ],
+      "enemySpeeds": [
+        183,
+        270,
+        286,
+        249,
+        225,
+        30
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        1237,
+        1492,
+        1297,
+        205,
+        1605,
+        1718
+      ],
+      "enemyATB": [
+        791,
+        39,
+        60,
+        46,
+        687,
+        759
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        43,
+        337,
+        1500,
+        332,
+        237,
+        984
+      ],
+      "enemyATB": [
+        1723,
+        1089,
+        583,
+        820,
+        1427,
+        1102
+      ],
+      "squadSpeeds": [
+        11,
+        40,
+        62,
+        166,
+        194,
+        12
+      ],
+      "enemySpeeds": [
+        228,
+        166,
+        288,
+        215,
+        151,
+        293
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        43,
+        337,
+        1500,
+        332,
+        237,
+        984
+      ],
+      "enemyATB": [
+        723,
+        1089,
+        583,
+        820,
+        1427,
+        1102
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        227,
+        219,
+        18,
+        241,
+        235,
+        249
+      ],
+      "enemySpeeds": [
+        77,
+        228,
+        81,
+        86,
+        111,
+        16
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        911.6465863453816,
+        879.5180722891566,
+        72.28915662650603,
+        0,
+        943.7751004016064,
+        1000
+      ],
+      "enemyATB": [
+        309.23694779116465,
+        0,
+        325.30120481927713,
+        345.3815261044177,
+        445.7831325301205,
+        64.2570281124498
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        27,
+        92,
+        199,
+        220,
+        4,
+        86
+      ],
+      "enemySpeeds": [
+        249,
+        16,
+        252,
+        178,
+        144,
+        173
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        782,
+        177,
+        924,
+        1057,
+        1442,
+        1348
+      ],
+      "enemyATB": [
+        1517,
+        504,
+        1548,
+        1418,
+        447,
+        97
+      ],
+      "squadSpeeds": [
+        243,
+        276,
+        229,
+        132,
+        105,
+        258
+      ],
+      "enemySpeeds": [
+        117,
+        294,
+        38,
+        285,
+        149,
+        265
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        782,
+        177,
+        924,
+        1057,
+        1442,
+        1348
+      ],
+      "enemyATB": [
+        517,
+        504,
+        1548,
+        1418,
+        447,
+        97
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        false
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        151,
+        54,
+        256,
+        56,
+        280,
+        83
+      ],
+      "enemySpeeds": [
+        75,
+        25,
+        211,
+        44,
+        42,
+        245
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        539.2857142857143,
+        192.85714285714286,
+        914.2857142857143,
+        200,
+        1000,
+        296.42857142857144
+      ],
+      "enemyATB": [
+        267.8571428571429,
+        89.28571428571429,
+        0,
+        157.14285714285714,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        1502,
+        260,
+        1380,
+        615,
+        174,
+        1220
+      ],
+      "enemyATB": [
+        774,
+        1767,
+        371,
+        407,
+        1513,
+        542
+      ],
+      "squadSpeeds": [
+        248,
+        10,
+        149,
+        209,
+        247,
+        264
+      ],
+      "enemySpeeds": [
+        104,
+        229,
+        204,
+        123,
+        164,
+        228
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 1,
+      "squadATB": [
+        1502,
+        260,
+        1380,
+        615,
+        174,
+        1220
+      ],
+      "enemyATB": [
+        774,
+        767,
+        371,
+        407,
+        1513,
+        542
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        977,
+        239,
+        1541,
+        73,
+        1237,
+        1694
+      ],
+      "enemyATB": [
+        1403,
+        564,
+        739,
+        1736,
+        98,
+        1282
+      ],
+      "squadSpeeds": [
+        141,
+        80,
+        87,
+        135,
+        62,
+        255
+      ],
+      "enemySpeeds": [
+        295,
+        262,
+        152,
+        171,
+        64,
+        138
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        977,
+        239,
+        1541,
+        73,
+        1237,
+        694
+      ],
+      "enemyATB": [
+        1403,
+        564,
+        739,
+        1736,
+        98,
+        1282
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        46,
+        282,
+        281,
+        263,
+        181,
+        224
+      ],
+      "enemySpeeds": [
+        220,
+        72,
+        278,
+        76,
+        128,
+        298
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        163.1205673758865,
+        999.9999999999999,
+        996.4539007092199,
+        0,
+        0,
+        794.3262411347517
+      ],
+      "enemyATB": [
+        0,
+        255.3191489361702,
+        985.8156028368794,
+        269.50354609929076,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1678,
+        1574,
+        1547,
+        1154,
+        1795,
+        166
+      ],
+      "enemyATB": [
+        1037,
+        203,
+        883,
+        255,
+        1103,
+        1623
+      ],
+      "squadSpeeds": [
+        73,
+        107,
+        39,
+        165,
+        265,
+        65
+      ],
+      "enemySpeeds": [
+        141,
+        140,
+        74,
+        18,
+        131,
+        169
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 4,
+      "squadATB": [
+        1678,
+        1574,
+        1547,
+        1154,
+        795,
+        166
+      ],
+      "enemyATB": [
+        1037,
+        203,
+        883,
+        255,
+        1103,
+        1623
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        false
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        243,
+        76,
+        61,
+        244,
+        53,
+        243
+      ],
+      "enemySpeeds": [
+        233,
+        197,
+        52,
+        22,
+        230,
+        294
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        59,
+        75,
+        221,
+        136,
+        1,
+        69
+      ],
+      "enemySpeeds": [
+        29,
+        289,
+        251,
+        31,
+        130,
+        292
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        202.05479452054794,
+        256.8493150684931,
+        756.8493150684932,
+        465.75342465753425,
+        3.4246575342465753,
+        0
+      ],
+      "enemyATB": [
+        0,
+        989.7260273972603,
+        859.5890410958904,
+        106.16438356164383,
+        445.20547945205476,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        644,
+        611,
+        885,
+        1290,
+        1708,
+        542
+      ],
+      "enemyATB": [
+        619,
+        1387,
+        1337,
+        1647,
+        758,
+        1130
+      ],
+      "squadSpeeds": [
+        137,
+        261,
+        179,
+        96,
+        67,
+        144
+      ],
+      "enemySpeeds": [
+        131,
+        35,
+        246,
+        166,
+        287,
+        225
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 4,
+      "squadATB": [
+        644,
+        611,
+        885,
+        1290,
+        708,
+        542
+      ],
+      "enemyATB": [
+        619,
+        1387,
+        1337,
+        1647,
+        758,
+        1130
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1438,
+        867,
+        561,
+        1005,
+        121,
+        173
+      ],
+      "enemyATB": [
+        1566,
+        448,
+        182,
+        495,
+        247,
+        1451
+      ],
+      "squadSpeeds": [
+        57,
+        167,
+        21,
+        14,
+        178,
+        216
+      ],
+      "enemySpeeds": [
+        144,
+        83,
+        82,
+        249,
+        127,
+        120
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        1438,
+        867,
+        561,
+        1005,
+        121,
+        173
+      ],
+      "enemyATB": [
+        566,
+        448,
+        182,
+        495,
+        247,
+        1451
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        200,
+        163,
+        36,
+        70,
+        15,
+        246
+      ],
+      "enemySpeeds": [
+        111,
+        272,
+        130,
+        184,
+        2,
+        21
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        0,
+        0,
+        0,
+        257.35294117647055,
+        0,
+        904.4117647058823
+      ],
+      "enemyATB": [
+        408.0882352941176,
+        1000,
+        477.94117647058823,
+        0,
+        0,
+        77.20588235294117
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        false,
+        false,
+        false
+      ],
+      "squadATB": [
+        1094,
+        1058,
+        1516,
+        708,
+        1143,
+        598
+      ],
+      "enemyATB": [
+        1613,
+        1165,
+        1527,
+        731,
+        42,
+        1580
+      ],
+      "squadSpeeds": [
+        76,
+        164,
+        263,
+        221,
+        7,
+        263
+      ],
+      "enemySpeeds": [
+        177,
+        150,
+        42,
+        139,
+        214,
+        11
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        1094,
+        1058,
+        1516,
+        708,
+        1143,
+        598
+      ],
+      "enemyATB": [
+        613,
+        1165,
+        1527,
+        731,
+        42,
+        1580
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        false
+      ],
+      "squadATB": [
+        1451,
+        1731,
+        992,
+        398,
+        931,
+        362
+      ],
+      "enemyATB": [
+        46,
+        1105,
+        1416,
+        1323,
+        1035,
+        1035
+      ],
+      "squadSpeeds": [
+        155,
+        157,
+        259,
+        2,
+        104,
+        70
+      ],
+      "enemySpeeds": [
+        203,
+        111,
+        48,
+        181,
+        62,
+        23
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 1,
+      "squadATB": [
+        1451,
+        731,
+        992,
+        398,
+        931,
+        362
+      ],
+      "enemyATB": [
+        46,
+        1105,
+        1416,
+        1323,
+        1035,
+        1035
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        172,
+        27,
+        210,
+        161,
+        195,
+        215
+      ],
+      "enemySpeeds": [
+        196,
+        242,
+        125,
+        234,
+        11,
+        226
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        1112,
+        425,
+        1536,
+        1746,
+        1757,
+        692
+      ],
+      "enemyATB": [
+        1474,
+        784,
+        729,
+        986,
+        1132,
+        1652
+      ],
+      "squadSpeeds": [
+        146,
+        79,
+        42,
+        262,
+        69,
+        57
+      ],
+      "enemySpeeds": [
+        144,
+        103,
+        130,
+        176,
+        182,
+        158
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 3,
+      "squadATB": [
+        1112,
+        425,
+        1536,
+        746,
+        1757,
+        692
+      ],
+      "enemyATB": [
+        1474,
+        784,
+        729,
+        986,
+        1132,
+        1652
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        912,
+        1534,
+        321,
+        108,
+        1348,
+        690
+      ],
+      "enemyATB": [
+        1354,
+        1397,
+        1481,
+        344,
+        388,
+        1652
+      ],
+      "squadSpeeds": [
+        246,
+        190,
+        216,
+        237,
+        237,
+        176
+      ],
+      "enemySpeeds": [
+        264,
+        276,
+        176,
+        201,
+        204,
+        253
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 5,
+      "squadATB": [
+        912,
+        1534,
+        321,
+        108,
+        1348,
+        690
+      ],
+      "enemyATB": [
+        1354,
+        1397,
+        1481,
+        344,
+        388,
+        652
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        false
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        201,
+        54,
+        142,
+        168,
+        184,
+        10
+      ],
+      "enemySpeeds": [
+        94,
+        49,
+        298,
+        197,
+        93,
+        167
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        999.9999999999999,
+        268.65671641791045,
+        706.4676616915423,
+        835.820895522388,
+        915.4228855721392,
+        49.75124378109452
+      ],
+      "enemyATB": [
+        467.6616915422885,
+        243.78109452736317,
+        0,
+        0,
+        462.68656716417905,
+        0
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        false,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        912,
+        1039,
+        1572,
+        396,
+        1249,
+        154
+      ],
+      "enemyATB": [
+        411,
+        749,
+        613,
+        1431,
+        160,
+        1746
+      ],
+      "squadSpeeds": [
+        222,
+        77,
+        108,
+        121,
+        292,
+        227
+      ],
+      "enemySpeeds": [
+        3,
+        44,
+        25,
+        225,
+        129,
+        105
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 5,
+      "squadATB": [
+        912,
+        1039,
+        1572,
+        396,
+        1249,
+        154
+      ],
+      "enemyATB": [
+        411,
+        749,
+        613,
+        1431,
+        160,
+        746
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        412,
+        417,
+        1264,
+        270,
+        267,
+        1556
+      ],
+      "enemyATB": [
+        1120,
+        562,
+        1400,
+        1430,
+        1721,
+        1249
+      ],
+      "squadSpeeds": [
+        90,
+        152,
+        122,
+        172,
+        269,
+        252
+      ],
+      "enemySpeeds": [
+        91,
+        70,
+        72,
+        101,
+        171,
+        13
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        412,
+        417,
+        1264,
+        270,
+        267,
+        556
+      ],
+      "enemyATB": [
+        1120,
+        562,
+        1400,
+        1430,
+        1721,
+        1249
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        32,
+        231,
+        227,
+        199,
+        167,
+        17
+      ],
+      "enemySpeeds": [
+        200,
+        292,
+        7,
+        10,
+        102,
+        278
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        109.58904109589041,
+        791.0958904109589,
+        777.3972602739726,
+        681.5068493150685,
+        571.917808219178,
+        58.21917808219178
+      ],
+      "enemyATB": [
+        0,
+        1000,
+        0,
+        34.24657534246575,
+        349.3150684931507,
+        952.054794520548
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        179,
+        47,
+        23,
+        15,
+        286,
+        101
+      ],
+      "enemySpeeds": [
+        60,
+        40,
+        260,
+        9,
+        216,
+        150
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        false,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        558,
+        783,
+        1721,
+        1557,
+        1794,
+        681
+      ],
+      "enemyATB": [
+        379,
+        662,
+        1307,
+        670,
+        1200,
+        1669
+      ],
+      "squadSpeeds": [
+        288,
+        270,
+        3,
+        186,
+        182,
+        175
+      ],
+      "enemySpeeds": [
+        155,
+        70,
+        80,
+        199,
+        87,
+        87
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 5,
+      "squadATB": [
+        558,
+        783,
+        1721,
+        1557,
+        1794,
+        681
+      ],
+      "enemyATB": [
+        379,
+        662,
+        1307,
+        670,
+        1200,
+        669
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        270,
+        208,
+        196,
+        47,
+        132,
+        270
+      ],
+      "enemySpeeds": [
+        56,
+        99,
+        251,
+        163,
+        265,
+        170
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        1000,
+        0,
+        0,
+        174.07407407407408,
+        488.8888888888889,
+        1000
+      ],
+      "enemyATB": [
+        0,
+        0,
+        929.6296296296297,
+        0,
+        981.4814814814815,
+        629.6296296296297
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        218,
+        387,
+        1515,
+        1617,
+        1218,
+        1217
+      ],
+      "enemyATB": [
+        1072,
+        1635,
+        186,
+        1712,
+        20,
+        323
+      ],
+      "squadSpeeds": [
+        47,
+        159,
+        75,
+        6,
+        35,
+        139
+      ],
+      "enemySpeeds": [
+        77,
+        242,
+        235,
+        217,
+        114,
+        64
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 3,
+      "squadATB": [
+        218,
+        387,
+        1515,
+        1617,
+        1218,
+        1217
+      ],
+      "enemyATB": [
+        1072,
+        1635,
+        186,
+        712,
+        20,
+        323
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        794,
+        881,
+        1027,
+        288,
+        274,
+        833
+      ],
+      "enemyATB": [
+        314,
+        633,
+        1352,
+        1568,
+        1328,
+        133
+      ],
+      "squadSpeeds": [
+        43,
+        106,
+        166,
+        18,
+        125,
+        175
+      ],
+      "enemySpeeds": [
+        153,
+        126,
+        194,
+        200,
+        160,
+        5
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 3,
+      "squadATB": [
+        794,
+        881,
+        1027,
+        288,
+        274,
+        833
+      ],
+      "enemyATB": [
+        314,
+        633,
+        1352,
+        568,
+        1328,
+        133
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        74,
+        294,
+        162,
+        244,
+        160,
+        206
+      ],
+      "enemySpeeds": [
+        121,
+        277,
+        104,
+        24,
+        39,
+        30
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        267.1480144404332,
+        0,
+        0,
+        880.8664259927797,
+        0,
+        743.6823104693141
+      ],
+      "enemyATB": [
+        0,
+        999.9999999999999,
+        375.45126353790613,
+        86.64259927797833,
+        140.79422382671478,
+        108.30324909747291
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        false,
+        true,
+        false
+      ],
+      "squadATB": [
+        99,
+        1361,
+        1326,
+        74,
+        744,
+        580
+      ],
+      "enemyATB": [
+        401,
+        715,
+        67,
+        1374,
+        1235,
+        970
+      ],
+      "squadSpeeds": [
+        190,
+        33,
+        148,
+        141,
+        82,
+        77
+      ],
+      "enemySpeeds": [
+        282,
+        284,
+        278,
+        242,
+        249,
+        111
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 1,
+      "squadATB": [
+        99,
+        361,
+        1326,
+        74,
+        744,
+        580
+      ],
+      "enemyATB": [
+        401,
+        715,
+        67,
+        1374,
+        1235,
+        970
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        196,
+        117,
+        167,
+        62,
+        179,
+        1
+      ],
+      "enemySpeeds": [
+        265,
+        0,
+        153,
+        100,
+        145,
+        30
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        39,
+        251,
+        99,
+        220,
+        294,
+        227
+      ],
+      "enemySpeeds": [
+        7,
+        231,
+        99,
+        210,
+        239,
+        16
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        132.6530612244898,
+        0,
+        0,
+        748.2993197278911,
+        999.9999999999999,
+        772.1088435374149
+      ],
+      "enemyATB": [
+        0,
+        785.7142857142857,
+        336.734693877551,
+        0,
+        812.9251700680271,
+        54.42176870748299
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        408,
+        26,
+        1028,
+        1047,
+        1527,
+        589
+      ],
+      "enemyATB": [
+        578,
+        404,
+        1072,
+        347,
+        1547,
+        1793
+      ],
+      "squadSpeeds": [
+        49,
+        38,
+        30,
+        93,
+        148,
+        262
+      ],
+      "enemySpeeds": [
+        141,
+        15,
+        276,
+        231,
+        189,
+        241
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 5,
+      "squadATB": [
+        408,
+        26,
+        1028,
+        1047,
+        1527,
+        589
+      ],
+      "enemyATB": [
+        578,
+        404,
+        1072,
+        347,
+        1547,
+        793
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        1393,
+        797,
+        1639,
+        1054,
+        260,
+        1741
+      ],
+      "enemyATB": [
+        660,
+        1517,
+        989,
+        1316,
+        1273,
+        233
+      ],
+      "squadSpeeds": [
+        73,
+        147,
+        221,
+        145,
+        192,
+        41
+      ],
+      "enemySpeeds": [
+        47,
+        4,
+        226,
+        54,
+        89,
+        33
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 5,
+      "squadATB": [
+        1393,
+        797,
+        1639,
+        1054,
+        260,
+        741
+      ],
+      "enemyATB": [
+        660,
+        1517,
+        989,
+        1316,
+        1273,
+        233
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        222,
+        83,
+        128,
+        92,
+        91,
+        144
+      ],
+      "enemySpeeds": [
+        1,
+        195,
+        284,
+        133,
+        194,
+        150
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        0,
+        292.2535211267606,
+        0,
+        323.943661971831,
+        320.42253521126764,
+        507.0422535211268
+      ],
+      "enemyATB": [
+        3.5211267605633805,
+        686.6197183098592,
+        1000,
+        0,
+        0,
+        528.1690140845071
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        925,
+        263,
+        1393,
+        1234,
+        591,
+        921
+      ],
+      "enemyATB": [
+        1072,
+        902,
+        29,
+        709,
+        492,
+        1647
+      ],
+      "squadSpeeds": [
+        47,
+        118,
+        205,
+        258,
+        107,
+        287
+      ],
+      "enemySpeeds": [
+        140,
+        170,
+        256,
+        2,
+        246,
+        146
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 5,
+      "squadATB": [
+        925,
+        263,
+        1393,
+        1234,
+        591,
+        921
+      ],
+      "enemyATB": [
+        1072,
+        902,
+        29,
+        709,
+        492,
+        647
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        935,
+        1663,
+        1289,
+        1542,
+        143,
+        817
+      ],
+      "enemyATB": [
+        855,
+        803,
+        1783,
+        1138,
+        1262,
+        1432
+      ],
+      "squadSpeeds": [
+        192,
+        60,
+        115,
+        67,
+        238,
+        246
+      ],
+      "enemySpeeds": [
+        125,
+        145,
+        180,
+        79,
+        280,
+        294
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 2,
+      "squadATB": [
+        935,
+        1663,
+        1289,
+        1542,
+        143,
+        817
+      ],
+      "enemyATB": [
+        855,
+        803,
+        783,
+        1138,
+        1262,
+        1432
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        195,
+        169,
+        216,
+        94,
+        128,
+        196
+      ],
+      "enemySpeeds": [
+        156,
+        42,
+        271,
+        228,
+        27,
+        265
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        false,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        1217,
+        1736,
+        295,
+        447,
+        7,
+        165
+      ],
+      "enemyATB": [
+        162,
+        1561,
+        1501,
+        962,
+        1526,
+        56
+      ],
+      "squadSpeeds": [
+        250,
+        40,
+        102,
+        66,
+        150,
+        253
+      ],
+      "enemySpeeds": [
+        186,
+        127,
+        233,
+        54,
+        145,
+        277
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 4,
+      "squadATB": [
+        1217,
+        1736,
+        295,
+        447,
+        7,
+        165
+      ],
+      "enemyATB": [
+        162,
+        1561,
+        1501,
+        962,
+        526,
+        56
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        903,
+        21,
+        1466,
+        1542,
+        604,
+        997
+      ],
+      "enemyATB": [
+        1135,
+        1507,
+        169,
+        189,
+        1377,
+        815
+      ],
+      "squadSpeeds": [
+        129,
+        27,
+        22,
+        275,
+        244,
+        286
+      ],
+      "enemySpeeds": [
+        244,
+        273,
+        274,
+        237,
+        145,
+        48
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 3,
+      "squadATB": [
+        903,
+        21,
+        1466,
+        542,
+        604,
+        997
+      ],
+      "enemyATB": [
+        1135,
+        1507,
+        169,
+        189,
+        1377,
+        815
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        false,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        233,
+        260,
+        290,
+        149,
+        38,
+        196
+      ],
+      "enemySpeeds": [
+        40,
+        60,
+        249,
+        127,
+        286,
+        247
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        803.448275862069,
+        896.5517241379309,
+        999.9999999999999,
+        513.7931034482758,
+        131.03448275862067,
+        675.8620689655172
+      ],
+      "enemyATB": [
+        0,
+        0,
+        858.6206896551723,
+        0,
+        986.2068965517241,
+        851.7241379310344
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        648,
+        1689,
+        1189,
+        450,
+        818,
+        338
+      ],
+      "enemyATB": [
+        67,
+        298,
+        187,
+        1095,
+        43,
+        192
+      ],
+      "squadSpeeds": [
+        236,
+        186,
+        176,
+        94,
+        294,
+        111
+      ],
+      "enemySpeeds": [
+        34,
+        205,
+        38,
+        71,
+        74,
+        91
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 1,
+      "squadATB": [
+        648,
+        689,
+        1189,
+        450,
+        818,
+        338
+      ],
+      "enemyATB": [
+        67,
+        298,
+        187,
+        1095,
+        43,
+        192
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        606,
+        243,
+        348,
+        381,
+        1020,
+        225
+      ],
+      "enemyATB": [
+        919,
+        94,
+        1197,
+        1004,
+        684,
+        1693
+      ],
+      "squadSpeeds": [
+        130,
+        144,
+        238,
+        212,
+        75,
+        233
+      ],
+      "enemySpeeds": [
+        178,
+        185,
+        126,
+        235,
+        164,
+        155
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 4,
+      "squadATB": [
+        606,
+        243,
+        348,
+        381,
+        20,
+        225
+      ],
+      "enemyATB": [
+        919,
+        94,
+        1197,
+        1004,
+        684,
+        1693
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        168,
+        251,
+        128,
+        44,
+        295,
+        224
+      ],
+      "enemySpeeds": [
+        175,
+        202,
+        231,
+        35,
+        167,
+        290
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        569.4915254237288,
+        850.8474576271186,
+        433.89830508474574,
+        149.15254237288136,
+        1000,
+        759.3220338983051
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        118.64406779661016,
+        566.1016949152543,
+        983.0508474576271
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        201,
+        44,
+        182,
+        292,
+        110,
+        147
+      ],
+      "enemySpeeds": [
+        8,
+        102,
+        212,
+        0,
+        212,
+        63
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        300,
+        1022,
+        1499,
+        181,
+        588,
+        1686
+      ],
+      "enemyATB": [
+        875,
+        1386,
+        261,
+        1103,
+        1768,
+        1078
+      ],
+      "squadSpeeds": [
+        122,
+        24,
+        190,
+        37,
+        276,
+        262
+      ],
+      "enemySpeeds": [
+        221,
+        240,
+        46,
+        137,
+        105,
+        166
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 4,
+      "squadATB": [
+        300,
+        1022,
+        1499,
+        181,
+        588,
+        1686
+      ],
+      "enemyATB": [
+        875,
+        1386,
+        261,
+        1103,
+        768,
+        1078
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        false
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        278,
+        295,
+        190,
+        137,
+        62,
+        68
+      ],
+      "enemySpeeds": [
+        287,
+        69,
+        253,
+        49,
+        190,
+        44
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        968.6411149825783,
+        0,
+        0,
+        477.3519163763066,
+        216.02787456445992,
+        236.93379790940764
+      ],
+      "enemyATB": [
+        999.9999999999999,
+        240.41811846689893,
+        881.5331010452961,
+        170.73170731707316,
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1409,
+        1048,
+        908,
+        1781,
+        1533,
+        348
+      ],
+      "enemyATB": [
+        1390,
+        673,
+        794,
+        1129,
+        620,
+        1671
+      ],
+      "squadSpeeds": [
+        117,
+        286,
+        141,
+        181,
+        201,
+        44
+      ],
+      "enemySpeeds": [
+        56,
+        171,
+        19,
+        150,
+        4,
+        268
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 5,
+      "squadATB": [
+        1409,
+        1048,
+        908,
+        1781,
+        1533,
+        348
+      ],
+      "enemyATB": [
+        1390,
+        673,
+        794,
+        1129,
+        620,
+        671
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        403,
+        272,
+        573,
+        1627,
+        24,
+        1537
+      ],
+      "enemyATB": [
+        1378,
+        630,
+        314,
+        1439,
+        440,
+        1134
+      ],
+      "squadSpeeds": [
+        64,
+        296,
+        168,
+        140,
+        121,
+        5
+      ],
+      "enemySpeeds": [
+        97,
+        80,
+        234,
+        63,
+        181,
+        228
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 3,
+      "squadATB": [
+        403,
+        272,
+        573,
+        1627,
+        24,
+        1537
+      ],
+      "enemyATB": [
+        1378,
+        630,
+        314,
+        439,
+        440,
+        1134
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        265,
+        16,
+        179,
+        223,
+        284,
+        97
+      ],
+      "enemySpeeds": [
+        68,
+        156,
+        147,
+        295,
+        252,
+        133
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        933.0985915492959,
+        56.33802816901409,
+        0,
+        785.2112676056338,
+        1000,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        517.6056338028169,
+        0,
+        0,
+        468.3098591549296
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        false,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        1553,
+        1067,
+        1737,
+        1160,
+        628,
+        1458
+      ],
+      "enemyATB": [
+        1515,
+        552,
+        852,
+        227,
+        1260,
+        54
+      ],
+      "squadSpeeds": [
+        125,
+        3,
+        106,
+        48,
+        132,
+        1
+      ],
+      "enemySpeeds": [
+        65,
+        4,
+        115,
+        140,
+        31,
+        137
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 2,
+      "squadATB": [
+        1553,
+        1067,
+        737,
+        1160,
+        628,
+        1458
+      ],
+      "enemyATB": [
+        1515,
+        552,
+        852,
+        227,
+        1260,
+        54
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        236,
+        217,
+        12,
+        71,
+        202,
+        94
+      ],
+      "enemySpeeds": [
+        62,
+        63,
+        188,
+        135,
+        100,
+        28
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        275,
+        246,
+        268,
+        240,
+        281,
+        12
+      ],
+      "enemySpeeds": [
+        119,
+        193,
+        260,
+        81,
+        232,
+        270
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        978.6476868327402,
+        875.4448398576512,
+        953.7366548042705,
+        854.0925266903914,
+        1000,
+        0
+      ],
+      "enemyATB": [
+        423.4875444839858,
+        686.8327402135232,
+        925.2669039145908,
+        288.2562277580071,
+        0,
+        960.8540925266905
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        false,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        1291,
+        315,
+        741,
+        1555,
+        130,
+        411
+      ],
+      "enemyATB": [
+        502,
+        1124,
+        1324,
+        14,
+        1087,
+        749
+      ],
+      "squadSpeeds": [
+        12,
+        269,
+        295,
+        174,
+        197,
+        9
+      ],
+      "enemySpeeds": [
+        224,
+        240,
+        73,
+        199,
+        95,
+        147
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 3,
+      "squadATB": [
+        1291,
+        315,
+        741,
+        555,
+        130,
+        411
+      ],
+      "enemyATB": [
+        502,
+        1124,
+        1324,
+        14,
+        1087,
+        749
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true
+      ],
+      "squadATB": [
+        729,
+        53,
+        585,
+        1585,
+        136,
+        287
+      ],
+      "enemyATB": [
+        424,
+        264,
+        1376,
+        1099,
+        1578,
+        888
+      ],
+      "squadSpeeds": [
+        158,
+        59,
+        125,
+        167,
+        71,
+        94
+      ],
+      "enemySpeeds": [
+        203,
+        164,
+        164,
+        190,
+        55,
+        275
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 3,
+      "squadATB": [
+        729,
+        53,
+        585,
+        585,
+        136,
+        287
+      ],
+      "enemyATB": [
+        424,
+        264,
+        1376,
+        1099,
+        1578,
+        888
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        false,
+        false,
+        false,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "enemyATB": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "squadSpeeds": [
+        143,
+        292,
+        115,
+        280,
+        177,
+        100
+      ],
+      "enemySpeeds": [
+        218,
+        50,
+        90,
+        12,
+        250,
+        287
+      ]
+    },
+    "result": {
+      "kind": "advanced",
+      "squadATB": [
+        498.2578397212543,
+        0,
+        0,
+        0,
+        616.7247386759582,
+        0
+      ],
+      "enemyATB": [
+        759.581881533101,
+        0,
+        313.588850174216,
+        41.81184668989547,
+        0,
+        999.9999999999999
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        false,
+        true
+      ],
+      "squadATB": [
+        400,
+        914,
+        384,
+        544,
+        23,
+        422
+      ],
+      "enemyATB": [
+        1642,
+        129,
+        274,
+        1719,
+        1106,
+        669
+      ],
+      "squadSpeeds": [
+        216,
+        36,
+        236,
+        268,
+        90,
+        18
+      ],
+      "enemySpeeds": [
+        19,
+        143,
+        263,
+        295,
+        113,
+        276
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 3,
+      "squadATB": [
+        400,
+        914,
+        384,
+        544,
+        23,
+        422
+      ],
+      "enemyATB": [
+        1642,
+        129,
+        274,
+        719,
+        1106,
+        669
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        false
+      ],
+      "enemyAlive": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        828,
+        1368,
+        1163,
+        951,
+        933,
+        1036
+      ],
+      "enemyATB": [
+        1343,
+        389,
+        506,
+        842,
+        1082,
+        1002
+      ],
+      "squadSpeeds": [
+        287,
+        236,
+        111,
+        156,
+        106,
+        299
+      ],
+      "enemySpeeds": [
+        36,
+        178,
+        281,
+        57,
+        263,
+        288
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        828,
+        1368,
+        1163,
+        951,
+        933,
+        1036
+      ],
+      "enemyATB": [
+        343,
+        389,
+        506,
+        842,
+        1082,
+        1002
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        false,
+        true,
+        true,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        false
+      ],
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "squadSpeeds": [
+        62,
+        1,
+        168,
+        152,
+        277,
+        100
+      ],
+      "enemySpeeds": [
+        225,
+        86,
+        250,
+        291,
+        86,
+        273
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 0,
+      "squadATB": [
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "enemyATB": [
+        0,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        true,
+        false,
+        false,
+        false
+      ],
+      "enemyAlive": [
+        false,
+        false,
+        true,
+        false,
+        false,
+        true
+      ],
+      "squadATB": [
+        1314,
+        20,
+        1209,
+        1706,
+        929,
+        898
+      ],
+      "enemyATB": [
+        1247,
+        341,
+        1058,
+        1587,
+        462,
+        771
+      ],
+      "squadSpeeds": [
+        253,
+        185,
+        146,
+        179,
+        191,
+        233
+      ],
+      "enemySpeeds": [
+        191,
+        10,
+        221,
+        143,
+        285,
+        45
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "squad",
+      "index": 0,
+      "squadATB": [
+        314,
+        20,
+        1209,
+        1706,
+        929,
+        898
+      ],
+      "enemyATB": [
+        1247,
+        341,
+        1058,
+        1587,
+        462,
+        771
+      ]
+    }
+  },
+  {
+    "state": {
+      "squadAlive": [
+        true,
+        true,
+        false,
+        false,
+        true,
+        true
+      ],
+      "enemyAlive": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        false
+      ],
+      "squadATB": [
+        884,
+        610,
+        372,
+        328,
+        841,
+        482
+      ],
+      "enemyATB": [
+        1310,
+        932,
+        872,
+        300,
+        1662,
+        427
+      ],
+      "squadSpeeds": [
+        239,
+        295,
+        260,
+        245,
+        79,
+        248
+      ],
+      "enemySpeeds": [
+        271,
+        58,
+        181,
+        91,
+        273,
+        14
+      ]
+    },
+    "result": {
+      "kind": "action",
+      "side": "enemy",
+      "index": 4,
+      "squadATB": [
+        884,
+        610,
+        372,
+        328,
+        841,
+        482
+      ],
+      "enemyATB": [
+        1310,
+        932,
+        872,
+        300,
+        662,
+        427
+      ]
+    }
+  }
+]

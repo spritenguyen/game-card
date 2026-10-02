@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { createPortal } from 'react-dom';
 import { Icon } from '../ui/Icon';
 import { Card } from '../../types';
-import { calculateUltimateStats, getFactionInfo } from '../../lib/gameLogic';
-import { ELEMENTS } from '../../lib/constants';
+import { calculateUltimateStats, getFactionInfo } from '../../domain/gameRules';
+import { ELEMENTS } from '../../domain/gameConstants';
 import { t } from '../../lib/i18n';
 
 interface CombatArenaProps {

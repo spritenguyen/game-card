@@ -2,8 +2,9 @@ import React, { forwardRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Icon } from '../ui/Icon';
 import { Card } from '../../types';
-import { getFactionInfo, calculateCombatStats, getCardRole } from '../../lib/gameLogic';
-import { ELEMENTS, STATUS_ICONS } from '../../lib/constants';
+import { calculateCombatStats } from '../../application/gameStats';
+import { getFactionInfo, getCardRole } from '../../domain/gameRules';
+import { ELEMENTS, STATUS_ICONS } from '../../domain/gameConstants';
 
 export interface SquadSlotProps {
   card: Card | null;

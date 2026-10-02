@@ -1,3 +1,4 @@
+import { browserStorage } from '../infrastructure/storage/browserStorage';
 import React, { useState } from 'react';
 import { Icon } from '../components/ui/Icon';
 import { Card, AppConfig, Quest, Expedition } from '../types';
@@ -43,7 +44,7 @@ export const MissionsView: React.FC<Props> = ({ quests, expeditions, cards, inve
 
         setQuests(prev => {
             const next = prev.map(q => q.id === quest.id ? { ...q, isClaimed: true } : q);
-            localStorage.setItem('cineQuests', JSON.stringify(next));
+            browserStorage.setItem('cineQuests', JSON.stringify(next));
             return next;
         });
 

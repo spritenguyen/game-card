@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Icon } from '../components/ui/Icon';
 import { Card, AppConfig } from '../types';
 import { FullCard } from '../components/FullCard';
-import { getFusionCost, getFactionInfo, getRankIndex } from '../lib/gameLogic';
-import { generateFusionFromAI, generateImageFromAi } from '../services/ai';
-import { FACTIONS, ELEMENTS } from '../lib/constants';
+import { getFusionCost, getFactionInfo, getRankIndex } from '../domain/gameRules';
+import { generateFusionFromAI, generateImageFromAi } from '../services/ai/index';
+import { FACTIONS, ELEMENTS } from '../domain/gameConstants';
 import { Dialog } from '../components/ui/Dialog';
 import { t } from '../lib/i18n';
 
@@ -139,6 +139,9 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
         if (currency < dynamicCost) return onError(`Không đủ Data Credits (Yêu cầu ${dynamicCost} DC).`);
 
         setGlobalProcessing(true);
+        let charged = false;
+        const deductedMaterials: Record<string, number> = {};
+        let deductedDust = 0;
         try {
             const r1 = getRankIndex(fusionSlot1!.cardClass);
             const r2 = getRankIndex(fusionSlot2!.cardClass);
@@ -185,6 +188,7 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                 return onError("Giao dịch Credit bị từ chối. Không đủ Data Credits.");
             }
             modifyCurrency(-dynamicCost);
+            charged = true;
 
             const Object_keys = Object.keys; // Help TypeScript out
             if (reqCore > 0 || reqShard > 0 || reqDust > 0 || (upgradeItem && upgradeItem.type === 'item')) {
@@ -202,6 +206,8 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
                      }
                  }
                  modifyInventory(0, 0, dedMaterials, -totalDustToDed);
+                 Object.assign(deductedMaterials, dedMaterials);
+                 deductedDust = totalDustToDed;
             }
 
             let roll = Math.random()*100 + bonusRoll;
@@ -301,7 +307,8 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
             }
             
         } catch(e: any) {
-            modifyCurrency(dynamicCost);
+            if (charged) modifyCurrency(dynamicCost);
+            modifyInventory(0, 0, Object.fromEntries(Object.entries(deductedMaterials).map(([key, value]) => [key, -value])), deductedDust);
             if(e.message === "API_KEY_INVALID") onAlert("Hệ Thống Cine-Tech", "API Key không hợp lệ. Kiểm tra cài đặt.");
             else onError("Lỗi lai tạo. Đã hoàn tiền.");
         } finally {
@@ -665,4 +672,3 @@ export const FusionView: React.FC<Props> = ({ config, currency, modifyCurrency, 
         </div>
     );
 };
-

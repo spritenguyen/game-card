@@ -1,3 +1,4 @@
+import { browserStorage } from '../infrastructure/storage/browserStorage';
 import React, { useState, useEffect } from 'react';
 import { Icon } from '../components/ui/Icon';
 import { AppConfig } from '../types';
@@ -27,7 +28,7 @@ export const BreachView: React.FC<Props> = ({ config, modifyCurrency, onAlert })
       if (remaining > 0) {
         setCooldown(remaining);
       } else {
-        localStorage.removeItem('cineBreachCooldown');
+        browserStorage.removeItem('cineBreachCooldown');
       }
     }
   }, []);
@@ -110,14 +111,14 @@ export const BreachView: React.FC<Props> = ({ config, modifyCurrency, onAlert })
         modifyCurrency(REWARD);
         onAlert("SYSTEM BREACHED", isEn ? `Access granted. +${REWARD} DC recovered.` : `Bẻ khóa thành công. Xâm nhập Hệ Thống nhận +${REWARD} DC.`);
         const cdTime = Date.now() + 4 * 60 * 60 * 1000; // 4 hours
-        localStorage.setItem('cineBreachCooldown', cdTime.toString());
+        browserStorage.setItem('cineBreachCooldown', cdTime.toString());
         setCooldown(cdTime - Date.now());
     } else if (newGuesses.length >= MAX_GUESSES) {
         // LOSE
         setIsPlaying(false);
         onAlert("ACCESS DENIED", isEn ? `Security protocols activated. Code was: ${targetCode}` : `Xâm nhập thất bại. Mã gốc là: ${targetCode}`);
         const cdTime = Date.now() + 1 * 60 * 60 * 1000; // 1 hour penalty
-        localStorage.setItem('cineBreachCooldown', cdTime.toString());
+        browserStorage.setItem('cineBreachCooldown', cdTime.toString());
         setCooldown(cdTime - Date.now());
     }
   };

@@ -1,25 +1,16 @@
+import { browserStorage } from '../infrastructure/storage/browserStorage';
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Icon } from '../components/ui/Icon';
 import { device } from "../lib/device";
 const isMobileEnv = device.isMobile;
 import { createPortal } from "react-dom";
 import { Card, Boss, AppConfig } from "../types";
-import {
-  getFactionInfo,
-  getComboStats,
-  getEnemySpeed,
-  getSquadDodgeRate,
-  calculateCombatStats,
-  calculateUltimateStats,
-  getElementAdvantage,
-  getCardRole,
-  rollImplant,
-  rollGear,
-} from "../lib/gameLogic";
-import { generateBossFromAI, generateImageFromAi, generateDialogueFromAI } from "../services/ai";
-import { ELEMENTS } from "../lib/constants";
+import { getComboStats, getSquadDodgeRate, calculateCombatStats } from '../application/gameStats';
+import { getFactionInfo, getEnemySpeed, calculateUltimateStats, getElementAdvantage, getCardRole } from '../domain/gameRules';
+import { generateBossFromAI, generateImageFromAi, generateDialogueFromAI } from "../services/ai/index";
+import { ELEMENTS } from '../domain/gameConstants';
 import { BATTLEFIELD_SQUADS } from "../data/battlefieldSquads";
-import { getSkillEffects } from "../lib/skills";
+import { getSkillEffects } from "../domain/skills";
 import { CombatLogPanel } from "../components/combat/CombatLogPanel";
 import { CombatHeader } from "../components/combat/CombatHeader";
 import { CombatControls } from "../components/combat/CombatControls";
@@ -39,6 +30,10 @@ import {
   playVictorySound,
   playDefeatSound,
 } from "../lib/audio";
+
+import { advanceCombatTurn } from '../domain/combatTurnState';
+import { CombatLifecycle } from '../application/combat/combatLifecycle';
+import { resolveCombatOutcome, type CombatResult } from '../application/combat/resolveCombatOutcome';
 
 interface DamagePopup {
   id: number;
@@ -82,11 +77,12 @@ interface Props {
   setGlobalProcessing: (v: boolean) => void;
   onBattleStatusChange?: (inBattle: boolean) => void;
   onCampaignWin?: (stageId: string) => void;
-  updateCard?: (card: Card) => void;
-  addImplant?: (imp: any) => void;
-  addGear?: (gear: any) => void;
+  updateCard?: (card: Card) => Promise<void>;
+  addImplant?: (imp: any) => Promise<void>;
+  addGear?: (gear: any) => Promise<void>;
   phantasmProgress?: { floor: number, cardsHp: Record<string, number> };
   onPhantasmWin?: (newCardsHp: Record<string, number>) => void;
+  onPhantasmDefeat?: (newCardsHp: Record<string, number>) => void;
   onCombatReturn?: () => void;
 }
 
@@ -124,9 +120,10 @@ export const CombatView: React.FC<Props> = ({
   updateCard,
   phantasmProgress,
   onPhantasmWin,
+  onPhantasmDefeat,
   onCombatReturn
 }) => {
-  const [opTab, setOpTab] = useState<"battlefield" | "single_boss" | "world_boss" | "phantasm">("single_boss");
+  const [opTab, setOpTab] = useState<"battlefield" | "single_boss" | "world_boss" | "phantasm">(() => localStorage.getItem("cineCurrentCombatMode") === "phantasm" ? "phantasm" : "single_boss");
   
   const [logs, _setLogs] = useState<React.ReactNode[]>([
     <div key="init" className="text-cyan-600/50">
@@ -179,7 +176,7 @@ export const CombatView: React.FC<Props> = ({
   const toggleLiteMode = () => {
     const newVal = !isLiteMode;
     setIsLiteMode(newVal);
-    localStorage.setItem("liteCombatMode", String(newVal));
+    browserStorage.setItem("liteCombatMode", String(newVal));
     window.dispatchEvent(new Event("litemode-toggled"));
   };
 
@@ -214,17 +211,18 @@ export const CombatView: React.FC<Props> = ({
   const hasUR = cards.some(c => c.cardClass === 'UR');
 
   const [worldBossState, setWorldBossState] = useState<any>(() => {
-    const saved = localStorage.getItem("cineWorldBoss");
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      const todayStr = new Date().toISOString().split("T")[0];
-      if (parsed.lastAttemptDate !== todayStr) {
-        parsed.attemptsToday = 0;
-        parsed.lastAttemptDate = todayStr;
+    const todayStr = new Date(Date.now() + 7 * 60 * 60 * 1000).toISOString().split("T")[0];
+    try {
+      const parsed = JSON.parse(localStorage.getItem("cineWorldBoss") || "null");
+      if (parsed && Number.isInteger(parsed.level) && parsed.level > 0 && Number.isInteger(parsed.attemptsToday) && parsed.attemptsToday >= 0 && (!parsed.boss || (Number.isFinite(parsed.boss.hp) && parsed.boss.hp > 0))) {
+        if (parsed.lastAttemptDate !== todayStr) {
+          parsed.attemptsToday = 0;
+          parsed.lastAttemptDate = todayStr;
+        }
+        return parsed;
       }
-      return parsed;
-    }
-    return { boss: null, lastAttemptDate: new Date().toISOString().split("T")[0], attemptsToday: 0, level: 1 };
+    } catch { /* Invalid saved data must not prevent combat from opening. */ }
+    return { boss: null, lastAttemptDate: todayStr, attemptsToday: 0, level: 1 };
   });
 
   const [timeUntilReset, setTimeUntilReset] = useState("");
@@ -268,7 +266,7 @@ export const CombatView: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("cineWorldBoss", JSON.stringify(worldBossState));
+    browserStorage.setItem("cineWorldBoss", JSON.stringify(worldBossState));
   }, [worldBossState]);
 
   useEffect(() => {
@@ -325,15 +323,7 @@ export const CombatView: React.FC<Props> = ({
   const [currentTurn, setCurrentTurn] = useState<number>(1);
   const [isSynergyGuideOpen, setIsSynergyGuideOpen] = useState(false);
   const [combatSpeed, setCombatSpeed] = useState<number>(1);
-  const [combatResult, setCombatResult] = useState<{
-    status: "victory" | "defeat" | "draw";
-    title: string;
-    rating: string;
-    turns: number;
-    exp: number;
-    rewards: { label: string; value: string | number; colorClass?: string }[];
-    message: string;
-  } | null>(null);
+  const [combatResult, setCombatResult] = useState<CombatResult | null>(null);
 
   useEffect(() => {
     if (combatResult) {
@@ -356,7 +346,7 @@ export const CombatView: React.FC<Props> = ({
      const mode = window.localStorage.getItem('cineCurrentCombatMode');
      if (mode) {
          setOpTab(mode as any);
-         window.localStorage.removeItem('cineCurrentCombatMode');
+         browserStorage.removeItem('cineCurrentCombatMode');
          if (mode === 'phantasm') {
              autoStartRef.current = true;
          }
@@ -548,7 +538,7 @@ export const CombatView: React.FC<Props> = ({
          const initialCardHps = squad.map((c, i) => {
              if (!c) return 0;
              const savedHp = phantasmProgress.cardsHp[c.id];
-             const finalHp = savedHp !== undefined ? savedHp : cardMaxHp[i];
+             const finalHp = Number.isFinite(savedHp) ? Math.max(0, Math.min(cardMaxHp[i], savedHp)) : cardMaxHp[i];
              initialSquadHp += finalHp;
              return finalHp;
          });
@@ -940,8 +930,25 @@ export const CombatView: React.FC<Props> = ({
     }
   };
 
+  const battleCancelledRef = useRef(false);
+  const combatLifecycleRef = useRef(new CombatLifecycle());
+  useEffect(() => {
+    battleCancelledRef.current = false;
+    combatLifecycleRef.current.reset();
+    return () => {
+      battleCancelledRef.current = true;
+      combatLifecycleRef.current.cancel();
+      stopCombatBgm();
+      setInBattle(false);
+      setGlobalProcessing(false);
+    };
+  }, [setGlobalProcessing]);
+
   const executeBattle = async () => {
     if (inBattle || !boss) return;
+    const run = combatLifecycleRef.current.start();
+    if (run === null) return;
+    const isBattleCancelled = () => battleCancelledRef.current || !combatLifecycleRef.current.owns(run);
 
     setCurrentTurn(1);
 
@@ -950,6 +957,7 @@ export const CombatView: React.FC<Props> = ({
       ].slice(-40));
     };
 
+    try {
     initAudio();
     startCombatBgm();
     setInBattle(true);
@@ -966,8 +974,11 @@ export const CombatView: React.FC<Props> = ({
     setDisplaySquadStatuses([[],[],[],[],[],[]]);
 
         let currentEnemyHps = enemySquad.map(e => e ? e.hp : 0);
-    let currentSquadHp = squadHp;
-    let currentCardHps = [...cardMaxHp];
+    let currentCardHps = cardMaxHp.map((hp, idx) => {
+      const saved = squad[idx] ? phantasmProgress?.cardsHp[squad[idx]!.id] : undefined;
+      return opTab === "phantasm" && Number.isFinite(saved) ? Math.max(0, Math.min(hp, saved!)) : hp;
+    });
+    let currentSquadHp = currentCardHps.reduce((sum, hp) => sum + hp, 0);
 
     let targetInitialManas = [0,0,0,0,0,0];
     let targetMaxManas = [100,100,100,100,100,100];
@@ -1106,6 +1117,7 @@ export const CombatView: React.FC<Props> = ({
 
     while (currentSquadHp > 0 && getTotalEnemyHp() > 0 && totalActions < MAX_ACTIONS) {
       await delay(100);
+      if (isBattleCancelled()) return;
 
       // Process Tactical Overrides
       while (tacticalQueue.current.length > 0) {
@@ -1160,44 +1172,22 @@ export const CombatView: React.FC<Props> = ({
       
       if (getTotalEnemyHp() <= 0) break;
 
-      let highestAtb = -1;
-      let isSquadActor = false;
-      let activeIdx = -1;
-
-      for (let i = 0; i < 6; i++) {
-         if (squad[i] && currentCardHps[i] > 0 && squadATB[i] >= 1000) {
-            if (squadATB[i] > highestAtb) { highestAtb = squadATB[i]; isSquadActor = true; activeIdx = i; }
-         }
-         if (enemySquad[i] && currentEnemyHps[i] > 0 && enemyATB[i] >= 1000) {
-            if (enemyATB[i] > highestAtb) { highestAtb = enemyATB[i]; isSquadActor = false; activeIdx = i; }
-         }
-      }
-
-      if (activeIdx === -1) {
-          let minTicks = Infinity;
-          for(let i=0; i<6; i++) {
-             if (squad[i] && currentCardHps[i] > 0) minTicks = Math.min(minTicks, (1000 - squadATB[i]) / Math.max(1, sqSpeeds[i]));
-             if (enemySquad[i] && currentEnemyHps[i] > 0) minTicks = Math.min(minTicks, (1000 - enemyATB[i]) / Math.max(1, enSpeeds[i]));
-          }
-          if (minTicks === Infinity || minTicks < 0) break;
-          
-          for(let i=0; i<6; i++) {
-             if (squad[i] && currentCardHps[i] > 0) squadATB[i] += sqSpeeds[i] * minTicks;
-             if (enemySquad[i] && currentEnemyHps[i] > 0) enemyATB[i] += enSpeeds[i] * minTicks;
-          }
-          setDisplaySquadATB([...squadATB]);
-          setDisplayEnemyATB([...enemyATB]);
-          
-          // Use a fixed delay and rely on CSS transition-all to smoothly animate the bar, 
-          // dramatically reducing React re-render overhead.
-          await delay(isMobileEnv ? 80 : 200);
-          continue;
-      }
-
-      if (isSquadActor) squadATB[activeIdx] -= 1000;
-      else enemyATB[activeIdx] -= 1000;
+      const transition = advanceCombatTurn({
+        squadAlive: squad.map((card, i) => !!card && currentCardHps[i] > 0),
+        enemyAlive: enemySquad.map((enemy, i) => !!enemy && currentEnemyHps[i] > 0),
+        squadATB, enemyATB, squadSpeeds: sqSpeeds, enemySpeeds: enSpeeds,
+      });
+      if (transition.kind === 'stalled') break;
+      squadATB = transition.squadATB;
+      enemyATB = transition.enemyATB;
       setDisplaySquadATB([...squadATB]);
       setDisplayEnemyATB([...enemyATB]);
+      if (transition.kind === 'advanced') {
+        await delay(isMobileEnv ? 80 : 200);
+        continue;
+      }
+      const isSquadActor = transition.side === 'squad';
+      const activeIdx = transition.index;
       await delay(200);
 
       totalActions++;
@@ -1418,6 +1408,8 @@ export const CombatView: React.FC<Props> = ({
               }
               return hp;
            });
+           currentSquadHp = currentCardHps.reduce((sum, hp) => sum + hp, 0);
+           setDisplaySquadHp(currentSquadHp);
            setDisplayCardHps([...currentCardHps]);
            roleStatusLog = <span className="ml-1 text-[9px] text-green-400 font-mono bg-green-900/30 px-1 rounded border border-green-500/50">💚 +${totalHealAmt} HP / +${totalShieldAmt} Khiên Đoàn</span>;
         }
@@ -1582,7 +1574,6 @@ export const CombatView: React.FC<Props> = ({
         setDisplayEnemyStatuses([...enemyStatuses.map(s => [...s])]);
 
         if (currentEnemyHps[attackerEnIdx] <= 0) {
-            actualSquadAtk = Math.max(0, actualSquadAtk - cardAtks[attackerEnIdx] || 0); // Note: enemies don't impact actualSquadAtk but safe hook
             continue;
         }
 
@@ -1829,7 +1820,7 @@ export const CombatView: React.FC<Props> = ({
                     currentCardHps[targetIdx] -= bossDmg;
                     
                     if (reflectDmg > 0) {
-                        currentEnemyHps[attackerEnIdx] -= reflectDmg;
+                        currentEnemyHps[attackerEnIdx] = Math.max(0, currentEnemyHps[attackerEnIdx] - reflectDmg);
                         setDisplayEnemyHps([...currentEnemyHps]);
                         addDamagePopup(reflectDmg, `enemy-${attackerEnIdx}` as any, false, "magic", "text-orange-400", 0);
                         if (currentEnemyHps[attackerEnIdx] <= 0) {
@@ -1913,313 +1904,44 @@ export const CombatView: React.FC<Props> = ({
       setGlassBreak(false);
     }
 
-    if (opTab === "world_boss") {
-      if (getTotalEnemyHp() <= 0) {
-        setWorldBossState((p: any) => ({ ...p, boss: null, level: p.level + 1 }));
-        const dcReward = 1000 * worldBossState.level;
-        const matReward = 10 * worldBossState.level;
-        modifyCurrency(dcReward);
-        const randMat = ["CyberCore Component", "Ethereal Essence", "Void Fragment", "Mecha Joint", "Astro Thruster", "Arcane Rune"][Math.floor(Math.random()*5)];
-        modifyInventory(0, 0, { [randMat]: matReward });
-        addLog(`>>> CHIẾN THẮNG WORLD BOSS LEVEL ${worldBossState.level}! Nhận lượng lớn phần thưởng! <<<`, "font-bold text-lg text-green-400 my-4 uppercase text-center");
-        
-        let finalRating = turn <= 5 ? "S" : turn <= 10 ? "A" : turn <= 15 ? "B" : "C";
+    if (isBattleCancelled()) return;
+    combatLifecycleRef.current.resolve(run);
+    await resolveCombatOutcome({
+      opTab, boss, enemySquad, squad, level, worldBossState, phantasmProgress,
+      currentEnemyHps, currentCardHps, currentSquadHp, turn, totalActions, MAX_ACTIONS,
+    }, {
+      isCancelled: isBattleCancelled, setWorldBossState, modifyCurrency, modifyInventory,
+      gainExperience, addLog, setCombatResult, setEnemySquad, updateQuestProgress,
+      onCampaignWin, updateCard, addImplant, addGear, onPhantasmWin, onPhantasmDefeat,
+    });
 
-        const wbRewards: any[] = [
-            { label: "Tiền Thưởng", value: `+${dcReward} DC`, colorClass: "text-cinematic-gold" },
-            { label: "Tài Nguyên", value: `+${matReward} ${randMat}`, colorClass: "text-purple-400" }
-        ];
-
-        const imp = rollImplant(level + worldBossState.level * 2, true);
-        if (imp && addImplant) {
-            addImplant(imp);
-            wbRewards.push({ label: "Cấy Ghép", value: imp.name, colorClass: "text-amber-400" });
-        }
-        const gear = rollGear(level + worldBossState.level * 2, true);
-        if (gear && addGear) {
-            addGear(gear);
-            wbRewards.push({ label: "Trang Bị", value: gear.name, colorClass: "text-cinematic-gold" });
-        }
-
-        setCombatResult({
-          status: "victory",
-          title: "World Boss Tiêu Diệt!",
-          rating: finalRating,
-          turns: turn,
-          exp: 0,
-          rewards: wbRewards,
-          message: `Mối đe dọa vũ trụ cấp ${worldBossState.level} đã bị trừ khử! Chiến dịch thành công.`
-        });
-      } else {
-        const newBoss = { ...boss, hp: currentEnemyHps[0] };
-        setWorldBossState((p: any) => ({ ...p, boss: newBoss }));
-        modifyCurrency(50 * worldBossState.level);
-        if (turn > 15) {
-            addLog(`>>> HẾT THỜI GIAN TÁC CHIẾN (15 ROUNDS) <<<`, "font-bold text-yellow-500 my-2 uppercase text-center");
-            addLog(`Hệ thống rút lui khẩn cấp. Boss còn lại ${currentEnemyHps[0]} HP.`, "text-cinematic-cyan");
-            setCombatResult({
-              status: "draw",
-              title: "Hết Thời Gian",
-              rating: "D",
-              turns: turn,
-              exp: 0,
-              rewards: [{ label: "Tiền An Ủi", value: `+${50 * worldBossState.level} DC` }],
-              message: "Trận đấu đã kéo dài quá 15 vòng. Hệ thống tự động kích hoạt giao thức rút lui. Sát thương lên Boss đã được ghi nhận."
-            });
-        } else {
-            addLog(`>>> ĐỘI HÌNH BỊ HẠ GỤC <<<`, "font-bold text-red-500 my-2 uppercase text-center");
-            addLog(`World boss còn lại ${currentEnemyHps[0]} HP. Đã lưu trạng thái!`, "text-cinematic-cyan");
-            setCombatResult({
-              status: "defeat",
-              title: "Đội Hình Hạ Gục",
-              rating: "F",
-              turns: turn,
-              exp: 0,
-              rewards: [{ label: "Tiền An Ủi", value: `+${50 * worldBossState.level} DC` }],
-              message: "Toàn bộ đội hình đã bị tiêu diệt. Hãy nâng cấp và quay lại."
-            });
-        }
-      }
-    } else if (getTotalEnemyHp() <= 0) {
-      let finalRating = turn <= 3 ? "S" : turn <= 5 ? "A" : turn <= 10 ? "B" : "C";
-      
-      if (opTab === "battlefield") {
-        const totalDc = enemySquad.reduce((sum, b) => sum + (b ? b.reward : 0), 0) || 500;
-        const expGained = Math.floor(totalDc / 5);
-        
-        const parsedRewards: any[] = [];
-        
-        modifyCurrency(totalDc);
-        gainExperience(expGained);
-        
-        addLog(
-          `>>> CHIẾN THẮNG BATTLEFIELD! <<<`,
-          "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2",
-        );
-        parsedRewards.unshift({ label: "Kinh Nghiệm", value: `+${expGained} EXP`, colorClass: "text-blue-400" });
-        parsedRewards.unshift({ label: "Tiền Thưởng", value: `+${totalDc} DC`, colorClass: "text-cinematic-gold" });
-        
-        let msg = "Toàn bộ kẻ địch đã bị triệt tiêu!";
-        const campaignBoss = enemySquad.find(e => e && e.campaignStageId);
-        if (campaignBoss && onCampaignWin) {
-            onCampaignWin(campaignBoss.campaignStageId!);
-            msg = "Đã hoàn thành Nhiệm vụ Cốt truyện!";
-        }
-
-        const bfImpCount = Math.floor(Math.random() * 2) + 1;
-        for (let i = 0; i < bfImpCount; i++) {
-            const imp = rollImplant(level + 10, true);
-            if (imp && addImplant) {
-                addImplant(imp);
-                parsedRewards.push({ label: "Cấy Ghép", value: imp.name, colorClass: "text-amber-400" });
-            }
-            const gear = rollGear(level + 10, true);
-            if (gear && addGear) {
-                addGear(gear);
-                parsedRewards.push({ label: "Trang Bị", value: gear.name, colorClass: "text-cinematic-gold" });
-            }
-        }
-
-        if (updateCard) {
-            squad.forEach(member => {
-                if (member) {
-                    const diff = Math.floor(Math.random() * 5) + 5; // 5-9 affection per win
-                    updateCard({ ...member, affection: (member.affection || 0) + diff });
-                }
-            });
-        }
-
-        setCombatResult({
-          status: "victory",
-          title: `Trận chiến thành công`,
-          rating: finalRating,
-          turns: turn,
-          exp: expGained,
-          rewards: parsedRewards,
-          message: msg
-        });
-        setEnemySquad([null, null, null, null, null, null]);
-      } else if (opTab === "phantasm") {
-        const totalDc = enemySquad.reduce((sum, b) => sum + (b ? b.reward : 0), 0) || 1000;
-        const expGained = Math.floor(totalDc / 3);
-        const parsedRewards: any[] = [];
-        
-        modifyCurrency(totalDc);
-        gainExperience(expGained);
-        
-        // Random Phantom Core drop
-        const coreDrop = Math.floor(Math.random() * 2) + 1;
-        modifyInventory(0, 0, { "Phantom Core": coreDrop });
-
-        addLog(
-          `>>> VƯỢT TẦNG THÁP ẢO ẢNH! <<<`,
-          "text-cyan-400 font-bold mt-2 border-t border-cyan-900/50 pt-2",
-        );
-        parsedRewards.push({ label: "Kinh Nghiệm", value: `+${expGained} EXP`, colorClass: "text-blue-400" });
-        parsedRewards.push({ label: "Tiền Thưởng", value: `+${totalDc} DC`, colorClass: "text-cinematic-gold" });
-        parsedRewards.push({ label: "Phantom Core", value: `+${coreDrop}`, colorClass: "text-purple-400" });
-
-        const imp = rollImplant(level + (phantasmProgress?.floor || 1) * 2, true);
-        if (imp && addImplant) {
-            addImplant(imp);
-            parsedRewards.push({ label: "Cấy Ghép", value: imp.name, colorClass: "text-amber-400" });
-        }
-        
-        const gear = rollGear(level + (phantasmProgress?.floor || 1) * 2, true);
-        if (gear && addGear) {
-            addGear(gear);
-            parsedRewards.push({ label: "Trang Bị", value: gear.name, colorClass: "text-cinematic-gold" });
-        }
-
-        setCombatResult({
-          status: "victory",
-          title: `Vượt Ải Thành Công!`,
-          rating: finalRating,
-          turns: turn,
-          exp: expGained,
-          rewards: parsedRewards,
-          message: "Tất cả kẻ địch tầng này đã bị tiêu diệt. Sinh lực Đặc vụ sẽ được bảo lưu cho tầng tiếp theo!"
-        });
-        setEnemySquad([null, null, null, null, null, null]);
-      } else {
-        let baseDrop = 0;
-        let eliteDrop = 0;
-        let expGained = 0;
-        let coreDrop = 0;
-        let shardDrop = 0;
-        
-        if (boss.threatLevel.includes("Elite") || opTab === "single_boss") {
-          baseDrop = opTab === "single_boss" ? 2 : 1;
-          if (Math.random() < 0.15 || opTab === "single_boss") eliteDrop = 1;
-          expGained = opTab === "single_boss" ? 25 : 15;
-          shardDrop = Math.floor(Math.random() * 3) + 1; // 1-3 Shards
-          if (Math.random() < 0.5) coreDrop = 1;         // 50% chance for 1 Core
-        } else if (boss.threatLevel.includes("Nightmare")) {
-          baseDrop = 1;
-          eliteDrop = 1;
-          if (Math.random() < 0.2) eliteDrop = 2;
-          expGained = 30;
-          shardDrop = Math.floor(Math.random() * 5) + 3; // 3-7 Shards
-          coreDrop = Math.floor(Math.random() * 2) + 1;  // 1-2 Cores
-        } else {
-          if (Math.random() < 0.3) baseDrop = 1;
-          expGained = 5;
-          if (Math.random() < 0.3) shardDrop = 1;        // 30% chance for 1 Shard
-        }
-
-        const parsedRewards: any[] = [
-          { label: "Tiền Thưởng", value: `+${boss.reward} DC`, colorClass: "text-green-400" },
-          { label: "Kinh Nghiệm", value: `+${expGained} EXP`, colorClass: "text-blue-400" },
-        ];
-        if (baseDrop > 0) parsedRewards.push({ label: "Vé Tiêu Chuẩn", value: `+${baseDrop}`, colorClass: "text-cinematic-cyan" });
-        if (eliteDrop > 0) parsedRewards.push({ label: "Vé Đặc Quyền", value: `+${eliteDrop}`, colorClass: "text-purple-400" });
-        if (shardDrop > 0) parsedRewards.push({ label: "Equipment Shard", value: `+${shardDrop}`, colorClass: "text-blue-400" });
-        if (coreDrop > 0) parsedRewards.push({ label: "Forge Core", value: `+${coreDrop}`, colorClass: "text-amber-500" });
-
-        const imp = rollImplant(level, boss.threatLevel !== "Minion");
-        if (imp && addImplant) {
-            addImplant(imp);
-            parsedRewards.push({ label: "Cấy Ghép", value: imp.name, colorClass: "text-amber-400" });
-        }
-        
-        const gear = rollGear(level, boss.threatLevel !== "Minion");
-        if (gear && addGear) {
-            addGear(gear);
-            parsedRewards.push({ label: "Trang Bị", value: gear.name, colorClass: "text-cinematic-gold" });
-        }
-
-        addLog(
-          ">>> CHIẾN THẮNG! <<<",
-          "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2",
-        );
-        modifyCurrency(boss.reward);
-        gainExperience(expGained);
-        updateQuestProgress("boss", 1);
-        
-        if (updateCard) {
-            squad.forEach(member => {
-                if (member) {
-                    const diff = Math.floor(Math.random() * 5) + 3; // 3-7 affection
-                    updateCard({ ...member, affection: (member.affection || 0) + diff });
-                }
-            });
-        }
-
-        const matDrops: Record<string, number> = {};
-        if (coreDrop > 0) matDrops["Forge Core"] = coreDrop;
-        if (shardDrop > 0) matDrops["Equipment Shard"] = shardDrop;
-        
-        if (boss.drops && boss.drops.length > 0) {
-          boss.drops.forEach((d: { item: string, amount: number }) => {
-            matDrops[d.item] = d.amount;
-            parsedRewards.push({ label: "Vật Phẩm", value: `+${d.amount} ${d.item}`, colorClass: "text-cinematic-gold" });
-          });
-        }
-
-        modifyInventory(baseDrop, eliteDrop, matDrops);
-
-        setCombatResult({
-          status: "victory",
-          title: "Chiến Dịch Xuất Sắc!",
-          rating: finalRating,
-          turns: turn,
-          exp: expGained,
-          rewards: parsedRewards,
-          message: "Kẻ địch đã bị tiêu diệt hoàn toàn."
-        });
-        setEnemySquad([null, null, null, null, null, null]);
-      }
-    } else {
-      if (turn > 15) {
-          addLog(">>> HÒA - VƯỢT QUÁ GIỚI HẠN 15 VÒNG <<<", "font-bold text-yellow-500 my-2 uppercase text-center");
-          setCombatResult({
-            status: "draw",
-            title: "Thất Bại (Hòa)",
-            rating: "D",
-            turns: turn,
-            exp: 0,
-            rewards: [],
-            message: "Quá 15 vòng chưa tiêu diệt được đối phương, bạn bị xử thua!"
-          });
-      } else {
-          addLog(
-            ">>> THẤT BẠI. Rút lui an toàn... <<<",
-            "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2",
-          );
-          setCombatResult({
-            status: "defeat",
-            title: "Chiến Báo Thất Bại",
-            rating: "F",
-            turns: turn,
-            exp: 0,
-            rewards: [],
-            message: "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
-          });
+    } catch (error) {
+      if (isBattleCancelled()) return;
+      combatLifecycleRef.current.fail(run);
+      console.error("Combat failed:", error);
+      onError("Trận đấu bị gián đoạn. Vui lòng thử lại.");
+    } finally {
+      if (!isBattleCancelled()) {
+        combatLifecycleRef.current.complete(run);
+        stopCombatBgm();
+        setInBattle(false);
+        setGlobalProcessing(false);
+        setActiveAttackVector(null);
+        setActiveAttackerIdx(null);
+        setIsBossAttacking(false);
       }
     }
-
-    if (opTab === "phantasm" && onPhantasmWin) {
-      const finalHps: Record<string, number> = {};
-      squad.forEach((c, idx) => {
-        if (c) {
-          finalHps[c.id] = currentCardHps[idx] > 0 ? currentCardHps[idx] : 0;
-        }
-      });
-      onPhantasmWin(finalHps);
-    }
-
-    stopCombatBgm();
-    setInBattle(false);
-    setGlobalProcessing(false);
-    setActiveAttackVector(null);
-    setActiveAttackerIdx(null);
-    setIsBossAttacking(false);
   };
 
   useEffect(() => {
      if (autoStartRef.current && opTab === 'phantasm' && boss !== null && squadHp > 0) {
-         autoStartRef.current = false;
-         executeBattle();
+         const timer = setTimeout(() => {
+           if (!battleCancelledRef.current && autoStartRef.current) {
+             autoStartRef.current = false;
+             executeBattle();
+           }
+         }, 0);
+         return () => clearTimeout(timer);
      }
   }, [opTab, boss, squadHp, executeBattle]);
 

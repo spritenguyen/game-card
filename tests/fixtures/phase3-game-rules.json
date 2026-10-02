@@ -1,0 +1,2445 @@
+{
+  "source": "Captured from Phase 2 implementation before Phase 3 refactor; no live provider calls.",
+  "cards": [
+    {
+      "id": "card-0",
+      "name": "Character 0",
+      "faction": "CyberCore",
+      "element": "Fire",
+      "role": "Vanguard",
+      "cardClass": "N",
+      "level": 1,
+      "weight": 50,
+      "height": 160,
+      "measurements": "90-60-90",
+      "genes": [],
+      "overclockLevel": 0,
+      "resonance": 20,
+      "timestamp": 1
+    },
+    {
+      "id": "card-1",
+      "name": "Character 1",
+      "faction": "Ethereal",
+      "element": "Water",
+      "role": "Striker",
+      "cardClass": "R",
+      "level": 2,
+      "weight": 51,
+      "height": 161,
+      "measurements": "90-60-90",
+      "genes": [
+        "gene_hp",
+        "gene_atk",
+        "gene_fire"
+      ],
+      "overclockLevel": 1,
+      "resonance": 21,
+      "timestamp": 1
+    },
+    {
+      "id": "card-2",
+      "name": "Character 2",
+      "faction": "VoidBringer",
+      "element": "Earth",
+      "role": "Sniper",
+      "cardClass": "SR",
+      "level": 3,
+      "weight": 52,
+      "height": 162,
+      "measurements": "90-60-90",
+      "genes": [],
+      "overclockLevel": 2,
+      "resonance": 22,
+      "timestamp": 1
+    },
+    {
+      "id": "card-3",
+      "name": "Character 3",
+      "faction": "MechaMutant",
+      "element": "Lightning",
+      "role": "Weaver",
+      "cardClass": "SSR",
+      "level": 4,
+      "weight": 53,
+      "height": 163,
+      "measurements": "90-60-90",
+      "genes": [
+        "gene_hp",
+        "gene_atk",
+        "gene_fire"
+      ],
+      "overclockLevel": 0,
+      "resonance": 23,
+      "timestamp": 1
+    },
+    {
+      "id": "card-4",
+      "name": "Character 4",
+      "faction": "AstroNomad",
+      "element": "Wind",
+      "role": "Support",
+      "cardClass": "UR",
+      "level": 5,
+      "weight": 54,
+      "height": 164,
+      "measurements": "90-60-90",
+      "genes": [],
+      "overclockLevel": 1,
+      "resonance": 24,
+      "timestamp": 1
+    },
+    {
+      "id": "card-5",
+      "name": "Character 5",
+      "faction": "ArcaneWeaver",
+      "element": "Neutral",
+      "role": "Phantom",
+      "cardClass": "N",
+      "level": 6,
+      "weight": 55,
+      "height": 165,
+      "measurements": "90-60-90",
+      "genes": [
+        "gene_hp",
+        "gene_atk",
+        "gene_fire"
+      ],
+      "overclockLevel": 2,
+      "resonance": 25,
+      "timestamp": 1
+    },
+    {
+      "id": "card-6",
+      "name": "Character 6",
+      "faction": "CyberCore",
+      "element": "Fire",
+      "role": "Vanguard",
+      "cardClass": "R",
+      "level": 7,
+      "weight": 56,
+      "height": 166,
+      "measurements": "90-60-90",
+      "genes": [],
+      "overclockLevel": 0,
+      "resonance": 26,
+      "timestamp": 1
+    },
+    {
+      "id": "card-7",
+      "name": "Character 7",
+      "faction": "Ethereal",
+      "element": "Water",
+      "role": "Striker",
+      "cardClass": "SR",
+      "level": 8,
+      "weight": 57,
+      "height": 167,
+      "measurements": "90-60-90",
+      "genes": [
+        "gene_hp",
+        "gene_atk",
+        "gene_fire"
+      ],
+      "overclockLevel": 1,
+      "resonance": 27,
+      "timestamp": 1
+    },
+    {
+      "id": "card-8",
+      "name": "Character 8",
+      "faction": "VoidBringer",
+      "element": "Earth",
+      "role": "Sniper",
+      "cardClass": "SSR",
+      "level": 9,
+      "weight": 58,
+      "height": 168,
+      "measurements": "90-60-90",
+      "genes": [],
+      "overclockLevel": 2,
+      "resonance": 28,
+      "timestamp": 1
+    },
+    {
+      "id": "card-9",
+      "name": "Character 9",
+      "faction": "MechaMutant",
+      "element": "Lightning",
+      "role": "Weaver",
+      "cardClass": "UR",
+      "level": 10,
+      "weight": 59,
+      "height": 169,
+      "measurements": "90-60-90",
+      "genes": [
+        "gene_hp",
+        "gene_atk",
+        "gene_fire"
+      ],
+      "overclockLevel": 0,
+      "resonance": 29,
+      "timestamp": 1
+    },
+    {
+      "id": "card-10",
+      "name": "Character 10",
+      "faction": "AstroNomad",
+      "element": "Wind",
+      "role": "Support",
+      "cardClass": "N",
+      "level": 11,
+      "weight": 60,
+      "height": 170,
+      "measurements": "90-60-90",
+      "genes": [],
+      "overclockLevel": 1,
+      "resonance": 30,
+      "timestamp": 1
+    },
+    {
+      "id": "card-11",
+      "name": "Character 11",
+      "faction": "ArcaneWeaver",
+      "element": "Neutral",
+      "role": "Phantom",
+      "cardClass": "R",
+      "level": 12,
+      "weight": 61,
+      "height": 171,
+      "measurements": "90-60-90",
+      "genes": [
+        "gene_hp",
+        "gene_atk",
+        "gene_fire"
+      ],
+      "overclockLevel": 2,
+      "resonance": 31,
+      "timestamp": 1,
+      "implants": {
+        "1": {
+          "id": "imp",
+          "slot": 1,
+          "set": "Arasaka",
+          "mainStat": {
+            "type": "ATK",
+            "value": 20,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "SPEED",
+              "value": 5,
+              "isPercentage": false
+            }
+          ]
+        }
+      },
+      "gears": {
+        "1": {
+          "id": "gear",
+          "slot": 1,
+          "brand": "Cipher",
+          "mainStat": {
+            "type": "RES",
+            "value": 10,
+            "isPercentage": false
+          },
+          "subStats": []
+        }
+      }
+    }
+  ],
+  "cases": [
+    {
+      "skills": [],
+      "stats": [
+        {
+          "hp": 0,
+          "atk": 0,
+          "patk": 0,
+          "matk": 0,
+          "def": 0,
+          "mdef": 0,
+          "res": 0,
+          "speed": 0,
+          "elementalDmg": {},
+          "elementalRes": {}
+        },
+        {
+          "hp": 1279,
+          "atk": 132,
+          "patk": 132,
+          "matk": 102,
+          "def": 122,
+          "mdef": 102,
+          "res": 40,
+          "speed": 102,
+          "elementalDmg": {
+            "Fire": 50
+          },
+          "elementalRes": {
+            "Fire": 20,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1774,
+          "atk": 651,
+          "patk": 501,
+          "matk": 651,
+          "def": 79,
+          "mdef": 112,
+          "res": 63,
+          "speed": 117,
+          "elementalDmg": {
+            "Water": 75,
+            "Fire": 47.25000000000001
+          },
+          "elementalRes": {
+            "Fire": 78.75000000000001,
+            "Water": 30,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1937,
+          "atk": 1023,
+          "patk": 786,
+          "matk": 1023,
+          "def": 140,
+          "mdef": 196,
+          "res": 110,
+          "speed": 146,
+          "elementalDmg": {
+            "Earth": 125
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 50,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 6692,
+          "atk": 2293,
+          "patk": 1192,
+          "matk": 2293,
+          "def": 352,
+          "mdef": 411,
+          "res": 57,
+          "speed": 196,
+          "elementalDmg": {
+            "Lightning": 250,
+            "Fire": 172.5
+          },
+          "elementalRes": {
+            "Fire": 287.5,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 100,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 12006,
+          "atk": 3244,
+          "patk": 2162,
+          "matk": 3244,
+          "def": 811,
+          "mdef": 1081,
+          "res": 132,
+          "speed": 292,
+          "elementalDmg": {
+            "Wind": 500
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 200,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1351,
+          "atk": 499,
+          "patk": 499,
+          "matk": 475,
+          "def": 63,
+          "mdef": 89,
+          "res": 37,
+          "speed": 140,
+          "elementalDmg": {
+            "Fire": 37.5
+          },
+          "elementalRes": {
+            "Fire": 62.5,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 2744,
+          "atk": 259,
+          "patk": 259,
+          "matk": 200,
+          "def": 240,
+          "mdef": 200,
+          "res": 78,
+          "speed": 104,
+          "elementalDmg": {
+            "Fire": 75
+          },
+          "elementalRes": {
+            "Fire": 30,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 4180,
+          "atk": 1404,
+          "patk": 1081,
+          "matk": 1404,
+          "def": 172,
+          "mdef": 242,
+          "res": 135,
+          "speed": 129,
+          "elementalDmg": {
+            "Water": 125,
+            "Fire": 101.25
+          },
+          "elementalRes": {
+            "Fire": 168.75,
+            "Water": 50,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 5416,
+          "atk": 2619,
+          "patk": 2014,
+          "matk": 2619,
+          "def": 359,
+          "mdef": 503,
+          "res": 280,
+          "speed": 189,
+          "elementalDmg": {
+            "Earth": 250
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 100,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 18506,
+          "atk": 5818,
+          "patk": 3025,
+          "matk": 5818,
+          "def": 895,
+          "mdef": 1044,
+          "res": 145,
+          "speed": 298,
+          "elementalDmg": {
+            "Lightning": 500,
+            "Fire": 435
+          },
+          "elementalRes": {
+            "Fire": 725,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 200,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1494,
+          "atk": 370,
+          "patk": 247,
+          "matk": 370,
+          "def": 92,
+          "mdef": 123,
+          "res": 15,
+          "speed": 134,
+          "elementalDmg": {
+            "Wind": 50
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 20,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 2749,
+          "atk": 1120,
+          "patk": 1120,
+          "matk": 1067,
+          "def": 119,
+          "mdef": 167,
+          "res": 79,
+          "speed": 154,
+          "elementalDmg": {
+            "Fire": 69.75,
+            "CRIT_RATE": 0,
+            "CRIT_DMG": 0,
+            "LIFESTEAL": 0,
+            "ACCURACY": 0,
+            "MANA_REGEN": 0,
+            "THORNS": 0,
+            "HP_REGEN": 0
+          },
+          "elementalRes": {
+            "Fire": 116.25000000000001,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        }
+      ],
+      "combo": {
+        "hp": 35147,
+        "cardMaxHp": [
+          2070,
+          2872,
+          3137,
+          9034,
+          16208,
+          1823
+        ],
+        "atk": 12213,
+        "patk": 8155,
+        "matk": 12135,
+        "def": 1387,
+        "mdef": 1754,
+        "res": 520,
+        "elementalDmg": {
+          "Fire": 349,
+          "Water": 75,
+          "Earth": 125,
+          "Lightning": 300,
+          "Wind": 600
+        },
+        "elementalRes": {
+          "Fire": 477,
+          "Water": 43,
+          "Earth": 72,
+          "Lightning": 96,
+          "Wind": 192,
+          "Neutral": 0
+        },
+        "activeSynergies": [
+          "Đa Dạng Chiến Thuật (+15% HP/ATK, +20% Kháng)",
+          "Đa Hệ Nguyên Tố (+20% HP/ATK)"
+        ],
+        "synergyBonusAtk": 0.35,
+        "synergyBonusHp": 0.35,
+        "synergyBonusDef": 0,
+        "synergyBonusRes": 0.2
+      },
+      "dodge": 35
+    },
+    {
+      "skills": [
+        "hp_1",
+        "atk_1",
+        "def_1",
+        "speed_1",
+        "hp_2",
+        "atk_2",
+        "crit_1",
+        "dodge_1"
+      ],
+      "stats": [
+        {
+          "hp": 0,
+          "atk": 0,
+          "patk": 0,
+          "matk": 0,
+          "def": 0,
+          "mdef": 0,
+          "res": 0,
+          "speed": 0,
+          "elementalDmg": {},
+          "elementalRes": {}
+        },
+        {
+          "hp": 1470,
+          "atk": 151,
+          "patk": 151,
+          "matk": 116,
+          "def": 128,
+          "mdef": 107,
+          "res": 42,
+          "speed": 107,
+          "elementalDmg": {
+            "Fire": 50
+          },
+          "elementalRes": {
+            "Fire": 20,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 2039,
+          "atk": 749,
+          "patk": 575,
+          "matk": 749,
+          "def": 83,
+          "mdef": 117,
+          "res": 66,
+          "speed": 122,
+          "elementalDmg": {
+            "Water": 75,
+            "Fire": 47.25000000000001
+          },
+          "elementalRes": {
+            "Fire": 78.75000000000001,
+            "Water": 30,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 2228,
+          "atk": 1176,
+          "patk": 904,
+          "matk": 1176,
+          "def": 147,
+          "mdef": 206,
+          "res": 115,
+          "speed": 151,
+          "elementalDmg": {
+            "Earth": 125
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 50,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 7696,
+          "atk": 2636,
+          "patk": 1370,
+          "matk": 2636,
+          "def": 370,
+          "mdef": 431,
+          "res": 60,
+          "speed": 201,
+          "elementalDmg": {
+            "Lightning": 250,
+            "Fire": 172.5
+          },
+          "elementalRes": {
+            "Fire": 287.5,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 100,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 13808,
+          "atk": 3730,
+          "patk": 2486,
+          "matk": 3730,
+          "def": 850,
+          "mdef": 1134,
+          "res": 138,
+          "speed": 297,
+          "elementalDmg": {
+            "Wind": 500
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 200,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1552,
+          "atk": 574,
+          "patk": 574,
+          "matk": 547,
+          "def": 66,
+          "mdef": 93,
+          "res": 39,
+          "speed": 145,
+          "elementalDmg": {
+            "Fire": 37.5
+          },
+          "elementalRes": {
+            "Fire": 62.5,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 3156,
+          "atk": 298,
+          "patk": 298,
+          "matk": 229,
+          "def": 251,
+          "mdef": 209,
+          "res": 81,
+          "speed": 109,
+          "elementalDmg": {
+            "Fire": 75
+          },
+          "elementalRes": {
+            "Fire": 30,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 4806,
+          "atk": 1615,
+          "patk": 1242,
+          "matk": 1615,
+          "def": 181,
+          "mdef": 254,
+          "res": 141,
+          "speed": 134,
+          "elementalDmg": {
+            "Water": 125,
+            "Fire": 101.25
+          },
+          "elementalRes": {
+            "Fire": 168.75,
+            "Water": 50,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 6229,
+          "atk": 3012,
+          "patk": 2317,
+          "matk": 3012,
+          "def": 377,
+          "mdef": 528,
+          "res": 294,
+          "speed": 194,
+          "elementalDmg": {
+            "Earth": 250
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 100,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 21282,
+          "atk": 6690,
+          "patk": 3479,
+          "matk": 6690,
+          "def": 939,
+          "mdef": 1095,
+          "res": 152,
+          "speed": 303,
+          "elementalDmg": {
+            "Lightning": 500,
+            "Fire": 435
+          },
+          "elementalRes": {
+            "Fire": 725,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 200,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1718,
+          "atk": 425,
+          "patk": 284,
+          "matk": 425,
+          "def": 96,
+          "mdef": 129,
+          "res": 15,
+          "speed": 139,
+          "elementalDmg": {
+            "Wind": 50
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 20,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 3161,
+          "atk": 1288,
+          "patk": 1288,
+          "matk": 1227,
+          "def": 125,
+          "mdef": 175,
+          "res": 83,
+          "speed": 159,
+          "elementalDmg": {
+            "Fire": 69.75,
+            "CRIT_RATE": 0,
+            "CRIT_DMG": 0,
+            "LIFESTEAL": 0,
+            "ACCURACY": 0,
+            "MANA_REGEN": 0,
+            "THORNS": 0,
+            "HP_REGEN": 0
+          },
+          "elementalRes": {
+            "Fire": 116.25000000000001,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        }
+      ],
+      "combo": {
+        "hp": 40417,
+        "cardMaxHp": [
+          2381,
+          3302,
+          3608,
+          10389,
+          18640,
+          2095
+        ],
+        "atk": 14044,
+        "patk": 9375,
+        "matk": 13953,
+        "def": 1456,
+        "mdef": 1840,
+        "res": 547,
+        "elementalDmg": {
+          "Fire": 349,
+          "Water": 75,
+          "Earth": 125,
+          "Lightning": 300,
+          "Wind": 600
+        },
+        "elementalRes": {
+          "Fire": 477,
+          "Water": 43,
+          "Earth": 72,
+          "Lightning": 96,
+          "Wind": 192,
+          "Neutral": 0
+        },
+        "activeSynergies": [
+          "Đa Dạng Chiến Thuật (+15% HP/ATK, +20% Kháng)",
+          "Đa Hệ Nguyên Tố (+20% HP/ATK)"
+        ],
+        "synergyBonusAtk": 0.35,
+        "synergyBonusHp": 0.35,
+        "synergyBonusDef": 0,
+        "synergyBonusRes": 0.2
+      },
+      "dodge": 40
+    },
+    {
+      "skills": null,
+      "stats": [
+        {
+          "hp": 0,
+          "atk": 0,
+          "patk": 0,
+          "matk": 0,
+          "def": 0,
+          "mdef": 0,
+          "res": 0,
+          "speed": 0,
+          "elementalDmg": {},
+          "elementalRes": {}
+        },
+        {
+          "hp": 1279,
+          "atk": 132,
+          "patk": 132,
+          "matk": 102,
+          "def": 122,
+          "mdef": 102,
+          "res": 40,
+          "speed": 102,
+          "elementalDmg": {
+            "Fire": 50
+          },
+          "elementalRes": {
+            "Fire": 20,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1774,
+          "atk": 651,
+          "patk": 501,
+          "matk": 651,
+          "def": 79,
+          "mdef": 112,
+          "res": 63,
+          "speed": 117,
+          "elementalDmg": {
+            "Water": 75,
+            "Fire": 47.25000000000001
+          },
+          "elementalRes": {
+            "Fire": 78.75000000000001,
+            "Water": 30,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1937,
+          "atk": 1023,
+          "patk": 786,
+          "matk": 1023,
+          "def": 140,
+          "mdef": 196,
+          "res": 110,
+          "speed": 146,
+          "elementalDmg": {
+            "Earth": 125
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 50,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 6692,
+          "atk": 2293,
+          "patk": 1192,
+          "matk": 2293,
+          "def": 352,
+          "mdef": 411,
+          "res": 57,
+          "speed": 196,
+          "elementalDmg": {
+            "Lightning": 250,
+            "Fire": 172.5
+          },
+          "elementalRes": {
+            "Fire": 287.5,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 100,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 12006,
+          "atk": 3244,
+          "patk": 2162,
+          "matk": 3244,
+          "def": 811,
+          "mdef": 1081,
+          "res": 132,
+          "speed": 292,
+          "elementalDmg": {
+            "Wind": 500
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 200,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1351,
+          "atk": 499,
+          "patk": 499,
+          "matk": 475,
+          "def": 63,
+          "mdef": 89,
+          "res": 37,
+          "speed": 140,
+          "elementalDmg": {
+            "Fire": 37.5
+          },
+          "elementalRes": {
+            "Fire": 62.5,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 2744,
+          "atk": 259,
+          "patk": 259,
+          "matk": 200,
+          "def": 240,
+          "mdef": 200,
+          "res": 78,
+          "speed": 104,
+          "elementalDmg": {
+            "Fire": 75
+          },
+          "elementalRes": {
+            "Fire": 30,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 4180,
+          "atk": 1404,
+          "patk": 1081,
+          "matk": 1404,
+          "def": 172,
+          "mdef": 242,
+          "res": 135,
+          "speed": 129,
+          "elementalDmg": {
+            "Water": 125,
+            "Fire": 101.25
+          },
+          "elementalRes": {
+            "Fire": 168.75,
+            "Water": 50,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 5416,
+          "atk": 2619,
+          "patk": 2014,
+          "matk": 2619,
+          "def": 359,
+          "mdef": 503,
+          "res": 280,
+          "speed": 189,
+          "elementalDmg": {
+            "Earth": 250
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 100,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 18506,
+          "atk": 5818,
+          "patk": 3025,
+          "matk": 5818,
+          "def": 895,
+          "mdef": 1044,
+          "res": 145,
+          "speed": 298,
+          "elementalDmg": {
+            "Lightning": 500,
+            "Fire": 435
+          },
+          "elementalRes": {
+            "Fire": 725,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 200,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1494,
+          "atk": 370,
+          "patk": 247,
+          "matk": 370,
+          "def": 92,
+          "mdef": 123,
+          "res": 15,
+          "speed": 134,
+          "elementalDmg": {
+            "Wind": 50
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 20,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 2749,
+          "atk": 1120,
+          "patk": 1120,
+          "matk": 1067,
+          "def": 119,
+          "mdef": 167,
+          "res": 79,
+          "speed": 154,
+          "elementalDmg": {
+            "Fire": 69.75,
+            "CRIT_RATE": 0,
+            "CRIT_DMG": 0,
+            "LIFESTEAL": 0,
+            "ACCURACY": 0,
+            "MANA_REGEN": 0,
+            "THORNS": 0,
+            "HP_REGEN": 0
+          },
+          "elementalRes": {
+            "Fire": 116.25000000000001,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        }
+      ],
+      "combo": {
+        "hp": 35147,
+        "cardMaxHp": [
+          2070,
+          2872,
+          3137,
+          9034,
+          16208,
+          1823
+        ],
+        "atk": 12213,
+        "patk": 8155,
+        "matk": 12135,
+        "def": 1387,
+        "mdef": 1754,
+        "res": 520,
+        "elementalDmg": {
+          "Fire": 349,
+          "Water": 75,
+          "Earth": 125,
+          "Lightning": 300,
+          "Wind": 600
+        },
+        "elementalRes": {
+          "Fire": 477,
+          "Water": 43,
+          "Earth": 72,
+          "Lightning": 96,
+          "Wind": 192,
+          "Neutral": 0
+        },
+        "activeSynergies": [
+          "Đa Dạng Chiến Thuật (+15% HP/ATK, +20% Kháng)",
+          "Đa Hệ Nguyên Tố (+20% HP/ATK)"
+        ],
+        "synergyBonusAtk": 0.35,
+        "synergyBonusHp": 0.35,
+        "synergyBonusDef": 0,
+        "synergyBonusRes": 0.2
+      },
+      "dodge": 35
+    },
+    {
+      "skills": {
+        "broken": true
+      },
+      "stats": [
+        {
+          "hp": 0,
+          "atk": 0,
+          "patk": 0,
+          "matk": 0,
+          "def": 0,
+          "mdef": 0,
+          "res": 0,
+          "speed": 0,
+          "elementalDmg": {},
+          "elementalRes": {}
+        },
+        {
+          "hp": 1279,
+          "atk": 132,
+          "patk": 132,
+          "matk": 102,
+          "def": 122,
+          "mdef": 102,
+          "res": 40,
+          "speed": 102,
+          "elementalDmg": {
+            "Fire": 50
+          },
+          "elementalRes": {
+            "Fire": 20,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1774,
+          "atk": 651,
+          "patk": 501,
+          "matk": 651,
+          "def": 79,
+          "mdef": 112,
+          "res": 63,
+          "speed": 117,
+          "elementalDmg": {
+            "Water": 75,
+            "Fire": 47.25000000000001
+          },
+          "elementalRes": {
+            "Fire": 78.75000000000001,
+            "Water": 30,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1937,
+          "atk": 1023,
+          "patk": 786,
+          "matk": 1023,
+          "def": 140,
+          "mdef": 196,
+          "res": 110,
+          "speed": 146,
+          "elementalDmg": {
+            "Earth": 125
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 50,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 6692,
+          "atk": 2293,
+          "patk": 1192,
+          "matk": 2293,
+          "def": 352,
+          "mdef": 411,
+          "res": 57,
+          "speed": 196,
+          "elementalDmg": {
+            "Lightning": 250,
+            "Fire": 172.5
+          },
+          "elementalRes": {
+            "Fire": 287.5,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 100,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 12006,
+          "atk": 3244,
+          "patk": 2162,
+          "matk": 3244,
+          "def": 811,
+          "mdef": 1081,
+          "res": 132,
+          "speed": 292,
+          "elementalDmg": {
+            "Wind": 500
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 200,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1351,
+          "atk": 499,
+          "patk": 499,
+          "matk": 475,
+          "def": 63,
+          "mdef": 89,
+          "res": 37,
+          "speed": 140,
+          "elementalDmg": {
+            "Fire": 37.5
+          },
+          "elementalRes": {
+            "Fire": 62.5,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 2744,
+          "atk": 259,
+          "patk": 259,
+          "matk": 200,
+          "def": 240,
+          "mdef": 200,
+          "res": 78,
+          "speed": 104,
+          "elementalDmg": {
+            "Fire": 75
+          },
+          "elementalRes": {
+            "Fire": 30,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 4180,
+          "atk": 1404,
+          "patk": 1081,
+          "matk": 1404,
+          "def": 172,
+          "mdef": 242,
+          "res": 135,
+          "speed": 129,
+          "elementalDmg": {
+            "Water": 125,
+            "Fire": 101.25
+          },
+          "elementalRes": {
+            "Fire": 168.75,
+            "Water": 50,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 5416,
+          "atk": 2619,
+          "patk": 2014,
+          "matk": 2619,
+          "def": 359,
+          "mdef": 503,
+          "res": 280,
+          "speed": 189,
+          "elementalDmg": {
+            "Earth": 250
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 100,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 18506,
+          "atk": 5818,
+          "patk": 3025,
+          "matk": 5818,
+          "def": 895,
+          "mdef": 1044,
+          "res": 145,
+          "speed": 298,
+          "elementalDmg": {
+            "Lightning": 500,
+            "Fire": 435
+          },
+          "elementalRes": {
+            "Fire": 725,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 200,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 1494,
+          "atk": 370,
+          "patk": 247,
+          "matk": 370,
+          "def": 92,
+          "mdef": 123,
+          "res": 15,
+          "speed": 134,
+          "elementalDmg": {
+            "Wind": 50
+          },
+          "elementalRes": {
+            "Fire": 0,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 20,
+            "Neutral": 0
+          }
+        },
+        {
+          "hp": 2749,
+          "atk": 1120,
+          "patk": 1120,
+          "matk": 1067,
+          "def": 119,
+          "mdef": 167,
+          "res": 79,
+          "speed": 154,
+          "elementalDmg": {
+            "Fire": 69.75,
+            "CRIT_RATE": 0,
+            "CRIT_DMG": 0,
+            "LIFESTEAL": 0,
+            "ACCURACY": 0,
+            "MANA_REGEN": 0,
+            "THORNS": 0,
+            "HP_REGEN": 0
+          },
+          "elementalRes": {
+            "Fire": 116.25000000000001,
+            "Water": 0,
+            "Earth": 0,
+            "Lightning": 0,
+            "Wind": 0,
+            "Neutral": 0
+          }
+        }
+      ],
+      "combo": {
+        "hp": 35147,
+        "cardMaxHp": [
+          2070,
+          2872,
+          3137,
+          9034,
+          16208,
+          1823
+        ],
+        "atk": 12213,
+        "patk": 8155,
+        "matk": 12135,
+        "def": 1387,
+        "mdef": 1754,
+        "res": 520,
+        "elementalDmg": {
+          "Fire": 349,
+          "Water": 75,
+          "Earth": 125,
+          "Lightning": 300,
+          "Wind": 600
+        },
+        "elementalRes": {
+          "Fire": 477,
+          "Water": 43,
+          "Earth": 72,
+          "Lightning": 96,
+          "Wind": 192,
+          "Neutral": 0
+        },
+        "activeSynergies": [
+          "Đa Dạng Chiến Thuật (+15% HP/ATK, +20% Kháng)",
+          "Đa Hệ Nguyên Tố (+20% HP/ATK)"
+        ],
+        "synergyBonusAtk": 0.35,
+        "synergyBonusHp": 0.35,
+        "synergyBonusDef": 0,
+        "synergyBonusRes": 0.2
+      },
+      "dodge": 35
+    }
+  ],
+  "equipment": [
+    {
+      "seed": 1,
+      "level": 1,
+      "elite": false,
+      "implant": {
+        "id": "imp_1700000000000_16",
+        "name": "KangTao Mk.1 [SLOT-3]",
+        "slot": 3,
+        "set": "KangTao",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 50.5,
+          "isPercentage": false
+        },
+        "subStats": []
+      },
+      "gear": {
+        "id": "gear_1700000000000_16",
+        "name": "[Cipher] Core Drive - Standard",
+        "slot": 2,
+        "type": "Core Drive",
+        "brand": "Cipher",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 50.5,
+          "isPercentage": false
+        },
+        "subStats": []
+      }
+    },
+    {
+      "seed": 1,
+      "level": 1,
+      "elite": true,
+      "implant": {
+        "id": "imp_1700000000000_422",
+        "name": "KangTao Mk.1 [SLOT-3]",
+        "slot": 3,
+        "set": "KangTao",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 50.5,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "HP",
+            "value": 1,
+            "isPercentage": true
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_590",
+        "name": "[Cipher] Core Drive - Standard",
+        "slot": 2,
+        "type": "Core Drive",
+        "brand": "Cipher",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 50.5,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "MANA_REGEN",
+            "value": 13,
+            "isPercentage": false
+          }
+        ]
+      }
+    },
+    {
+      "seed": 1,
+      "level": 15,
+      "elite": false,
+      "implant": {
+        "id": "imp_1700000000000_422",
+        "name": "KangTao Mk.2 [SLOT-3]",
+        "slot": 3,
+        "set": "KangTao",
+        "rarity": 2,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 170,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_590",
+        "name": "[Cipher] Core Drive - Industrial",
+        "slot": 2,
+        "type": "Core Drive",
+        "brand": "Cipher",
+        "rarity": 2,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 170,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "MANA_REGEN",
+            "value": 34,
+            "isPercentage": false
+          }
+        ]
+      }
+    },
+    {
+      "seed": 1,
+      "level": 15,
+      "elite": true,
+      "implant": {
+        "id": "imp_1700000000000_836",
+        "name": "KangTao Mk.2 [SLOT-3]",
+        "slot": 3,
+        "set": "KangTao",
+        "rarity": 2,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 170,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          },
+          {
+            "type": "CRIT_DMG",
+            "value": 3.4,
+            "isPercentage": true
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_860",
+        "name": "[Cipher] Core Drive - Industrial",
+        "slot": 2,
+        "type": "Core Drive",
+        "brand": "Cipher",
+        "rarity": 2,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 170,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "MANA_REGEN",
+            "value": 34,
+            "isPercentage": false
+          },
+          {
+            "type": "DEF",
+            "value": 73,
+            "isPercentage": false
+          }
+        ]
+      }
+    },
+    {
+      "seed": 1,
+      "level": 40,
+      "elite": false,
+      "implant": {
+        "id": "imp_1700000000000_422",
+        "name": "KangTao Mk.3 [SLOT-3]",
+        "slot": 3,
+        "set": "KangTao",
+        "rarity": 3,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 438,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "HP",
+            "value": 3,
+            "isPercentage": true
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_590",
+        "name": "[Cipher] Core Drive - Advanced",
+        "slot": 2,
+        "type": "Core Drive",
+        "brand": "Cipher",
+        "rarity": 3,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 438,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "MANA_REGEN",
+            "value": 81,
+            "isPercentage": false
+          }
+        ]
+      }
+    },
+    {
+      "seed": 1,
+      "level": 40,
+      "elite": true,
+      "implant": {
+        "id": "imp_1700000000000_836",
+        "name": "KangTao Mk.3 [SLOT-3]",
+        "slot": 3,
+        "set": "KangTao",
+        "rarity": 3,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 438,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "HP",
+            "value": 3,
+            "isPercentage": true
+          },
+          {
+            "type": "CRIT_DMG",
+            "value": 5,
+            "isPercentage": true
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_860",
+        "name": "[Cipher] Core Drive - Advanced",
+        "slot": 2,
+        "type": "Core Drive",
+        "brand": "Cipher",
+        "rarity": 3,
+        "level": 0,
+        "mainStat": {
+          "type": "HP",
+          "value": 438,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "MANA_REGEN",
+            "value": 81,
+            "isPercentage": false
+          },
+          {
+            "type": "DEF",
+            "value": 181,
+            "isPercentage": false
+          }
+        ]
+      }
+    },
+    {
+      "seed": 42,
+      "level": 1,
+      "elite": false,
+      "implant": {
+        "id": "imp_1700000000000_873",
+        "name": "KangTao Mk.1 [SLOT-1]",
+        "slot": 1,
+        "set": "KangTao",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "DEF",
+          "value": 33.5,
+          "isPercentage": false
+        },
+        "subStats": []
+      },
+      "gear": {
+        "id": "gear_1700000000000_118",
+        "name": "[Titan] Neural Link - Standard",
+        "slot": 1,
+        "type": "Neural Link",
+        "brand": "Titan",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 1,
+          "isPercentage": true
+        },
+        "subStats": []
+      }
+    },
+    {
+      "seed": 42,
+      "level": 1,
+      "elite": true,
+      "implant": {
+        "id": "imp_1700000000000_853",
+        "name": "KangTao Mk.1 [SLOT-1]",
+        "slot": 1,
+        "set": "KangTao",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "DEF",
+          "value": 33.5,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "THORNS",
+            "value": 2.5,
+            "isPercentage": true
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_853",
+        "name": "[Titan] Neural Link - Standard",
+        "slot": 1,
+        "type": "Neural Link",
+        "brand": "Titan",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 1,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "THORNS",
+            "value": 2.5,
+            "isPercentage": true
+          }
+        ]
+      }
+    },
+    {
+      "seed": 42,
+      "level": 15,
+      "elite": false,
+      "implant": {
+        "id": "imp_1700000000000_873",
+        "name": "KangTao Mk.3 [SLOT-1]",
+        "slot": 1,
+        "set": "KangTao",
+        "rarity": 3,
+        "level": 0,
+        "mainStat": {
+          "type": "DEF",
+          "value": 169.5,
+          "isPercentage": false
+        },
+        "subStats": []
+      },
+      "gear": {
+        "id": "gear_1700000000000_118",
+        "name": "[Titan] Neural Link - Industrial",
+        "slot": 1,
+        "type": "Neural Link",
+        "brand": "Titan",
+        "rarity": 2,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 2,
+          "isPercentage": true
+        },
+        "subStats": []
+      }
+    },
+    {
+      "seed": 42,
+      "level": 15,
+      "elite": true,
+      "implant": {
+        "id": "imp_1700000000000_853",
+        "name": "KangTao Mk.3 [SLOT-1]",
+        "slot": 1,
+        "set": "KangTao",
+        "rarity": 3,
+        "level": 0,
+        "mainStat": {
+          "type": "DEF",
+          "value": 169.5,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "THORNS",
+            "value": 7.5,
+            "isPercentage": true
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_853",
+        "name": "[Titan] Neural Link - Industrial",
+        "slot": 1,
+        "type": "Neural Link",
+        "brand": "Titan",
+        "rarity": 2,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 2,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "THORNS",
+            "value": 5,
+            "isPercentage": true
+          }
+        ]
+      }
+    },
+    {
+      "seed": 42,
+      "level": 40,
+      "elite": false,
+      "implant": {
+        "id": "imp_1700000000000_873",
+        "name": "KangTao Mk.4 [SLOT-1]",
+        "slot": 1,
+        "set": "KangTao",
+        "rarity": 4,
+        "level": 0,
+        "mainStat": {
+          "type": "DEF",
+          "value": 388,
+          "isPercentage": false
+        },
+        "subStats": []
+      },
+      "gear": {
+        "id": "gear_1700000000000_853",
+        "name": "[Titan] Neural Link - Advanced",
+        "slot": 1,
+        "type": "Neural Link",
+        "brand": "Titan",
+        "rarity": 3,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 3,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "THORNS",
+            "value": 7.5,
+            "isPercentage": true
+          }
+        ]
+      }
+    },
+    {
+      "seed": 42,
+      "level": 40,
+      "elite": true,
+      "implant": {
+        "id": "imp_1700000000000_853",
+        "name": "KangTao Mk.4 [SLOT-1]",
+        "slot": 1,
+        "set": "KangTao",
+        "rarity": 4,
+        "level": 0,
+        "mainStat": {
+          "type": "DEF",
+          "value": 388,
+          "isPercentage": false
+        },
+        "subStats": [
+          {
+            "type": "THORNS",
+            "value": 10,
+            "isPercentage": true
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_596",
+        "name": "[Titan] Neural Link - Advanced",
+        "slot": 1,
+        "type": "Neural Link",
+        "brand": "Titan",
+        "rarity": 3,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 3,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "THORNS",
+            "value": 7.5,
+            "isPercentage": true
+          },
+          {
+            "type": "SPEED",
+            "value": 6.7,
+            "isPercentage": true
+          }
+        ]
+      }
+    },
+    {
+      "seed": 97531,
+      "level": 1,
+      "elite": false,
+      "implant": {
+        "id": "imp_1700000000000_954",
+        "name": "Arasaka Mk.1 [SLOT-5]",
+        "slot": 5,
+        "set": "Arasaka",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 4,
+          "isPercentage": true
+        },
+        "subStats": []
+      },
+      "gear": {
+        "id": "gear_1700000000000_153",
+        "name": "[Vanguard] Kinetic Actuator - Industrial",
+        "slot": 3,
+        "type": "Kinetic Actuator",
+        "brand": "Vanguard",
+        "rarity": 2,
+        "level": 0,
+        "mainStat": {
+          "type": "PHYSICAL_DMG",
+          "value": 8,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "HP",
+            "value": 1.5,
+            "isPercentage": true
+          }
+        ]
+      }
+    },
+    {
+      "seed": 97531,
+      "level": 1,
+      "elite": true,
+      "implant": {
+        "id": "imp_1700000000000_112",
+        "name": "Arasaka Mk.1 [SLOT-5]",
+        "slot": 5,
+        "set": "Arasaka",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 4,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "HP_REGEN",
+            "value": 17,
+            "isPercentage": false
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_936",
+        "name": "[Vanguard] Kinetic Actuator - Industrial",
+        "slot": 3,
+        "type": "Kinetic Actuator",
+        "brand": "Vanguard",
+        "rarity": 2,
+        "level": 0,
+        "mainStat": {
+          "type": "PHYSICAL_DMG",
+          "value": 8,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "HP",
+            "value": 1.5,
+            "isPercentage": true
+          },
+          {
+            "type": "PHYSICAL_DMG",
+            "value": 3.4,
+            "isPercentage": true
+          }
+        ]
+      }
+    },
+    {
+      "seed": 97531,
+      "level": 15,
+      "elite": false,
+      "implant": {
+        "id": "imp_1700000000000_954",
+        "name": "Arasaka Mk.1 [SLOT-5]",
+        "slot": 5,
+        "set": "Arasaka",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 4,
+          "isPercentage": true
+        },
+        "subStats": []
+      },
+      "gear": {
+        "id": "gear_1700000000000_936",
+        "name": "[Vanguard] Kinetic Actuator - Advanced",
+        "slot": 3,
+        "type": "Kinetic Actuator",
+        "brand": "Vanguard",
+        "rarity": 3,
+        "level": 0,
+        "mainStat": {
+          "type": "PHYSICAL_DMG",
+          "value": 12,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "HP",
+            "value": 2.2,
+            "isPercentage": true
+          },
+          {
+            "type": "PHYSICAL_DMG",
+            "value": 5.2,
+            "isPercentage": true
+          }
+        ]
+      }
+    },
+    {
+      "seed": 97531,
+      "level": 15,
+      "elite": true,
+      "implant": {
+        "id": "imp_1700000000000_112",
+        "name": "Arasaka Mk.1 [SLOT-5]",
+        "slot": 5,
+        "set": "Arasaka",
+        "rarity": 1,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 4,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "HP_REGEN",
+            "value": 25,
+            "isPercentage": false
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_600",
+        "name": "[Vanguard] Kinetic Actuator - Advanced",
+        "slot": 3,
+        "type": "Kinetic Actuator",
+        "brand": "Vanguard",
+        "rarity": 3,
+        "level": 0,
+        "mainStat": {
+          "type": "PHYSICAL_DMG",
+          "value": 12,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "HP",
+            "value": 2.2,
+            "isPercentage": true
+          },
+          {
+            "type": "PHYSICAL_DMG",
+            "value": 5.2,
+            "isPercentage": true
+          },
+          {
+            "type": "RES",
+            "value": 6.4,
+            "isPercentage": true
+          }
+        ]
+      }
+    },
+    {
+      "seed": 97531,
+      "level": 40,
+      "elite": false,
+      "implant": {
+        "id": "imp_1700000000000_112",
+        "name": "Arasaka Mk.2 [SLOT-5]",
+        "slot": 5,
+        "set": "Arasaka",
+        "rarity": 2,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 8,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "HP_REGEN",
+            "value": 75,
+            "isPercentage": false
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_600",
+        "name": "[Vanguard] Kinetic Actuator - Elite",
+        "slot": 3,
+        "type": "Kinetic Actuator",
+        "brand": "Vanguard",
+        "rarity": 4,
+        "level": 0,
+        "mainStat": {
+          "type": "PHYSICAL_DMG",
+          "value": 16,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "HP",
+            "value": 2.9,
+            "isPercentage": true
+          },
+          {
+            "type": "PHYSICAL_DMG",
+            "value": 6.9,
+            "isPercentage": true
+          },
+          {
+            "type": "RES",
+            "value": 8.5,
+            "isPercentage": true
+          }
+        ]
+      }
+    },
+    {
+      "seed": 97531,
+      "level": 40,
+      "elite": true,
+      "implant": {
+        "id": "imp_1700000000000_609",
+        "name": "Arasaka Mk.2 [SLOT-5]",
+        "slot": 5,
+        "set": "Arasaka",
+        "rarity": 2,
+        "level": 0,
+        "mainStat": {
+          "type": "CRIT_RATE",
+          "value": 8,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "HP_REGEN",
+            "value": 75,
+            "isPercentage": false
+          },
+          {
+            "type": "ATK",
+            "value": 109,
+            "isPercentage": false
+          }
+        ]
+      },
+      "gear": {
+        "id": "gear_1700000000000_864",
+        "name": "[Vanguard] Kinetic Actuator - Elite",
+        "slot": 3,
+        "type": "Kinetic Actuator",
+        "brand": "Vanguard",
+        "rarity": 4,
+        "level": 0,
+        "mainStat": {
+          "type": "PHYSICAL_DMG",
+          "value": 16,
+          "isPercentage": true
+        },
+        "subStats": [
+          {
+            "type": "HP",
+            "value": 2.9,
+            "isPercentage": true
+          },
+          {
+            "type": "PHYSICAL_DMG",
+            "value": 6.9,
+            "isPercentage": true
+          },
+          {
+            "type": "RES",
+            "value": 8.5,
+            "isPercentage": true
+          },
+          {
+            "type": "HP",
+            "value": 8.4,
+            "isPercentage": true
+          }
+        ]
+      }
+    }
+  ],
+  "ranks": [
+    {
+      "rank": "N",
+      "index": 0,
+      "dc": 50,
+      "dust": 0
+    },
+    {
+      "rank": "R",
+      "index": 1,
+      "dc": 100,
+      "dust": 5
+    },
+    {
+      "rank": "SR",
+      "index": 2,
+      "dc": 200,
+      "dust": 20
+    },
+    {
+      "rank": "SSR",
+      "index": 3,
+      "dc": 400,
+      "dust": 50
+    },
+    {
+      "rank": "UR",
+      "index": 4,
+      "dc": 800,
+      "dust": 200
+    },
+    {
+      "rank": "SSR Rank",
+      "index": 3,
+      "dc": 400,
+      "dust": 50
+    },
+    {
+      "rank": null,
+      "index": 0,
+      "dc": 50,
+      "dust": 0
+    }
+  ]
+}

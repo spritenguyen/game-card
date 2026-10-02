@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Icon } from '../components/ui/Icon';
 import { Card, AppConfig } from '../types';
-import { generateImageFromAi } from '../services/ai';
-import { IMAGE_MODELS, LENSES } from '../lib/constants';
+import { photoshoot, PHOTOSHOOT_COST } from '../application/studio/photoshoot';
+import { AI_CONFIG } from '../services/ai/config/aiConfig';
+import { IMAGE_MODELS } from '../services/ai/config/aiConfig';
+import { LENSES } from '../domain/gameConstants';
 
 interface Props {
   config: AppConfig;
   currency: number;
   modifyCurrency: (amount: number) => void;
   cards: Card[];
-  updateCard: (card: Card) => void;
+  updateCard: (card: Card) => Promise<void>;
   onAlert: (title: string, msg: string) => void;
   isGlobalProcessing: boolean;
   setGlobalProcessing: (state: boolean) => void;
@@ -26,6 +28,8 @@ const CONCEPTS = [
 ];
 
 export const StudioView: React.FC<Props> = ({ config, currency, modifyCurrency, inventory, modifyInventory, cards, updateCard, onAlert, isGlobalProcessing, setGlobalProcessing }) => {
+  const latestCardsRef = useRef(cards);
+  latestCardsRef.current = cards;
   const [activeTab, setActiveTab] = useState<'photoshoot' | 'lenses'>('photoshoot');
   const [selectedCardId, setSelectedCardId] = useState<string>('');
   const [selectedConcept, setSelectedConcept] = useState<string>('');
@@ -34,10 +38,9 @@ export const StudioView: React.FC<Props> = ({ config, currency, modifyCurrency, 
   const [generatedImg, setGeneratedImg] = useState<string | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showModelSelection, setShowModelSelection] = useState(false);
-  const [selectedModel, setSelectedModel] = useState<string>(config.defaultImageModel || 'flux');
+  const [selectedModel, setSelectedModel] = useState<string>(AI_CONFIG.image.model);
   
   const isEn = config.language === 'en';
-  const PHOTOSHOOT_COST = 50; // Use Dust instead of DC
 
   const openModelSelection = () => {
     if (!selectedCardId) return onAlert(isEn ? 'Error' : 'Lỗi', isEn ? 'Select an operative first.' : 'Vui lòng chọn đặc vụ.');
@@ -57,49 +60,27 @@ export const StudioView: React.FC<Props> = ({ config, currency, modifyCurrency, 
     const conceptObj = CONCEPTS.find(c => c.id === selectedConcept);
     if (!conceptObj) return;
     
-    try {
-      setGlobalProcessing(true);
-      modifyInventory(0, 0, undefined, -PHOTOSHOOT_COST);
-      
-      const payload = {
-          ...card,
-          studioConcept: conceptObj.label,
-          studioRatio: selectedRatio
-      };
-      
-      // Force ignore cache to get a new image
-      const newImg = await generateImageFromAi(payload, config, selectedModel, true);
-      
-      setGeneratedImg(newImg);
-      
-      // Update card
-      const affection = (card.affection || 0) + 10;
-      const variants = card.variants ? [...card.variants, newImg] : [card.imageUrl || '', newImg].filter(Boolean);
-      
-      const updatedCard = {
-          ...card,
-          affection,
-          variants,
-      };
-      
-      updateCard(updatedCard);
-      
-      onAlert(isEn ? 'Success' : 'Thành công', isEn ? `Photoshoot complete! Affection +10. You can set this image as Main Avatar in the Gallery.` : `Hoàn tất chụp ảnh! Độ thân thiết +10. Bạn có thể chọn ảnh này làm Avatar hiển thị ở Kho Lưu Trữ.`);
-      
-    } catch (error: any) {
-      onAlert(isEn ? 'Error' : 'Lỗi', error?.message || 'Có lỗi xảy ra.');
-      modifyInventory(0, 0, undefined, PHOTOSHOOT_COST); // refund
-    } finally {
-      setGlobalProcessing(false);
-    }
+    await photoshoot({ card, concept: conceptObj.label, ratio: selectedRatio, model: selectedModel, config }, {
+      getCurrentCard: id => latestCardsRef.current.find(c => c.id === id),
+      updateCard,
+      modifyDust: amount => modifyInventory(0, 0, undefined, amount),
+      setProcessing: setGlobalProcessing,
+      onImage: setGeneratedImg,
+      onSuccess: () => onAlert(isEn ? 'Success' : 'Thành công', isEn ? `Photoshoot complete! Affection +10. You can set this image as Main Avatar in the Gallery.` : `Hoàn tất chụp ảnh! Độ thân thiết +10. Bạn có thể chọn ảnh này làm Avatar hiển thị ở Kho Lưu Trữ.`),
+      onError: (error: any) => onAlert(isEn ? 'Error' : 'Lỗi', error?.message || 'Có lỗi xảy ra.'),
+    });
   };
 
-  const handleEquipLens = (lensId: string) => {
+  const handleEquipLens = async (lensId: string) => {
       const card = cards.find(c => c.id === selectedCardId);
       if (!card) return;
       const updatedCard = { ...card, equippedLens: lensId };
-      updateCard(updatedCard);
-      onAlert(isEn ? 'Success' : 'Thành công', isEn ? `Lens equipped successfully.` : `Trang bị ống kính thành công.`);
+      try {
+          await updateCard(updatedCard);
+          onAlert(isEn ? 'Success' : 'Thành công', isEn ? `Lens equipped successfully.` : `Trang bị ống kính thành công.`);
+      } catch {
+          onAlert(isEn ? 'Error' : 'Lỗi', 'Không thể lưu trang bị ống kính.');
+      }
   };
 
   const selectedCard = cards.find(c => c.id === selectedCardId);

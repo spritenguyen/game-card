@@ -165,10 +165,12 @@ export interface AppConfig {
   artStyle: string;
   language: 'vi' | 'en';
   
+  /** Legacy persisted field; Gemini is always primary when a runtime key is available. */
   useCustomGemini: boolean;
   geminiKey: string;
   geminiModel: string;
   
+  /** Legacy persisted field, ignored by the free text fallback and Image Worker. */
   pollinationsKey: string;
   defaultImageModel: string;
 }

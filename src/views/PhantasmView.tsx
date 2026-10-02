@@ -1,7 +1,8 @@
+import { browserStorage } from '../infrastructure/storage/browserStorage';
 import React, { useState } from 'react';
 import { Card, AppConfig, PhantasmProgress, Boss } from '../types';
 import { Icon } from '../components/ui/Icon';
-import { calculateCombatStats } from '../lib/gameLogic';
+import { calculateCombatStats } from '../application/gameStats';
 import { SquadSlot } from '../components/combat/SquadSlot';
 
 interface Props {
@@ -92,8 +93,8 @@ export const PhantasmView: React.FC<Props> = ({
     // HACK: combat view reads opTab from active tab logic, normally it's set via some state.
     // Phantasm uses normal 'battlefield' but we need to track it as 'phantasm'.
     // We will pass an event or window setting
-    window.localStorage.setItem('cineCurrentCombatMode', 'phantasm');
-    window.localStorage.setItem('cineCombatReturnTo', 'phantasm');
+    browserStorage.setItem('cineCurrentCombatMode', 'phantasm');
+    browserStorage.setItem('cineCombatReturnTo', 'phantasm');
     onStartCombat();
   };
 

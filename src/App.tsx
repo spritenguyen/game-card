@@ -1,41 +1,49 @@
-import React, { useState, useEffect } from "react";
+import { browserStorage } from './infrastructure/storage/browserStorage';
+import { generateAltTextFromAI } from './services/ai/index';
+import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { Icon } from './components/ui/Icon';
 import { motion, AnimatePresence } from "motion/react";
 import { useGameState } from "./hooks/useGameState";
 import { device } from "./lib/device";
 import { ExtractView } from "./views/ExtractView";
-import { FusionView } from "./views/FusionView";
-import { ForgeTabView } from "./views/ForgeTabView";
-import { CombatView } from "./views/CombatView";
-import { MissionsView } from "./views/MissionsView";
-import { BlackMarketView } from "./views/BlackMarketView";
-import { GalleryView } from "./views/GalleryView";
-import { CampaignView } from "./views/CampaignView";
 import { Dialog } from "./components/ui/Dialog";
 import { Toast } from "./components/ui/Toast";
 import { MiniCard } from "./components/MiniCard";
 import { FullCard } from "./components/FullCard";
-import { APP_VERSION, ELEMENTS, IMAGE_MODELS } from "./lib/constants";
-import { dbService } from "./lib/db";
-import { generateImageFromAi } from "./services/ai";
+import { IMAGE_MODELS } from './services/ai/config/aiConfig';
+import { APP_VERSION, ELEMENTS } from './domain/gameConstants';
 import { InstructionModal } from "./components/InstructionModal";
 import { Card } from "./types";
 import { ApiMonitor } from "./components/ApiMonitor";
-import { getDismantleValue, getDismantleDustValue, getRankIndex } from "./lib/gameLogic";
+import { getDismantleValue, getDismantleDustValue, getRankIndex } from './domain/gameRules';
 import { t } from "./lib/i18n";
 
-import { SkillsView } from "./views/SkillsView";
-import { TrainingCampView } from "./views/TrainingCampView";
-import { StudioView } from "./views/StudioView";
-import { BreachView } from "./views/BreachView";
-import { ClinicView } from "./views/ClinicView";
-import { ArmoryView } from "./views/ArmoryView";
-import { PhantasmView } from "./views/PhantasmView";
+
+import { AI_CONFIG, GEMINI_MODELS } from './services/ai/config/aiConfig';
+
+// Keep the initial extraction screen eager; load other screens on first use.
+const ForgeTabView = lazy(() => import('./views/ForgeTabView').then(module => ({ default: module.ForgeTabView })));
+const CombatView = lazy(() => import('./views/CombatView').then(module => ({ default: module.CombatView })));
+const MissionsView = lazy(() => import('./views/MissionsView').then(module => ({ default: module.MissionsView })));
+const BlackMarketView = lazy(() => import('./views/BlackMarketView').then(module => ({ default: module.BlackMarketView })));
+const GalleryView = lazy(() => import('./views/GalleryView').then(module => ({ default: module.GalleryView })));
+const CampaignView = lazy(() => import('./views/CampaignView').then(module => ({ default: module.CampaignView })));
+const SkillsView = lazy(() => import('./views/SkillsView').then(module => ({ default: module.SkillsView })));
+const TrainingCampView = lazy(() => import('./views/TrainingCampView').then(module => ({ default: module.TrainingCampView })));
+const StudioView = lazy(() => import('./views/StudioView').then(module => ({ default: module.StudioView })));
+const BreachView = lazy(() => import('./views/BreachView').then(module => ({ default: module.BreachView })));
+const ClinicView = lazy(() => import('./views/ClinicView').then(module => ({ default: module.ClinicView })));
+const ArmoryView = lazy(() => import('./views/ArmoryView').then(module => ({ default: module.ArmoryView })));
+const PhantasmView = lazy(() => import('./views/PhantasmView').then(module => ({ default: module.PhantasmView })));
 
 type Tab = "extract" | "forge" | "campaign" | "combat" | "missions" | "training" | "blackmarket" | "gallery" | "skills" | "studio" | "breach" | "clinic" | "armory" | "phantasm";
 
 export default function App() {
   const {
+    databaseStatus: dbStatus,
+    saveSync,
+    unlockedSkills,
+    setUnlockedSkills,
     currency,
     modifyCurrency,
     hasEnoughCurrency,
@@ -60,14 +68,17 @@ export default function App() {
     addImplant,
     removeImplant,
     updateImplant,
+    changeImplant,
     gears,
     addGear,
     removeGear,
     updateGear,
+    changeGear,
     cards,
     addCard,
     removeCard,
     updateCard,
+    replaceCards,
     campaignProgress,
     setCampaignProgress,
     phantasmProgress,
@@ -92,7 +103,6 @@ export default function App() {
   } = useGameState();
 
   const [activeTab, setActiveTab] = useState<Tab>("extract");
-  const [dbStatus, setDbStatus] = useState(dbService.getStatus());
   const [showInstructions, setShowInstructions] = useState(false);
 
   // Modals state
@@ -115,6 +125,9 @@ export default function App() {
     message: "",
     type: "alert",
   });
+
+  const latestCardsRef = useRef(cards);
+  latestCardsRef.current = cards;
 
   // Toast state
   const [toast, setToast] = useState<{
@@ -164,14 +177,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      const currentStatus = dbService.getStatus();
-      setDbStatus((prev) => (prev !== currentStatus ? currentStatus : prev));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     setTempConfig(config);
   }, [config, showSettings]);
 
@@ -179,7 +184,12 @@ export default function App() {
     handleConfirm(
       "Toàn bộ tiến trình chơi, dữ liệu thẻ bài, cài đặt hệ thống và Data Credits sẽ bị xóa vĩnh viễn. Bạn có chắc chắn thực hiện?",
       async () => {
-        await resetGame();
+        try {
+          await resetGame();
+        } catch (error) {
+          setToast({ msg: 'Không thể xóa dữ liệu. Vui lòng thử lại.', type: 'error' });
+          return;
+        }
         setToast({
           msg: t(config.language || 'vi', 'system.resetSuccess'),
           type: "info",
@@ -235,10 +245,7 @@ export default function App() {
     newCard: Card,
     oldIdsToDelete: string[]
   ) => {
-    for (const id of oldIdsToDelete) {
-      await removeCard(id);
-    }
-    await addCard(newCard);
+    await replaceCards(newCard, oldIdsToDelete);
     setFusionSlot1(null);
     setFusionSlot2(null);
     updateQuestProgress('fusion', 1);
@@ -330,9 +337,10 @@ export default function App() {
 
     setIsProcessing(true);
     try {
-      const { generateAltTextFromAI } = await import("./services/ai");
       const altText = await generateAltTextFromAI(card, config);
-      const cardToUpdate = { ...card, altText };
+      const current = latestCardsRef.current.find(c => c.id === cardId);
+      if (!current) return;
+      const cardToUpdate = { ...current, altText };
       await updateCard(cardToUpdate);
       setToast({ msg: t(config.language || 'vi', 'gallery.altTextSuccess'), type: "success" });
     } catch (e: any) {
@@ -344,7 +352,16 @@ export default function App() {
 
   return (
     <div className="game-viewport text-gray-200">
-      <div className="game-stage flex flex-col sm:flex-row font-sans selection:bg-cinematic-cyan/30 selection:text-white">
+      {saveSync.mode !== 'writer' && (
+        <div role="status" data-save-mode={saveSync.mode} className="fixed inset-x-0 top-0 z-[10000] bg-zinc-950 border-b border-cinematic-gold p-4 text-center text-sm">
+          <strong>{config.language === 'en' ? 'Save is read-only in this tab' : 'Save đang ở chế độ chỉ đọc trong tab này'}</strong>
+          <p>{saveSync.mode === 'blocked' ? saveSync.reason : saveSync.mode === 'syncing' || saveSync.mode === 'starting'
+            ? (config.language === 'en' ? 'Loading the latest save…' : 'Đang nạp save mới nhất…')
+            : (config.language === 'en' ? 'Another tab holds write access. Close it to continue here.' : 'Tab khác đang giữ quyền ghi. Đóng tab đó để tiếp tục ở đây.')}</p>
+          <p>Version: {saveSync.revision}</p>
+        </div>
+      )}
+      <div inert={saveSync.mode !== 'writer'} className="game-stage flex flex-col sm:flex-row font-sans selection:bg-cinematic-cyan/30 selection:text-white">
         {/* Noise & Glow overlay */}
         <div className="absolute inset-0 z-40 noise-overlay pointer-events-none opacity-40 mix-blend-overlay"></div>
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" id="bgAmbient">
@@ -541,6 +558,7 @@ export default function App() {
                 transition={{ duration: 0.2, ease: "easeOut" }}
                 className="w-full h-full max-w-[1600px] mx-auto"
               >
+        <Suspense fallback={null}>
         {activeTab === "campaign" && (
           <CampaignView
             cards={cards}
@@ -582,6 +600,10 @@ export default function App() {
             onCompleteFusion={handleCompleteFusion}
             removeCard={removeCard}
             updateCard={updateCard}
+            onUpdateCard={async (card, consumedIds = []) => {
+              await replaceCards(card, [card.id, ...consumedIds]);
+              if ((card.overclockLevel || 0) > (cards.find(c => c.id === card.id)?.overclockLevel || 0)) updateQuestProgress('upgrade', 1);
+            }}
             onError={(m) => setToast({ msg: m, type: "error" })}
             onAlert={handleAlert}
             isProcessing={isProcessing}
@@ -619,10 +641,11 @@ export default function App() {
                 cardsHp: newHps
               }));
             }}
+            onPhantasmDefeat={(newHps) => setPhantasmProgress(prev => ({ ...prev, cardsHp: newHps }))}
             onCombatReturn={() => {
               const mode = window.localStorage.getItem('cineCombatReturnTo');
               if (mode === 'phantasm') {
-                  window.localStorage.removeItem('cineCombatReturnTo');
+                  browserStorage.removeItem('cineCombatReturnTo');
                   setActiveTab('phantasm');
               }
             }}
@@ -721,6 +744,7 @@ export default function App() {
                 addImplant={addImplant}
                 removeImplant={removeImplant}
                 updateImplant={updateImplant}
+                changeImplant={changeImplant}
                 updateCard={updateCard}
                 onAlert={handleAlert}
                 modifyCurrency={modifyCurrency}
@@ -738,6 +762,7 @@ export default function App() {
                 addGear={addGear}
                 removeGear={removeGear}
                 updateGear={updateGear}
+                changeGear={changeGear}
                 updateCard={updateCard}
                 onAlert={handleAlert}
                 modifyCurrency={modifyCurrency}
@@ -790,8 +815,9 @@ export default function App() {
         )}
         
         {activeTab === "skills" && (
-            <SkillsView config={config} />
+            <SkillsView config={config} level={level} unlockedSkills={unlockedSkills} setUnlockedSkills={setUnlockedSkills} />
         )}
+        </Suspense>
               </motion.div>
             </AnimatePresence>
         </main>
@@ -1000,17 +1026,11 @@ export default function App() {
                <div className="flex items-center justify-between p-2 bg-black/30 rounded-lg border border-white/5">
                   <div className="flex flex-col">
                     <span className="text-[10px] text-white font-mono uppercase tracking-wider">Gemini Protocol</span>
-                    <span className="text-[8px] text-zinc-500 font-mono">Cho phép sử dụng thuật toán thông minh từ Gemini</span>
+                    <span className="text-[8px] text-zinc-500 font-mono">Gemini ưu tiên; thiếu key hoặc lỗi provider sẽ dùng fallback miễn phí</span>
                   </div>
-                  <button 
-                    onClick={() => setTempConfig({ ...tempConfig, useCustomGemini: !tempConfig.useCustomGemini })}
-                    className={`w-10 h-5 rounded-full relative transition-colors duration-300 ${tempConfig.useCustomGemini ? 'bg-cinematic-gold' : 'bg-zinc-700'}`}
-                  >
-                    <div className={`absolute top-1 w-3 h-3 rounded-full bg-white transition-all duration-300 ${tempConfig.useCustomGemini ? 'left-6' : 'left-1'}`}></div>
-                  </button>
+
                </div>
 
-               {tempConfig.useCustomGemini && (
                  <div className="space-y-4 pt-2 animate-fade-in">
                     <div className="space-y-2">
                        <label className="text-[9px] sm:text-[10px] text-zinc-500 font-mono tracking-widest uppercase">Gemini Protocol Key</label>
@@ -1029,32 +1049,20 @@ export default function App() {
                          onChange={(e) => setTempConfig({ ...tempConfig, geminiModel: e.target.value })}
                          className="w-full bg-black text-white rounded-lg py-2.5 px-3 sm:py-3 sm:px-4 border border-white/10 focus:border-cinematic-gold/50 outline-none text-xs sm:text-sm font-mono appearance-none cursor-pointer"
                        >
-                         <option value="gemini-3.1-flash-lite-preview" className="bg-zinc-900 text-white">Gemini 3.1 Flash Lite (Fastest)</option>
-                         <option value="gemini-3-flash-preview" className="bg-zinc-900 text-white">Gemini 3 Flash (Recommended)</option>
-                         <option value="gemini-2.5-flash" className="bg-zinc-900 text-white">Gemini 2.5 Flash (Legacy)</option>
+                         {GEMINI_MODELS.map(model => <option key={model.id} value={model.id} className="bg-zinc-900 text-white">{model.name}</option>)}
                        </select>
                     </div>
                  </div>
-               )}
+
             </div>
 
             <div className="space-y-4 p-4 sm:p-5 rounded-xl bg-zinc-900/50 border border-white/5 relative overflow-hidden">
                <div className="absolute top-0 right-0 bg-white/5 text-zinc-400 px-3 py-1 font-mono text-[8px] sm:text-[9px] uppercase tracking-widest rounded-bl-lg">Optics API</div>
-               <div className="space-y-2">
-                  <label className="text-[9px] sm:text-[10px] text-zinc-500 font-mono tracking-widest uppercase">Pollinations By-pass Key</label>
-                  <input
-                    type="password"
-                    value={tempConfig.pollinationsKey}
-                    onChange={(e) => setTempConfig({ ...tempConfig, pollinationsKey: e.target.value })}
-                    className="w-full bg-black text-cinematic-cyan rounded-lg py-2.5 px-3 sm:py-3 sm:px-4 border border-white/10 focus:border-cinematic-cyan/50 outline-none text-xs sm:text-sm font-mono placeholder-zinc-700"
-                    placeholder="sk_..."
-                  />
-                  <p className="text-[8px] sm:text-[9px] text-zinc-500 font-mono">Leave blank to use base protocol.</p>
-               </div>
+               <p className="text-[8px] sm:text-[9px] text-zinc-500 font-mono">Image generation: Cloudflare Worker. Pollinations text fallback miễn phí không cần API key.</p>
                <div className="space-y-2">
                   <label className="text-[9px] sm:text-[10px] text-zinc-500 font-mono tracking-widest uppercase">Optics Model ID</label>
                   <select
-                    value={tempConfig.defaultImageModel}
+                    value={AI_CONFIG.image.model}
                     onChange={(e) => setTempConfig({ ...tempConfig, defaultImageModel: e.target.value })}
                     className="w-full bg-black text-white rounded-lg py-2.5 px-3 sm:py-3 sm:px-4 border border-white/10 focus:border-cinematic-cyan/50 outline-none text-xs sm:text-sm font-mono appearance-none cursor-pointer"
                   >

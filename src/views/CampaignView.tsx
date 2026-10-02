@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Icon } from '../components/ui/Icon';
 import { Card, Boss, AppConfig } from "../types";
 import { CAMPAIGN_STAGES, CampaignStage } from "../data/campaign";
-import { generateCampaignScenarioFromAI, generateBackgroundImageFromAi } from "../services/ai";
+import { generateCampaignScenarioFromAI, generateBackgroundImageFromAi } from "../services/ai/index";
 
 interface Props {
   cards: Card[];
@@ -42,11 +42,6 @@ export const CampaignView: React.FC<Props> = ({
   const handleSelectStage = async (stage: CampaignStage) => {
     setSelectedStage(stage);
     
-    // Quick fallback checks
-    if (!config.useCustomGemini && !(config.pollinationsKey && config.pollinationsKey.trim() !== '')) {
-      // If AI is likely to fail, just start combat? Or try anyway since we have free tier API
-    }
-
     setIsLoadingScenario(true);
     setIsPlayingDialogue(true);
     setShowResult(false);

@@ -4,7 +4,7 @@ import { AppConfig } from '../types';
 import { t } from '../lib/i18n';
 
 import { motion, AnimatePresence } from 'motion/react';
-import { APP_VERSION } from '../lib/constants';
+import { APP_VERSION } from '../domain/gameConstants';
 
 interface Props {
     config: AppConfig;

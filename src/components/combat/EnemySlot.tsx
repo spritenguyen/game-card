@@ -2,8 +2,8 @@ import React, { forwardRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Icon } from '../ui/Icon';
 import { Boss } from '../../types';
-import { getFactionInfo } from '../../lib/gameLogic';
-import { ELEMENTS, STATUS_ICONS } from '../../lib/constants';
+import { getFactionInfo } from '../../domain/gameRules';
+import { ELEMENTS, STATUS_ICONS } from '../../domain/gameConstants';
 import { t } from '../../lib/i18n';
 
 export interface EnemySlotProps {

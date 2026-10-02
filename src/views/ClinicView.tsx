@@ -1,13 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import { Card, Implant, AppConfig, ImplantSlot, Inventory } from '../types';
 import { Icon } from '../components/ui/Icon';
-import { rollImplant } from '../lib/gameLogic';
+import { rollImplant } from '../domain/gameRules';
 
 interface Props {
   implants: Implant[];
   cards: Card[];
-  addImplant: (imp: Implant) => void;
-  removeImplant: (id: string) => void;
+  changeImplant: (cardId: string, slot: number, itemId?: string) => Promise<void>;
+  addImplant: (imp: Implant) => Promise<void>;
+  removeImplant: (id: string) => Promise<void>;
   updateImplant: (imp: Implant) => void;
   updateCard: (card: Card) => void;
   onAlert: (t: string, m: string) => void;
@@ -19,9 +20,10 @@ interface Props {
 }
 
 export const ClinicView: React.FC<Props> = ({ 
-    implants, cards, addImplant, removeImplant, updateImplant, updateCard, onAlert, modifyCurrency, currency, config, inventory, modifyInventory
+    implants, cards, changeImplant, addImplant, removeImplant, updateImplant, updateCard, onAlert, modifyCurrency, currency, config, inventory, modifyInventory
 }) => {
     const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
+    const [isMoving, setIsMoving] = useState(false);
     const [selectedImplant, setSelectedImplant] = useState<Implant | null>(null);
     const [showCrafting, setShowCrafting] = useState<boolean>(false);
 
@@ -33,58 +35,61 @@ export const ClinicView: React.FC<Props> = ({
     const totalCores = Object.entries(inventory.materials || {}).filter(([k]) => k.includes('Core')).reduce((sum, [_, v]) => sum + Number(v), 0);
     const totalShards = Object.entries(inventory.materials || {}).filter(([k]) => k.includes('Shard')).reduce((sum, [_, v]) => sum + Number(v), 0);
 
-    const handleEquip = (implant: Implant) => {
-        if (!selectedCard) {
-            onAlert("Lỗi", "Hãy chọn một Đặc Vụ trước khi gắn Cấy Ghép.");
-            return;
+    const handleEquip = async (implant: Implant) => {
+        if (!selectedCard || isMoving) return;
+        setIsMoving(true);
+        try {
+            await changeImplant(selectedCard.id, implant.slot, implant.id);
+            setSelectedImplant(null);
+        } catch (error) {
+            onAlert('Lỗi', 'Không thể gắn trang bị. Dữ liệu chưa được thay đổi.');
+        } finally {
+            setIsMoving(false);
         }
-        
-        // Find existing implant in that slot
-        const existingImp = selectedCard.implants ? selectedCard.implants[implant.slot] : null;
-        
-        // Remove the incoming implant from inventory (if it was there)
-        removeImplant(implant.id);
+    };
 
-        const newImplantsMap = { ...(selectedCard.implants || {}) };
-        newImplantsMap[implant.slot] = { ...implant, equippedTo: selectedCard.id };
-        
-        updateCard({ ...selectedCard, implants: newImplantsMap });
-        
-        if (existingImp) {
-            addImplant({ ...existingImp, equippedTo: undefined });
+    const handleUnequip = async (slot: number) => {
+        if (!selectedCard || isMoving) return;
+        setIsMoving(true);
+        try {
+            await changeImplant(selectedCard.id, slot);
+            setSelectedImplant(null);
+        } catch (error) {
+            onAlert('Lỗi', 'Không thể tháo trang bị. Dữ liệu chưa được thay đổi.');
+        } finally {
+            setIsMoving(false);
         }
-        
-        setSelectedImplant(null);
     };
 
-    const handleUnequip = (slot: number) => {
-        if (!selectedCard || !selectedCard.implants || !selectedCard.implants[slot]) return;
-        
-        const imp = selectedCard.implants[slot];
-        addImplant({ ...imp, equippedTo: undefined });
-        
-        const newImplantsMap = { ...selectedCard.implants };
-        delete newImplantsMap[slot];
-        updateCard({ ...selectedCard, implants: newImplantsMap });
-        
-        setSelectedImplant(null);
+    const sellImplant = async (implant: Implant) => {
+        if (isMoving || implant.equippedTo) return;
+        setIsMoving(true);
+        try {
+            await removeImplant(implant.id);
+            const val = implant.rarity * 100;
+            modifyCurrency(val);
+            setSelectedImplant(null);
+            onAlert('Phân tách', `Nhận +${val} DC từ phân tách trang bị.`);
+        } catch (error) {
+            onAlert('Lỗi', 'Không thể phân tách trang bị.');
+        } finally {
+            setIsMoving(false);
+        }
     };
 
-    const sellImplant = (implant: Implant) => {
-        const val = implant.rarity * 100;
-        modifyCurrency(val);
-        removeImplant(implant.id);
-        setSelectedImplant(null);
-        onAlert('Phân tách', `Nhận +${val} DC từ phân tách Cấy Ghép.`);
-    };
-
-    const doCraftImplant = () => {
-        const implant = rollImplant(50, true);
-        if (implant) {
-            addImplant(implant);
-            onAlert("Chế Tạo Thành Công", `Nhận được: ${implant.name} (Mk.${implant.rarity})!`);
-        } else {
-            onAlert("Lỗi", "Chế tạo thất bại.");
+    const doCraftImplant = async (updates: Record<string, number>) => {
+        if (isMoving) return;
+        setIsMoving(true);
+        try {
+            const item = rollImplant(50, true);
+            if (!item) throw new Error('Craft failed');
+            await addImplant(item);
+            modifyInventory(0, 0, updates);
+            onAlert("Chế Tạo Thành Công", `Nhận được: ${item.name} (Mk.${item.rarity})!`);
+        } catch {
+            onAlert("Lỗi", "Không thể lưu trang bị. Nguyên liệu được giữ nguyên.");
+        } finally {
+            setIsMoving(false);
         }
     };
 
@@ -100,8 +105,7 @@ export const ClinicView: React.FC<Props> = ({
                 if (toDeduct <= 0) break;
             }
         }
-        modifyInventory(0, 0, updates);
-        doCraftImplant();
+        void doCraftImplant(updates);
     };
 
     const handleCraftImplantByShard = () => {
@@ -116,8 +120,7 @@ export const ClinicView: React.FC<Props> = ({
                 if (toDeduct <= 0) break;
             }
         }
-        modifyInventory(0, 0, updates);
-        doCraftImplant();
+        void doCraftImplant(updates);
     };
 
     const renderImplantCard = (imp: Implant, isEquipped: boolean) => {
@@ -280,16 +283,16 @@ export const ClinicView: React.FC<Props> = ({
                               {/* ACTION BUTTONS */}
                               <div className="flex gap-2 mt-auto relative z-10">
                                   {selectedImplant.equippedTo === selectedCard.id ? (
-                                      <button onClick={() => handleUnequip(selectedImplant.slot)} className="flex-1 bg-red-500/20 text-red-400 border border-red-500/50 py-2 rounded font-bold hover:bg-red-500 hover:text-black transition-colors uppercase tracking-widest text-xs">
+                                      <button disabled={isMoving} onClick={() => handleUnequip(selectedImplant.slot)} className="flex-1 bg-red-500/20 text-red-400 border border-red-500/50 py-2 rounded font-bold hover:bg-red-500 hover:text-black transition-colors uppercase tracking-widest text-xs">
                                           Tháo ra
                                       </button>
                                   ) : (
                                       <>
-                                        <button onClick={() => handleEquip(selectedImplant)} className="flex-1 bg-cinematic-cyan/20 text-cinematic-cyan border border-cinematic-cyan/50 py-2 rounded font-bold hover:bg-cinematic-cyan hover:text-black transition-colors shadow-[0_0_15px_rgba(0,243,255,0.2)] uppercase tracking-widest text-xs">
+                                        <button disabled={isMoving} onClick={() => handleEquip(selectedImplant)} className="flex-1 bg-cinematic-cyan/20 text-cinematic-cyan border border-cinematic-cyan/50 py-2 rounded font-bold hover:bg-cinematic-cyan hover:text-black transition-colors shadow-[0_0_15px_rgba(0,243,255,0.2)] uppercase tracking-widest text-xs">
                                             Gắn Cấy Ghép
                                         </button>
                                         {!selectedImplant.equippedTo && (
-                                            <button onClick={() => sellImplant(selectedImplant)} className="w-[80px] bg-zinc-800 text-zinc-400 py-2 rounded font-bold hover:bg-red-500 hover:text-white transition-colors text-xs">
+                                            <button disabled={isMoving} onClick={() => sellImplant(selectedImplant)} className="w-[80px] bg-zinc-800 text-zinc-400 py-2 rounded font-bold hover:bg-red-500 hover:text-white transition-colors text-xs">
                                                 <Icon name="fa-recycle" /> Tách
                                             </button>
                                         )}
@@ -336,13 +339,13 @@ export const ClinicView: React.FC<Props> = ({
                       </div>
                       <div className="flex gap-2">
                           <button 
-                             onClick={handleCraftImplantByCore}
+                             disabled={isMoving} onClick={handleCraftImplantByCore}
                              className={`flex-1 py-2 rounded text-[10px] font-bold uppercase tracking-widest transition-colors ${totalCores >= 2 ? 'bg-purple-500/20 text-purple-400 border border-purple-500/50 hover:bg-purple-500 hover:text-white' : 'bg-zinc-800/50 text-zinc-600 border border-transparent cursor-not-allowed'}`}
                           >
                              Đúc (2 Core)
                           </button>
                           <button 
-                             onClick={handleCraftImplantByShard}
+                             disabled={isMoving} onClick={handleCraftImplantByShard}
                              className={`flex-1 py-2 rounded text-[10px] font-bold uppercase tracking-widest transition-colors ${totalShards >= 5 ? 'bg-cinematic-cyan/20 text-cinematic-cyan border border-cinematic-cyan/50 hover:bg-cinematic-cyan hover:text-black' : 'bg-zinc-800/50 text-zinc-600 border border-transparent cursor-not-allowed'}`}
                           >
                              Đúc (5 Shard)

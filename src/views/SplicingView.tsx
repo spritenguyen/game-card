@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Icon } from '../components/ui/Icon';
 import { Card, AppConfig } from '../types';
+import { Dialog } from '../components/ui/Dialog';
 import { MiniCard } from '../components/MiniCard';
-import { getRankIndex } from '../lib/gameLogic';
+import { getRankIndex } from '../domain/gameRules';
 
 interface Props {
   config: AppConfig;
@@ -12,8 +13,8 @@ interface Props {
   cards: Card[];
   modifyInventory: (bd: number, ed: number, m?: Record<string, number>, dd?: number) => void;
   onCompleteFusion: (newCard: Card, oldIdsToDelete: string[]) => Promise<void>;
-  removeCard: (id: string) => void;
-  updateCard: (c: Card) => void;
+  removeCard: (id: string) => Promise<void>;
+  updateCard: (c: Card) => Promise<void>;
   onError: (msg: string) => void;
   onAlert: (t: string, m: string) => void;
   isGlobalProcessing: boolean;
@@ -21,6 +22,7 @@ interface Props {
 }
 
 export const SplicingView: React.FC<Props> = ({ config, currency, modifyCurrency, inventory, cards, modifyInventory, removeCard, updateCard, onError, onAlert, isGlobalProcessing, setGlobalProcessing }) => {
+    const [showExtractConfirm, setShowExtractConfirm] = useState(false);
     const [mode, setMode] = useState<'extract' | 'splice'>('extract');
     
     // For Extract
@@ -33,7 +35,7 @@ export const SplicingView: React.FC<Props> = ({ config, currency, modifyCurrency
     const [selectedGene, setSelectedGene] = useState<string | null>(null);
 
     // List of extracted genes 
-    const availableGenes = Object.entries(inventory)
+    const availableGenes = Object.entries(inventory.materials || {})
                             .filter(([key, val]) => key.startsWith('gene_') && (val as number) > 0)
                             .map(([key, val]) => ({ key, amount: val as number }));
 
@@ -71,16 +73,16 @@ export const SplicingView: React.FC<Props> = ({ config, currency, modifyCurrency
     };
 
     const handleExtract = () => {
-        if (!extractTarget) return;
+        if (!extractTarget || isGlobalProcessing) return;
+        setShowExtractConfirm(false);
         const rankIdx = getRankIndex(extractTarget.cardClass);
         const cost = getExtractCost(rankIdx);
         
         if (currency < cost) return onError(`[TÀI KHOẢN KHÔNG ĐỦ] Yêu cầu ${cost} DC để trích xuất thẻ ${extractTarget.cardClass}.`);
         
-        onAlert("XÁC NHẬN TRÍCH XUẤT", `CẢNH BÁO: Đặc vụ ${extractTarget.name} sẽ bị tiêu hủy vĩnh viễn để tinh xuất Mã Di Truyền (Gene). Bạn có chắc chắn muốn tiếp tục?`);
-        // we need to use a real confirm modal from parent eventually or just do it. Let's do it directly.
         setGlobalProcessing(true);
-        setTimeout(() => {
+        setTimeout(async () => {
+          try {
             const rand = Math.random();
             let geneType = 'hp';
             if (rand < 0.7 && extractTarget.element) {
@@ -98,17 +100,19 @@ export const SplicingView: React.FC<Props> = ({ config, currency, modifyCurrency
             else if (rankIdx === 3) fragments = Math.floor(Math.random() * 11) + 40; // 40-50
             else if (rankIdx === 4) fragments = Math.floor(Math.random() * 51) + 100; // 100-150
 
+            await removeCard(extractTarget.id);
             modifyCurrency(-cost);
             modifyInventory(0, 0, { [geneKey]: fragments });
-            removeCard(extractTarget.id);
             setExtractTargetId(null);
             setGlobalProcessing(false);
             onAlert("TRÍCH XUẤT HOÀN TẤT", `Quá trình phân rã thành công. Thu nhận ${fragments} x [${getGeneInfo(geneKey).name}]`);
+          } catch { onError("Không thể lưu trích xuất. Thẻ và tài nguyên được giữ nguyên."); }
+          finally { setGlobalProcessing(false); }
         }, 1000);
     };
 
     const handleSplice = () => {
-        if (!spliceTarget || !selectedGene) return;
+        if (!spliceTarget || !selectedGene || isGlobalProcessing) return;
         const currentGenes = spliceTarget.genes?.length || 0;
         
         if (getRankIndex(spliceTarget.cardClass) < 3) return onError("[LỖI TƯƠNG THÍCH] Chỉ vật chủ cấp SSR trở lên mới chịu đựng được Đột Biến.");
@@ -125,26 +129,25 @@ export const SplicingView: React.FC<Props> = ({ config, currency, modifyCurrency
         if (targetLevel < reqs.lvl) return onError(`[SINH LỰC THẤP] Lần cấy ghép ${currentGenes + 1} yêu cầu vật chủ đạt Cấp Thể Chất ${reqs.lvl}+.`);
         if (targetOC < reqs.oc) return onError(`[NĂNG LƯỢNG THẤP] Lần cấy ghép ${currentGenes + 1} yêu cầu Cường Hoá (Overclock) +${reqs.oc}.`);
 
-        const ownedGenes = inventory[selectedGene] || 0;
+        const ownedGenes = inventory.materials?.[selectedGene] || 0;
         if (ownedGenes < requiredGenes) return onError(`[THIẾU TÀI NGUYÊN] Cần ${requiredGenes} ${getGeneInfo(selectedGene).name} (Hiện có: ${ownedGenes}).`);
         if (currency < requiredDC) return onError(`[TÀI KHOẢN KHÔNG ĐỦ] Yêu cầu ${requiredDC} DC để thực hiện Đột Biến.`);
         
         setGlobalProcessing(true);
-        setTimeout(() => {
+        setTimeout(async () => {
+          try {
+            const newlySplicedCard = { ...spliceTarget, genes: [...(spliceTarget.genes || []), selectedGene] };
+            await updateCard(newlySplicedCard);
             modifyCurrency(-requiredDC);
             modifyInventory(0, 0, { [selectedGene]: -requiredGenes });
-            
-            const newlySplicedCard = { ...spliceTarget };
-            if (!newlySplicedCard.genes) newlySplicedCard.genes = [];
-            newlySplicedCard.genes.push(selectedGene);
-            
-            updateCard(newlySplicedCard);
             setSpliceTargetId(null);
             setSelectedGene(null);
             setGlobalProcessing(false);
             
             const info = getGeneInfo(selectedGene);
             onAlert("ĐỘT BIẾN THÀNH CÔNG", `Vật chủ ${spliceTarget.name} đã thăng hoa sinh học, dung hợp thành công ${info.name}!`);
+          } catch { onError("Không thể lưu đột biến. Thẻ và tài nguyên được giữ nguyên."); }
+          finally { setGlobalProcessing(false); }
         }, 1500);
     };
 
@@ -153,6 +156,7 @@ export const SplicingView: React.FC<Props> = ({ config, currency, modifyCurrency
 
     return (
         <div className="w-full max-w-5xl mx-auto flex flex-col items-center">
+            <Dialog isOpen={showExtractConfirm} title="XÁC NHẬN TRÍCH XUẤT" message="Thẻ đã chọn sẽ bị tiêu hủy vĩnh viễn để trích xuất Gene. Tiếp tục?" type="confirm" onClose={() => setShowExtractConfirm(false)} onConfirm={handleExtract} config={config} />
             
             {/* Magazine Header */}
             <header className="mb-12 border-b-2 border-white/20 pb-8 text-center flex flex-col items-center w-full">
@@ -230,7 +234,7 @@ export const SplicingView: React.FC<Props> = ({ config, currency, modifyCurrency
                         </div>
 
                         <button 
-                            onClick={handleExtract}
+                            onClick={() => setShowExtractConfirm(true)}
                             disabled={!extractTarget || isGlobalProcessing}
                             className="bg-white hover:bg-zinc-200 text-black font-bold uppercase tracking-[0.3em] py-6 transition-all disabled:opacity-30 disabled:bg-zinc-800 disabled:text-zinc-500 flex flex-col items-center justify-center cursor-pointer disabled:cursor-not-allowed group"
                         >
@@ -358,7 +362,7 @@ export const SplicingView: React.FC<Props> = ({ config, currency, modifyCurrency
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span>Genes Needed:</span> 
-                                    <span className={((inventory[selectedGene] || 0) >= getSpliceRequirements(spliceTarget.genes?.length || 0).genes) ? "text-white" : "text-red-500"}>
+                                    <span className={((inventory.materials?.[selectedGene] || 0) >= getSpliceRequirements(spliceTarget.genes?.length || 0).genes) ? "text-white" : "text-red-500"}>
                                         {getSpliceRequirements(spliceTarget.genes?.length || 0).genes}
                                     </span>
                                 </div>
