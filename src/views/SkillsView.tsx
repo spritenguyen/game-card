@@ -1,17 +1,18 @@
 import React from "react";
 import { motion } from "motion/react";
 import { Icon } from "../components/ui/Icon";
-import { useGameState } from "../hooks/useGameState";
-import { SKILL_TREE, SkillNode, getSkillEffects } from "../lib/skills";
+import { SKILL_TREE, SkillNode, getSkillEffects } from "../domain/skills";
 import { AppConfig } from "../types";
 import { t } from "../lib/i18n";
 
 interface Props {
   config: AppConfig;
+  level: number;
+  unlockedSkills: string[];
+  setUnlockedSkills: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-export const SkillsView: React.FC<Props> = ({ config }) => {
-  const { level, unlockedSkills, setUnlockedSkills } = useGameState();
+export const SkillsView: React.FC<Props> = ({ config, level, unlockedSkills, setUnlockedSkills }) => {
 
   const unlockedSet = new Set(unlockedSkills);
   const totalSpent = SKILL_TREE.reduce((acc, node) => acc + (unlockedSet.has(node.id) ? node.cost : 0), 0);
@@ -27,7 +28,7 @@ export const SkillsView: React.FC<Props> = ({ config }) => {
 
   const handleUnlock = (node: SkillNode) => {
     if (!canUnlock(node)) return;
-    setUnlockedSkills([...(unlockedSkills || []), node.id]);
+    setUnlockedSkills(prev => prev.includes(node.id) ? prev : [...prev, node.id]);
   };
 
   const effects = getSkillEffects(unlockedSkills || []);

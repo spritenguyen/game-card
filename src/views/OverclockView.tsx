@@ -3,7 +3,7 @@ import { Icon } from '../components/ui/Icon';
 import { createPortal } from 'react-dom';
 import { Card, AppConfig } from '../types';
 import { FullCard } from '../components/FullCard';
-import { getRankIndex } from '../lib/gameLogic';
+import { getRankIndex } from '../domain/gameRules';
 import { MiniCard } from '../components/MiniCard';
 import { Dialog } from '../components/ui/Dialog';
 import { t } from '../lib/i18n';
@@ -90,6 +90,8 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
         if ((inventory.quantumDust || 0) < cost.dust) return onError(t('overclock.errorDust', { dust: cost.dust }));
 
         setGlobalProcessing(true);
+        let charged = false;
+        let committed = false;
         try {
             if (currency < cost.dc) {
                 setGlobalProcessing(false);
@@ -97,6 +99,7 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
             }
             modifyCurrency(-cost.dc);
             modifyInventory(0, 0, {}, -cost.dust);
+            charged = true;
 
             const isSuccess = Math.random() * 100 < successRate;
             const consumedIds = sacrificeSlots.map(s => s!.id);
@@ -105,16 +108,22 @@ export const OverclockView: React.FC<Props> = ({ config, currency, modifyCurrenc
                 const nextLvl = currentLvl + 1;
                 const updatedCard = { ...targetSlot, overclockLevel: nextLvl };
                 await onUpdateCard(updatedCard, consumedIds);
+                committed = true;
                 setTargetSlot(updatedCard);
                 setSacrificeSlots(new Array(getSacrificeReqs(nextLvl).length).fill(null));
                 onAlert(t('overclock.successTitle'), t('overclock.successMsg', { name: targetSlot.name, lvl: nextLvl }));
             } else {
                 await onUpdateCard(targetSlot, consumedIds);
+                committed = true;
                 setSacrificeSlots(new Array(getSacrificeReqs(currentLvl).length).fill(null));
                 onAlert(t('overclock.failTitle'), t('overclock.failMsg', { name: targetSlot.name }));
             }
             
         } catch (e: any) {
+            if (charged && !committed) {
+                modifyCurrency(cost.dc);
+                modifyInventory(0, 0, {}, cost.dust);
+            }
             onError(e.message || t('overclock.failFallback'));
         } finally {
             setGlobalProcessing(false);

@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Icon } from './ui/Icon';
 
 
 import { Card } from '../types';
-import { getRankIndex, getFactionInfo, calculateCombatStats, getDismantleValue, getCardRole, calculateUltimateStats, getDismantleDustValue, getRoleIcon, getGeneInfo } from '../lib/gameLogic';
+import { calculateCombatStats } from '../application/gameStats';
+import { getRankIndex, getFactionInfo, getDismantleValue, getCardRole, calculateUltimateStats, getDismantleDustValue, getRoleIcon, getGeneInfo } from '../domain/gameRules';
 import { AppConfig, ElementType } from '../types';
-import { ELEMENTS } from '../lib/constants';
-import { generateDialogueFromAI, translateCardWithAI, chatWithAgentFromAI } from '../services/ai';
+import { ELEMENTS } from '../domain/gameConstants';
+import { generateDialogueFromAI, translateCardWithAI } from '../services/ai/index';
+import { sendAgentMessage } from '../application/agents/sendAgentMessage';
 import { t } from '../lib/i18n';
+import { sanitizeHtml } from '../lib/sanitizeHtml';
 
 
 
@@ -23,7 +26,7 @@ export const FullCard: React.FC<{
   onSave?: (card: Card) => void;
   onDismantle?: (cardId: string) => void;
   onGenerateAltText?: (cardId: string) => void;
-  updateCard?: (card: Card) => void;
+  updateCard?: (card: Card) => Promise<void>;
   onConfirm?: (msg: string, cb: () => void) => void;
   onAlert?: (title: string, msg: string) => void;
   onError?: (msg: string) => void;
@@ -38,8 +41,20 @@ export const FullCard: React.FC<{
   const [chatInput, setChatInput] = useState('');
   const [isGeneratingHolocomm, setIsGeneratingHolocomm] = useState(false);
   const [isTranslating, setIsTranslating] = useState(false);
+  const latestCardRef = useRef(card);
+  latestCardRef.current = card;
+  const mountedRef = useRef(false);
+  const chatBusyRef = useRef(false);
+  const requestEpochRef = useRef(0);
+  useEffect(() => {
+      mountedRef.current = true;
+      return () => { mountedRef.current = false; requestEpochRef.current++; };
+  }, []);
 
   useEffect(() => {
+     requestEpochRef.current++;
+     chatBusyRef.current = false;
+     setIsTranslating(false);
      setActiveTab('combat');
      setIsGeneratingHolocomm(false);
      setChatInput('');
@@ -75,6 +90,29 @@ export const FullCard: React.FC<{
     };
     const elementVisual = getElementVisuals(displayCard.element);
 
+    const handleChat = async () => {
+        if (!chatInput.trim() || !isSaved || !updateCard || chatBusyRef.current) return;
+        const epoch = requestEpochRef.current;
+        const isCurrent = () => mountedRef.current && epoch === requestEpochRef.current;
+        chatBusyRef.current = true;
+        setIsGeneratingHolocomm(true);
+        const userMsg = chatInput.trim();
+        setChatInput('');
+        try {
+            await sendAgentMessage(displayCard, userMsg, config, {
+                getCurrentCard: () => latestCardRef.current,
+                isCurrent,
+                updateCard,
+                onError,
+            });
+        } finally {
+            if (isCurrent()) {
+                chatBusyRef.current = false;
+                setIsGeneratingHolocomm(false);
+            }
+        }
+    };
+
     const handleTranslate = async () => {
         if (!updateCard || !onConfirm || currency === undefined || !modifyCurrency || !onAlert || !onError) return;
         
@@ -91,14 +129,16 @@ export const FullCard: React.FC<{
         }
 
         onConfirm(`Sử dụng ${cost} DC để kích hoạt AI Giải Mã Ngôn Ngữ cho Đặc vụ này? (Mở khóa vĩnh viễn)`, async () => {
+             if (!mountedRef.current || latestCardRef.current.id !== card.id) return;
+             const epoch = requestEpochRef.current;
              setIsTranslating(true);
              try {
                  const res = await translateCardWithAI(card, langTarget, config);
-                 modifyCurrency(-cost);
-                 
-                 const currentTranslations = card.translations || {};
+                 if (!mountedRef.current || epoch !== requestEpochRef.current) return;
+                 const current = latestCardRef.current;
+                 const currentTranslations = current.translations || {};
                  const update = {
-                     ...card,
+                     ...current,
                      translations: {
                          ...currentTranslations,
                          [langTarget]: {
@@ -112,12 +152,13 @@ export const FullCard: React.FC<{
                          }
                      }
                  };
-                 updateCard(update);
+                 await updateCard(update);
+                 modifyCurrency(-cost);
                  onAlert("GIẢI MÃ HOÀN TẤT", "Gói ngôn ngữ đã được tải xuống bộ nhớ nhân của Đặc vụ. Nội dung đã được AI dịch thuật thành công.");
              } catch(e: any) {
                  onError(e.message || "Quá trình dịch bị lỗi hoặc bị gián đoạn.");
              } finally {
-                 setIsTranslating(false);
+                 if (mountedRef.current && epoch === requestEpochRef.current) setIsTranslating(false);
              }
         });
     };
@@ -437,7 +478,7 @@ export const FullCard: React.FC<{
                         {resonanceLevel >= 1 ? (
                             <div 
                                 className={`text-sm text-zinc-400/90 leading-relaxed font-sans`} 
-                                dangerouslySetInnerHTML={{ __html: displayCard.lore?.replace(/\n/g, '<br>') || '' }}
+                                dangerouslySetInnerHTML={{ __html: sanitizeHtml(displayCard.lore?.replace(/\n/g, '<br>') || '') }}
                             />
                         ) : (
                             <div className="h-32 backdrop-blur-sm bg-zinc-900/50 border border-zinc-800 rounded-lg flex items-center justify-center flex-col">
@@ -532,86 +573,11 @@ export const FullCard: React.FC<{
                                 className="flex-1 bg-black/80 border border-cinematic-cyan/30 rounded-lg px-3 py-2 text-xs font-mono text-white placeholder-zinc-500 focus:outline-none focus:border-cinematic-cyan focus:shadow-[0_0_10px_rgba(0,243,255,0.3)] disabled:opacity-50"
                                 value={chatInput}
                                 onChange={(e) => setChatInput(e.target.value)}
-                                onKeyDown={async (e) => {
-                                    if (e.key === 'Enter' && chatInput.trim() && !isGeneratingHolocomm && isSaved) {
-                                        setIsGeneratingHolocomm(true);
-                                        const userMsg = chatInput.trim();
-                                        setChatInput('');
-                                        
-                                        const currentHistory = displayCard.chatHistory || [];
-                                        const newHistory = [...currentHistory, { role: 'user', content: userMsg }] as Array<{ role: 'user' | 'assistant', content: string }>;
-                                        
-                                        if (updateCard) {
-                                           updateCard({ ...displayCard, chatHistory: newHistory });
-                                        }
-
-                                        try {
-                                           const { reply, isBounty, bountyData } = await chatWithAgentFromAI(displayCard, newHistory, config);
-                                           let finalReply = reply;
-                                           if (isBounty && bountyData) {
-                                               finalReply += `\n\n[FILE ĐÍNH KÈM: NHIỆM VỤ ĐỘNG]\nMục tiêu: ${bountyData.name}\nĐộ nguy hiểm: ${bountyData.threatLevel}\nHP dự kiến: ${bountyData.hp}\nATK dự kiến: ${bountyData.attack}\n(Cảnh báo: Tính năng nhận Bounties dạng tin nhắn đang được triển khai trên Global Map)`;
-                                           }
-                                           const updatedHistory2 = [...newHistory, { role: 'assistant', content: finalReply }] as Array<{ role: 'user' | 'assistant', content: string }>;
-                                           
-                                           // Increase Resonance
-                                           let currentRes = displayCard.resonance || displayCard.affection || 0;
-                                           currentRes = Math.min(999, currentRes + 2); // +2 Resonance per chat
-                                           
-                                           if (updateCard) {
-                                              updateCard({ ...displayCard, chatHistory: updatedHistory2, resonance: currentRes });
-                                           }
-                                        } catch(err) {
-                                           const updatedHistory2 = [...newHistory, { role: 'assistant', content: "Lỗi đường truyền! Tín hiệu gián đoạn..." }] as Array<{ role: 'user' | 'assistant', content: string }>;
-                                           if (updateCard) {
-                                              updateCard({ ...displayCard, chatHistory: updatedHistory2 });
-                                           }
-                                        } finally {
-                                           setIsGeneratingHolocomm(false);
-                                        }
-                                    }
-                                }}
+                                onKeyDown={(e) => { if (e.key === 'Enter') void handleChat(); }}
                              />
                              <button
                                disabled={!chatInput.trim() || !isSaved || isGeneratingHolocomm}
-                               onClick={async () => {
-                                  // Same exact logic as enter key
-                                  if (chatInput.trim() && !isGeneratingHolocomm && isSaved) {
-                                      setIsGeneratingHolocomm(true);
-                                      const userMsg = chatInput.trim();
-                                      setChatInput('');
-                                      
-                                      const currentHistory = displayCard.chatHistory || [];
-                                      const newHistory = [...currentHistory, { role: 'user', content: userMsg }] as Array<{ role: 'user' | 'assistant', content: string }>;
-                                      
-                                      if (updateCard) {
-                                         updateCard({ ...displayCard, chatHistory: newHistory });
-                                      }
-
-                                      try {
-                                         const { reply, isBounty, bountyData } = await chatWithAgentFromAI(displayCard, newHistory, config);
-                                         let finalReply = reply;
-                                         if (isBounty && bountyData) {
-                                               finalReply += `\n\n[FILE ĐÍNH KÈM: NHIỆM VỤ ĐỘNG]\nMục tiêu: ${bountyData.name}\nĐộ nguy hiểm: ${bountyData.threatLevel}\nHP dự kiến: ${bountyData.hp}\nATK dự kiến: ${bountyData.attack}\n(Cảnh báo: Tính năng nhận Bounties dạng tin nhắn đang được triển khai trên Global Map)`;
-                                         }
-                                         const updatedHistory2 = [...newHistory, { role: 'assistant', content: finalReply }] as Array<{ role: 'user' | 'assistant', content: string }>;
-                                         
-                                         // Increase Resonance
-                                         let currentRes = displayCard.resonance || displayCard.affection || 0;
-                                         currentRes = Math.min(999, currentRes + 2); // +2 Resonance per chat
-                                         
-                                         if (updateCard) {
-                                            updateCard({ ...displayCard, chatHistory: updatedHistory2, resonance: currentRes });
-                                         }
-                                      } catch(err) {
-                                         const updatedHistory2 = [...newHistory, { role: 'assistant', content: "Lỗi đường truyền! Tín hiệu gián đoạn..." }] as Array<{ role: 'user' | 'assistant', content: string }>;
-                                         if (updateCard) {
-                                            updateCard({ ...displayCard, chatHistory: updatedHistory2 });
-                                         }
-                                      } finally {
-                                         setIsGeneratingHolocomm(false);
-                                      }
-                                  }
-                               }}
+                               onClick={() => void handleChat()}
                                className="bg-cinematic-cyan/20 text-cinematic-cyan border border-cinematic-cyan/50 hover:bg-cinematic-cyan hover:text-black transition-colors rounded-lg px-4 flex items-center justify-center shadow-[0_0_10px_rgba(0,243,255,0.2)] disabled:opacity-50 disabled:hover:bg-cinematic-cyan/20 disabled:hover:text-cinematic-cyan"
                              >
                                 <Icon name="fa-paper-plane" />

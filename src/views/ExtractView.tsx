@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Icon } from '../components/ui/Icon';
 import { Card, AppConfig, Inventory } from '../types';
 import { FullCard } from '../components/FullCard';
-import { generateCardFromAI, generateImageFromAi } from '../services/ai';
-import { rollExtractRank } from '../lib/gameLogic';
+import { generateCardFromAI, generateImageFromAi } from '../services/ai/index';
+import { rollExtractRank } from '../domain/gameRules';
 import { t } from '../lib/i18n';
 
 interface Props {

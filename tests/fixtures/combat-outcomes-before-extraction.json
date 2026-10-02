@@ -1,0 +1,6442 @@
+[
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "victory",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_950",
+          "name": "[Aetheris] Utility Module - Standard",
+          "slot": 4,
+          "type": "Utility Module",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP_REGEN",
+            "value": 53.5,
+            "isPercentage": false
+          },
+          "subStats": []
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 11
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "S",
+          "turns": 1,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Utility Module - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "victory",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_950",
+          "name": "[Aetheris] Utility Module - Standard",
+          "slot": 4,
+          "type": "Utility Module",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP_REGEN",
+            "value": 53.5,
+            "isPercentage": false
+          },
+          "subStats": []
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 11
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "A",
+          "turns": 4,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Utility Module - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "victory",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_950",
+          "name": "[Aetheris] Utility Module - Standard",
+          "slot": 4,
+          "type": "Utility Module",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP_REGEN",
+            "value": 53.5,
+            "isPercentage": false
+          },
+          "subStats": []
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 11
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "B",
+          "turns": 6,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Utility Module - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "victory",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_950",
+          "name": "[Aetheris] Utility Module - Standard",
+          "slot": 4,
+          "type": "Utility Module",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP_REGEN",
+            "value": 53.5,
+            "isPercentage": false
+          },
+          "subStats": []
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 11
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "C",
+          "turns": 11,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Utility Module - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "victory",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_950",
+          "name": "[Aetheris] Utility Module - Standard",
+          "slot": 4,
+          "type": "Utility Module",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP_REGEN",
+            "value": 53.5,
+            "isPercentage": false
+          },
+          "subStats": []
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 11
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "C",
+          "turns": 16,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Utility Module - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "defeat",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "defeat",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "defeat",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "defeat",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "defeat",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "draw",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "draw",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "draw",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "draw",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Minion",
+      "outcome": "draw",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_40",
+          "name": "Tetratronic Mk.1 [SLOT-1]",
+          "slot": 1,
+          "set": "Tetratronic",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 1.3,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_400",
+          "name": "[Aetheris] Core Drive - Standard",
+          "slot": 2,
+          "type": "Core Drive",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "RES",
+            "value": 15.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 30,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 15
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "S",
+          "turns": 1,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Tetratronic Mk.1 [SLOT-1]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Core Drive - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_40",
+          "name": "Tetratronic Mk.1 [SLOT-1]",
+          "slot": 1,
+          "set": "Tetratronic",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 1.3,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_400",
+          "name": "[Aetheris] Core Drive - Standard",
+          "slot": 2,
+          "type": "Core Drive",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "RES",
+            "value": 15.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 30,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 15
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "A",
+          "turns": 4,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Tetratronic Mk.1 [SLOT-1]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Core Drive - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_40",
+          "name": "Tetratronic Mk.1 [SLOT-1]",
+          "slot": 1,
+          "set": "Tetratronic",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 1.3,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_400",
+          "name": "[Aetheris] Core Drive - Standard",
+          "slot": 2,
+          "type": "Core Drive",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "RES",
+            "value": 15.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 30,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 15
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "B",
+          "turns": 6,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Tetratronic Mk.1 [SLOT-1]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Core Drive - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_40",
+          "name": "Tetratronic Mk.1 [SLOT-1]",
+          "slot": 1,
+          "set": "Tetratronic",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 1.3,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_400",
+          "name": "[Aetheris] Core Drive - Standard",
+          "slot": 2,
+          "type": "Core Drive",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "RES",
+            "value": 15.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 30,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 15
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "C",
+          "turns": 11,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Tetratronic Mk.1 [SLOT-1]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Core Drive - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_40",
+          "name": "Tetratronic Mk.1 [SLOT-1]",
+          "slot": 1,
+          "set": "Tetratronic",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 1.3,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_400",
+          "name": "[Aetheris] Core Drive - Standard",
+          "slot": 2,
+          "type": "Core Drive",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "RES",
+            "value": 15.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 30,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 15
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "C",
+          "turns": 16,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Tetratronic Mk.1 [SLOT-1]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Core Drive - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "victory",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_40",
+          "name": "Tetratronic Mk.1 [SLOT-1]",
+          "slot": 1,
+          "set": "Tetratronic",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 1.3,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_400",
+          "name": "[Aetheris] Core Drive - Standard",
+          "slot": 2,
+          "type": "Core Drive",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "RES",
+            "value": 15.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 30,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 15
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "S",
+          "turns": 1,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Tetratronic Mk.1 [SLOT-1]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Core Drive - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "victory",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_40",
+          "name": "Tetratronic Mk.1 [SLOT-1]",
+          "slot": 1,
+          "set": "Tetratronic",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 1.3,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_400",
+          "name": "[Aetheris] Core Drive - Standard",
+          "slot": 2,
+          "type": "Core Drive",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "RES",
+            "value": 15.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 30,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 15
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "A",
+          "turns": 4,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Tetratronic Mk.1 [SLOT-1]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Core Drive - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "victory",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_40",
+          "name": "Tetratronic Mk.1 [SLOT-1]",
+          "slot": 1,
+          "set": "Tetratronic",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 1.3,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_400",
+          "name": "[Aetheris] Core Drive - Standard",
+          "slot": 2,
+          "type": "Core Drive",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "RES",
+            "value": 15.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 30,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 15
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "B",
+          "turns": 6,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Tetratronic Mk.1 [SLOT-1]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Core Drive - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "victory",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_40",
+          "name": "Tetratronic Mk.1 [SLOT-1]",
+          "slot": 1,
+          "set": "Tetratronic",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 1.3,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_400",
+          "name": "[Aetheris] Core Drive - Standard",
+          "slot": 2,
+          "type": "Core Drive",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "RES",
+            "value": 15.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 30,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 15
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "C",
+          "turns": 11,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Tetratronic Mk.1 [SLOT-1]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Core Drive - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "victory",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_40",
+          "name": "Tetratronic Mk.1 [SLOT-1]",
+          "slot": 1,
+          "set": "Tetratronic",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "HP",
+            "value": 2,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 1.3,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_400",
+          "name": "[Aetheris] Core Drive - Standard",
+          "slot": 2,
+          "type": "Core Drive",
+          "brand": "Aetheris",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "RES",
+            "value": 15.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "ATK",
+              "value": 30,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "currency",
+        120
+      ],
+      [
+        "experience",
+        25
+      ],
+      [
+        "quest",
+        "boss",
+        1
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 15
+        }
+      ],
+      [
+        "inventory",
+        2,
+        1,
+        {
+          "Forge Core": 1,
+          "Equipment Shard": 3,
+          "Token": 2
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Chiến Dịch Xuất Sắc!",
+          "rating": "C",
+          "turns": 16,
+          "exp": 25,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+120 DC",
+              "colorClass": "text-green-400"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+25 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Vé Tiêu Chuẩn",
+              "value": "+2",
+              "colorClass": "text-cinematic-cyan"
+            },
+            {
+              "label": "Vé Đặc Quyền",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Equipment Shard",
+              "value": "+3",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Forge Core",
+              "value": "+1",
+              "colorClass": "text-amber-500"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Tetratronic Mk.1 [SLOT-1]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Aetheris] Core Drive - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Vật Phẩm",
+              "value": "+2 Token",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Kẻ địch đã bị tiêu diệt hoàn toàn."
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "defeat",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "defeat",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "defeat",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "defeat",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "defeat",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "draw",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "draw",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "draw",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "draw",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "single_boss",
+      "threat": "Nightmare",
+      "outcome": "draw",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "currency",
+        300
+      ],
+      [
+        "experience",
+        60
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG BATTLEFIELD! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "campaign",
+        "stage-1"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 92.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_800",
+          "name": "Biotechnica Mk.4 [SLOT-6]",
+          "slot": 6,
+          "set": "Biotechnica",
+          "rarity": 4,
+          "level": 0,
+          "mainStat": {
+            "type": "SPEED",
+            "value": 296,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "HP_REGEN",
+              "value": 10,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_40",
+          "name": "[Vanguard] Kinetic Actuator - Advanced",
+          "slot": 3,
+          "type": "Kinetic Actuator",
+          "brand": "Vanguard",
+          "rarity": 3,
+          "level": 0,
+          "mainStat": {
+            "type": "PHYSICAL_DMG",
+            "value": 3,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "SPEED",
+              "value": 110,
+              "isPercentage": false
+            },
+            {
+              "type": "ATK",
+              "value": 3.3,
+              "isPercentage": true
+            },
+            {
+              "type": "ATK",
+              "value": 3.9,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 17
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Trận chiến thành công",
+          "rating": "S",
+          "turns": 1,
+          "exp": 60,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+300 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+60 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Biotechnica Mk.4 [SLOT-6]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Vanguard] Kinetic Actuator - Advanced",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Đã hoàn thành Nhiệm vụ Cốt truyện!"
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "currency",
+        300
+      ],
+      [
+        "experience",
+        60
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG BATTLEFIELD! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "campaign",
+        "stage-1"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 92.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_800",
+          "name": "Biotechnica Mk.4 [SLOT-6]",
+          "slot": 6,
+          "set": "Biotechnica",
+          "rarity": 4,
+          "level": 0,
+          "mainStat": {
+            "type": "SPEED",
+            "value": 296,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "HP_REGEN",
+              "value": 10,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_40",
+          "name": "[Vanguard] Kinetic Actuator - Advanced",
+          "slot": 3,
+          "type": "Kinetic Actuator",
+          "brand": "Vanguard",
+          "rarity": 3,
+          "level": 0,
+          "mainStat": {
+            "type": "PHYSICAL_DMG",
+            "value": 3,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "SPEED",
+              "value": 110,
+              "isPercentage": false
+            },
+            {
+              "type": "ATK",
+              "value": 3.3,
+              "isPercentage": true
+            },
+            {
+              "type": "ATK",
+              "value": 3.9,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 17
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Trận chiến thành công",
+          "rating": "A",
+          "turns": 4,
+          "exp": 60,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+300 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+60 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Biotechnica Mk.4 [SLOT-6]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Vanguard] Kinetic Actuator - Advanced",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Đã hoàn thành Nhiệm vụ Cốt truyện!"
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "currency",
+        300
+      ],
+      [
+        "experience",
+        60
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG BATTLEFIELD! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "campaign",
+        "stage-1"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 92.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_800",
+          "name": "Biotechnica Mk.4 [SLOT-6]",
+          "slot": 6,
+          "set": "Biotechnica",
+          "rarity": 4,
+          "level": 0,
+          "mainStat": {
+            "type": "SPEED",
+            "value": 296,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "HP_REGEN",
+              "value": 10,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_40",
+          "name": "[Vanguard] Kinetic Actuator - Advanced",
+          "slot": 3,
+          "type": "Kinetic Actuator",
+          "brand": "Vanguard",
+          "rarity": 3,
+          "level": 0,
+          "mainStat": {
+            "type": "PHYSICAL_DMG",
+            "value": 3,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "SPEED",
+              "value": 110,
+              "isPercentage": false
+            },
+            {
+              "type": "ATK",
+              "value": 3.3,
+              "isPercentage": true
+            },
+            {
+              "type": "ATK",
+              "value": 3.9,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 17
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Trận chiến thành công",
+          "rating": "B",
+          "turns": 6,
+          "exp": 60,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+300 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+60 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Biotechnica Mk.4 [SLOT-6]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Vanguard] Kinetic Actuator - Advanced",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Đã hoàn thành Nhiệm vụ Cốt truyện!"
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "currency",
+        300
+      ],
+      [
+        "experience",
+        60
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG BATTLEFIELD! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "campaign",
+        "stage-1"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 92.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_800",
+          "name": "Biotechnica Mk.4 [SLOT-6]",
+          "slot": 6,
+          "set": "Biotechnica",
+          "rarity": 4,
+          "level": 0,
+          "mainStat": {
+            "type": "SPEED",
+            "value": 296,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "HP_REGEN",
+              "value": 10,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_40",
+          "name": "[Vanguard] Kinetic Actuator - Advanced",
+          "slot": 3,
+          "type": "Kinetic Actuator",
+          "brand": "Vanguard",
+          "rarity": 3,
+          "level": 0,
+          "mainStat": {
+            "type": "PHYSICAL_DMG",
+            "value": 3,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "SPEED",
+              "value": 110,
+              "isPercentage": false
+            },
+            {
+              "type": "ATK",
+              "value": 3.3,
+              "isPercentage": true
+            },
+            {
+              "type": "ATK",
+              "value": 3.9,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 17
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Trận chiến thành công",
+          "rating": "C",
+          "turns": 11,
+          "exp": 60,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+300 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+60 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Biotechnica Mk.4 [SLOT-6]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Vanguard] Kinetic Actuator - Advanced",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Đã hoàn thành Nhiệm vụ Cốt truyện!"
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "currency",
+        300
+      ],
+      [
+        "experience",
+        60
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG BATTLEFIELD! <<<",
+        "text-green-400 font-bold mt-2 border-t border-green-900/50 pt-2"
+      ],
+      [
+        "campaign",
+        "stage-1"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 92.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_800",
+          "name": "Biotechnica Mk.4 [SLOT-6]",
+          "slot": 6,
+          "set": "Biotechnica",
+          "rarity": 4,
+          "level": 0,
+          "mainStat": {
+            "type": "SPEED",
+            "value": 296,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "HP_REGEN",
+              "value": 10,
+              "isPercentage": false
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_40",
+          "name": "[Vanguard] Kinetic Actuator - Advanced",
+          "slot": 3,
+          "type": "Kinetic Actuator",
+          "brand": "Vanguard",
+          "rarity": 3,
+          "level": 0,
+          "mainStat": {
+            "type": "PHYSICAL_DMG",
+            "value": 3,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "SPEED",
+              "value": 110,
+              "isPercentage": false
+            },
+            {
+              "type": "ATK",
+              "value": 3.3,
+              "isPercentage": true
+            },
+            {
+              "type": "ATK",
+              "value": 3.9,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "card",
+        {
+          "id": "operative",
+          "affection": 17
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Trận chiến thành công",
+          "rating": "C",
+          "turns": 16,
+          "exp": 60,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+300 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+60 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Biotechnica Mk.4 [SLOT-6]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Vanguard] Kinetic Actuator - Advanced",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Đã hoàn thành Nhiệm vụ Cốt truyện!"
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "battlefield",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "currency",
+        300
+      ],
+      [
+        "experience",
+        100
+      ],
+      [
+        "inventory",
+        0,
+        0,
+        {
+          "Phantom Core": 1
+        }
+      ],
+      [
+        "log",
+        ">>> VƯỢT TẦNG THÁP ẢO ẢNH! <<<",
+        "text-cyan-400 font-bold mt-2 border-t border-cyan-900/50 pt-2"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 87.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Vượt Ải Thành Công!",
+          "rating": "S",
+          "turns": 1,
+          "exp": 100,
+          "rewards": [
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+100 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Tiền Thưởng",
+              "value": "+300 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Phantom Core",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Tất cả kẻ địch tầng này đã bị tiêu diệt. Sinh lực Đặc vụ sẽ được bảo lưu cho tầng tiếp theo!"
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      [
+        "phantasmWin",
+        {
+          "operative": 77
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "currency",
+        300
+      ],
+      [
+        "experience",
+        100
+      ],
+      [
+        "inventory",
+        0,
+        0,
+        {
+          "Phantom Core": 1
+        }
+      ],
+      [
+        "log",
+        ">>> VƯỢT TẦNG THÁP ẢO ẢNH! <<<",
+        "text-cyan-400 font-bold mt-2 border-t border-cyan-900/50 pt-2"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 87.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Vượt Ải Thành Công!",
+          "rating": "A",
+          "turns": 4,
+          "exp": 100,
+          "rewards": [
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+100 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Tiền Thưởng",
+              "value": "+300 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Phantom Core",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Tất cả kẻ địch tầng này đã bị tiêu diệt. Sinh lực Đặc vụ sẽ được bảo lưu cho tầng tiếp theo!"
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      [
+        "phantasmWin",
+        {
+          "operative": 77
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "currency",
+        300
+      ],
+      [
+        "experience",
+        100
+      ],
+      [
+        "inventory",
+        0,
+        0,
+        {
+          "Phantom Core": 1
+        }
+      ],
+      [
+        "log",
+        ">>> VƯỢT TẦNG THÁP ẢO ẢNH! <<<",
+        "text-cyan-400 font-bold mt-2 border-t border-cyan-900/50 pt-2"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 87.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Vượt Ải Thành Công!",
+          "rating": "B",
+          "turns": 6,
+          "exp": 100,
+          "rewards": [
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+100 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Tiền Thưởng",
+              "value": "+300 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Phantom Core",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Tất cả kẻ địch tầng này đã bị tiêu diệt. Sinh lực Đặc vụ sẽ được bảo lưu cho tầng tiếp theo!"
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      [
+        "phantasmWin",
+        {
+          "operative": 77
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "currency",
+        300
+      ],
+      [
+        "experience",
+        100
+      ],
+      [
+        "inventory",
+        0,
+        0,
+        {
+          "Phantom Core": 1
+        }
+      ],
+      [
+        "log",
+        ">>> VƯỢT TẦNG THÁP ẢO ẢNH! <<<",
+        "text-cyan-400 font-bold mt-2 border-t border-cyan-900/50 pt-2"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 87.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Vượt Ải Thành Công!",
+          "rating": "C",
+          "turns": 11,
+          "exp": 100,
+          "rewards": [
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+100 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Tiền Thưởng",
+              "value": "+300 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Phantom Core",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Tất cả kẻ địch tầng này đã bị tiêu diệt. Sinh lực Đặc vụ sẽ được bảo lưu cho tầng tiếp theo!"
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      [
+        "phantasmWin",
+        {
+          "operative": 77
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "currency",
+        300
+      ],
+      [
+        "experience",
+        100
+      ],
+      [
+        "inventory",
+        0,
+        0,
+        {
+          "Phantom Core": 1
+        }
+      ],
+      [
+        "log",
+        ">>> VƯỢT TẦNG THÁP ẢO ẢNH! <<<",
+        "text-cyan-400 font-bold mt-2 border-t border-cyan-900/50 pt-2"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 87.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "Vượt Ải Thành Công!",
+          "rating": "C",
+          "turns": 16,
+          "exp": 100,
+          "rewards": [
+            {
+              "label": "Kinh Nghiệm",
+              "value": "+100 EXP",
+              "colorClass": "text-blue-400"
+            },
+            {
+              "label": "Tiền Thưởng",
+              "value": "+300 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Phantom Core",
+              "value": "+1",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Tất cả kẻ địch tầng này đã bị tiêu diệt. Sinh lực Đặc vụ sẽ được bảo lưu cho tầng tiếp theo!"
+        }
+      ],
+      [
+        "enemies",
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      [
+        "phantasmWin",
+        {
+          "operative": 77
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ],
+      [
+        "phantasmDefeat",
+        {
+          "operative": 0
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ],
+      [
+        "phantasmDefeat",
+        {
+          "operative": 0
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ],
+      [
+        "phantasmDefeat",
+        {
+          "operative": 0
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ],
+      [
+        "phantasmDefeat",
+        {
+          "operative": 0
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "log",
+        ">>> THẤT BẠI. Rút lui an toàn... <<<",
+        "text-red-500 font-bold mt-2 border-t border-red-900/50 pt-2"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Chiến Báo Thất Bại",
+          "rating": "F",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [],
+          "message": "Thất bại (Thẻ không bị mất). Lịch sử đã được lưu vào Chiến báo. Hãy thay đổi Tộc Hệ để khắc chế Boss và thử lại!"
+        }
+      ],
+      [
+        "phantasmDefeat",
+        {
+          "operative": 0
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ],
+      [
+        "phantasmDefeat",
+        {
+          "operative": 77
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ],
+      [
+        "phantasmDefeat",
+        {
+          "operative": 77
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ],
+      [
+        "phantasmDefeat",
+        {
+          "operative": 77
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ],
+      [
+        "phantasmDefeat",
+        {
+          "operative": 77
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "phantasm",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "log",
+        ">>> HÒA - HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Thất Bại (Hòa)",
+          "rating": "D",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [],
+          "message": "Đã hết giới hạn hành động mà chưa tiêu diệt được đối phương."
+        }
+      ],
+      [
+        "phantasmDefeat",
+        {
+          "operative": 77
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 4,
+          "boss": null
+        }
+      ],
+      [
+        "currency",
+        3000
+      ],
+      [
+        "inventory",
+        0,
+        0,
+        {
+          "CyberCore Component": 30
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG WORLD BOSS LEVEL 3! Nhận lượng lớn phần thưởng! <<<",
+        "font-bold text-lg text-green-400 my-4 uppercase text-center"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 82.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "World Boss Tiêu Diệt!",
+          "rating": "S",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+3000 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Tài Nguyên",
+              "value": "+30 CyberCore Component",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Mối đe dọa vũ trụ cấp 3 đã bị trừ khử! Chiến dịch thành công."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 4,
+          "boss": null
+        }
+      ],
+      [
+        "currency",
+        3000
+      ],
+      [
+        "inventory",
+        0,
+        0,
+        {
+          "CyberCore Component": 30
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG WORLD BOSS LEVEL 3! Nhận lượng lớn phần thưởng! <<<",
+        "font-bold text-lg text-green-400 my-4 uppercase text-center"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 82.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "World Boss Tiêu Diệt!",
+          "rating": "S",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+3000 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Tài Nguyên",
+              "value": "+30 CyberCore Component",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Mối đe dọa vũ trụ cấp 3 đã bị trừ khử! Chiến dịch thành công."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 4,
+          "boss": null
+        }
+      ],
+      [
+        "currency",
+        3000
+      ],
+      [
+        "inventory",
+        0,
+        0,
+        {
+          "CyberCore Component": 30
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG WORLD BOSS LEVEL 3! Nhận lượng lớn phần thưởng! <<<",
+        "font-bold text-lg text-green-400 my-4 uppercase text-center"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 82.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "World Boss Tiêu Diệt!",
+          "rating": "A",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+3000 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Tài Nguyên",
+              "value": "+30 CyberCore Component",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Mối đe dọa vũ trụ cấp 3 đã bị trừ khử! Chiến dịch thành công."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 4,
+          "boss": null
+        }
+      ],
+      [
+        "currency",
+        3000
+      ],
+      [
+        "inventory",
+        0,
+        0,
+        {
+          "CyberCore Component": 30
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG WORLD BOSS LEVEL 3! Nhận lượng lớn phần thưởng! <<<",
+        "font-bold text-lg text-green-400 my-4 uppercase text-center"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 82.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "World Boss Tiêu Diệt!",
+          "rating": "B",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+3000 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Tài Nguyên",
+              "value": "+30 CyberCore Component",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Mối đe dọa vũ trụ cấp 3 đã bị trừ khử! Chiến dịch thành công."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "victory",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 4,
+          "boss": null
+        }
+      ],
+      [
+        "currency",
+        3000
+      ],
+      [
+        "inventory",
+        0,
+        0,
+        {
+          "CyberCore Component": 30
+        }
+      ],
+      [
+        "log",
+        ">>> CHIẾN THẮNG WORLD BOSS LEVEL 3! Nhận lượng lớn phần thưởng! <<<",
+        "font-bold text-lg text-green-400 my-4 uppercase text-center"
+      ],
+      [
+        "implant",
+        {
+          "id": "imp_1700000000000_950",
+          "name": "Arasaka Mk.1 [SLOT-4]",
+          "slot": 4,
+          "set": "Arasaka",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "DEF",
+            "value": 82.5,
+            "isPercentage": false
+          },
+          "subStats": [
+            {
+              "type": "LIFESTEAL",
+              "value": 0.7,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "gear",
+        {
+          "id": "gear_1700000000000_600",
+          "name": "[Titan] Neural Link - Standard",
+          "slot": 1,
+          "type": "Neural Link",
+          "brand": "Titan",
+          "rarity": 1,
+          "level": 0,
+          "mainStat": {
+            "type": "CRIT_DMG",
+            "value": 1,
+            "isPercentage": true
+          },
+          "subStats": [
+            {
+              "type": "HP",
+              "value": 1.1,
+              "isPercentage": true
+            }
+          ]
+        }
+      ],
+      [
+        "result",
+        {
+          "status": "victory",
+          "title": "World Boss Tiêu Diệt!",
+          "rating": "C",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền Thưởng",
+              "value": "+3000 DC",
+              "colorClass": "text-cinematic-gold"
+            },
+            {
+              "label": "Tài Nguyên",
+              "value": "+30 CyberCore Component",
+              "colorClass": "text-purple-400"
+            },
+            {
+              "label": "Cấy Ghép",
+              "value": "Arasaka Mk.1 [SLOT-4]",
+              "colorClass": "text-amber-400"
+            },
+            {
+              "label": "Trang Bị",
+              "value": "[Titan] Neural Link - Standard",
+              "colorClass": "text-cinematic-gold"
+            }
+          ],
+          "message": "Mối đe dọa vũ trụ cấp 3 đã bị trừ khử! Chiến dịch thành công."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 3,
+          "boss": {
+            "id": "enemy",
+            "reward": 120,
+            "threatLevel": "Elite",
+            "hp": 50,
+            "drops": [
+              {
+                "item": "Token",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "currency",
+        150
+      ],
+      [
+        "log",
+        ">>> ĐỘI HÌNH BỊ HẠ GỤC <<<",
+        "font-bold text-red-500 my-2 uppercase text-center"
+      ],
+      [
+        "log",
+        "World boss còn lại 50 HP. Đã lưu trạng thái!",
+        "text-cinematic-cyan"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Đội Hình Hạ Gục",
+          "rating": "F",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền An Ủi",
+              "value": "+150 DC"
+            }
+          ],
+          "message": "Toàn bộ đội hình đã bị tiêu diệt. Hãy nâng cấp và quay lại."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 3,
+          "boss": {
+            "id": "enemy",
+            "reward": 120,
+            "threatLevel": "Elite",
+            "hp": 50,
+            "drops": [
+              {
+                "item": "Token",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "currency",
+        150
+      ],
+      [
+        "log",
+        ">>> ĐỘI HÌNH BỊ HẠ GỤC <<<",
+        "font-bold text-red-500 my-2 uppercase text-center"
+      ],
+      [
+        "log",
+        "World boss còn lại 50 HP. Đã lưu trạng thái!",
+        "text-cinematic-cyan"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Đội Hình Hạ Gục",
+          "rating": "F",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền An Ủi",
+              "value": "+150 DC"
+            }
+          ],
+          "message": "Toàn bộ đội hình đã bị tiêu diệt. Hãy nâng cấp và quay lại."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 3,
+          "boss": {
+            "id": "enemy",
+            "reward": 120,
+            "threatLevel": "Elite",
+            "hp": 50,
+            "drops": [
+              {
+                "item": "Token",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "currency",
+        150
+      ],
+      [
+        "log",
+        ">>> ĐỘI HÌNH BỊ HẠ GỤC <<<",
+        "font-bold text-red-500 my-2 uppercase text-center"
+      ],
+      [
+        "log",
+        "World boss còn lại 50 HP. Đã lưu trạng thái!",
+        "text-cinematic-cyan"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Đội Hình Hạ Gục",
+          "rating": "F",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền An Ủi",
+              "value": "+150 DC"
+            }
+          ],
+          "message": "Toàn bộ đội hình đã bị tiêu diệt. Hãy nâng cấp và quay lại."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 3,
+          "boss": {
+            "id": "enemy",
+            "reward": 120,
+            "threatLevel": "Elite",
+            "hp": 50,
+            "drops": [
+              {
+                "item": "Token",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "currency",
+        150
+      ],
+      [
+        "log",
+        ">>> ĐỘI HÌNH BỊ HẠ GỤC <<<",
+        "font-bold text-red-500 my-2 uppercase text-center"
+      ],
+      [
+        "log",
+        "World boss còn lại 50 HP. Đã lưu trạng thái!",
+        "text-cinematic-cyan"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Đội Hình Hạ Gục",
+          "rating": "F",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền An Ủi",
+              "value": "+150 DC"
+            }
+          ],
+          "message": "Toàn bộ đội hình đã bị tiêu diệt. Hãy nâng cấp và quay lại."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "defeat",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 3,
+          "boss": {
+            "id": "enemy",
+            "reward": 120,
+            "threatLevel": "Elite",
+            "hp": 50,
+            "drops": [
+              {
+                "item": "Token",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "currency",
+        150
+      ],
+      [
+        "log",
+        ">>> ĐỘI HÌNH BỊ HẠ GỤC <<<",
+        "font-bold text-red-500 my-2 uppercase text-center"
+      ],
+      [
+        "log",
+        "World boss còn lại 50 HP. Đã lưu trạng thái!",
+        "text-cinematic-cyan"
+      ],
+      [
+        "result",
+        {
+          "status": "defeat",
+          "title": "Đội Hình Hạ Gục",
+          "rating": "F",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền An Ủi",
+              "value": "+150 DC"
+            }
+          ],
+          "message": "Toàn bộ đội hình đã bị tiêu diệt. Hãy nâng cấp và quay lại."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 1
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 3,
+          "boss": {
+            "id": "enemy",
+            "reward": 120,
+            "threatLevel": "Elite",
+            "hp": 50,
+            "drops": [
+              {
+                "item": "Token",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "currency",
+        150
+      ],
+      [
+        "log",
+        ">>> HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "log",
+        "Hệ thống rút lui khẩn cấp. Boss còn lại 50 HP.",
+        "text-cinematic-cyan"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Hết Thời Gian",
+          "rating": "D",
+          "turns": 1,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền An Ủi",
+              "value": "+150 DC"
+            }
+          ],
+          "message": "Trận đấu đã hết giới hạn hành động. Hệ thống tự động kích hoạt giao thức rút lui. Sát thương lên Boss đã được ghi nhận."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 4
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 3,
+          "boss": {
+            "id": "enemy",
+            "reward": 120,
+            "threatLevel": "Elite",
+            "hp": 50,
+            "drops": [
+              {
+                "item": "Token",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "currency",
+        150
+      ],
+      [
+        "log",
+        ">>> HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "log",
+        "Hệ thống rút lui khẩn cấp. Boss còn lại 50 HP.",
+        "text-cinematic-cyan"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Hết Thời Gian",
+          "rating": "D",
+          "turns": 4,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền An Ủi",
+              "value": "+150 DC"
+            }
+          ],
+          "message": "Trận đấu đã hết giới hạn hành động. Hệ thống tự động kích hoạt giao thức rút lui. Sát thương lên Boss đã được ghi nhận."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 6
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 3,
+          "boss": {
+            "id": "enemy",
+            "reward": 120,
+            "threatLevel": "Elite",
+            "hp": 50,
+            "drops": [
+              {
+                "item": "Token",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "currency",
+        150
+      ],
+      [
+        "log",
+        ">>> HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "log",
+        "Hệ thống rút lui khẩn cấp. Boss còn lại 50 HP.",
+        "text-cinematic-cyan"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Hết Thời Gian",
+          "rating": "D",
+          "turns": 6,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền An Ủi",
+              "value": "+150 DC"
+            }
+          ],
+          "message": "Trận đấu đã hết giới hạn hành động. Hệ thống tự động kích hoạt giao thức rút lui. Sát thương lên Boss đã được ghi nhận."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 11
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 3,
+          "boss": {
+            "id": "enemy",
+            "reward": 120,
+            "threatLevel": "Elite",
+            "hp": 50,
+            "drops": [
+              {
+                "item": "Token",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "currency",
+        150
+      ],
+      [
+        "log",
+        ">>> HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "log",
+        "Hệ thống rút lui khẩn cấp. Boss còn lại 50 HP.",
+        "text-cinematic-cyan"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Hết Thời Gian",
+          "rating": "D",
+          "turns": 11,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền An Ủi",
+              "value": "+150 DC"
+            }
+          ],
+          "message": "Trận đấu đã hết giới hạn hành động. Hệ thống tự động kích hoạt giao thức rút lui. Sát thương lên Boss đã được ghi nhận."
+        }
+      ]
+    ]
+  },
+  {
+    "scenario": {
+      "mode": "world_boss",
+      "threat": "Elite",
+      "outcome": "draw",
+      "turn": 16
+    },
+    "trace": [
+      [
+        "worldBoss",
+        {
+          "level": 3,
+          "boss": {
+            "id": "enemy",
+            "reward": 120,
+            "threatLevel": "Elite",
+            "hp": 50,
+            "drops": [
+              {
+                "item": "Token",
+                "amount": 2
+              }
+            ]
+          }
+        }
+      ],
+      [
+        "currency",
+        150
+      ],
+      [
+        "log",
+        ">>> HẾT GIỚI HẠN HÀNH ĐỘNG <<<",
+        "font-bold text-yellow-500 my-2 uppercase text-center"
+      ],
+      [
+        "log",
+        "Hệ thống rút lui khẩn cấp. Boss còn lại 50 HP.",
+        "text-cinematic-cyan"
+      ],
+      [
+        "result",
+        {
+          "status": "draw",
+          "title": "Hết Thời Gian",
+          "rating": "D",
+          "turns": 16,
+          "exp": 0,
+          "rewards": [
+            {
+              "label": "Tiền An Ủi",
+              "value": "+150 DC"
+            }
+          ],
+          "message": "Trận đấu đã hết giới hạn hành động. Hệ thống tự động kích hoạt giao thức rút lui. Sát thương lên Boss đã được ghi nhận."
+        }
+      ]
+    ]
+  }
+]

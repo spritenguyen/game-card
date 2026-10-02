@@ -2,7 +2,7 @@ import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { createPortal } from 'react-dom';
 import { Icon } from '../ui/Icon';
-import { ELEMENTS, FACTIONS } from '../../lib/constants';
+import { ELEMENTS, FACTIONS } from '../../domain/gameConstants';
 
 interface SynergyGuideModalProps {
   isOpen: boolean;

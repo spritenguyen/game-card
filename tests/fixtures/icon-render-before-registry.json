@@ -1,0 +1,3260 @@
+[
+  {
+    "props": {
+      "name": "fa-layer-group"
+    },
+    "sha256": "42e449e99fa84cc9a2d8a824b0aaf2487dfca458a56802dbfeb6f1039eba2ca5"
+  },
+  {
+    "props": {
+      "name": "fa-layer-group text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "3079cb3d83f0c67b7e9a8129e0da432608091f42fff6404e0d78ea5a1922d30c"
+  },
+  {
+    "props": {
+      "className": "fa-layer-group text-3xl fa-spin"
+    },
+    "sha256": "0676e05fcfb86a49562b6b2f95d61c804ba54f8598c3b09cb941c0d0b75468ec"
+  },
+  {
+    "props": {
+      "name": "fa-book-open"
+    },
+    "sha256": "76a510198efffab5cb04578655b439f6086bc948f8c5aa14d8e987cceb07e767"
+  },
+  {
+    "props": {
+      "name": "fa-book-open text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "a95346e11f767bd34e7c821f8b6d95f2edd152ea63eb48fe268fc4c02cdcfeab"
+  },
+  {
+    "props": {
+      "className": "fa-book-open text-3xl fa-spin"
+    },
+    "sha256": "8a5649d11b2b910eaa4108555fab4f0c030a354a045dc886c94540baef73eefc"
+  },
+  {
+    "props": {
+      "name": "fa-sliders"
+    },
+    "sha256": "c1a2f8d861ba78d596120b5d008c7d5468ffa977cd56099aafb0b64569aaef5b"
+  },
+  {
+    "props": {
+      "name": "fa-sliders text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "35594776f44031bdcfcc39f6b49540c171e3f61aa61862d29f184f78814066c0"
+  },
+  {
+    "props": {
+      "className": "fa-sliders text-3xl fa-spin"
+    },
+    "sha256": "4182fda011f2a69848e39cadbc81ba6b176df40f0392bf44251eaba724477fab"
+  },
+  {
+    "props": {
+      "name": "fa-ticket"
+    },
+    "sha256": "d1c52c6e9acae84c4115a2d8c8014709fb577836e4567e96d41228f899fc8160"
+  },
+  {
+    "props": {
+      "name": "fa-ticket text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "d89fc74f68b1617a266cc2afb4da866ec9b8232ccaf6086d52fe6653d7473344"
+  },
+  {
+    "props": {
+      "className": "fa-ticket text-3xl fa-spin"
+    },
+    "sha256": "faf2cd1aac54a612489412c8533198dcb6a78a44203c65c12ba3b06657f23c6d"
+  },
+  {
+    "props": {
+      "name": "fa-galactic-senate"
+    },
+    "sha256": "d8cf95cd48630ca7c0b2ca93596e3281430fa5cf02761506bcba21aef4bf3b1d"
+  },
+  {
+    "props": {
+      "name": "fa-galactic-senate text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "1e011f7b3bf0ca7fa925279aaf5a94b3481eb307cf0afd260c0d928097be60bb"
+  },
+  {
+    "props": {
+      "className": "fa-galactic-senate text-3xl fa-spin"
+    },
+    "sha256": "51c69af1e9912a4617c83899a085de9eb23eb20e6d464872072f05241404cd07"
+  },
+  {
+    "props": {
+      "name": "fa-circle-question"
+    },
+    "sha256": "473037670c505e1bf0bfa5bbf3eb66b6c5b4ded81a64003124b37f0ca7ca9b9c"
+  },
+  {
+    "props": {
+      "name": "fa-circle-question text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "2b69867eafa90f2adba85c31c78573691383eb80213442771c10767faccbdc05"
+  },
+  {
+    "props": {
+      "className": "fa-circle-question text-3xl fa-spin"
+    },
+    "sha256": "38673f14648fae7a6808f0af2fba72c41c6e0ef1817ef95821dc427263f90e87"
+  },
+  {
+    "props": {
+      "name": "fa-xmark"
+    },
+    "sha256": "d2b375f4b476c58f0f7786e292a49e0fa1a3b7ba6ea0473c3ca6070c43b41137"
+  },
+  {
+    "props": {
+      "name": "fa-xmark text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "3139cb75bcf87d9f297c9dff804257987b6d236eb55b1e09f9c88ecca40e68a1"
+  },
+  {
+    "props": {
+      "className": "fa-xmark text-3xl fa-spin"
+    },
+    "sha256": "5c4153e2e5371a3434117666d7e51a8c59cc1dcb513c69e0ad29e47bc35c2c44"
+  },
+  {
+    "props": {
+      "name": "fa-lock"
+    },
+    "sha256": "e20635fc43525050ba30df7a2c9b7f06f4b02350bfbdcfcdcf8535573f47cd6b"
+  },
+  {
+    "props": {
+      "name": "fa-lock text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "a158ea22929362626a627934b835d0e63536238a90f91682d03d25b2f96a295c"
+  },
+  {
+    "props": {
+      "className": "fa-lock text-3xl fa-spin"
+    },
+    "sha256": "876974e388c2a2df516b22d46498c201c7dd8aa338b668c5200c7dba98373fce"
+  },
+  {
+    "props": {
+      "name": "fa-check"
+    },
+    "sha256": "3f3680a3bf00b487de33b7e99f8d1de84c3605377873a76865f17d7b1da0d019"
+  },
+  {
+    "props": {
+      "name": "fa-check text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "1a999d4f4ca49e9f67b9ef8e4158ae301c3b6faef8a4a445debee55fe43bc9a0"
+  },
+  {
+    "props": {
+      "className": "fa-check text-3xl fa-spin"
+    },
+    "sha256": "9aead1d7143fcfa67284a3eea1727455af60468aa0856e92231b818769e5be45"
+  },
+  {
+    "props": {
+      "name": "fa-microchip"
+    },
+    "sha256": "0dfd809d988d898f3a79db84f2c231ecef8ca78163895f5ef1afde3e4bdfe94d"
+  },
+  {
+    "props": {
+      "name": "fa-microchip text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "452c919acf849ceca605329d704ca6bdddacd032f37e43c2202a9fe7bdc7948e"
+  },
+  {
+    "props": {
+      "className": "fa-microchip text-3xl fa-spin"
+    },
+    "sha256": "3e094435995f2044fd6e667753093a643ce5aa609a13f676159222faef9c9d07"
+  },
+  {
+    "props": {
+      "name": "fa-triangle-exclamation"
+    },
+    "sha256": "2573bd250cdae959c2169070d189a1cbb900f7072449fcf2810bdbc9f3f7573f"
+  },
+  {
+    "props": {
+      "name": "fa-triangle-exclamation text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "1f1b9aa8084fcbfd4f67332e62c85a1f748764b50f13869d202e4e77f87133c6"
+  },
+  {
+    "props": {
+      "className": "fa-triangle-exclamation text-3xl fa-spin"
+    },
+    "sha256": "ed053476a8ab9913d3029b9d7d4c443b74971b6f4a96c317c5e427e8656b4df7"
+  },
+  {
+    "props": {
+      "name": "fa-circle-notch"
+    },
+    "sha256": "631e650ced56d0103e62110e694db89562b904bcb230c383bfbc700734ae7cad"
+  },
+  {
+    "props": {
+      "name": "fa-circle-notch text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8316e7d863b086a3be650a7ab0eb226f000d15c10f901007ed8f935069ccd777"
+  },
+  {
+    "props": {
+      "className": "fa-circle-notch text-3xl fa-spin"
+    },
+    "sha256": "f5c381a7fcc66aceddb29861b591ac1c203a45b05e17b9bc620349c1d4ee5ee9"
+  },
+  {
+    "props": {
+      "name": "fa-spin"
+    },
+    "sha256": "473037670c505e1bf0bfa5bbf3eb66b6c5b4ded81a64003124b37f0ca7ca9b9c"
+  },
+  {
+    "props": {
+      "name": "fa-spin text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "2b69867eafa90f2adba85c31c78573691383eb80213442771c10767faccbdc05"
+  },
+  {
+    "props": {
+      "className": "fa-spin text-3xl fa-spin"
+    },
+    "sha256": "bb2134d31ac2a5918efd29a73f52410a6277a38fca7a55452ea0a7b8883a6312"
+  },
+  {
+    "props": {
+      "name": "fa-ban"
+    },
+    "sha256": "2e5902d415bdab06c74797ba28d0567d809668888c43b2b24f7b1edb8e34f0a2"
+  },
+  {
+    "props": {
+      "name": "fa-ban text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "1bb8cbb139944e8d5fc0925e313052241010de762761e67bddb38ad5965c5914"
+  },
+  {
+    "props": {
+      "className": "fa-ban text-3xl fa-spin"
+    },
+    "sha256": "886439a0f30593fcd2bafd409b4cb2e9ad58d8ed16508de21599045223886fa3"
+  },
+  {
+    "props": {
+      "name": "fa-user"
+    },
+    "sha256": "46380791e1c59aefde7a6d8eedfdfffda56e74170335e3ccdfd7c1cb77faf1f4"
+  },
+  {
+    "props": {
+      "name": "fa-user text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ae99a4ff377b6fd52ba3f5daa9727a7f1199c2c4b5f8d5799f2c221840a0988d"
+  },
+  {
+    "props": {
+      "className": "fa-user text-3xl fa-spin"
+    },
+    "sha256": "d503e01b358e7326bda2ff73422d1312f04fb2c08e9a465494443859bc7cbe54"
+  },
+  {
+    "props": {
+      "name": "fa-mars"
+    },
+    "sha256": "46380791e1c59aefde7a6d8eedfdfffda56e74170335e3ccdfd7c1cb77faf1f4"
+  },
+  {
+    "props": {
+      "name": "fa-mars text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ae99a4ff377b6fd52ba3f5daa9727a7f1199c2c4b5f8d5799f2c221840a0988d"
+  },
+  {
+    "props": {
+      "className": "fa-mars text-3xl fa-spin"
+    },
+    "sha256": "c8c4ced9bec3e27aacd861f21c258971b09a602f4c9ec5192597429e82979ab3"
+  },
+  {
+    "props": {
+      "name": "fa-venus"
+    },
+    "sha256": "46380791e1c59aefde7a6d8eedfdfffda56e74170335e3ccdfd7c1cb77faf1f4"
+  },
+  {
+    "props": {
+      "name": "fa-venus text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ae99a4ff377b6fd52ba3f5daa9727a7f1199c2c4b5f8d5799f2c221840a0988d"
+  },
+  {
+    "props": {
+      "className": "fa-venus text-3xl fa-spin"
+    },
+    "sha256": "2a17891449c1be832c82f8424032c99eac934f5414b64ccf44baf59abc7626ad"
+  },
+  {
+    "props": {
+      "name": "fa-venus-mars"
+    },
+    "sha256": "46380791e1c59aefde7a6d8eedfdfffda56e74170335e3ccdfd7c1cb77faf1f4"
+  },
+  {
+    "props": {
+      "name": "fa-venus-mars text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ae99a4ff377b6fd52ba3f5daa9727a7f1199c2c4b5f8d5799f2c221840a0988d"
+  },
+  {
+    "props": {
+      "className": "fa-venus-mars text-3xl fa-spin"
+    },
+    "sha256": "0554327dc6b74c7898da168a3cbc8e37a85be4191bce833808816a51571b2833"
+  },
+  {
+    "props": {
+      "name": "fa-camera-viewfinder"
+    },
+    "sha256": "9deb2bda7a60bac1e1ae9f22ee3616dec270331234bcefb09fad642f10fd5c3a"
+  },
+  {
+    "props": {
+      "name": "fa-camera-viewfinder text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "bf2c9bd46f98a6a11cbeb7086c49f814b5b08a8d5c7e42325bebbfc7bbf0b65b"
+  },
+  {
+    "props": {
+      "className": "fa-camera-viewfinder text-3xl fa-spin"
+    },
+    "sha256": "72a9e2a56883a3c75b5523608adc0646d99521070db2a90d5c28d2bf216a4a76"
+  },
+  {
+    "props": {
+      "name": "fa-atom"
+    },
+    "sha256": "986cd5094bac704e9965fb7870904acc0f37b6a71a2665ee3f41a3b01d9b23dc"
+  },
+  {
+    "props": {
+      "name": "fa-atom text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "2fd116e2f2c8fafc25c029f1293855a9a7489ffd0ac5e4aef16e5d041e62b434"
+  },
+  {
+    "props": {
+      "className": "fa-atom text-3xl fa-spin"
+    },
+    "sha256": "1ff4013704b0d762bf511e190be5aa03af090074e80e870f20b873efc4227e9a"
+  },
+  {
+    "props": {
+      "name": "fa-sun"
+    },
+    "sha256": "b0344485262a8ef2907fcd9c1945360043dde1aa72f00d3c8bfea1daf655ec75"
+  },
+  {
+    "props": {
+      "name": "fa-sun text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "97d30d49f31cb7565d7993ce2593a24a9f21b8a204510f1b7b1343556ba05c4e"
+  },
+  {
+    "props": {
+      "className": "fa-sun text-3xl fa-spin"
+    },
+    "sha256": "2fa5bd71fdbf6d6a2fa5d98d92ca1b42d53882b375dbb7a4bb59a1dc9f509406"
+  },
+  {
+    "props": {
+      "name": "fa-crown"
+    },
+    "sha256": "2f9225f26f31cbd586a883dc32fafc16a3a831f8ea14d2e8d9c3ba55003af6c8"
+  },
+  {
+    "props": {
+      "name": "fa-crown text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "0954bf20fa35746dcd5e81cb5224a11dfde40181d9e908625e61a8ae2b12a49a"
+  },
+  {
+    "props": {
+      "className": "fa-crown text-3xl fa-spin"
+    },
+    "sha256": "5129c1ed6db1a778b284f83ecf84acb291b9b4e819fdb676238599f110579771"
+  },
+  {
+    "props": {
+      "name": "fa-fingerprint"
+    },
+    "sha256": "e9cdb8e7dfba1bd99159189ed0169b10b366d6f8ed672ce2c1a6307c2d464fe5"
+  },
+  {
+    "props": {
+      "name": "fa-fingerprint text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "f84f72aafb06d60c4e4983f8fabc2dce669cf2e30ffa995d15fcd864e26a0d8d"
+  },
+  {
+    "props": {
+      "className": "fa-fingerprint text-3xl fa-spin"
+    },
+    "sha256": "1b77293835053eb8beb192d8a82f0194253e393e277fd9f8a680bb23ee0ed251"
+  },
+  {
+    "props": {
+      "name": "fa-earth-americas"
+    },
+    "sha256": "322471854203246b3885e882f7f8ca42a0dac28d5796512b9ebe78893feee52b"
+  },
+  {
+    "props": {
+      "name": "fa-earth-americas text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "5d2e5b0f339e8627bafcd7095fff7be0ecf3b0bfb5fde6cdaa32cfa54d1c324e"
+  },
+  {
+    "props": {
+      "className": "fa-earth-americas text-3xl fa-spin"
+    },
+    "sha256": "36e327b2d52c603ac4f3a1b2654a609b9c74f5b420b4831f858937c71276abb9"
+  },
+  {
+    "props": {
+      "name": "fa-galaxy"
+    },
+    "sha256": "5294c5722c4a8a1df56a4a82ac0f9ffc3f9aece262a8c0b45330a38b946c1d34"
+  },
+  {
+    "props": {
+      "name": "fa-galaxy text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "db83fee6e6f99c5ac68c3b3b329686fcc33c20ba2469c09e2a7b1035d3dd4c12"
+  },
+  {
+    "props": {
+      "className": "fa-galaxy text-3xl fa-spin"
+    },
+    "sha256": "36bd3495dfd6b4d57587eaaddc950585bfd6f4dcf5bbfdea4dac2de266370c53"
+  },
+  {
+    "props": {
+      "name": "fa-wifi"
+    },
+    "sha256": "2865c557261bbcce922e68b10a59233bbb3955f8dc14a35ab118097f197bef57"
+  },
+  {
+    "props": {
+      "name": "fa-wifi text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c990c68285d3c0d45937ff23c6a8cb118d4be93f611a26b0e4bb2c3b88fb4cb1"
+  },
+  {
+    "props": {
+      "className": "fa-wifi text-3xl fa-spin"
+    },
+    "sha256": "db3d12a4708cb1afaba835083db876c6594126fe624fcb2357288313d22b825d"
+  },
+  {
+    "props": {
+      "name": "fa-khanda"
+    },
+    "sha256": "fe64152da2141fd422f88ade6b704bc7a68c92871f35268906eb4161169d38e2"
+  },
+  {
+    "props": {
+      "name": "fa-khanda text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "becfb14ef0cd55bf25b3dade4454bb9282d1d56a573130e262e250922c09e01f"
+  },
+  {
+    "props": {
+      "className": "fa-khanda text-3xl fa-spin"
+    },
+    "sha256": "b3d9d5d0296e1349833df0e9b0150028e062347e2528914d6f4ea29f487c5b96"
+  },
+  {
+    "props": {
+      "name": "fa-bolt"
+    },
+    "sha256": "86d1773f0c9817390e01f798277766286d27d8a4b8699deaa1525cbcc60b8763"
+  },
+  {
+    "props": {
+      "name": "fa-bolt text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8d9385cecac7b41b07d552544947fa89566d64ae54860c4f225b43ec0872e405"
+  },
+  {
+    "props": {
+      "className": "fa-bolt text-3xl fa-spin"
+    },
+    "sha256": "56f0aef00f272cca5e12d4089808529907a9eab359ae78fb26d8e73d585efa82"
+  },
+  {
+    "props": {
+      "name": "fa-id-card"
+    },
+    "sha256": "e50b479e9e8bfc8f07a4bbf626b2e969449a43fe0fec7cec0bb2e37386373d8c"
+  },
+  {
+    "props": {
+      "name": "fa-id-card text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "cd11605f82af21575a7b298f39b93cb6a2daa9b2f2e89fe5907508b38d401a65"
+  },
+  {
+    "props": {
+      "className": "fa-id-card text-3xl fa-spin"
+    },
+    "sha256": "3a60bde76de626d46d5ae0328ba05f3978384c1dea89a3625e85da6c7e7b5fd1"
+  },
+  {
+    "props": {
+      "name": "fa-tower-cell"
+    },
+    "sha256": "ded92f8e7d993856d207e02d0ae6c72c27d946e0067a645a968e40737ec1531a"
+  },
+  {
+    "props": {
+      "name": "fa-tower-cell text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "d27bcccbc6dc710a2199765799ce7c6c06ec2aeaab06558cdb30c6d088533c05"
+  },
+  {
+    "props": {
+      "className": "fa-tower-cell text-3xl fa-spin"
+    },
+    "sha256": "1dae48910aacefd65a0407e725c88529b481300af56a926ffb56439e76365427"
+  },
+  {
+    "props": {
+      "name": "fa-shirt"
+    },
+    "sha256": "ddb05038018a6fe21ae4fab6cfaadaf0ca43f92633c4fbac91476bc137d71769"
+  },
+  {
+    "props": {
+      "name": "fa-shirt text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "47bf9af5ac2673cf3cf8fdeccf471af8051ed243ca200e1b2e13902a49a59eb2"
+  },
+  {
+    "props": {
+      "className": "fa-shirt text-3xl fa-spin"
+    },
+    "sha256": "253d29d922be74c83b991884e2555d59315a36ab33a78493e7fea5d723cc6bbf"
+  },
+  {
+    "props": {
+      "name": "fa-dna"
+    },
+    "sha256": "8ff8fbd5da7718982be23b421013f1d6696c807b60784819474ca98bc5729050"
+  },
+  {
+    "props": {
+      "name": "fa-dna text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "32ebbbf3237934d52dac80ee39e9a0ebeb82e7a15f05b733bb15c488c329f2e7"
+  },
+  {
+    "props": {
+      "className": "fa-dna text-3xl fa-spin"
+    },
+    "sha256": "6742b88855ec668d2fa93385c66b1f926c1e06a2bf2648aef8ad2c95cd966083"
+  },
+  {
+    "props": {
+      "name": "fa-heart"
+    },
+    "sha256": "b9308cc4298f2c9499c44718774360dad5a25c356f93dffa931540826d5d2a52"
+  },
+  {
+    "props": {
+      "name": "fa-heart text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "0a0ecab02a1db55b90c3ab7ca2b3f51e95891511b4382e391f480b7f2cc236d4"
+  },
+  {
+    "props": {
+      "className": "fa-heart text-3xl fa-spin"
+    },
+    "sha256": "62c9f80849b01fec792aa2508cff52f7c7eb7c05efeb994562662e5c890503c0"
+  },
+  {
+    "props": {
+      "name": "fa-hand-fist"
+    },
+    "sha256": "440275c113daf6f2c128d10d6e5c2652a21b77792e9537492388b17f7b84a349"
+  },
+  {
+    "props": {
+      "name": "fa-hand-fist text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "d1f2b8bbbbdf62d8266cc50ab7ec8fbab8048ddb84b54f931814469e2f5db4e3"
+  },
+  {
+    "props": {
+      "className": "fa-hand-fist text-3xl fa-spin"
+    },
+    "sha256": "33b5a83dff3bdc6923ca5f8f1611b1dab100ba057cf3546917f0e0914776fc39"
+  },
+  {
+    "props": {
+      "name": "fa-shield"
+    },
+    "sha256": "5bfdee59fa57c0bf3d37c9f6a57030efbc0c1854e71b8dc5d7cf6d6cd898e08d"
+  },
+  {
+    "props": {
+      "name": "fa-shield text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "474327d2d538da8d7ac096d31f280ae3aa5dc1228c51d7d8ea52ef1fcb9daffd"
+  },
+  {
+    "props": {
+      "className": "fa-shield text-3xl fa-spin"
+    },
+    "sha256": "a9583e9ce8748cfb3bce77bdb2532bb876889c3d403930893eb50ab2bf16429e"
+  },
+  {
+    "props": {
+      "name": "fa-shield-halved"
+    },
+    "sha256": "0146157c901561d3c10ec7ffd9a632e797b1884a66d3e3375e5b3b79bc6433dd"
+  },
+  {
+    "props": {
+      "name": "fa-shield-halved text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "75598b6bc49df30ac0d3ba9955907c40f75760d274e4c2a6ce03588a308df6c0"
+  },
+  {
+    "props": {
+      "className": "fa-shield-halved text-3xl fa-spin"
+    },
+    "sha256": "c800478cb3043ef248d98bda60540c8a8ff3c9a896e933701786f8b771f2e0c6"
+  },
+  {
+    "props": {
+      "name": "fa-sparkles"
+    },
+    "sha256": "5294c5722c4a8a1df56a4a82ac0f9ffc3f9aece262a8c0b45330a38b946c1d34"
+  },
+  {
+    "props": {
+      "name": "fa-sparkles text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "db83fee6e6f99c5ac68c3b3b329686fcc33c20ba2469c09e2a7b1035d3dd4c12"
+  },
+  {
+    "props": {
+      "className": "fa-sparkles text-3xl fa-spin"
+    },
+    "sha256": "6845d42fe207b2ec1d28f6c6fe5000ffefb453abd99684ed69a682a26200412c"
+  },
+  {
+    "props": {
+      "name": "fa-fire"
+    },
+    "sha256": "b1851a3f08a97ec63e00bbcc32bc13970788bd2205f09641afada044e8eaf5ef"
+  },
+  {
+    "props": {
+      "name": "fa-fire text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "b507e3821861fb8543cd035616184089276da1cfee8b05c116a8ce8703e39b70"
+  },
+  {
+    "props": {
+      "className": "fa-fire text-3xl fa-spin"
+    },
+    "sha256": "6376de6a0e009d8044d3e2f3cbd7d2041d99e6dc380e24ccd71c5791128e47e3"
+  },
+  {
+    "props": {
+      "name": "fa-shield-cat"
+    },
+    "sha256": "3f04fad4181dc952552c56a68efa0e4723ca74189b4727474c946b5b4bea27f0"
+  },
+  {
+    "props": {
+      "name": "fa-shield-cat text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "447b5de96e059218d8a0e7b274f99ff934896a7392dc716181497aa873fc3840"
+  },
+  {
+    "props": {
+      "className": "fa-shield-cat text-3xl fa-spin"
+    },
+    "sha256": "8fe9fc3b46fbab0c7a626acf75a14b472ffce24e8f14347677d51df24e646b9b"
+  },
+  {
+    "props": {
+      "name": "fa-ruler-vertical"
+    },
+    "sha256": "0a9a296dc4b00707774f033faaeec69f5ab41b62c12bfd08d2396eac2f19af69"
+  },
+  {
+    "props": {
+      "name": "fa-ruler-vertical text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "0632ec013615caedf82297c869685543d63583663b4a5818622956b39020d79e"
+  },
+  {
+    "props": {
+      "className": "fa-ruler-vertical text-3xl fa-spin"
+    },
+    "sha256": "1f48903c22545ebc5cccb50ec34b905600d574a2c706f2bb955cdca83747d8fd"
+  },
+  {
+    "props": {
+      "name": "fa-tape"
+    },
+    "sha256": "51326bbc1b65022131f190181bcb6a93392fbb6ccb545413c3b46d6583902209"
+  },
+  {
+    "props": {
+      "name": "fa-tape text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "0f2d413d9d5ec347ca4494ab0279f07cd398e2fb9bcc5b0f2f7645f0deca4a74"
+  },
+  {
+    "props": {
+      "className": "fa-tape text-3xl fa-spin"
+    },
+    "sha256": "4128a9bb5d741ee5dcd0b0bc85da5950eda63033b07bd114846f9f8326429297"
+  },
+  {
+    "props": {
+      "name": "fa-universal-access"
+    },
+    "sha256": "54a03856952e81576f2d08ae6c084664cc98f47a0e9abaf8284cef251f7ac627"
+  },
+  {
+    "props": {
+      "name": "fa-universal-access text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "454a7c0177dd1e1fb902cac3e5b1edc91b0e923f486893f6639d22c66bf98b4d"
+  },
+  {
+    "props": {
+      "className": "fa-universal-access text-3xl fa-spin"
+    },
+    "sha256": "7f203b93154ae7f5f258e085d775ef4cdd6c86981de162e9fb8fef2890c260b9"
+  },
+  {
+    "props": {
+      "name": "fa-language"
+    },
+    "sha256": "f5ce8c926938881b0e7b59066309f467240f9619518ea665efa55c57301b5410"
+  },
+  {
+    "props": {
+      "name": "fa-language text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "7f710d7e577355a9c792193c66b10122cbf839774b458d886805e6ad15728524"
+  },
+  {
+    "props": {
+      "className": "fa-language text-3xl fa-spin"
+    },
+    "sha256": "600b4d3731fe62aa6262030b1e6be9c769838add05537af14c2cb76cc88c1d1e"
+  },
+  {
+    "props": {
+      "name": "fa-satellite-dish"
+    },
+    "sha256": "b1b12316043cb4ad0832809c8b30788fcd48395bac672635f5b013adb2522057"
+  },
+  {
+    "props": {
+      "name": "fa-satellite-dish text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "a1bcd571cf6aa9582e33cd15e3a621290c7313d7e478381847e64991ab6ce581"
+  },
+  {
+    "props": {
+      "className": "fa-satellite-dish text-3xl fa-spin"
+    },
+    "sha256": "ee5b1feaddf250d7cc9704a89e1b14372a747e420da06d9e23e0beddff441c01"
+  },
+  {
+    "props": {
+      "name": "fa-user-tie"
+    },
+    "sha256": "46380791e1c59aefde7a6d8eedfdfffda56e74170335e3ccdfd7c1cb77faf1f4"
+  },
+  {
+    "props": {
+      "name": "fa-user-tie text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ae99a4ff377b6fd52ba3f5daa9727a7f1199c2c4b5f8d5799f2c221840a0988d"
+  },
+  {
+    "props": {
+      "className": "fa-user-tie text-3xl fa-spin"
+    },
+    "sha256": "257c7b32930717494f9005d62ffba2d640090a562e12f80171187c77067202e8"
+  },
+  {
+    "props": {
+      "name": "fa-robot"
+    },
+    "sha256": "c461abc9a6be504edc0f8993e8692fe14bd4b17564b6c933410efd347dae2d8b"
+  },
+  {
+    "props": {
+      "name": "fa-robot text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "420d54e4eefc84a6aca40a1bbf77c98b0236d1a8cdadb95695263876bebf9724"
+  },
+  {
+    "props": {
+      "className": "fa-robot text-3xl fa-spin"
+    },
+    "sha256": "42c8418f9445720b13d88504930b8395075d3189c693cf920eb8fd929f40986d"
+  },
+  {
+    "props": {
+      "name": "fa-comment-slash"
+    },
+    "sha256": "8fb1aa3b4affb9998f964844faf7dafd8f2bff3de1bc7357d47feeb36b7adb15"
+  },
+  {
+    "props": {
+      "name": "fa-comment-slash text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "579b998011113f73ae70f312b48a4bbe148f3d2d87f7bb2fb67010205ad9475b"
+  },
+  {
+    "props": {
+      "className": "fa-comment-slash text-3xl fa-spin"
+    },
+    "sha256": "12d0fb68d0ba4078b0a01d5759f449fd4c9fcfb5ce098409e04834e6d5d7ac60"
+  },
+  {
+    "props": {
+      "name": "fa-paper-plane"
+    },
+    "sha256": "517ddac4c1f7b90168cea95645cb18f17ece8f1f43f1da57036bc7c5d12fae7a"
+  },
+  {
+    "props": {
+      "name": "fa-paper-plane text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c448dd8512a41570f5ef2ea6322393c7b67113f1c644500a5d7a1d72c6cc3fe9"
+  },
+  {
+    "props": {
+      "className": "fa-paper-plane text-3xl fa-spin"
+    },
+    "sha256": "0efd3f24c44b2945a175939b6e356a558fd2ec9a4812dbc87c56980748112cb4"
+  },
+  {
+    "props": {
+      "name": "fa-trash"
+    },
+    "sha256": "22ce9854232471ee919c88b4c64c3c73999d2d98f6757cb4e628208c84a6122a"
+  },
+  {
+    "props": {
+      "name": "fa-trash text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "7a2c2305998029110cf9face74757257c483c1edafe2fa54aeb635b8a245108d"
+  },
+  {
+    "props": {
+      "className": "fa-trash text-3xl fa-spin"
+    },
+    "sha256": "7a9b85fd8b60da09233a383e6ceb8ae0383f6d171263652dcbcd609a8ec7d9a8"
+  },
+  {
+    "props": {
+      "name": "fa-recycle"
+    },
+    "sha256": "8374ca86fc432c6d5b613b470a4cec7d0cbde6266ca09f3fdcc29f8c41fb2a51"
+  },
+  {
+    "props": {
+      "name": "fa-recycle text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ea130c7b8b3b11a44f9f0fc41041d5bad76af3de5959a02cd5a7450271d7b287"
+  },
+  {
+    "props": {
+      "className": "fa-recycle text-3xl fa-spin"
+    },
+    "sha256": "780d07813ed34bbb333a045c4c079c48c099d9fa0ae346a6bb22f358956a20d4"
+  },
+  {
+    "props": {
+      "name": "fa-gamepad"
+    },
+    "sha256": "6e2168ec3d5b247f252ba1f94ea597fb03669268968a4d17adf61e5c3adc7493"
+  },
+  {
+    "props": {
+      "name": "fa-gamepad text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "dc72c30b401a7f92219bf08205b13d4290f6f7760c5f7a9ef5b143ddf7960b3b"
+  },
+  {
+    "props": {
+      "className": "fa-gamepad text-3xl fa-spin"
+    },
+    "sha256": "e049ecd3e894b60ed7bcbc4b6fe5a932290e5a902cd85faf1ad3578a70870e70"
+  },
+  {
+    "props": {
+      "name": "fa-radar"
+    },
+    "sha256": "80afd1e0680ec0ede9297757dbd8249892f2ecaa414b6400d4c4dad7f6fc9598"
+  },
+  {
+    "props": {
+      "name": "fa-radar text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "5064ed19a559d68ec92c710c8d5de3fc72e8e68d344da60920566f228d0c6eb9"
+  },
+  {
+    "props": {
+      "className": "fa-radar text-3xl fa-spin"
+    },
+    "sha256": "296ba9d33127bb914cf22ee18a766351a33804add371f03baebf6068db8e1332"
+  },
+  {
+    "props": {
+      "name": "fa-crosshairs"
+    },
+    "sha256": "4d5a66e96d344a05388d36cdb497761e5b0ade0ee14ee03b1fe1b222d5c2437f"
+  },
+  {
+    "props": {
+      "name": "fa-crosshairs text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ac1d70b0ce6bbe8991995c5359cf0d8c7fd1d8217098529f345b1738376088e6"
+  },
+  {
+    "props": {
+      "className": "fa-crosshairs text-3xl fa-spin"
+    },
+    "sha256": "22364124bd5658b5cc3b98c6106e0cde890605260ba8191e4c7207dd41aa20a1"
+  },
+  {
+    "props": {
+      "name": "fa-shop"
+    },
+    "sha256": "959b645489a9505b090853604c63be4298e07d883cd47d6f2dbb801df9004749"
+  },
+  {
+    "props": {
+      "name": "fa-shop text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8e521eed343b2ef185dc683165577c3bda46cc4853feb41667c7cbb6de2cc188"
+  },
+  {
+    "props": {
+      "className": "fa-shop text-3xl fa-spin"
+    },
+    "sha256": "fa2ccffb434c8e121509e7b2463f81fc70fcfe74d25bfc563a99e1de86085bac"
+  },
+  {
+    "props": {
+      "name": "fa-droplet"
+    },
+    "sha256": "b680aa73ba2524a959d4f3349a4c346e809da9a67da12065e89ad49662eaa6d8"
+  },
+  {
+    "props": {
+      "name": "fa-droplet text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "84482763d7408ca66c18eb057dc5b3661e63a4793fdac6df9b94423fd465a9c9"
+  },
+  {
+    "props": {
+      "className": "fa-droplet text-3xl fa-spin"
+    },
+    "sha256": "bda67c4f485597b0db61fffa1cad9a4ab3868f28b16dcce4eb03e1ee1dcdb75c"
+  },
+  {
+    "props": {
+      "name": "fa-wind"
+    },
+    "sha256": "7f0c94f2b0c73c2f50cadefdfc58f27e0e833e61d0e00b2580e01499dd186864"
+  },
+  {
+    "props": {
+      "name": "fa-wind text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "4baed040a1a671bc2cc6af6a101c517e3852cd60c7c6f853232031cc64930279"
+  },
+  {
+    "props": {
+      "className": "fa-wind text-3xl fa-spin"
+    },
+    "sha256": "1a1e4be275b3632329964e9ce2fb5eef43fe2476c02cec0f3cf146f49623c869"
+  },
+  {
+    "props": {
+      "name": "fa-mountain"
+    },
+    "sha256": "fb2e48d9effcd5c5218c8bbe076f427b17c6f2289df5e668a46f197b296e83af"
+  },
+  {
+    "props": {
+      "name": "fa-mountain text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "b64bfe97d020aabedf209d635d035092a7cd03274e536b7bf661ef1bd96777fa"
+  },
+  {
+    "props": {
+      "className": "fa-mountain text-3xl fa-spin"
+    },
+    "sha256": "79e9c9c71302f2daeb9543ce094c5413d6ccfc1d17b32e91c761d9e15bb6f48a"
+  },
+  {
+    "props": {
+      "name": "fa-image"
+    },
+    "sha256": "5441f0a921fd8db772ac0964fb56716f355c860a518891d8456389d588b45e09"
+  },
+  {
+    "props": {
+      "name": "fa-image text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "7b3456326f40607b63605b34e0a6ed67721c23fbb0048b2e42034393f78caaef"
+  },
+  {
+    "props": {
+      "className": "fa-image text-3xl fa-spin"
+    },
+    "sha256": "d8cf5c410e7d72a4adc789bd7cab14bc20dcdd6f7eb4021fe40e23ec90bcf7be"
+  },
+  {
+    "props": {
+      "name": "fa-camera"
+    },
+    "sha256": "9deb2bda7a60bac1e1ae9f22ee3616dec270331234bcefb09fad642f10fd5c3a"
+  },
+  {
+    "props": {
+      "name": "fa-camera text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "bf2c9bd46f98a6a11cbeb7086c49f814b5b08a8d5c7e42325bebbfc7bbf0b65b"
+  },
+  {
+    "props": {
+      "className": "fa-camera text-3xl fa-spin"
+    },
+    "sha256": "e00cf455e93eb0ba57b7c46327f338c485c28da4d32372a26ce39363ac6ca319"
+  },
+  {
+    "props": {
+      "name": "fa-solid"
+    },
+    "sha256": "473037670c505e1bf0bfa5bbf3eb66b6c5b4ded81a64003124b37f0ca7ca9b9c"
+  },
+  {
+    "props": {
+      "name": "fa-solid text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "2b69867eafa90f2adba85c31c78573691383eb80213442771c10767faccbdc05"
+  },
+  {
+    "props": {
+      "className": "fa-solid text-3xl fa-spin"
+    },
+    "sha256": "43c7a0bc9645d901037fd037296ef33f7997207cdf2854691714711567458e4e"
+  },
+  {
+    "props": {
+      "name": "fa-code-merge"
+    },
+    "sha256": "a75bbc96ef813fda09034e6c87cedf036983f2ef07521da4ef6afb55b1f2f37b"
+  },
+  {
+    "props": {
+      "name": "fa-code-merge text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "16e9aa28916f24a6760388d53a99fe6952d758abd2ae310938df695c31a927c0"
+  },
+  {
+    "props": {
+      "className": "fa-code-merge text-3xl fa-spin"
+    },
+    "sha256": "cba23f4d021e98c563da1b5ecb71afb3de1ac7b85de946cc865991ddf8406d7e"
+  },
+  {
+    "props": {
+      "name": "fa-burst"
+    },
+    "sha256": "86d1773f0c9817390e01f798277766286d27d8a4b8699deaa1525cbcc60b8763"
+  },
+  {
+    "props": {
+      "name": "fa-burst text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8d9385cecac7b41b07d552544947fa89566d64ae54860c4f225b43ec0872e405"
+  },
+  {
+    "props": {
+      "className": "fa-burst text-3xl fa-spin"
+    },
+    "sha256": "a76994a1e3c5b9e00a5e89294700e2d0ff504a73cf0e76ebff3b62148fb73e4c"
+  },
+  {
+    "props": {
+      "name": "fa-microphone"
+    },
+    "sha256": "c1cc21c6c400ffb05c602c62f2ceb731ae67f98427e116b5095cbc275e072d79"
+  },
+  {
+    "props": {
+      "name": "fa-microphone text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "d24ae4b5ecd35a440ae39abdddca9fb4d70b449c275638321ea0fb1031dc9892"
+  },
+  {
+    "props": {
+      "className": "fa-microphone text-3xl fa-spin"
+    },
+    "sha256": "871844b8a289c2e1212dd9dbf3b9b1cf9f7dcd571479b8dd137edf0ef7a2eb53"
+  },
+  {
+    "props": {
+      "name": "fa-cloud-moon"
+    },
+    "sha256": "0ce18552db02cd3a33d83809d7963c1483aefd6873e96d2c39ae713933a0b338"
+  },
+  {
+    "props": {
+      "name": "fa-cloud-moon text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "97229ee9bed51c8e329907dc3ff71a9c09950dc876aba56bb4df14d489b4c475"
+  },
+  {
+    "props": {
+      "className": "fa-cloud-moon text-3xl fa-spin"
+    },
+    "sha256": "1d6834e45f570486d12e2c619808f50d6d2ca3c4c66345d5883a9744bfb6eb2f"
+  },
+  {
+    "props": {
+      "name": "fa-skull"
+    },
+    "sha256": "14eef0095edc9bac0c3f52ec0c992e1c91398c39fe5d4a7bd67a2c88b084ac13"
+  },
+  {
+    "props": {
+      "name": "fa-skull text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "66ba76f1c383e50f06699baf906e3bbd3df48ab3d3513073537a41a7ab924743"
+  },
+  {
+    "props": {
+      "className": "fa-skull text-3xl fa-spin"
+    },
+    "sha256": "0ef863ca4522ecdffbe2d84ab98a470f79614ca50029f362f14c698c2b73ce8c"
+  },
+  {
+    "props": {
+      "name": "fa-link"
+    },
+    "sha256": "431713724128608efd5840b658673957b53f46712c74ddb0811cdda2fc360452"
+  },
+  {
+    "props": {
+      "name": "fa-link text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "277940a386c93f885e29f0116f19caf482e6e35f8a055d2827a7f62aea4b9b7c"
+  },
+  {
+    "props": {
+      "className": "fa-link text-3xl fa-spin"
+    },
+    "sha256": "8371b90165ed201b51e0830927fe278cc0dc817081dbdd34a9a7a150460a8ce3"
+  },
+  {
+    "props": {
+      "name": "fa-satellite"
+    },
+    "sha256": "fd4341b1d951231e2fb4fc217509fcd6198ac55d09eec6de01a47486318b4ad4"
+  },
+  {
+    "props": {
+      "name": "fa-satellite text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "6a06ad371dcd6a0126ac89c0c2fedcb11b1e38bcd8a9f070f874297b66cd185b"
+  },
+  {
+    "props": {
+      "className": "fa-satellite text-3xl fa-spin"
+    },
+    "sha256": "60d8ada18c7155f8854943f4c03c53f09e1b13143145b955307ebc48d0151495"
+  },
+  {
+    "props": {
+      "name": "fa-coins"
+    },
+    "sha256": "1290fe3a012d028e64ba050e7f64702b2cffbb3803e08b0bfff3257fd421dc4c"
+  },
+  {
+    "props": {
+      "name": "fa-coins text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "9eb7f9876dd72a235bd67891da17d3adde0dfda21fc561175427ac778da07577"
+  },
+  {
+    "props": {
+      "className": "fa-coins text-3xl fa-spin"
+    },
+    "sha256": "e30d9fb84ffe51b5ade3d52f6d8a2d9d81b6d522587b6beab57aca7e0350f2f9"
+  },
+  {
+    "props": {
+      "name": "fa-kit-medical"
+    },
+    "sha256": "7ae118eb7b4f8fc46dcdc21074d55fab989ba0766fb8338be7cfe4650b2929a6"
+  },
+  {
+    "props": {
+      "name": "fa-kit-medical text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c26cff8a92c923e4879f0cd0bb36be7df5f8a88d0649072c7a44511d94cf5ac6"
+  },
+  {
+    "props": {
+      "className": "fa-kit-medical text-3xl fa-spin"
+    },
+    "sha256": "052c3fc76b77d32c220c3f6cbf12148d80b42b47dd5feb9c39ebe21f096a57fb"
+  },
+  {
+    "props": {
+      "name": "fa-forward-fast"
+    },
+    "sha256": "32104c4da2a98c8ac5924d8151e2b99e877e122dedd354a35eb0ae01ec79af00"
+  },
+  {
+    "props": {
+      "name": "fa-forward-fast text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c20097963a8f80e2fe707399804e22e04f2f34ca2a1261b957f7fe18ea57da2b"
+  },
+  {
+    "props": {
+      "className": "fa-forward-fast text-3xl fa-spin"
+    },
+    "sha256": "f73042c8044b8b2343733bbcdb2dd8ecb522a52f93ce66ff866e6a9e8061c873"
+  },
+  {
+    "props": {
+      "name": "fa-spinner"
+    },
+    "sha256": "631e650ced56d0103e62110e694db89562b904bcb230c383bfbc700734ae7cad"
+  },
+  {
+    "props": {
+      "name": "fa-spinner text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8316e7d863b086a3be650a7ab0eb226f000d15c10f901007ed8f935069ccd777"
+  },
+  {
+    "props": {
+      "className": "fa-spinner text-3xl fa-spin"
+    },
+    "sha256": "e0a76f39e8cdceffa76664064af0a1d622255a2d1ced07df4bc5e456990bd94a"
+  },
+  {
+    "props": {
+      "name": "fa-clock-rotate-left"
+    },
+    "sha256": "ae7b8d31d07e2a959e18219fae3c12db874628bb7a2b84e0f1b345e430acb993"
+  },
+  {
+    "props": {
+      "name": "fa-clock-rotate-left text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ac66a3bd2bd84a9ae510d820902cb6c5b9fb8269e4c4d01369ec828dbe577a10"
+  },
+  {
+    "props": {
+      "className": "fa-clock-rotate-left text-3xl fa-spin"
+    },
+    "sha256": "5df01b37ab10613cb54460dc93f7a8b8d327260f6797ed1173f97a0c732b34eb"
+  },
+  {
+    "props": {
+      "name": "fa-leaf"
+    },
+    "sha256": "7f155fb899d319e48975d163a9af57a2b292de427fd6e1cc6e11801202c2eaa8"
+  },
+  {
+    "props": {
+      "name": "fa-leaf text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8bca6464c3848848bb1d4c5b4da152e36171212a0c358366db3e025ee6e9ace2"
+  },
+  {
+    "props": {
+      "className": "fa-leaf text-3xl fa-spin"
+    },
+    "sha256": "4e8e4a89c0b5385ed7af7d1c48b881319d05363e181a62146793ba0c4e68b801"
+  },
+  {
+    "props": {
+      "name": "fa-trash-can"
+    },
+    "sha256": "22ce9854232471ee919c88b4c64c3c73999d2d98f6757cb4e628208c84a6122a"
+  },
+  {
+    "props": {
+      "name": "fa-trash-can text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "7a2c2305998029110cf9face74757257c483c1edafe2fa54aeb635b8a245108d"
+  },
+  {
+    "props": {
+      "className": "fa-trash-can text-3xl fa-spin"
+    },
+    "sha256": "6c0ac2524f4adb56a684f1bb09e2754243ee121a9788a63f134bb052df0553e1"
+  },
+  {
+    "props": {
+      "name": "fa-gauge-high"
+    },
+    "sha256": "b08acca8378b9e190ab2181c67b5f32bde6de486151fd2ad976453d3b56566c3"
+  },
+  {
+    "props": {
+      "name": "fa-gauge-high text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "2645518b93dda3f26e3a7e0213b69c41fd0608e73cbb709be6858e18a82d470f"
+  },
+  {
+    "props": {
+      "className": "fa-gauge-high text-3xl fa-spin"
+    },
+    "sha256": "a6e238601dd98500709ea733d6b1e140a7fbb039b4115477bc521f664d22a110"
+  },
+  {
+    "props": {
+      "name": "fa-wand-magic-sparkles"
+    },
+    "sha256": "5b78b81f48edd37873ec4ee71a0d1e099a6eea12b914ee21e9e6bd59d60058c7"
+  },
+  {
+    "props": {
+      "name": "fa-wand-magic-sparkles text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "80f9c68a6de90972a0b1f26943bd9c2dc7de83f8cd382cd51d78954f981916b1"
+  },
+  {
+    "props": {
+      "className": "fa-wand-magic-sparkles text-3xl fa-spin"
+    },
+    "sha256": "017456043250fd91a43e03ed234a8dbf3f76c5b1c56bf0d2b86a39f8fa8aef43"
+  },
+  {
+    "props": {
+      "name": "fa-plus"
+    },
+    "sha256": "f30c96668fc2bc8d0b4cdbdd7c385c2a50398cab440b663d3db42526183f7098"
+  },
+  {
+    "props": {
+      "name": "fa-plus text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "458a55a446844d066122262e60771a6a9f290087d71b77c197bb052c2465fcf0"
+  },
+  {
+    "props": {
+      "className": "fa-plus text-3xl fa-spin"
+    },
+    "sha256": "b78480087fc7da1a9a10ae42cdda4a60878b4981a58d305878ac7e25f672cf24"
+  },
+  {
+    "props": {
+      "name": "fa-square-minus"
+    },
+    "sha256": "bceb9697e5d31b5e4b9fdb7f6e1e69a304506da872f97f52346f982e9e9eea21"
+  },
+  {
+    "props": {
+      "name": "fa-square-minus text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "b46788df8b3c0a20a0161f51fba7df2fa13064178ab4bdb08c33af3f554460fa"
+  },
+  {
+    "props": {
+      "className": "fa-square-minus text-3xl fa-spin"
+    },
+    "sha256": "76c4ca04ca513a3dc8e8d17921ba52b09bbc7ac01b9be53628e125b944423d16"
+  },
+  {
+    "props": {
+      "name": "fa-book-atlas"
+    },
+    "sha256": "76a510198efffab5cb04578655b439f6086bc948f8c5aa14d8e987cceb07e767"
+  },
+  {
+    "props": {
+      "name": "fa-book-atlas text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "a95346e11f767bd34e7c821f8b6d95f2edd152ea63eb48fe268fc4c02cdcfeab"
+  },
+  {
+    "props": {
+      "className": "fa-book-atlas text-3xl fa-spin"
+    },
+    "sha256": "c61c93976327f7965f65bb96062eb98e73d9b8749152c4d2792d1b0775bffe66"
+  },
+  {
+    "props": {
+      "name": "fa-arrow-right"
+    },
+    "sha256": "5376bce33c5580bd5d79ae50f4f14c2ac272bd3f00c87ac3a3d0f6ea9e074c42"
+  },
+  {
+    "props": {
+      "name": "fa-arrow-right text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c7d034063b533bec5da7f017e4e086c2ada9ff80b02e349c1c79e26507905c91"
+  },
+  {
+    "props": {
+      "className": "fa-arrow-right text-3xl fa-spin"
+    },
+    "sha256": "c4b2a3fd123820d597eab47490f9248a91ed4e2928cbe1def31cd92239eb79be"
+  },
+  {
+    "props": {
+      "name": "fa-zap"
+    },
+    "sha256": "86d1773f0c9817390e01f798277766286d27d8a4b8699deaa1525cbcc60b8763"
+  },
+  {
+    "props": {
+      "name": "fa-zap text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8d9385cecac7b41b07d552544947fa89566d64ae54860c4f225b43ec0872e405"
+  },
+  {
+    "props": {
+      "className": "fa-zap text-3xl fa-spin"
+    },
+    "sha256": "00c3efcfe7cba0e5df666eaf5b3d55dc1131d53d123dcb1d2da3fc019e633715"
+  },
+  {
+    "props": {
+      "name": "fa-chess-knight"
+    },
+    "sha256": "fe64152da2141fd422f88ade6b704bc7a68c92871f35268906eb4161169d38e2"
+  },
+  {
+    "props": {
+      "name": "fa-chess-knight text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "becfb14ef0cd55bf25b3dade4454bb9282d1d56a573130e262e250922c09e01f"
+  },
+  {
+    "props": {
+      "className": "fa-chess-knight text-3xl fa-spin"
+    },
+    "sha256": "fb2fa6a12aabaac2b2a12cb65a849b646b02f4803ab3ae422f91929765a79ebc"
+  },
+  {
+    "props": {
+      "name": "fa-tint"
+    },
+    "sha256": "b680aa73ba2524a959d4f3349a4c346e809da9a67da12065e89ad49662eaa6d8"
+  },
+  {
+    "props": {
+      "name": "fa-tint text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "84482763d7408ca66c18eb057dc5b3661e63a4793fdac6df9b94423fd465a9c9"
+  },
+  {
+    "props": {
+      "className": "fa-tint text-3xl fa-spin"
+    },
+    "sha256": "5eacd12f6de0fff09a859fd65e162b799a6a595477f37192e18e0efa7b476273"
+  },
+  {
+    "props": {
+      "name": "fa-moon"
+    },
+    "sha256": "7ada5d9c6aa545b523704e74ccec3889ff4732d2112582818e27cd783fe575d0"
+  },
+  {
+    "props": {
+      "name": "fa-moon text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "393b68bfc5df821d9450b35d699a49a5ddbdf2ca4e4adeed06a9fee5c22ebd5d"
+  },
+  {
+    "props": {
+      "className": "fa-moon text-3xl fa-spin"
+    },
+    "sha256": "79472baabd1b4bf9d97103bc863c6eedb17f93c23a9d7c935161fe71bab04d8b"
+  },
+  {
+    "props": {
+      "name": "fa-sword"
+    },
+    "sha256": "434a557885bcdeb042c2c3b5fb86da165777559520d05b6782ccebdd8074f6f2"
+  },
+  {
+    "props": {
+      "name": "fa-sword text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8184c495c2ebd2c839e9822ea3e3dda9c4f46d19b0206ccccfa04fc008d73be2"
+  },
+  {
+    "props": {
+      "className": "fa-sword text-3xl fa-spin"
+    },
+    "sha256": "ac86b77b080917cbf26d4095aec311fba00f0d951830bdf44bab6a61b6048e58"
+  },
+  {
+    "props": {
+      "name": "fa-shield-slash"
+    },
+    "sha256": "5bfdee59fa57c0bf3d37c9f6a57030efbc0c1854e71b8dc5d7cf6d6cd898e08d"
+  },
+  {
+    "props": {
+      "name": "fa-shield-slash text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "474327d2d538da8d7ac096d31f280ae3aa5dc1228c51d7d8ea52ef1fcb9daffd"
+  },
+  {
+    "props": {
+      "className": "fa-shield-slash text-3xl fa-spin"
+    },
+    "sha256": "994c539fdb3e2f23042c3a398f90293f4f45da7c2968424bc3eb2649aa5ba9bc"
+  },
+  {
+    "props": {
+      "name": "fa-question"
+    },
+    "sha256": "473037670c505e1bf0bfa5bbf3eb66b6c5b4ded81a64003124b37f0ca7ca9b9c"
+  },
+  {
+    "props": {
+      "name": "fa-question text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "2b69867eafa90f2adba85c31c78573691383eb80213442771c10767faccbdc05"
+  },
+  {
+    "props": {
+      "className": "fa-question text-3xl fa-spin"
+    },
+    "sha256": "597b038ff4209bc71d98227ec7b34153f2c680cae4301bcd908d2e7c61f7cc87"
+  },
+  {
+    "props": {
+      "name": "fa-hand-holding-heart"
+    },
+    "sha256": "5a6f6ac41173ef9112f2ce36d48515ad01137aea49206cb8d1effeb92d7dc919"
+  },
+  {
+    "props": {
+      "name": "fa-hand-holding-heart text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8869236ea04dc3b971370f6d1c823e1edab325259318026b3b975c167c8c78d7"
+  },
+  {
+    "props": {
+      "className": "fa-hand-holding-heart text-3xl fa-spin"
+    },
+    "sha256": "6c01cd016d7b82b685c8cfd5308b6b58fa868416b23c640d7b8363ab42bbdb6d"
+  },
+  {
+    "props": {
+      "name": "fa-ghost"
+    },
+    "sha256": "c544f4f9b3f117935fc9f75b2abf2b7fa0ef7a9440c20d32ea82650ca613db8d"
+  },
+  {
+    "props": {
+      "name": "fa-ghost text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "246361b160f72faf08f583a480a27a8960e8f0587bf8fca376e05531ca96d6c1"
+  },
+  {
+    "props": {
+      "className": "fa-ghost text-3xl fa-spin"
+    },
+    "sha256": "3a6cab57a779ea128db95ff8c15705c5f6eb2d5db8689b8b7317fe8af2b659e3"
+  },
+  {
+    "props": {
+      "name": "fa-star"
+    },
+    "sha256": "a47c81315f1ac0da64704435b6d795097d694fceafc25b8d395c938952bb47d5"
+  },
+  {
+    "props": {
+      "name": "fa-star text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "869f0c3bec2948747ae98bacef92f05ad04598af1bdf3bcff3c8600fdacf14dc"
+  },
+  {
+    "props": {
+      "className": "fa-star text-3xl fa-spin"
+    },
+    "sha256": "afe8c11bfeb7294ed93fdb716b6f55ceb0ba84cc61eb86334d68514e83b02d84"
+  },
+  {
+    "props": {
+      "name": "fa-snowflake"
+    },
+    "sha256": "1189a683891785038f05489525103d77214d07afc707656424363da42c1abd6d"
+  },
+  {
+    "props": {
+      "name": "fa-snowflake text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "f6f1cac722237fb30d83017f9604ad7d1a6254623a2116bf25c61d0a37d27a5b"
+  },
+  {
+    "props": {
+      "className": "fa-snowflake text-3xl fa-spin"
+    },
+    "sha256": "b68d03416f7a10d9eee5c4ea81beea6d8c5a1f527f705337be61ab3c6a5e9cc7"
+  },
+  {
+    "props": {
+      "name": "fa-cloud-bolt"
+    },
+    "sha256": "783bebfb69c9f8d574ad0d66cd69c38cfc4dc1891175189770a86a7a81908bf2"
+  },
+  {
+    "props": {
+      "name": "fa-cloud-bolt text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "b30eaacef259fe90a3e4cccaf78bde3ba7c3a6035ab95025fbb3dd9ae1f27d30"
+  },
+  {
+    "props": {
+      "className": "fa-cloud-bolt text-3xl fa-spin"
+    },
+    "sha256": "1e3195709ff972c2ae595b709320d245f1178f254e7976c126f33b3aeca8c898"
+  },
+  {
+    "props": {
+      "name": "fa-arrow-right-to-bracket"
+    },
+    "sha256": "4d5a66e96d344a05388d36cdb497761e5b0ade0ee14ee03b1fe1b222d5c2437f"
+  },
+  {
+    "props": {
+      "name": "fa-arrow-right-to-bracket text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ac1d70b0ce6bbe8991995c5359cf0d8c7fd1d8217098529f345b1738376088e6"
+  },
+  {
+    "props": {
+      "className": "fa-arrow-right-to-bracket text-3xl fa-spin"
+    },
+    "sha256": "ab5bf567472e6c0c981e1a55e7fa708b848fb0a21d9b479bc41d3498c10976b1"
+  },
+  {
+    "props": {
+      "name": "fa-camera-retro"
+    },
+    "sha256": "9deb2bda7a60bac1e1ae9f22ee3616dec270331234bcefb09fad642f10fd5c3a"
+  },
+  {
+    "props": {
+      "name": "fa-camera-retro text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "bf2c9bd46f98a6a11cbeb7086c49f814b5b08a8d5c7e42325bebbfc7bbf0b65b"
+  },
+  {
+    "props": {
+      "className": "fa-camera-retro text-3xl fa-spin"
+    },
+    "sha256": "4d1b55910c386c9fa86ace7e8aa5023743f544b5d001d0f9b8cbf44d3bb729cd"
+  },
+  {
+    "props": {
+      "name": "fa-circle-half-stroke"
+    },
+    "sha256": "c3142c8bcaa9649acc4b8616c7169a6c56faebdf51d900ceefee5ea3aa62d40f"
+  },
+  {
+    "props": {
+      "name": "fa-circle-half-stroke text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c7f8d4c3ff25280209bd5f2807ccfa0eb9f9f585d2e198153a8c15ce11f50ac9"
+  },
+  {
+    "props": {
+      "className": "fa-circle-half-stroke text-3xl fa-spin"
+    },
+    "sha256": "ecd7f63426b9842f83e230350687ee1f03b0d01419ca7c611d6ae660955bed36"
+  },
+  {
+    "props": {
+      "name": "fa-panorama"
+    },
+    "sha256": "5441f0a921fd8db772ac0964fb56716f355c860a518891d8456389d588b45e09"
+  },
+  {
+    "props": {
+      "name": "fa-panorama text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "7b3456326f40607b63605b34e0a6ed67721c23fbb0048b2e42034393f78caaef"
+  },
+  {
+    "props": {
+      "className": "fa-panorama text-3xl fa-spin"
+    },
+    "sha256": "2257a53715e8e4d84f52b896d7248b55203332c764af2ab7d0baf1b9fc66014a"
+  },
+  {
+    "props": {
+      "name": "fa-video"
+    },
+    "sha256": "0d8a29c9e168a0cd33cf41e90914ba104094348d9609af265a7b9af40b686cca"
+  },
+  {
+    "props": {
+      "name": "fa-video text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "9bcff15bddfd281ec79ac80dcbd2ddd7ac045c3123b3fe5af47037a027e1115c"
+  },
+  {
+    "props": {
+      "className": "fa-video text-3xl fa-spin"
+    },
+    "sha256": "500cdeeef205bee97180542d7f5ce6fe93844ad55a8864ca41a2dd529f9607e9"
+  },
+  {
+    "props": {
+      "name": "fa-ring"
+    },
+    "sha256": "b2cc945c500d366e697dae7fe7f8cce53afeed902f8535047a01ddb6ebcf5d04"
+  },
+  {
+    "props": {
+      "name": "fa-ring text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "094f99ea4b373bb2d59b96995cc7b0489f22b0bba50aa812aa0175dd4342e964"
+  },
+  {
+    "props": {
+      "className": "fa-ring text-3xl fa-spin"
+    },
+    "sha256": "b571e6abb92806bc8ce049f64ccc202636ae43c3a66c16c7c37ce0f0437e801b"
+  },
+  {
+    "props": {
+      "name": "fa-shoe-prints"
+    },
+    "sha256": "ae48d669a60f5707e0819b5bf431b03c7c7037d2fad28ecc1080cff70421998c"
+  },
+  {
+    "props": {
+      "name": "fa-shoe-prints text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "6de93732f8853bcce6fbec47768cc6241dff1f063c59ffcd1ce529ab57a78c79"
+  },
+  {
+    "props": {
+      "className": "fa-shoe-prints text-3xl fa-spin"
+    },
+    "sha256": "0b545297768b7218b3b9be2fddf3f611ab2d21e7c8ec9d337f2d04e0f2ec38a4"
+  },
+  {
+    "props": {
+      "name": "fa-users"
+    },
+    "sha256": "46380791e1c59aefde7a6d8eedfdfffda56e74170335e3ccdfd7c1cb77faf1f4"
+  },
+  {
+    "props": {
+      "name": "fa-users text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ae99a4ff377b6fd52ba3f5daa9727a7f1199c2c4b5f8d5799f2c221840a0988d"
+  },
+  {
+    "props": {
+      "className": "fa-users text-3xl fa-spin"
+    },
+    "sha256": "34a80960be339fd671e8f3c0910b85aebcbb4110c5a745cd8c36dd476c3e3d38"
+  },
+  {
+    "props": {
+      "name": "fa-brain"
+    },
+    "sha256": "bdd749c82ab7b78bf7c775b6d445b7a6d08c659648d21696cdd89442f43058d9"
+  },
+  {
+    "props": {
+      "name": "fa-brain text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c882161a21f1adb4b966a1165d3afc42e8a0cfe441928e321add214b9bc82497"
+  },
+  {
+    "props": {
+      "className": "fa-brain text-3xl fa-spin"
+    },
+    "sha256": "7616c102fa2a9b84caf68572c3ec54f99b3c50323405122d6c792ecbab3ad21f"
+  },
+  {
+    "props": {
+      "name": "fa-cube"
+    },
+    "sha256": "f04a65229f7e9e0da4ce6f5dd7e7d313a65de033fd9d964157f164b3fca95572"
+  },
+  {
+    "props": {
+      "name": "fa-cube text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "7972b66b6e6a3265488ab20497988d80559399861f4af467df50db0b9b700420"
+  },
+  {
+    "props": {
+      "className": "fa-cube text-3xl fa-spin"
+    },
+    "sha256": "1367ce253e6a4fe3738a5b9da64084bd485385b50ff6769d5edf4e6b4b2732ac"
+  },
+  {
+    "props": {
+      "name": "fa-gem"
+    },
+    "sha256": "ee4ef80d8c3c2dcfbbb47679317ee9889947ab288a32bc383e86e8cf547c36d6"
+  },
+  {
+    "props": {
+      "name": "fa-gem text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "cf7df2c8b86829f7886d23f18ebf1a5cc7128103a5a4b53d27e34a57bc5f71cf"
+  },
+  {
+    "props": {
+      "className": "fa-gem text-3xl fa-spin"
+    },
+    "sha256": "4e9168f0b6b50b31d2922aea81f4168ea0fd42cdfefba2097fc682272cb85f9a"
+  },
+  {
+    "props": {
+      "name": "fa-hammer"
+    },
+    "sha256": "8bde8c86d0098295cf1ff65fb15773ea8e044271d661a3cc63a4224f1b991413"
+  },
+  {
+    "props": {
+      "name": "fa-hammer text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "4960c9d10db02733dc7d565494431f345b26cc5fe148a932d71f899edd6c4948"
+  },
+  {
+    "props": {
+      "className": "fa-hammer text-3xl fa-spin"
+    },
+    "sha256": "6f169b5553cb357dbc52bbe3c69f09bfb64e76fbe62ea7d58de6a3e824eaf3a7"
+  },
+  {
+    "props": {
+      "name": "fa-scale-balanced"
+    },
+    "sha256": "28efa594a25da0f9fd62790ea820a2908da063b50734e775d01f21f874ab7a8a"
+  },
+  {
+    "props": {
+      "name": "fa-scale-balanced text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "73f866b111340642d0b1b2e12d2e9273558ea0989c98349df51ec95d20b8d2fa"
+  },
+  {
+    "props": {
+      "className": "fa-scale-balanced text-3xl fa-spin"
+    },
+    "sha256": "d9307907b3739a0fa72f4a011d730e948cd9b925e20b18284703088c9f47f421"
+  },
+  {
+    "props": {
+      "name": "fa-meteor"
+    },
+    "sha256": "b1851a3f08a97ec63e00bbcc32bc13970788bd2205f09641afada044e8eaf5ef"
+  },
+  {
+    "props": {
+      "name": "fa-meteor text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "b507e3821861fb8543cd035616184089276da1cfee8b05c116a8ce8703e39b70"
+  },
+  {
+    "props": {
+      "className": "fa-meteor text-3xl fa-spin"
+    },
+    "sha256": "6dbea6ff76da467249803dbd2b5bc88f28a465cdbd1641c4674166d767dcecd3"
+  },
+  {
+    "props": {
+      "name": "fa-infinity"
+    },
+    "sha256": "e1ad440f8782154372071207ff5d39ece11e51c8617ac811b991d4a3609fd0c6"
+  },
+  {
+    "props": {
+      "name": "fa-infinity text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "80192672ba6239ddcdad71576509a5ca63b627e26cc9747366e23b3d14ab5163"
+  },
+  {
+    "props": {
+      "className": "fa-infinity text-3xl fa-spin"
+    },
+    "sha256": "2dbceea72688221fbbb52dad5160fabfe78617578460207fad0fc6184f7fcc95"
+  },
+  {
+    "props": {
+      "name": "fa-flask"
+    },
+    "sha256": "26da4db71a97f87184c23fc6f98c009885e0190d7a670f0239bc8d6ec0e06620"
+  },
+  {
+    "props": {
+      "name": "fa-flask text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "4cb88d5c7426cb156317375f1f128b4f9a052c77494a4ad45d9f140344ba93bb"
+  },
+  {
+    "props": {
+      "className": "fa-flask text-3xl fa-spin"
+    },
+    "sha256": "58e31cd11dca8113a2241b614ae7f213e9ad70525249dffe3aa9576f28e4187a"
+  },
+  {
+    "props": {
+      "name": "fa-bolt-lightning"
+    },
+    "sha256": "86d1773f0c9817390e01f798277766286d27d8a4b8699deaa1525cbcc60b8763"
+  },
+  {
+    "props": {
+      "name": "fa-bolt-lightning text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8d9385cecac7b41b07d552544947fa89566d64ae54860c4f225b43ec0872e405"
+  },
+  {
+    "props": {
+      "className": "fa-bolt-lightning text-3xl fa-spin"
+    },
+    "sha256": "e5b50eea108beda691019fd4faa0cfc41007d420f687912a03e5b191798a83a0"
+  },
+  {
+    "props": {
+      "name": "fa-box-open"
+    },
+    "sha256": "0c53bbbb57e12c9cc728b749a2c4c9cd7d5a6cd7296e99785d326e46473d8e10"
+  },
+  {
+    "props": {
+      "name": "fa-box-open text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "e3454089b107e2e480439f03c82c3b15a23e85ad32c45201602f4eb69187f056"
+  },
+  {
+    "props": {
+      "className": "fa-box-open text-3xl fa-spin"
+    },
+    "sha256": "c3bf034b3ea76c93026e5013351536b911300850349606dc92f87977d6c44250"
+  },
+  {
+    "props": {
+      "name": "fa-store"
+    },
+    "sha256": "959b645489a9505b090853604c63be4298e07d883cd47d6f2dbb801df9004749"
+  },
+  {
+    "props": {
+      "name": "fa-store text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8e521eed343b2ef185dc683165577c3bda46cc4853feb41667c7cbb6de2cc188"
+  },
+  {
+    "props": {
+      "className": "fa-store text-3xl fa-spin"
+    },
+    "sha256": "663649d91f24fd548fc64a4d71334a28de1b80ab76badd40aa8b4adb626726d8"
+  },
+  {
+    "props": {
+      "name": "fa-exchange-alt"
+    },
+    "sha256": "4d13c97482f4e7e6012ab2fd8751d1a80fe291a9da470f9215dd986e5fcb27b1"
+  },
+  {
+    "props": {
+      "name": "fa-exchange-alt text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c3a963cdabac97f502ef477e396bc9dc6a60a79df0343890cb2c468539b369b2"
+  },
+  {
+    "props": {
+      "className": "fa-exchange-alt text-3xl fa-spin"
+    },
+    "sha256": "d7fd8823da12a071795206bd90688982cdda6d6d29b7ff375b610c6138daa7f0"
+  },
+  {
+    "props": {
+      "name": "fa-caret-down"
+    },
+    "sha256": "096086aa00df62df829d9174bbf47cf592f090c8d790fb1c5e238e5d0afbb194"
+  },
+  {
+    "props": {
+      "name": "fa-caret-down text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "768155da4b7186fee436c650f2c144a6deb79b005e1e85c29fc054a7e5fe05f1"
+  },
+  {
+    "props": {
+      "className": "fa-caret-down text-3xl fa-spin"
+    },
+    "sha256": "1e46252b810532ffc8c5538579e2a42bd0ded261246f7dcfa7b781f0c349add4"
+  },
+  {
+    "props": {
+      "name": "fa-compact-disc"
+    },
+    "sha256": "223b477777809bc2d4945793d8f7a967b8a1a2f61fd1af33f7e3053209ecca77"
+  },
+  {
+    "props": {
+      "name": "fa-compact-disc text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "156eb6ffa6a182ed0748ab92c7c4906dd6da17efc7a234dd9eb3e4d0c3a6d08a"
+  },
+  {
+    "props": {
+      "className": "fa-compact-disc text-3xl fa-spin"
+    },
+    "sha256": "1218aa3d3528009c547207d98f579f541dab72813524f0acbe779933d5194ca9"
+  },
+  {
+    "props": {
+      "name": "fa-microscope"
+    },
+    "sha256": "5347427de473451d2999cad8df18d2c3c9fa9cc2f1b41ef115810566fcfd7c0c"
+  },
+  {
+    "props": {
+      "name": "fa-microscope text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "1cbaf2db56561390361dc822fa79c963990a1ee75811fc2e642a1ffed6cc1d98"
+  },
+  {
+    "props": {
+      "className": "fa-microscope text-3xl fa-spin"
+    },
+    "sha256": "538d3808faebd0af292c63e070117f924894adfa1f600277dfed0e7ae152030f"
+  },
+  {
+    "props": {
+      "name": "fa-terminal"
+    },
+    "sha256": "019f2d78aedcbea60cab3cf552327023ca477192318253426a8856e608eaa37d"
+  },
+  {
+    "props": {
+      "name": "fa-terminal text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "e7e5de9419ea71b6dc600f1577c8b6ecd7583366f8994612c0def651efb92cd2"
+  },
+  {
+    "props": {
+      "className": "fa-terminal text-3xl fa-spin"
+    },
+    "sha256": "ef280a651c8ee65ad8a338a207a76eeec5889c316999c393dd2f2e2f4e077cc6"
+  },
+  {
+    "props": {
+      "name": "fa-code-branch"
+    },
+    "sha256": "a75bbc96ef813fda09034e6c87cedf036983f2ef07521da4ef6afb55b1f2f37b"
+  },
+  {
+    "props": {
+      "name": "fa-code-branch text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "16e9aa28916f24a6760388d53a99fe6952d758abd2ae310938df695c31a927c0"
+  },
+  {
+    "props": {
+      "className": "fa-code-branch text-3xl fa-spin"
+    },
+    "sha256": "b66b59de064c8d3096f4e36b346c28b63815b8fc7e76dfb85f0421eee39fb876"
+  },
+  {
+    "props": {
+      "name": "fa-check-circle"
+    },
+    "sha256": "3f3680a3bf00b487de33b7e99f8d1de84c3605377873a76865f17d7b1da0d019"
+  },
+  {
+    "props": {
+      "name": "fa-check-circle text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "1a999d4f4ca49e9f67b9ef8e4158ae301c3b6faef8a4a445debee55fe43bc9a0"
+  },
+  {
+    "props": {
+      "className": "fa-check-circle text-3xl fa-spin"
+    },
+    "sha256": "c5adc0c6d3799d49e3d883f6f85f490833113440d65e1402b7420dcec9b1bfda"
+  },
+  {
+    "props": {
+      "name": "fa-cloud-rain"
+    },
+    "sha256": "2441c48d35ca2f046ffcb75a5280071a12df057cbd117a1f9927b8c2da88d1f2"
+  },
+  {
+    "props": {
+      "name": "fa-cloud-rain text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ffb2fa3f956e86f3a23cb2e6f78ca64c1ff8199d11cd4bf6f86fc70ccc6e33bb"
+  },
+  {
+    "props": {
+      "className": "fa-cloud-rain text-3xl fa-spin"
+    },
+    "sha256": "fa2fcdb04807cbf8b52a04aa8bdd01f14afb69f6ecb5d81dcf623952a0ae829e"
+  },
+  {
+    "props": {
+      "name": "fa-fire-alt"
+    },
+    "sha256": "b1851a3f08a97ec63e00bbcc32bc13970788bd2205f09641afada044e8eaf5ef"
+  },
+  {
+    "props": {
+      "name": "fa-fire-alt text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "b507e3821861fb8543cd035616184089276da1cfee8b05c116a8ce8703e39b70"
+  },
+  {
+    "props": {
+      "className": "fa-fire-alt text-3xl fa-spin"
+    },
+    "sha256": "064bcc810cab4c706ab86e725bfa4259ac101e93437739c66aeb566256f993a6"
+  },
+  {
+    "props": {
+      "name": "fa-fort-awesome"
+    },
+    "sha256": "c9e583d72a42333655b6564d6328652dbfee9fab626a7703d4e23e4a77ac716f"
+  },
+  {
+    "props": {
+      "name": "fa-fort-awesome text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "00bb67c2ace77e745ecda1b68e084ad3dcb540e414db2ec059099d9b0db5af61"
+  },
+  {
+    "props": {
+      "className": "fa-fort-awesome text-3xl fa-spin"
+    },
+    "sha256": "628e9342687a6bce7696a188e8f3145fd47a271afec8faa0208bbdda27bcac79"
+  },
+  {
+    "props": {
+      "name": "fa-globe"
+    },
+    "sha256": "322471854203246b3885e882f7f8ca42a0dac28d5796512b9ebe78893feee52b"
+  },
+  {
+    "props": {
+      "name": "fa-globe text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "5d2e5b0f339e8627bafcd7095fff7be0ecf3b0bfb5fde6cdaa32cfa54d1c324e"
+  },
+  {
+    "props": {
+      "className": "fa-globe text-3xl fa-spin"
+    },
+    "sha256": "4394fb9d06d167c9c6e01b059c0171424bf3c83c85b6c970697a6c02e1493eb6"
+  },
+  {
+    "props": {
+      "name": "fa-wave-square"
+    },
+    "sha256": "87a14eb43ca3a8c06054570e5a599967761cecbcd7b189711a4027b1d605f5dd"
+  },
+  {
+    "props": {
+      "name": "fa-wave-square text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c33a66b77cb0d530c663a9f1a172f5ee3f620e9dd94bd6e43d1d36f9fe129436"
+  },
+  {
+    "props": {
+      "className": "fa-wave-square text-3xl fa-spin"
+    },
+    "sha256": "0741b2f0885a1e48de122368099407fc07b17914a81927512727e8595021557c"
+  },
+  {
+    "props": {
+      "name": "fa-biohazard"
+    },
+    "sha256": "4367d3d49f975a3fdd9e7b951d1715ccc367dcfd111475ff98f7f5c43e23865d"
+  },
+  {
+    "props": {
+      "name": "fa-biohazard text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "d10772f9dca48c2346efd6a4803dc4e849de6099d0d5d2e9d096de3a575d10e1"
+  },
+  {
+    "props": {
+      "className": "fa-biohazard text-3xl fa-spin"
+    },
+    "sha256": "585806d1ef03792e6f7c25259ee695de62c7cb6c1c4319d931ccae71b00ac906"
+  },
+  {
+    "props": {
+      "name": "fa-quote-left"
+    },
+    "sha256": "87215f4e7f08d52986ce936d3fe9c9f11f64d777d3efee6266853159c073eefa"
+  },
+  {
+    "props": {
+      "name": "fa-quote-left text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "97ccb46bf94c3cd45b349c84a6f13d626c8031aa6e7a3eee63307283a5732508"
+  },
+  {
+    "props": {
+      "className": "fa-quote-left text-3xl fa-spin"
+    },
+    "sha256": "e5da9dd2e14d4c98c05d08648c62715a1905df24e70983193eab9de9c15a12fd"
+  },
+  {
+    "props": {
+      "name": "fa-flask-vial"
+    },
+    "sha256": "26da4db71a97f87184c23fc6f98c009885e0190d7a670f0239bc8d6ec0e06620"
+  },
+  {
+    "props": {
+      "name": "fa-flask-vial text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "4cb88d5c7426cb156317375f1f128b4f9a052c77494a4ad45d9f140344ba93bb"
+  },
+  {
+    "props": {
+      "className": "fa-flask-vial text-3xl fa-spin"
+    },
+    "sha256": "4ccceb74767b7f0cd512cfec41a5e6a926aae3654777ea625a820630a3f44309"
+  },
+  {
+    "props": {
+      "name": "fa-circle-info"
+    },
+    "sha256": "0407e83ea6eca94ae114095dccc34c1af8f9f1b359ed4f143a95f7dc407b736b"
+  },
+  {
+    "props": {
+      "name": "fa-circle-info text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ee6f2ae375cc0033ced184b08ca96cba2f2f03dec68ef2f3bdf944f1d58d59f6"
+  },
+  {
+    "props": {
+      "className": "fa-circle-info text-3xl fa-spin"
+    },
+    "sha256": "e879edff9bc497682f82114e37bba5a01350d1c8f1c16de538a46c0a310cde6e"
+  },
+  {
+    "props": {
+      "name": "fa-chart-pie"
+    },
+    "sha256": "ce6b430bb0babc04febc54238903e61d16e47a62e490942de94ad0cb3fe5777a"
+  },
+  {
+    "props": {
+      "name": "fa-chart-pie text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "5e71ec1d06163951c18802360d6f61f279e3fd1fea4a1bb95eae13695d480130"
+  },
+  {
+    "props": {
+      "className": "fa-chart-pie text-3xl fa-spin"
+    },
+    "sha256": "c74b88969972d4169c186006216a59873b994ea0b8e41c458c3677678ca6af0e"
+  },
+  {
+    "props": {
+      "name": "fa-box"
+    },
+    "sha256": "0c53bbbb57e12c9cc728b749a2c4c9cd7d5a6cd7296e99785d326e46473d8e10"
+  },
+  {
+    "props": {
+      "name": "fa-box text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "e3454089b107e2e480439f03c82c3b15a23e85ad32c45201602f4eb69187f056"
+  },
+  {
+    "props": {
+      "className": "fa-box text-3xl fa-spin"
+    },
+    "sha256": "87b93c71921cc27f59ad5c04860822093cfa21a8eecdb9db505a867ae26c6ae7"
+  },
+  {
+    "props": {
+      "name": "fa-minus"
+    },
+    "sha256": "73be0cb057cf7abd6b69749c20129736963e90d09464415f04c8df79f847163e"
+  },
+  {
+    "props": {
+      "name": "fa-minus text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ba06ffabacf2b3e5d6501ef44e204d5373566743231e854fa21f4bd7edb45d2d"
+  },
+  {
+    "props": {
+      "className": "fa-minus text-3xl fa-spin"
+    },
+    "sha256": "cf1a9c339e95db1feab826a20dd31594b4adb3c23d69ab98484999bb26dda396"
+  },
+  {
+    "props": {
+      "name": "fa-user-secret"
+    },
+    "sha256": "46380791e1c59aefde7a6d8eedfdfffda56e74170335e3ccdfd7c1cb77faf1f4"
+  },
+  {
+    "props": {
+      "name": "fa-user-secret text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ae99a4ff377b6fd52ba3f5daa9727a7f1199c2c4b5f8d5799f2c221840a0988d"
+  },
+  {
+    "props": {
+      "className": "fa-user-secret text-3xl fa-spin"
+    },
+    "sha256": "4acc2626ef86d588252719f67ab7c70555aee1c05400d3a4800b8771f43616ae"
+  },
+  {
+    "props": {
+      "name": "fa-list-check"
+    },
+    "sha256": "142d0fe7a88e246ec49b66413a415c4585c9007e94c53c99c6c01a607816bff6"
+  },
+  {
+    "props": {
+      "name": "fa-list-check text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "f9e48a9425ec989f643cb549f1ab3933c735d5031ce662a4858354c20f3cf817"
+  },
+  {
+    "props": {
+      "className": "fa-list-check text-3xl fa-spin"
+    },
+    "sha256": "25ce4d317fe7feb202674e3a49beedf84dd5af29fd58975e2179f64dbc4740c1"
+  },
+  {
+    "props": {
+      "name": "fa-map-location-dot"
+    },
+    "sha256": "55555b521a0e41290081bfdbd6fb62984ea7fc9ca5a7a4227e0df227a6999b36"
+  },
+  {
+    "props": {
+      "name": "fa-map-location-dot text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "2b6fbff28464a4cfc8fdc02e9b93ef51ba11e6eca267c51a84ae4324cfa5b40b"
+  },
+  {
+    "props": {
+      "className": "fa-map-location-dot text-3xl fa-spin"
+    },
+    "sha256": "8a2457e6b88fcc00213fea17fd45426febefc681f7693ca1197841ac1020df65"
+  },
+  {
+    "props": {
+      "name": "fa-boxes-stacked"
+    },
+    "sha256": "0c53bbbb57e12c9cc728b749a2c4c9cd7d5a6cd7296e99785d326e46473d8e10"
+  },
+  {
+    "props": {
+      "name": "fa-boxes-stacked text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "e3454089b107e2e480439f03c82c3b15a23e85ad32c45201602f4eb69187f056"
+  },
+  {
+    "props": {
+      "className": "fa-boxes-stacked text-3xl fa-spin"
+    },
+    "sha256": "e1728b7a2fae2882b195ac38c6aa051b983fd3a88f404ae7eeb9103da751fba1"
+  },
+  {
+    "props": {
+      "name": "fa-arrows-rotate"
+    },
+    "sha256": "4d13c97482f4e7e6012ab2fd8751d1a80fe291a9da470f9215dd986e5fcb27b1"
+  },
+  {
+    "props": {
+      "name": "fa-arrows-rotate text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c3a963cdabac97f502ef477e396bc9dc6a60a79df0343890cb2c468539b369b2"
+  },
+  {
+    "props": {
+      "className": "fa-arrows-rotate text-3xl fa-spin"
+    },
+    "sha256": "daf5b583a867f6a142da8ed2c5bf423407e5cec325469093e3e2e0a65e758fcd"
+  },
+  {
+    "props": {
+      "name": "fa-download"
+    },
+    "sha256": "586dace2c4f9bbce8745c0d55587e704757c21c90782329441a54fde8806cab6"
+  },
+  {
+    "props": {
+      "name": "fa-download text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "80883559fcb9d119d29b82e68ce9d1062e996ebcb1915411b34314b70bd0a7cb"
+  },
+  {
+    "props": {
+      "className": "fa-download text-3xl fa-spin"
+    },
+    "sha256": "9ffa72b21159b87e7f8ae278aaf67dd5b06227da95b4f7c1a3a3a4d5d4e1a987"
+  },
+  {
+    "props": {
+      "name": "fa-street-view"
+    },
+    "sha256": "46380791e1c59aefde7a6d8eedfdfffda56e74170335e3ccdfd7c1cb77faf1f4"
+  },
+  {
+    "props": {
+      "name": "fa-street-view text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ae99a4ff377b6fd52ba3f5daa9727a7f1199c2c4b5f8d5799f2c221840a0988d"
+  },
+  {
+    "props": {
+      "className": "fa-street-view text-3xl fa-spin"
+    },
+    "sha256": "4389559c2621b437d792489c36882a5bf14ad22730c83f557a74c6a1936ce3f1"
+  },
+  {
+    "props": {
+      "name": "fa-clock"
+    },
+    "sha256": "49e55052a4b54833e3fe4a591de453f9aa1e98d9971d176d1b286f7d9f1dfd86"
+  },
+  {
+    "props": {
+      "name": "fa-clock text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "b26c2fa43689d9ea1b2a58c4e64cb80932294e5914c2d761e98074697a69cbad"
+  },
+  {
+    "props": {
+      "className": "fa-clock text-3xl fa-spin"
+    },
+    "sha256": "4ca70c8747aa415422ae647c3a3f7fc6afe0a38bf13d6e33503c101c7ff7beb9"
+  },
+  {
+    "props": {
+      "name": "fa-gift"
+    },
+    "sha256": "c60cde2f72ef6e8c8486d1fa3a7eab7861e8788b058121f0728f0166a60c1088"
+  },
+  {
+    "props": {
+      "name": "fa-gift text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "aa5bceaf705fa08fb6d996e34039f8cba4e7f9190797efebb7a2ac14db80d449"
+  },
+  {
+    "props": {
+      "className": "fa-gift text-3xl fa-spin"
+    },
+    "sha256": "23bcd88d5eea31e84537562f50f89a36d19bbcf488584ba6ce49d82d39e36726"
+  },
+  {
+    "props": {
+      "name": "fa-location-arrow"
+    },
+    "sha256": "e97dab58695781d4b528fcd33d53e16aa512fa208a1e5dc28dd9d6affbf9d4f8"
+  },
+  {
+    "props": {
+      "name": "fa-location-arrow text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "3f2f756ef02f5fcb0a3249b7276b83555597653a1fddad40478f0f33a5ff89c2"
+  },
+  {
+    "props": {
+      "className": "fa-location-arrow text-3xl fa-spin"
+    },
+    "sha256": "fbd8a8c7db881f50b64be51aa0411afbd1aa3fce574ab8dcb808c5faeeaa7eb5"
+  },
+  {
+    "props": {
+      "name": "fa-chart-line"
+    },
+    "sha256": "d52f7b9547b01e5eb0ab25ccd30ecbc9a58c3208e34d79fb5b80cb6019b19d7b"
+  },
+  {
+    "props": {
+      "name": "fa-chart-line text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "d5406e21b9da0894a6a814c0923ff33fd9d434d36366fd6ff0550b12c7cd23b5"
+  },
+  {
+    "props": {
+      "className": "fa-chart-line text-3xl fa-spin"
+    },
+    "sha256": "51bdc14ba819eeee30639e28ae00b4d88da8ac6b5ceca0e1941dcb819710feb6"
+  },
+  {
+    "props": {
+      "name": "fa-server"
+    },
+    "sha256": "479e7d5920a6cac3ae3a062d39949269597a242c327022718eb48a73e1513e6b"
+  },
+  {
+    "props": {
+      "name": "fa-server text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "7e65dbd706ff2e4798367a4a371af5e16eaaf371615d74bc226cc6d416231d9c"
+  },
+  {
+    "props": {
+      "className": "fa-server text-3xl fa-spin"
+    },
+    "sha256": "bd6b4d576662418178f7dbe29c746e6839597fdfe1a978be8c14ed5bb60acd5d"
+  },
+  {
+    "props": {
+      "name": "fa-rotate-right"
+    },
+    "sha256": "5ab2acfceb48aab11956b6f1cfbc788e5a38ce9cfb622fa0cbebe20068c84098"
+  },
+  {
+    "props": {
+      "name": "fa-rotate-right text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "e21f46d31af196a0d5c95b6ab73e6ecc0975c029faf1733031064a973b9f3b7e"
+  },
+  {
+    "props": {
+      "className": "fa-rotate-right text-3xl fa-spin"
+    },
+    "sha256": "753359090e86e99a0ede76b35521684662ee676c7b2280396e2aa7c227da35a4"
+  },
+  {
+    "props": {
+      "name": "fa-syringe"
+    },
+    "sha256": "26d28c7f2d020ac62c3502220722438e785e9056071dc0c1b79924d31adeb53e"
+  },
+  {
+    "props": {
+      "name": "fa-syringe text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8c8e21d314b4597f1d70d9f92176285505e3567a9eeba3faf92a4f2486535b55"
+  },
+  {
+    "props": {
+      "className": "fa-syringe text-3xl fa-spin"
+    },
+    "sha256": "9435ff1ca42fd68220621fa4741ca82d6f9ec775a149648c56945bb2e24ccb70"
+  },
+  {
+    "props": {
+      "name": "fa-times"
+    },
+    "sha256": "d2b375f4b476c58f0f7786e292a49e0fa1a3b7ba6ea0473c3ca6070c43b41137"
+  },
+  {
+    "props": {
+      "name": "fa-times text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "3139cb75bcf87d9f297c9dff804257987b6d236eb55b1e09f9c88ecca40e68a1"
+  },
+  {
+    "props": {
+      "className": "fa-times text-3xl fa-spin"
+    },
+    "sha256": "d5d160dc01ea9a1c24d4f244ca83a9ba49fdf8a50b3045964208d35df7a77711"
+  },
+  {
+    "props": {
+      "name": "fa-user-astronaut"
+    },
+    "sha256": "46380791e1c59aefde7a6d8eedfdfffda56e74170335e3ccdfd7c1cb77faf1f4"
+  },
+  {
+    "props": {
+      "name": "fa-user-astronaut text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "ae99a4ff377b6fd52ba3f5daa9727a7f1199c2c4b5f8d5799f2c221840a0988d"
+  },
+  {
+    "props": {
+      "className": "fa-user-astronaut text-3xl fa-spin"
+    },
+    "sha256": "a4d7910978edad9e794f588bd676221fecc5e34b1738fe138d9929d84bdec011"
+  },
+  {
+    "props": {
+      "name": "fa-cog"
+    },
+    "sha256": "84b74b0a9f233bcc37fa71b1b823fc40051e3aa20e04d0e5c11ddd0293ea9f9f"
+  },
+  {
+    "props": {
+      "name": "fa-cog text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "a00acfbc38317f87c628ec242bcc2b4147ce7a9a5ec1c879d0a55eb7d8a1bc62"
+  },
+  {
+    "props": {
+      "className": "fa-cog text-3xl fa-spin"
+    },
+    "sha256": "d18de4d401caee861f70d1fe0dc1ea76189f8fc33eb9df01ebf37383bc2e3f3e"
+  },
+  {
+    "props": {
+      "name": "fa-vials"
+    },
+    "sha256": "26da4db71a97f87184c23fc6f98c009885e0190d7a670f0239bc8d6ec0e06620"
+  },
+  {
+    "props": {
+      "name": "fa-vials text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "4cb88d5c7426cb156317375f1f128b4f9a052c77494a4ad45d9f140344ba93bb"
+  },
+  {
+    "props": {
+      "className": "fa-vials text-3xl fa-spin"
+    },
+    "sha256": "82fe4084768568814784092e84f3deed66cd78f8e7609d1f84694fbf09910e75"
+  },
+  {
+    "props": {
+      "name": "fa-mask"
+    },
+    "sha256": "a3b05b7c2e116623e25824c1d728b7553cc53edf921d62a55f55c6c2bf4183a2"
+  },
+  {
+    "props": {
+      "name": "fa-mask text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "b5c7a01a5876f2d8f33c1894b7b93733fd96f799bb4eb539266e02dfe8ed6f68"
+  },
+  {
+    "props": {
+      "className": "fa-mask text-3xl fa-spin"
+    },
+    "sha256": "abdf002892be6b25a13c1d151d8f6d6c9a522ca37a79fcd4e2dfdd7bef7f01e0"
+  },
+  {
+    "props": {
+      "name": "fa-square"
+    },
+    "sha256": "ed9c78b359ed2ad636047c4a48c71855a9b55295c38b0ee15c3a0473aa77f2f4"
+  },
+  {
+    "props": {
+      "name": "fa-square text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "abe768908a9194857ab3a21e87b4092cc5b0b9bde83727a2736922d3052c23e8"
+  },
+  {
+    "props": {
+      "className": "fa-square text-3xl fa-spin"
+    },
+    "sha256": "99b422050183b231f92a1652cc93845a58045d8bb095a9cef8935b383cbae0c9"
+  },
+  {
+    "props": {
+      "name": "fa-mobile-screen"
+    },
+    "sha256": "61ac1e1ba22f97daf741bc8846b3e7bdd2db8559a9b1510a3957afda37bf8c66"
+  },
+  {
+    "props": {
+      "name": "fa-mobile-screen text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "624285628a1ac2d3d4653e0e41d8e7bb7e1dd59019263e8217914d4d81d678d2"
+  },
+  {
+    "props": {
+      "className": "fa-mobile-screen text-3xl fa-spin"
+    },
+    "sha256": "f78df9ae0832217d2aa6fbe7feace8d362869b5fcc6c3ad2ce87118eb8d3089c"
+  },
+  {
+    "props": {
+      "name": "fa-display"
+    },
+    "sha256": "ff4a62edfcd2784fc2563a006688aa44296c1bba6750079217a740e4422e2e34"
+  },
+  {
+    "props": {
+      "name": "fa-display text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "8ab04802af7129f6cd95159373b5f68b4b3e0519b4bac0ccadaa1a69d3ccd934"
+  },
+  {
+    "props": {
+      "className": "fa-display text-3xl fa-spin"
+    },
+    "sha256": "7fdc6d0f00e9ac68e21d6f3d69aaa51c310d152549e3f389b46cce229b7e85ea"
+  },
+  {
+    "props": {
+      "name": "fa-expand"
+    },
+    "sha256": "c0a35e4a2d9d3f44b63cc26b3cf5bd22b8a0f5fc7f138f1668cd64359c20016b"
+  },
+  {
+    "props": {
+      "name": "fa-expand text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "76e119f098aa2ffe45ff21d9a5a70a643bf7549a56e834272b6757331c959385"
+  },
+  {
+    "props": {
+      "className": "fa-expand text-3xl fa-spin"
+    },
+    "sha256": "4fa7c854129f3c5f585e005207a461de44fa733550f51f7b3a588f7986627a41"
+  },
+  {
+    "props": {
+      "name": "fa-circle-check"
+    },
+    "sha256": "7c4559591c75f848a2627a8f3288eed071d6ee5e3f88444f0e858b94d092f804"
+  },
+  {
+    "props": {
+      "name": "fa-circle-check text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "3b19a2cb7e5a39287b01e8ddfd317223e66db1f923927e81e9a30f2892ffd0ff"
+  },
+  {
+    "props": {
+      "className": "fa-circle-check text-3xl fa-spin"
+    },
+    "sha256": "b34e7cd9db2bdedba00fbf56e6adfeef56f94242192de02b04813446169dba04"
+  },
+  {
+    "props": {
+      "name": "fa-person-running"
+    },
+    "sha256": "87a14eb43ca3a8c06054570e5a599967761cecbcd7b189711a4027b1d605f5dd"
+  },
+  {
+    "props": {
+      "name": "fa-person-running text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c33a66b77cb0d530c663a9f1a172f5ee3f620e9dd94bd6e43d1d36f9fe129436"
+  },
+  {
+    "props": {
+      "className": "fa-person-running text-3xl fa-spin"
+    },
+    "sha256": "55920c94cfa9969c0d9052a43c526dd513cdadc6635fbde2da91919b76b53ef1"
+  },
+  {
+    "props": {
+      "name": "fa-dumbbell"
+    },
+    "sha256": "c49860869313a8947e69133ed627a68ef0856f7b0b72728ba290bb2afe9d74c9"
+  },
+  {
+    "props": {
+      "name": "fa-dumbbell text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "506e85167948dfa4116dbdb3c44b088b91ee5baba9a4343d18b2fe7894e2f273"
+  },
+  {
+    "props": {
+      "className": "fa-dumbbell text-3xl fa-spin"
+    },
+    "sha256": "16467e0faefdd89b60b8138286b38634698631e542843c2a5ed75c34ab643e61"
+  },
+  {
+    "props": {
+      "name": "fa-chalkboard-user"
+    },
+    "sha256": "76a510198efffab5cb04578655b439f6086bc948f8c5aa14d8e987cceb07e767"
+  },
+  {
+    "props": {
+      "name": "fa-chalkboard-user text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "a95346e11f767bd34e7c821f8b6d95f2edd152ea63eb48fe268fc4c02cdcfeab"
+  },
+  {
+    "props": {
+      "className": "fa-chalkboard-user text-3xl fa-spin"
+    },
+    "sha256": "b4727f32f2f13ac7663bea37104b6ca34d6aa3f675891c2fd2cdd8dfd90ab2c9"
+  },
+  {
+    "props": {
+      "name": "fa-id-badge"
+    },
+    "sha256": "e50b479e9e8bfc8f07a4bbf626b2e969449a43fe0fec7cec0bb2e37386373d8c"
+  },
+  {
+    "props": {
+      "name": "fa-id-badge text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "cd11605f82af21575a7b298f39b93cb6a2daa9b2f2e89fe5907508b38d401a65"
+  },
+  {
+    "props": {
+      "className": "fa-id-badge text-3xl fa-spin"
+    },
+    "sha256": "14f51fb4647c2684b31ee19d355a95111329945a073493d312a2c637b20c5a9a"
+  },
+  {
+    "props": {
+      "name": "Cpu"
+    },
+    "sha256": "6b8ac782b0a96befe59f2497e4b2ba2368ae2b044c70dc4c97d244bdc9fa75d5"
+  },
+  {
+    "props": {
+      "name": "Cpu text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "30f5c916061eccdedd063e49f4a82a2e48bb9298d2db4ed6da476de3292c4c32"
+  },
+  {
+    "props": {
+      "className": "Cpu text-3xl fa-spin"
+    },
+    "sha256": "9b1555e7e913c2d999985409b04da66cb0c5b4fd7706848c5eeafe1eec074ff4"
+  },
+  {
+    "props": {
+      "name": "Sparkles"
+    },
+    "sha256": "b3acfab21dc82c51f717262ca7c2d123bbaabf1a79205fda24178ebd47e40c3b"
+  },
+  {
+    "props": {
+      "name": "Sparkles text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "e8086e617b0e361b40c124a618ccf74c499f90ae7cad5c9e5a25f7d9906cbfca"
+  },
+  {
+    "props": {
+      "className": "Sparkles text-3xl fa-spin"
+    },
+    "sha256": "ac1f076d30b669f924862bff6f041ae3bb209111d63ba72410925323f8aab5d0"
+  },
+  {
+    "props": {
+      "name": "MoonStar"
+    },
+    "sha256": "0b66320c12e0f4b6140b1bfc6f23686c58c7c3b462405fac7e4838c611bcb2bb"
+  },
+  {
+    "props": {
+      "name": "MoonStar text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "56bb48bb69d77fad7288c21e20f948e47e54ace8d1872e339a4127801b14fb4b"
+  },
+  {
+    "props": {
+      "className": "MoonStar text-3xl fa-spin"
+    },
+    "sha256": "70adc2184787aed21e6ff97f3c5521ea96a89e12887878fd223e89c5df45a302"
+  },
+  {
+    "props": {
+      "name": "Dna"
+    },
+    "sha256": "5c3a8a3f2ee074677f02759b01996e70384d00a7fcfe20e3fe9d30129b64db1b"
+  },
+  {
+    "props": {
+      "name": "Dna text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "0ce8794e1ffcfdd440e556b4e9d8820ffb6cb19f2ed83219ac887b6acaa839eb"
+  },
+  {
+    "props": {
+      "className": "Dna text-3xl fa-spin"
+    },
+    "sha256": "ac0dd81c8f0d0734d9c461c6ecab75fa1a70a32c856dc3c75f894af97b481f13"
+  },
+  {
+    "props": {
+      "name": "Rocket"
+    },
+    "sha256": "c8cdb52948262fad25f249f51bde2b437cbcd15c61d05362f3b45b1c14384c37"
+  },
+  {
+    "props": {
+      "name": "Rocket text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "c909fbee276256dddb7241833422166cebd70a1efc8d5fc9889ade02b6a48e65"
+  },
+  {
+    "props": {
+      "className": "Rocket text-3xl fa-spin"
+    },
+    "sha256": "a4bbc38cbd6d2b08d5aacd8769c2243f047637b1da5b33446c2f385a6f3d0bf1"
+  },
+  {
+    "props": {
+      "name": "Hexagon"
+    },
+    "sha256": "de1482350f78ce7d52daa099910d6e523ec041f86006f6186a344f4db245c0bd"
+  },
+  {
+    "props": {
+      "name": "Hexagon text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "1db69c05f841d4714d77b9f537a23cb0bc0e61bd32f827bcb507f0ccfdce8a2e"
+  },
+  {
+    "props": {
+      "className": "Hexagon text-3xl fa-spin"
+    },
+    "sha256": "3dd6feae85e8e1455e3587ab4d47bf6d109ae4d1a4ed18cfe6c8c12447538fcd"
+  },
+  {
+    "props": {
+      "name": "Flame"
+    },
+    "sha256": "f1b4949c61665a9e0e215d3855fcee4d4e5f8f05e10719e724bcf9a954e7bfb4"
+  },
+  {
+    "props": {
+      "name": "Flame text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "16b3d05ccf20295219adf323a22d859a842cf547b91f390f64f62068e1a5f5c4"
+  },
+  {
+    "props": {
+      "className": "Flame text-3xl fa-spin"
+    },
+    "sha256": "14703249d4eafc2a076638aa1ae5045d62d9294078430b99ea6d4cd3ba229cc6"
+  },
+  {
+    "props": {
+      "name": "Droplet"
+    },
+    "sha256": "b75f86c3a62e228c105c9b2c4801c6c8f54d0662e0310e4db448292ed2ee6524"
+  },
+  {
+    "props": {
+      "name": "Droplet text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "1f44d7096a7231e7131b1fcddf3aba7f391073767d449012a13c11c971fdaf8a"
+  },
+  {
+    "props": {
+      "className": "Droplet text-3xl fa-spin"
+    },
+    "sha256": "a36de5bf53c8e258987aebd0536c9495d4af800050aeb4916ffd4a96556e9748"
+  },
+  {
+    "props": {
+      "name": "Wind"
+    },
+    "sha256": "7d9ee66a45da09f4384ca7ebed064a6ed22a104e57d1845b49d281777d7e16c3"
+  },
+  {
+    "props": {
+      "name": "Wind text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "7dcddb92bd4f3c233b4238a393d92fa8e719f4794cb93f89d2400416884ff823"
+  },
+  {
+    "props": {
+      "className": "Wind text-3xl fa-spin"
+    },
+    "sha256": "360744a02472b24011526c3742ccdb71ccd58935240430787938019ceb8fcbd5"
+  },
+  {
+    "props": {
+      "name": "Mountain"
+    },
+    "sha256": "9f3526a6ca21d3e1df98b7016bec77e26564aa66e28fc8dab5d0f8806d96b5b2"
+  },
+  {
+    "props": {
+      "name": "Mountain text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "b998a64338bc9f57c403152c74f092a2ca0447016964df5b7fbb33bbebd917c0"
+  },
+  {
+    "props": {
+      "className": "Mountain text-3xl fa-spin"
+    },
+    "sha256": "b9193da8b33e90d6165fdddb936e4929519f06ea37bbf44a9e0e054a49e06e07"
+  },
+  {
+    "props": {
+      "name": "Zap"
+    },
+    "sha256": "8171cc74504d66f944f996528c021ddb2b56682069462834b1ba8c797487861a"
+  },
+  {
+    "props": {
+      "name": "Zap text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "723a73d3c8c5287af141aaa0b518d88372bf63fe419d3e3b063658331b0465e3"
+  },
+  {
+    "props": {
+      "className": "Zap text-3xl fa-spin"
+    },
+    "sha256": "442f17b4cf421bde49672940836ffa271f0cb8ddd6b71d9cb50a52511f5c4cdf"
+  },
+  {
+    "props": {
+      "name": "Atom"
+    },
+    "sha256": "80ce73451a9be171420866c852218a12d3f4d777ff7b4d938157d2a0773eecbb"
+  },
+  {
+    "props": {
+      "name": "Atom text-xl mr-2",
+      "className": "text-sm"
+    },
+    "sha256": "7808832a775a14f45baedd6f42edab60b7835fd1cd21ed6030e2ee95753fe0fb"
+  },
+  {
+    "props": {
+      "className": "Atom text-3xl fa-spin"
+    },
+    "sha256": "719116715db166da8f3496d8bf385ae237d69a2e00c2fff79cd52c08ffddc34e"
+  },
+  {
+    "props": {},
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "props": {
+      "name": ""
+    },
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "props": {
+      "name": "definitely-unknown"
+    },
+    "sha256": "40b0d7df2626915e543207a4854592a04a9f954282b200b521ccb69c7c6e845d"
+  },
+  {
+    "props": {
+      "name": "fa-solid fa-star text-xl"
+    },
+    "sha256": "f63a14cb469a1f7d33f281ab228c8d54b316aa12a7cd1194c3444b367a21bcbc"
+  },
+  {
+    "props": {
+      "name": "fa-spinner fa-spin text-2xl"
+    },
+    "sha256": "e98236fa4b4175d3b7ed6bfea5528b3cc468bb95c9cc2f5e7450ba8d49d11f5a"
+  }
+]

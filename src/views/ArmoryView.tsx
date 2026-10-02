@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Card, Gear, AppConfig, Inventory } from '../types';
 import { Icon } from '../components/ui/Icon';
-import { rollGear } from '../lib/gameLogic';
+import { rollGear } from '../domain/gameRules';
 
 interface Props {
   gears: Gear[];
   cards: Card[];
-  addGear: (gear: Gear) => void;
-  removeGear: (id: string) => void;
+  changeGear: (cardId: string, slot: number, itemId?: string) => Promise<void>;
+  addGear: (gear: Gear) => Promise<void>;
+  removeGear: (id: string) => Promise<void>;
   updateGear: (gear: Gear) => void;
   updateCard: (card: Card) => void;
   onAlert: (t: string, m: string) => void;
@@ -19,9 +20,10 @@ interface Props {
 }
 
 export const ArmoryView: React.FC<Props> = ({ 
-    gears, cards, addGear, removeGear, updateGear, updateCard, onAlert, modifyCurrency, currency, config, inventory, modifyInventory
+    gears, cards, changeGear, addGear, removeGear, updateGear, updateCard, onAlert, modifyCurrency, currency, config, inventory, modifyInventory
 }) => {
     const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
+    const [isMoving, setIsMoving] = useState(false);
     const [selectedGear, setSelectedGear] = useState<Gear | null>(null);
     const [showCrafting, setShowCrafting] = useState<boolean>(false);
 
@@ -50,66 +52,64 @@ export const ArmoryView: React.FC<Props> = ({
                 if (toDeduct <= 0) break;
             }
         }
-        modifyInventory(0, 0, updates);
-        
-        const gear = rollGear(50, true);
-        if (gear) {
-            addGear(gear);
-            onAlert("Chế Tạo Thành Công", `Nhận được: ${gear.name} (Mk.${gear.rarity})!`);
-        } else {
-            onAlert("Lỗi", "Chế tạo thất bại.");
+        void doCraftGear(updates);
+    };
+
+    const handleEquip = async (gear: Gear) => {
+        if (!selectedCard || isMoving) return;
+        setIsMoving(true);
+        try {
+            await changeGear(selectedCard.id, gear.slot, gear.id);
+            setSelectedGear(null);
+        } catch (error) {
+            onAlert('Lỗi', 'Không thể gắn trang bị. Dữ liệu chưa được thay đổi.');
+        } finally {
+            setIsMoving(false);
         }
     };
 
-    const handleEquip = (gear: Gear) => {
-        if (!selectedCard) {
-            onAlert("Lỗi", "Hãy chọn một Đặc Vụ trước khi gắn Trang Bị.");
-            return;
+    const handleUnequip = async (slot: number) => {
+        if (!selectedCard || isMoving) return;
+        setIsMoving(true);
+        try {
+            await changeGear(selectedCard.id, slot);
+            setSelectedGear(null);
+        } catch (error) {
+            onAlert('Lỗi', 'Không thể tháo trang bị. Dữ liệu chưa được thay đổi.');
+        } finally {
+            setIsMoving(false);
         }
-        
-        const existingGear = selectedCard.gears ? selectedCard.gears[gear.slot] : null;
-        removeGear(gear.id);
+    };
 
-        const newGearsMap = { ...(selectedCard.gears || {}) };
-        newGearsMap[gear.slot] = { ...gear, equippedTo: selectedCard.id };
-        
-        updateCard({ ...selectedCard, gears: newGearsMap });
-        
-        if (existingGear) {
-            addGear({ ...existingGear, equippedTo: undefined });
+    const sellGear = async (gear: Gear) => {
+        if (isMoving || gear.equippedTo) return;
+        setIsMoving(true);
+        try {
+            await removeGear(gear.id);
+            const val = gear.rarity * 100;
+            modifyCurrency(val);
+            setSelectedGear(null);
+            onAlert('Phân tách', `Nhận +${val} DC từ phân tách trang bị.`);
+        } catch (error) {
+            onAlert('Lỗi', 'Không thể phân tách trang bị.');
+        } finally {
+            setIsMoving(false);
         }
-        
-        setSelectedGear(null);
     };
 
-    const handleUnequip = (slot: number) => {
-        if (!selectedCard || !selectedCard.gears || !selectedCard.gears[slot]) return;
-        
-        const gear = selectedCard.gears[slot];
-        addGear({ ...gear, equippedTo: undefined });
-        
-        const newGearsMap = { ...selectedCard.gears };
-        delete newGearsMap[slot];
-        updateCard({ ...selectedCard, gears: newGearsMap });
-        
-        setSelectedGear(null);
-    };
-
-    const sellGear = (gear: Gear) => {
-        const val = gear.rarity * 100;
-        modifyCurrency(val);
-        removeGear(gear.id);
-        setSelectedGear(null);
-        onAlert('Phân tách', `Nhận +${val} DC từ phân tách Trang Bị.`);
-    };
-
-    const doCraftGear = () => {
-        const gear = rollGear(50, true);
-        if (gear) {
-            addGear(gear);
-            onAlert("Chế Tạo Thành Công", `Nhận được: ${gear.name} (Mk.${gear.rarity})!`);
-        } else {
-            onAlert("Lỗi", "Chế tạo thất bại.");
+    const doCraftGear = async (updates: Record<string, number>) => {
+        if (isMoving) return;
+        setIsMoving(true);
+        try {
+            const item = rollGear(50, true);
+            if (!item) throw new Error('Craft failed');
+            await addGear(item);
+            modifyInventory(0, 0, updates);
+            onAlert("Chế Tạo Thành Công", `Nhận được: ${item.name} (Mk.${item.rarity})!`);
+        } catch {
+            onAlert("Lỗi", "Không thể lưu trang bị. Nguyên liệu được giữ nguyên.");
+        } finally {
+            setIsMoving(false);
         }
     };
 
@@ -125,8 +125,7 @@ export const ArmoryView: React.FC<Props> = ({
                 if (toDeduct <= 0) break;
             }
         }
-        modifyInventory(0, 0, updates);
-        doCraftGear();
+        void doCraftGear(updates);
     };
 
     const handleCraftGearByShard = () => {
@@ -141,8 +140,7 @@ export const ArmoryView: React.FC<Props> = ({
                 if (toDeduct <= 0) break;
             }
         }
-        modifyInventory(0, 0, updates);
-        doCraftGear();
+        void doCraftGear(updates);
     };
 
    const renderGearCard = (gear: Gear, isEquipped: boolean) => {
@@ -316,16 +314,16 @@ export const ArmoryView: React.FC<Props> = ({
                               
                               <div className="flex gap-2 mt-auto relative z-10">
                                   {selectedGear.equippedTo === selectedCard.id ? (
-                                      <button onClick={() => handleUnequip(selectedGear.slot)} className="flex-1 bg-red-500/20 text-red-400 border border-red-500/50 py-2 rounded font-bold hover:bg-red-500 hover:text-black transition-colors uppercase tracking-widest text-xs">
+                                      <button disabled={isMoving} onClick={() => handleUnequip(selectedGear.slot)} className="flex-1 bg-red-500/20 text-red-400 border border-red-500/50 py-2 rounded font-bold hover:bg-red-500 hover:text-black transition-colors uppercase tracking-widest text-xs">
                                           Tháo ra
                                       </button>
                                   ) : (
                                       <>
-                                        <button onClick={() => handleEquip(selectedGear)} className="flex-1 bg-cinematic-gold/20 text-cinematic-gold border border-cinematic-gold/50 py-2 rounded font-bold hover:bg-cinematic-gold hover:text-black transition-colors shadow-[0_0_15px_rgba(255,215,0,0.2)] uppercase tracking-widest text-xs">
+                                        <button disabled={isMoving} onClick={() => handleEquip(selectedGear)} className="flex-1 bg-cinematic-gold/20 text-cinematic-gold border border-cinematic-gold/50 py-2 rounded font-bold hover:bg-cinematic-gold hover:text-black transition-colors shadow-[0_0_15px_rgba(255,215,0,0.2)] uppercase tracking-widest text-xs">
                                             Gắn Trang Bị
                                         </button>
                                         {!selectedGear.equippedTo && (
-                                            <button onClick={() => sellGear(selectedGear)} className="w-[80px] bg-zinc-800 text-zinc-400 py-2 rounded font-bold hover:bg-red-500 hover:text-white transition-colors text-xs">
+                                            <button disabled={isMoving} onClick={() => sellGear(selectedGear)} className="w-[80px] bg-zinc-800 text-zinc-400 py-2 rounded font-bold hover:bg-red-500 hover:text-white transition-colors text-xs">
                                                 <Icon name="fa-recycle" /> Tách
                                             </button>
                                         )}
@@ -365,7 +363,7 @@ export const ArmoryView: React.FC<Props> = ({
                           <span className={`${gearFragments >= 10 ? 'text-cinematic-gold' : 'text-red-400'} font-bold text-sm`}>{gearFragments} / 10</span>
                       </div>
                       <button 
-                         onClick={handleCraftGear}
+                         disabled={isMoving} onClick={handleCraftGear}
                          className={`w-full py-2 rounded text-xs font-bold uppercase tracking-widest transition-colors ${gearFragments >= 10 ? 'bg-cinematic-gold text-black hover:bg-amber-400' : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'}`}
                       >
                          Ghép Mảnh (10)
